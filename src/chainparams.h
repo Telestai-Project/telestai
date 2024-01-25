@@ -90,6 +90,8 @@ public:
     bool BIP66();
     bool CSVEnabled() const;
 
+    CScript DevelopmentRewardScript() const;
+
     /** RVN Start **/
     const CAmount& IssueAssetBurnAmount() const { return nIssueAssetBurnAmount; }
     const CAmount& ReissueAssetBurnAmount() const { return nReissueAssetBurnAmount; }
@@ -101,6 +103,7 @@ public:
     const CAmount& IssueRestrictedAssetBurnAmount() const { return nIssueRestrictedAssetBurnAmount; }
     const CAmount& AddNullQualifierTagBurnAmount() const { return nAddNullQualifierTagBurnAmount; }
 
+    const std::string& DevelopmentRewardAddress() const { return strDevelopmentRewardAddress; }
     const std::string& IssueAssetBurnAddress() const { return strIssueAssetBurnAddress; }
     const std::string& ReissueAssetBurnAddress() const { return strReissueAssetBurnAddress; }
     const std::string& IssueSubAssetBurnAddress() const { return strIssueSubAssetBurnAddress; }
@@ -175,6 +178,9 @@ protected:
     CAmount nIssueSubQualifierAssetBurnAmount;
     CAmount nIssueRestrictedAssetBurnAmount;
     CAmount nAddNullQualifierTagBurnAmount;
+
+    // Development Reward Address
+    std::string strDevelopmentRewardAddress;
 
     // Burn Addresses
     std::string strIssueAssetBurnAddress;

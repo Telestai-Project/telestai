@@ -11,6 +11,7 @@
 #include "util.h"
 #include "utilstrencodings.h"
 #include "arith_uint256.h"
+#include "base58.h"
 
 #include <assert.h>
 #include "chainparamsseeds.h"
@@ -243,6 +244,8 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
+        strDevelopmentRewardAddress = "RVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+
         // Burn Addresses
         strIssueAssetBurnAddress = "RXissueAssetXXXXXXXXXXXXXXXXXhhZGt";
         strReissueAssetBurnAddress = "RXReissueAssetXXXXXXXXXXXXXXVEFAWu";
@@ -464,6 +467,8 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
+        strDevelopmentRewardAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+
         // Burn Addresses
         strIssueAssetBurnAddress = "n1issueAssetXXXXXXXXXXXXXXXXWdnemQ";
         strReissueAssetBurnAddress = "n1ReissueAssetXXXXXXXXXXXXXXWG9NLd";
@@ -666,6 +671,8 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
+        strDevelopmentRewardAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+
         // Burn Addresses
         strIssueAssetBurnAddress = "n1issueAssetXXXXXXXXXXXXXXXXWdnemQ";
         strReissueAssetBurnAddress = "n1ReissueAssetXXXXXXXXXXXXXXWG9NLd";
@@ -716,6 +723,14 @@ std::unique_ptr<CChainParams> CreateChainParams(const std::string& chain)
     else if (chain == CBaseChainParams::REGTEST)
         return std::unique_ptr<CChainParams>(new CRegTestParams());
     throw std::runtime_error(strprintf("%s: Unknown chain %s.", __func__, chain));
+}
+
+CScript CChainParams::DevelopmentRewardScript() const {
+    std::string DevelopmentRewardAddress = GetParams().DevelopmentRewardAddress();
+    assert(IsValidDestinationString(DevelopmentRewardAddress));
+    CTxDestination destination = DecodeDestination(DevelopmentRewardAddress);
+    CScript script = GetScriptForDestination(destination);
+    return script;
 }
 
 void SelectParams(const std::string& network, bool fForceBlockNetwork)
