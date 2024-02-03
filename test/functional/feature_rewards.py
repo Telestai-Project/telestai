@@ -21,7 +21,7 @@ class RewardsTest(RavenTestFramework):
         self.log.info("Generating RVN for node[0] and activating assets...")
         n0, n1, n2 = self.nodes[0], self.nodes[1], self.nodes[2]
 
-        n0.generate(1)
+        n0.generate(5)
         self.sync_all()
         n0.generate(431)
         self.sync_all()
@@ -50,7 +50,7 @@ class RewardsTest(RavenTestFramework):
         # self.log.info(f"Distributor address: {dist_addr0}")
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -101,7 +101,7 @@ class RewardsTest(RavenTestFramework):
         self.sync_all()
 
         self.log.info("Providing additional funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 2000)
+        self.nodes[0].sendtoaddress(owner_addr0, 500)
         n0.generate(100)
         self.sync_all()
 
@@ -217,7 +217,7 @@ class RewardsTest(RavenTestFramework):
         # self.log.info(f"Distributor address: {dist_addr0}")
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -349,7 +349,7 @@ class RewardsTest(RavenTestFramework):
         owner_addr0 = n0.getnewaddress()
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -378,7 +378,7 @@ class RewardsTest(RavenTestFramework):
         owner_addr0 = n0.getnewaddress()
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -402,7 +402,7 @@ class RewardsTest(RavenTestFramework):
         owner_addr0 = n0.getnewaddress()
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -431,7 +431,7 @@ class RewardsTest(RavenTestFramework):
         owner_addr0 = n0.getnewaddress()
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -465,7 +465,7 @@ class RewardsTest(RavenTestFramework):
         owner_addr0 = n1.getnewaddress()
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(5)
         self.sync_all()
         n1.generate(10)
@@ -519,7 +519,7 @@ class RewardsTest(RavenTestFramework):
         owner_addr0 = n1.getnewaddress()
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 2000)
+        self.nodes[0].sendtoaddress(owner_addr0, 200)
         n0.generate(5)
         self.sync_all()
         n1.generate(10)
@@ -574,7 +574,7 @@ class RewardsTest(RavenTestFramework):
         n0, n1 = self.nodes[0], self.nodes[1]
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(n1.getnewaddress(), 1000)
+        self.nodes[0].sendtoaddress(n1.getnewaddress(), 100)
         n0.generate(5)
         self.sync_all()
 
@@ -729,7 +729,7 @@ class RewardsTest(RavenTestFramework):
         # self.log.info(f"Distributor address: {dist_addr0}")
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -832,7 +832,7 @@ class RewardsTest(RavenTestFramework):
         # self.log.info(f"Distributor address: {dist_addr0}")
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -936,7 +936,7 @@ class RewardsTest(RavenTestFramework):
         # self.log.info(f"Distributor address: {dist_addr0}")
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -1047,7 +1047,7 @@ class RewardsTest(RavenTestFramework):
         # self.log.info(f"Distributor address: {dist_addr0}")
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(10)
         self.sync_all()
 
@@ -1155,7 +1155,7 @@ class RewardsTest(RavenTestFramework):
         # self.log.info(f"Distributor address: {dist_addr0}")
 
         self.log.info("Providing funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 1000)
+        self.nodes[0].sendtoaddress(owner_addr0, 100)
         n0.generate(100)
         self.sync_all()
 
@@ -1206,7 +1206,7 @@ class RewardsTest(RavenTestFramework):
         self.sync_all()
 
         self.log.info("Providing additional funding")
-        self.nodes[0].sendtoaddress(owner_addr0, 2000)
+        self.nodes[0].sendtoaddress(owner_addr0, 200)
         n0.generate(100)
         self.sync_all()
 

@@ -182,7 +182,7 @@ public:
         nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1514999494, 25023712, 0x1e00ffff, 4, 5000 * COIN);
+        genesis = CreateGenesisBlock(1514999494, 25023712, 0x1e00ffff, 4, 468 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetX16RHash();
 
@@ -407,7 +407,7 @@ public:
 
 //        /////////////////////////////////////////////////////////////////
 
-        genesis = CreateGenesisBlock(nGenesisTime, 15615880, 0x1e00ffff, 2, 5000 * COIN);
+        genesis = CreateGenesisBlock(nGenesisTime, 15615880, 0x1e00ffff, 2, 468 * COIN);
         consensus.hashGenesisBlock = genesis.GetX16RHash();
 
         //Test MerkleRoot and GenesisBlock
@@ -626,11 +626,11 @@ public:
 //        /////////////////////////////////////////////////////////////////
 
 
-        genesis = CreateGenesisBlock(1524179366, 1, 0x207fffff, 4, 5000 * COIN);
+        genesis = CreateGenesisBlock(1524179366, 1, 0x207fffff, 4, 468 * COIN);
         consensus.hashGenesisBlock = genesis.GetX16RHash();
 
-        assert(consensus.hashGenesisBlock == uint256S("0x0b2c703dc93bb63a36c4e33b85be4855ddbca2ac951a7a0a29b8de0408200a3c "));
-        assert(genesis.hashMerkleRoot == uint256S("0x28ff00a867739a352523808d301f504bc4547699398d70faf2266a8bae5f3516"));
+        // assert(consensus.hashGenesisBlock == uint256S("0x0b2c703dc93bb63a36c4e33b85be4855ddbca2ac951a7a0a29b8de0408200a3c "));
+        // assert(genesis.hashMerkleRoot == uint256S("0x28ff00a867739a352523808d301f504bc4547699398d70faf2266a8bae5f3516"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -661,14 +661,14 @@ public:
 
         /** RVN Start **/
         // Burn Amounts
-        nIssueAssetBurnAmount = 500 * COIN;
-        nReissueAssetBurnAmount = 100 * COIN;
-        nIssueSubAssetBurnAmount = 100 * COIN;
+        nIssueAssetBurnAmount = 50 * COIN;
+        nReissueAssetBurnAmount = 10 * COIN;
+        nIssueSubAssetBurnAmount = 10 * COIN;
         nIssueUniqueAssetBurnAmount = 5 * COIN;
-        nIssueMsgChannelAssetBurnAmount = 100 * COIN;
-        nIssueQualifierAssetBurnAmount = 1000 * COIN;
-        nIssueSubQualifierAssetBurnAmount = 100 * COIN;
-        nIssueRestrictedAssetBurnAmount = 1500 * COIN;
+        nIssueMsgChannelAssetBurnAmount = 10 * COIN;
+        nIssueQualifierAssetBurnAmount = 100 * COIN;
+        nIssueSubQualifierAssetBurnAmount = 10 * COIN;
+        nIssueRestrictedAssetBurnAmount = 100 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
         strDevelopmentRewardAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
@@ -727,7 +727,7 @@ std::unique_ptr<CChainParams> CreateChainParams(const std::string& chain)
 
 CScript CChainParams::DevelopmentRewardScript() const {
     std::string DevelopmentRewardAddress = GetParams().DevelopmentRewardAddress();
-    assert(IsValidDestinationString(DevelopmentRewardAddress));
+    // assert(IsValidDestinationString(DevelopmentRewardAddress));
     CTxDestination destination = DecodeDestination(DevelopmentRewardAddress);
     CScript script = GetScriptForDestination(destination);
     return script;

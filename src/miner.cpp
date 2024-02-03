@@ -183,7 +183,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
 
     coinbaseTx.vin.resize(1);
     coinbaseTx.vin[0].prevout.SetNull();
-    coinbaseTx.vout.resize(1);
+    coinbaseTx.vout.resize(2);
     coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
     coinbaseTx.vout[1].scriptPubKey = chainparams.DevelopmentRewardScript();
     coinbaseTx.vout[0].nValue = nFees + coinbaseSubsidy;

@@ -170,14 +170,14 @@ class ReplaceByFeeTest(RavenTestFramework):
     def test_doublespend_chain(self):
         """Doublespend of a long chain"""
 
-        initial_n_value = 5000 * COIN
+        initial_n_value = 351 * COIN
         tx0_outpoint = make_utxo(self.nodes[0], initial_n_value)
 
         prevout = tx0_outpoint
         remaining_value = initial_n_value
         chain_txids = []
-        while remaining_value > 1000 * COIN:
-            remaining_value -= 100 * COIN
+        while remaining_value > 100 * COIN:
+            remaining_value -= 10 * COIN
             tx = CTransaction()
             tx.vin = [CTxIn(prevout, n_sequence=0)]
             tx.vout = [CTxOut(remaining_value, CScript([1]))]

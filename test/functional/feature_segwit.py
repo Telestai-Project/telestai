@@ -93,22 +93,22 @@ class SegWitTest(RavenTestFramework):
         self.sync_all()
 
     def success_mine(self, node, txid, sign, redeem_script=""):
-        send_to_witness(1, node, getutxo(txid), self.pubkey[0], False, Decimal("4999.8"), sign, redeem_script)
+        send_to_witness(1, node, getutxo(txid), self.pubkey[0], False, Decimal("350.8"), sign, redeem_script)
         block = node.generate(1)
         assert_equal(len(node.getblock(block[0])["tx"]), 2)
         sync_blocks(self.nodes)
 
     def skip_mine(self, node, txid, sign, redeem_script=""):
-        send_to_witness(1, node, getutxo(txid), self.pubkey[0], False, Decimal("4999.8"), sign, redeem_script)
+        send_to_witness(1, node, getutxo(txid), self.pubkey[0], False, Decimal("350.8"), sign, redeem_script)
         block = node.generate(1)
         assert_equal(len(node.getblock(block[0])["tx"]), 1)
         sync_blocks(self.nodes)
 
     def fail_accept(self, node, error_msg, txid, sign, redeem_script=""):
-        assert_raises_rpc_error(-26, error_msg, send_to_witness, 1, node, getutxo(txid), self.pubkey[0], False, Decimal("4999.8"), sign, redeem_script)
+        assert_raises_rpc_error(-26, error_msg, send_to_witness, 1, node, getutxo(txid), self.pubkey[0], False, Decimal("350.8"), sign, redeem_script)
 
     def fail_mine(self, node, txid, sign, redeem_script=""):
-        send_to_witness(1, node, getutxo(txid), self.pubkey[0], False, Decimal("4999.8"), sign, redeem_script)
+        send_to_witness(1, node, getutxo(txid), self.pubkey[0], False, Decimal("350.8"), sign, redeem_script)
         assert_raises_rpc_error(-1, "CreateNewBlock: TestBlockValidity failed", node.generate, 1)
         sync_blocks(self.nodes)
 
@@ -150,16 +150,16 @@ class SegWitTest(RavenTestFramework):
         for i in range(5):
             for n in range(3):
                 for v in range(2):
-                    wit_ids[n][v].append(send_to_witness(v, self.nodes[0], find_unspent(self.nodes[0], 5000), self.pubkey[n], False, Decimal("4999.9")))
-                    p2sh_ids[n][v].append(send_to_witness(v, self.nodes[0], find_unspent(self.nodes[0], 5000), self.pubkey[n], True, Decimal("4999.9")))
+                    wit_ids[n][v].append(send_to_witness(v, self.nodes[0], find_unspent(self.nodes[0], 351), self.pubkey[n], False, Decimal("350.9")))
+                    p2sh_ids[n][v].append(send_to_witness(v, self.nodes[0], find_unspent(self.nodes[0], 351), self.pubkey[n], True, Decimal("350.9")))
 
         self.nodes[0].generate(1)  # block 163
         sync_blocks(self.nodes)
 
         # Make sure all nodes recognize the transactions as theirs
-        assert_equal(self.nodes[0].getbalance(), balance_presetup - 60 * 5000 + 20 * Decimal("4999.9") + 5000)
-        assert_equal(self.nodes[1].getbalance(), 20 * Decimal("4999.9"))
-        assert_equal(self.nodes[2].getbalance(), 20 * Decimal("4999.9"))
+        assert_equal(self.nodes[0].getbalance(), balance_presetup - 60 * 351 + 20 * Decimal("350.9") + 351)
+        assert_equal(self.nodes[1].getbalance(), 20 * Decimal("350.9"))
+        assert_equal(self.nodes[2].getbalance(), 20 * Decimal("350.9"))
 
         self.nodes[0].generate(260)  # block 423
         sync_blocks(self.nodes)
@@ -576,7 +576,7 @@ class SegWitTest(RavenTestFramework):
         tx = CTransaction()
         tx.vin.append(CTxIn(COutPoint(int('0x' + utxo['txid'], 0), utxo['vout'])))
         for i in script_list:
-            tx.vout.append(CTxOut(10000000, i))
+            tx.vout.append(CTxOut(702000, i))
         tx.rehash()
         signresults = self.nodes[0].signrawtransaction(tx.serialize_without_witness().hex())['hex']
         txid = self.nodes[0].sendrawtransaction(signresults, True)

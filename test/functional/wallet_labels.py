@@ -33,7 +33,7 @@ class WalletAccountsTest(RavenTestFramework):
         # the same address, so we call twice to get two addresses w/50 each
         node.generate(1)
         node.generate(101)
-        assert_equal(node.getbalance(), 10000)
+        assert_equal(node.getbalance(), 702)
 
         # there should be 2 address groups
         # each with 1 address with a balance of 50 Ravens
@@ -45,7 +45,7 @@ class WalletAccountsTest(RavenTestFramework):
         for address_group in address_groups:
             assert_equal(len(address_group), 1)
             assert_equal(len(address_group[0]), 2)
-            assert_equal(address_group[0][1], 5000)
+            assert_equal(address_group[0][1], 351)
             linked_addresses.add(address_group[0][0])
 
         # send 50 from each address to a third address not in this wallet
@@ -54,7 +54,7 @@ class WalletAccountsTest(RavenTestFramework):
         common_address = "msf4WtN1YQKXvNtvdFYt9JBnUD2FB41kjr"
         txid = node.sendmany(
             fromaccount="",
-            amounts={common_address: 10000},
+            amounts={common_address: 702},
             subtractfeefrom=[common_address],
             minconf=1,
         )
@@ -105,13 +105,13 @@ class WalletAccountsTest(RavenTestFramework):
 
         node.generate(101)
 
-        expected_account_balances = {"": 520000}
+        expected_account_balances = {"": 36504 }
         for account in accounts:
             expected_account_balances[account] = 0
         
         assert_equal(node.listaccounts(), expected_account_balances)
         
-        assert_equal(node.getbalance(""), 520000)
+        assert_equal(node.getbalance(""), 36504)
         
         for account in accounts:
             address = node.getaccountaddress("")

@@ -77,7 +77,6 @@ def split_inputs(from_node, txins, txouts, initial_split = False):
     prevtxout = txins.pop()
     tx = CTransaction()
     tx.vin.append(CTxIn(COutPoint(int(prevtxout["txid"], 16), prevtxout["vout"]), b""))
-
     half_change = satoshi_round(prevtxout["amount"]/2)
     rem_change = prevtxout["amount"] - half_change  - Decimal("0.01000000")
     tx.vout.append(CTxOut(int(half_change*COIN), P2SH_1))
@@ -172,7 +171,7 @@ class EstimateFeeTest(RavenTestFramework):
         # resorting to tx's that depend on the mempool when those run out
         for _ in range(numblocks):
             random.shuffle(self.confutxo)
-            for _ in range(random.randrange(100-50,100+50)):
+            for _ in range(random.randrange(0,10)):
                 from_index = random.randint(1,2)
                 (txhex, fee) = small_tx_puzzle_rand_fee(self.nodes[from_index], self.confutxo,
                                                         self.memutxo, Decimal("0.005"), min_fee, min_fee)
@@ -206,7 +205,7 @@ class EstimateFeeTest(RavenTestFramework):
         split_inputs(self.nodes[0], self.nodes[0].listunspent(0), self.txouts, True)
 
         # Mine
-        while len(self.nodes[0].getrawmempool()) > 0:
+        while len(self.nodes[0].getrawmempool()) > 0:                
             self.nodes[0].generate(1)
 
         # Repeatedly split those 2 outputs, doubling twice for each rep

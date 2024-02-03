@@ -126,11 +126,11 @@ class BlockchainTest(RavenTestFramework):
         node = self.nodes[0]
         res = node.gettxoutsetinfo()
 
-        assert_equal(res['total_amount'], Decimal('872500.00000000'))
+        assert_equal(res['total_amount'], Decimal('81666.00000000'))
         assert_equal(res['transactions'], 200)
         assert_equal(res['height'], 200)
-        assert_equal(res['txouts'], 200)
-        assert_equal(res['bogosize'], 17000),
+        assert_equal(res['txouts'], 400)
+        assert_equal(res['bogosize'], 27000),
         assert_equal(res['bestblock'], node.getblockhash(200))
         size = res['disk_size']
         assert size > 6400

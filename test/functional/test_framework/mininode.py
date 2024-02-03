@@ -302,7 +302,7 @@ class NodeConn(asyncore.dispatcher):
             vt.nServices = services
             vt.addrTo.ip = self.dstaddr
             vt.addrTo.port = self.dstport
-            vt.addrFrom.ip = "0.0.0.0"
+            vt.addrFrom.ip = "127.0.0.1"
             vt.addrFrom.port = 0
             self.send_message(vt, True)
 

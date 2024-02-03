@@ -19,10 +19,10 @@ BURN_ADDRESSES = {
 }
 
 BURN_AMOUNTS = {
-    'issue_restricted': 1500,
-    'reissue_restricted': 100,
-    'issue_qualifier': 1000,
-    'issue_subqualifier': 100,
+    'issue_restricted': 100,
+    'reissue_restricted': 10,
+    'issue_qualifier': 100,
+    'issue_subqualifier': 10,
     'tag_address': 0.1,
 }
 
