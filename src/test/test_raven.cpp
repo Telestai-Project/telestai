@@ -41,8 +41,8 @@ BasicTestingSetup::BasicTestingSetup(const std::string &chainName)
     InitSignatureCache();
     InitScriptExecutionCache();
     //  If additional debug information is desired, uncomment 'cout' section in VerifyScript method in the script/interpreter.cpp file (warning - this will cause the logger window to spew messages).
-    fPrintToConsole = false;
-    fPrintToDebugLog = false; // don't want to write to debug.log file
+    fPrintToConsole = true;
+    fPrintToDebugLog = true; // don't want to write to debug.log file
     fCheckBlockIndex = true;
     SelectParams(chainName);
     noui_connect();

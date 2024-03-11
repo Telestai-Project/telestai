@@ -236,11 +236,11 @@ BOOST_FIXTURE_TEST_SUITE(wallet_tests, WalletTestingSetup)
             // run the 'mtgox' test (see http://blockexplorer.com/tx/29a3efd3ef04f9153d47a990bd7b048a4b2d213daaa5fb8ed670fb85f13bdbcf)
             // they tried to consolidate 10 50k coins into one 500k coin, and ended up with 50k in change
             empty_wallet();
-            for (int j = 0; j < 20; j++)
-                add_coin(50000 * COIN);
+            for (int j = 0; j < 10; j++)
+                add_coin(3510 * COIN);
 
-            BOOST_CHECK(testWallet.SelectCoinsMinConf(500000 * COIN, 1, 1, 0, vCoins, setCoinsRet, nValueRet));
-            BOOST_CHECK_EQUAL(nValueRet, 500000 * COIN); // we should get the exact amount
+            BOOST_CHECK(testWallet.SelectCoinsMinConf(35100 * COIN, 1, 1, 0, vCoins, setCoinsRet, nValueRet));
+            BOOST_CHECK_EQUAL(nValueRet, 35100 * COIN); // we should get the exact amount
             BOOST_CHECK_EQUAL(setCoinsRet.size(), 10U); // in ten coins
 
             // if there's not enough in the smaller coins to make at least 1 * MIN_CHANGE change (0.5+0.6+0.7 < 1.0+1.0),
@@ -403,7 +403,7 @@ BOOST_FIXTURE_TEST_SUITE(wallet_tests, WalletTestingSetup)
             CWallet wallet;
             AddKey(wallet, coinbaseKey);
             BOOST_CHECK_EQUAL(nullBlock, wallet.ScanForWalletTransactions(oldTip, nullptr));
-            BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 10000 * COIN);
+            BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 702 * COIN);
         }
 
         // Prune the older block file.
@@ -416,7 +416,7 @@ BOOST_FIXTURE_TEST_SUITE(wallet_tests, WalletTestingSetup)
             CWallet wallet;
             AddKey(wallet, coinbaseKey);
             BOOST_CHECK_EQUAL(oldTip, wallet.ScanForWalletTransactions(oldTip, nullptr));
-            BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 5000 * COIN);
+            BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 351 * COIN);
         }
 
         // Verify importmulti RPC returns failure for a key whose creation time is
@@ -546,7 +546,7 @@ BOOST_FIXTURE_TEST_SUITE(wallet_tests, WalletTestingSetup)
         // credit amount is calculated.
         wtx.MarkDirty();
         wallet.AddKeyPubKey(coinbaseKey, coinbaseKey.GetPubKey());
-        BOOST_CHECK_EQUAL(wtx.GetImmatureCredit(), 5000 * COIN);
+        BOOST_CHECK_EQUAL(wtx.GetImmatureCredit(), 351 * COIN);
     }
 
     static int64_t AddTx(CWallet &wallet, uint32_t lockTime, int64_t mockTime, int64_t blockTime)
@@ -680,7 +680,7 @@ BOOST_FIXTURE_TEST_SUITE(wallet_tests, WalletTestingSetup)
         BOOST_CHECK_EQUAL(list.begin()->second.size(), (uint64_t)1L);
 
         // Check initial balance from one mature coinbase transaction.
-        BOOST_CHECK_EQUAL(5000 * COIN, wallet->GetAvailableBalance());
+        BOOST_CHECK_EQUAL(351 * COIN, wallet->GetAvailableBalance());
 
         // Add a transaction creating a change address, and confirm ListCoins still
         // returns the coin associated with the change address underneath the
