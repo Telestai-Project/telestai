@@ -256,6 +256,7 @@ bool CRavenAddress::IsValid(const CChainParams& params) const
     bool fCorrectSize = vchData.size() == 20;
     bool fKnownVersion = vchVersion == params.Base58Prefix(CChainParams::PUBKEY_ADDRESS) ||
                          vchVersion == params.Base58Prefix(CChainParams::SCRIPT_ADDRESS);
+
     return fCorrectSize && fKnownVersion;
 }
 
@@ -308,9 +309,10 @@ CKey CRavenSecret::GetKey()
 
 bool CRavenSecret::IsValid() const
 {
-    bool fExpectedFormat = vchData.size() == 32 || (vchData.size() == 33 && vchData[32] == 1);
-    bool fCorrectVersion = vchVersion == GetParams().Base58Prefix(CChainParams::SECRET_KEY);
-    return fExpectedFormat && fCorrectVersion;
+        bool fExpectedFormat = vchData.size() == 32 || (vchData.size() == 33 && vchData[32] == 1);
+        bool fCorrectVersion = vchVersion == GetParams().Base58Prefix(CChainParams::SECRET_KEY);
+
+        return fExpectedFormat && fCorrectVersion;
 }
 
 bool CRavenSecret::SetString(const char* pszSecret)

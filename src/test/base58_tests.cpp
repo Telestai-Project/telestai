@@ -21,7 +21,25 @@
 
 #include <univalue.h>
 
+
 extern UniValue read_json(const std::string &jsondata);
+
+static bool ExtractPubKey(const CScript &dest, CPubKey& pubKeyOut)
+{
+    //TODO: Use Solver to extract this?
+    CScript::const_iterator pc = dest.begin();
+    opcodetype opcode;
+    std::vector<unsigned char> vch;
+    if (!dest.GetOp(pc, opcode, vch) || vch.size() < 33 || vch.size() > 65)
+        return false;
+    pubKeyOut = CPubKey(vch);
+    if (!pubKeyOut.IsFullyValid())
+        return false;
+    if (!dest.GetOp(pc, opcode, vch) || opcode != OP_CHECKSIG || dest.GetOp(pc, opcode, vch))
+        return false;
+    return true;
+}
+
 
 BOOST_FIXTURE_TEST_SUITE(base58_tests, BasicTestingSetup)
 
@@ -176,8 +194,10 @@ BOOST_FIXTURE_TEST_SUITE(base58_tests, BasicTestingSetup)
             } else
             {
                 std::string exp_addrType = find_value(metadata, "addrType").get_str(); // "script" or "pubkey"
-                // Must be valid public key
+                // Must be valid pub
+
                 destination = DecodeDestination(exp_base58string);
+
                 BOOST_CHECK_MESSAGE(IsValidDestination(destination), "!IsValid:" + strTest);
                 BOOST_CHECK_MESSAGE((boost::get<CScriptID>(&destination) != nullptr) == (exp_addrType == "script"), "isScript mismatch" + strTest);
                 BOOST_CHECK_MESSAGE(boost::apply_visitor(TestAddrTypeVisitor(exp_addrType), destination), "addrType mismatch" + strTest);
@@ -242,6 +262,7 @@ BOOST_FIXTURE_TEST_SUITE(base58_tests, BasicTestingSetup)
                     continue;
                 }
                 std::string address = EncodeDestination(dest);
+
                 BOOST_CHECK_MESSAGE(address == exp_base58string, "mismatch: " + strTest);
             }
         }

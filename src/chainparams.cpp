@@ -127,7 +127,7 @@ public:
         consensus.kawpowLimit = uint256S("00000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // Estimated starting diff for first 180 kawpow blocks
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days 
         consensus.nPowTargetSpacing = 1 * 60;
-	consensus.fPowAllowMinDifficultyBlocks = false;
+	    consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1613; // Approx 80% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
@@ -174,10 +174,10 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0x52; // R
-        pchMessageStart[1] = 0x41; // A
-        pchMessageStart[2] = 0x56; // V
-        pchMessageStart[3] = 0x4e; // N
+        pchMessageStart[0] = 0x54; // T
+        pchMessageStart[1] = 0x45; // E
+        pchMessageStart[2] = 0x4c; // L
+        pchMessageStart[3] = 0x45; // E
         nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
 
@@ -194,8 +194,8 @@ public:
         assert(consensus.hashGenesisBlock == uint256S(nGenesisBlockHash));
         assert(genesis.hashMerkleRoot == uint256S(nGenesisMerkleRoot));
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,122);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,66);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,127);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
@@ -239,21 +239,21 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
-        strDevelopmentRewardAddress = "RVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strDevelopmentRewardAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
 
         // Burn Addresses
-        strIssueAssetBurnAddress = "RXissueAssetXXXXXXXXXXXXXXXXXhhZGt";
-        strReissueAssetBurnAddress = "RXReissueAssetXXXXXXXXXXXXXXVEFAWu";
-        strIssueSubAssetBurnAddress = "RXissueSubAssetXXXXXXXXXXXXXWcwhwL";
-        strIssueUniqueAssetBurnAddress = "RXissueUniqueAssetXXXXXXXXXXWEAe58";
-        strIssueMsgChannelAssetBurnAddress = "RXissueMsgChanneLAssetXXXXXXSjHvAY";
-        strIssueQualifierAssetBurnAddress = "RXissueQuaLifierXXXXXXXXXXXXUgEDbC";
-        strIssueSubQualifierAssetBurnAddress = "RXissueSubQuaLifierXXXXXXXXXVTzvv5";
-        strIssueRestrictedAssetBurnAddress = "RXissueRestrictedXXXXXXXXXXXXzJZ1q";
-        strAddNullQualifierTagBurnAddress = "RXaddTagBurnXXXXXXXXXXXXXXXXZQm5ya";
+        strIssueAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strReissueAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strIssueSubAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strIssueUniqueAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strIssueMsgChannelAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strIssueQualifierAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strIssueSubQualifierAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strIssueRestrictedAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strAddNullQualifierTagBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
 
             //Global Burn Address
-        strGlobalBurnAddress = "RXBurnXXXXXXXXXXXXXXXXXXXXXXWUo9FV";
+        strGlobalBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
 
         // DGW Activation
         nDGWActivationBlock = 338778;
