@@ -242,18 +242,18 @@ public:
         strDevelopmentRewardAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
 
         // Burn Addresses
-        strIssueAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strReissueAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strIssueSubAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strIssueUniqueAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strIssueMsgChannelAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strIssueQualifierAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strIssueSubQualifierAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strIssueRestrictedAssetBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
-        strAddNullQualifierTagBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strIssueAssetBurnAddress = "ToissueAssetXXXXXXXXXXXXXXXXZ9zEc4";
+        strReissueAssetBurnAddress = "ToReissueSubAssetXXXXXXXXXXXZBR9o8";
+        strIssueSubAssetBurnAddress = "ToissueSubAssetXXXXXXXXXXXXXafMr3m";
+        strIssueUniqueAssetBurnAddress = "ToissueUniqueAssetXXXXXXXXXXSZ94He";
+        strIssueMsgChannelAssetBurnAddress = "ToissueMsgChanneLAssetXXXXXXS5xZte";
+        strIssueQualifierAssetBurnAddress = "ToissueQuaLifierXXXXXXXXXXXXUXG4wz";
+        strIssueSubQualifierAssetBurnAddress = "ToissueSubQuaLifierXXXXXXXXXY9SuNQ";
+        strIssueRestrictedAssetBurnAddress = "ToissueRestrictedXXXXXXXXXXXZDsDr5";
+        strAddNullQualifierTagBurnAddress = "ToaddBurnTagXXXXXXXXXXXXXXXXW4MmvP";
 
             //Global Burn Address
-        strGlobalBurnAddress = "TqCAymoQ8mgDgSVYaDXzept41tKjNKq1F2";
+        strGlobalBurnAddress = "ToBurnXXXXXXXXXXXXXXXXXXXXXXX57KAq";
 
         // DGW Activation
         nDGWActivationBlock = 338778;
