@@ -55,8 +55,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The Times 03/Jan/2018 Bitcoin is name of the game for new generation of firms";
-    const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
+    const char* pszTimestamp = "ὅτι ὁ νόμος διὰ Μωϋσέως ἐδόθη, ἡ χάρις καὶ ἡ ἀλήθεια διὰ Ἰησοῦ Χριστοῦ ἐγένετο";
+    const CScript genesisOutputScript = CScript() << ParseHex("76a9149843c065515dd6cd946258a633227b25b5c69d1488ac") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -181,11 +181,11 @@ public:
         nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
 
-        uint32_t nGenesisTime = 1708041596;  // Friday, Feburary 16th 2024 16:13:20 (GMT + 0)
-        uint32_t nGenesisNonce = 12157447;
-
-        std::string nGenesisBlockHash = "0x0000007b10460ddc79c13a77ca31eb389465eaf55ed7503cadffa872cbcd7eac";
-        std::string nGenesisMerkleRoot = "058a7fbd83dbfbe9acd5cd4077d880f7a5dc410d841ed78c4f505592c30ff6bf";
+        uint32_t nGenesisTime = 1711935700;  // Friday, Feburary 16th 2024 16:13:20 (GMT + 0)
+        uint32_t nGenesisNonce = 17032387;
+    
+        std::string nGenesisBlockHash = "0x0000002dddcd21a9d008ab2dc0eed05472ff77c0a737f211dc2d2a48d5754a78";
+        std::string nGenesisMerkleRoot = "6579d135a44cf507ea5d9ef630bb495c2e2f92ed664579c217bc77de5c61c945";
 
         genesis = CreateGenesisBlock(nGenesisTime, nGenesisNonce, 0x1e00ffff, 1, 468 * COIN);
     
