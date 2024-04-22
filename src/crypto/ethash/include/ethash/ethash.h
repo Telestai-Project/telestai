@@ -26,11 +26,10 @@ extern "C" {
  */
 #define ETHASH_REVISION "23"
 
-#define ETHASH_EPOCH_LENGTH 7500
+#define ETHASH_EPOCH_LENGTH 27500
 #define ETHASH_LIGHT_CACHE_ITEM_SIZE 64
 #define ETHASH_FULL_DATASET_ITEM_SIZE 128
 #define ETHASH_NUM_DATASET_ACCESSES 64
-
 
 struct ethash_epoch_context
 {
