@@ -272,7 +272,7 @@ hash256 hash_mix(
     new_state[1] = number >> 32;
     mix_rng_state state{new_state};
 
-    for (uint32_t i = 0; i < 64; ++i)
+    for (uint32_t i = 0; i < 32; ++i)
         round(context, i, mix, state, lookup);
 
     // Reduce mix data to a single per-lane result.
