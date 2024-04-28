@@ -164,10 +164,10 @@ public:
 
 
         // The best chain should have at least this much work
-        consensus.nMinimumChainWork = uint256S("00000000000000000000000000000000000000000000000000000001c7fcf137"); // Block 2383567
+        consensus.nMinimumChainWork = uint256S("0"); // Block 2383567
 
         // By default assume that the signatures in ancestors of this block are valid. Block# 1040000
-        consensus.defaultAssumeValid = uint256S("00000014136732688fad666e4df468250792276f0494e7c645880356b865f9fc"); // Block 2383560
+        consensus.defaultAssumeValid = uint256S("0"); // Block 2383560
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -181,10 +181,10 @@ public:
         nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
 
-        uint32_t nGenesisTime = 1713740100;  // Friday, Feburary 16th 2024 16:13:20 (GMT + 0)
-        uint32_t nGenesisNonce = 1282220;
+        uint32_t nGenesisTime = 1714327410;  // Friday, Feburary 16th 2024 16:13:20 (GMT + 0)
+        uint32_t nGenesisNonce = 14270476;
 
-        std::string nGenesisBlockHash = "0x000000d63e05896c60f9c3397788a9fba5ad0be9749dd51346caaaa83ed139c2";
+        std::string nGenesisBlockHash = "0x00000061e6d624bcf40a4d32b0b6eaaf3f480660bc9dc98d6e852c189ba6a300";
         std::string nGenesisMerkleRoot = "6579d135a44cf507ea5d9ef630bb495c2e2f92ed664579c217bc77de5c61c945";
 
         genesis = CreateGenesisBlock(nGenesisTime, nGenesisNonce, 0x1e00ffff, 1, 468 * COIN);
