@@ -90,7 +90,7 @@ public:
     bool BIP66();
     bool CSVEnabled() const;
 
-    CScript DevelopmentRewardScript() const;
+    CScript DevelopmentRewardScript(const std::string rewardAddress) const;
 
     /** RVN Start **/
     const CAmount& IssueAssetBurnAmount() const { return nIssueAssetBurnAmount; }

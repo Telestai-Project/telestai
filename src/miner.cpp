@@ -176,16 +176,21 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     CAmount blockSubsidy;
     CAmount coinbaseSubsidy;
     CAmount developmentSubsidy;
+    CScript rewardScriptPubKeyIn;
+    
+    std::string rewardAddress = GetParams().DevelopmentRewardAddress();
 
     blockSubsidy = GetBlockSubsidy(nHeight, chainparams.GetConsensus());
     developmentSubsidy = blockSubsidy * 0.25;
     coinbaseSubsidy = blockSubsidy - developmentSubsidy;
 
+    rewardScriptPubKeyIn = GetParams().DevelopmentRewardScript(rewardAddress);
+
     coinbaseTx.vin.resize(1);
     coinbaseTx.vin[0].prevout.SetNull();
     coinbaseTx.vout.resize(2);
     coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
-    coinbaseTx.vout[1].scriptPubKey = chainparams.DevelopmentRewardScript();
+    coinbaseTx.vout[1].scriptPubKey = rewardScriptPubKeyIn;
     coinbaseTx.vout[0].nValue = nFees + coinbaseSubsidy;
     coinbaseTx.vout[1].nValue = developmentSubsidy;
     coinbaseTx.vin[0].scriptSig = CScript() << nHeight << OP_0;
