@@ -21,8 +21,8 @@ constexpr auto revision = "0.9.4";
 constexpr int period_length = 3;
 constexpr uint32_t num_regs = 32;
 constexpr size_t num_lanes = 16;
-constexpr int num_cache_accesses = 5;
-constexpr int num_math_operations = 12;
+constexpr int num_cache_accesses = 12;
+constexpr int num_math_operations = 5;
 constexpr size_t l1_cache_size = 16 * 1024;
 constexpr size_t l1_cache_num_items = l1_cache_size / sizeof(uint32_t);
 
