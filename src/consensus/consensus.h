@@ -37,8 +37,8 @@ static const size_t MIN_SERIALIZABLE_TRANSACTION_WEIGHT = WITNESS_SCALE_FACTOR *
 UNUSED_VAR static bool fAssetsIsActive = true;
 UNUSED_VAR static bool fRip5IsActive = true;
 UNUSED_VAR static bool fTransferScriptIsActive = true;
-UNUSED_VAR static bool fEnforcedValuesIsActive = false;
-UNUSED_VAR static bool fCheckCoinbaseAssetsIsActive = false;
+UNUSED_VAR static bool fEnforcedValuesIsActive = true;
+UNUSED_VAR static bool fCheckCoinbaseAssetsIsActive = true;
 
 unsigned int GetMaxBlockWeight();
 unsigned int GetMaxBlockSerializedSize();
