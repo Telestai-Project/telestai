@@ -6,6 +6,7 @@
 
 #include "miner.h"
 
+#include "base58.h"
 #include "amount.h"
 #include "chain.h"
 #include "chainparams.h"
@@ -170,30 +171,31 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     nLastBlockTx = nBlockTx;
     nLastBlockWeight = nBlockWeight;
 
-    // Create coinbase transaction 
-    CMutableTransaction coinbaseTx;
-
     CAmount blockSubsidy;
     CAmount coinbaseSubsidy;
     CAmount developmentSubsidy;
     CScript rewardScriptPubKeyIn;
     
-    std::string rewardAddress = GetParams().DevelopmentRewardAddress();
+    std::string rewardAddress = chainparams.DevelopmentRewardAddress();
 
     blockSubsidy = GetBlockSubsidy(nHeight, chainparams.GetConsensus());
     developmentSubsidy = blockSubsidy * 0.25;
     coinbaseSubsidy = blockSubsidy - developmentSubsidy;
 
-    rewardScriptPubKeyIn = GetParams().DevelopmentRewardScript(rewardAddress);
+    rewardScriptPubKeyIn = chainparams.DevelopmentRewardScript(rewardAddress);
+
+    // Create coinbase transaction 
+    CMutableTransaction coinbaseTx = CMutableTransaction();    
 
     coinbaseTx.vin.resize(1);
     coinbaseTx.vin[0].prevout.SetNull();
-    coinbaseTx.vout.resize(2);
-    coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
-    coinbaseTx.vout[1].scriptPubKey = rewardScriptPubKeyIn;
+    coinbaseTx.vout.resize(1);
     coinbaseTx.vout[0].nValue = nFees + coinbaseSubsidy;
-    coinbaseTx.vout[1].nValue = developmentSubsidy;
+    coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
     coinbaseTx.vin[0].scriptSig = CScript() << nHeight << OP_0;
+
+    coinbaseTx.vout.emplace_back(developmentSubsidy, rewardScriptPubKeyIn);
+
     pblock->vtx[0] = MakeTransactionRef(std::move(coinbaseTx));
     pblocktemplate->vchCoinbaseCommitment = GenerateCoinbaseCommitment(*pblock, pindexPrev, chainparams.GetConsensus());
     pblocktemplate->vTxFees[0] = -nFees;
