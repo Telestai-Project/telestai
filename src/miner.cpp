@@ -185,16 +185,16 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     rewardScriptPubKeyIn = chainparams.DevelopmentRewardScript(rewardAddress);
 
     // Create coinbase transaction 
-    CMutableTransaction coinbaseTx = CMutableTransaction();    
+    CMutableTransaction coinbaseTx; 
 
     coinbaseTx.vin.resize(1);
     coinbaseTx.vin[0].prevout.SetNull();
-    coinbaseTx.vout.resize(1);
+    coinbaseTx.vout.resize(2);
     coinbaseTx.vout[0].nValue = nFees + coinbaseSubsidy;
+    coinbaseTx.vout[1].nValue = developmentSubsidy;
     coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
+    coinbaseTx.vout[1].scriptPubKey = rewardScriptPubKeyIn;
     coinbaseTx.vin[0].scriptSig = CScript() << nHeight << OP_0;
-
-    coinbaseTx.vout.emplace_back(developmentSubsidy, rewardScriptPubKeyIn);
 
     pblock->vtx[0] = MakeTransactionRef(std::move(coinbaseTx));
     pblocktemplate->vchCoinbaseCommitment = GenerateCoinbaseCommitment(*pblock, pindexPrev, chainparams.GetConsensus());

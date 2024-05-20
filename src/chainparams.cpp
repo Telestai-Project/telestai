@@ -181,15 +181,15 @@ public:
         nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
 
-        uint32_t nGenesisTime = 1715998793;  // Tuesday, May 14 2024 02:31:50 (GMT +0)
-        uint32_t nGenesisNonce = 494242; 
+        uint32_t nGenesisTime = 1716174637;  // Tuesday, May 14 2024 02:31:50 (GMT +0)
+        uint32_t nGenesisNonce = 103786739; 
 
-        std::string nGenesisBlockHash = "0x00000012b18584448b52357a4df4ae526db0be4e76b3ef4305f3c39663c5a130";
+        std::string nGenesisBlockHash = "0x0000008cbb910e5cd9d9ff3a89c648f22d65d4cd8e99695f322351271b0ffcab";
         std::string nGenesisMerkleRoot = "457e7d4f5c3d388fbf90f9a5260ed627a43a0c13f4578d48bc2f983b6ce6e5f7";
 
         genesis = CreateGenesisBlock(nGenesisTime, nGenesisNonce, 0x1e00ffff, 1, 468 * COIN);
    
-        consensus.hashGenesisBlock = genesis.GetX16RHash();
+        consensus.hashGenesisBlock = genesis.GetX16RV2Hash();
 
         assert(consensus.hashGenesisBlock == uint256S(nGenesisBlockHash));
         assert(genesis.hashMerkleRoot == uint256S(nGenesisMerkleRoot));
