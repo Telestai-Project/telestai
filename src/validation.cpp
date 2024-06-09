@@ -4013,7 +4013,27 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
     if (block.vtx.empty() || !block.vtx[0]->IsCoinBase())
         return state.DoS(100, false, REJECT_INVALID, "bad-cb-missing", false, "first tx is not coinbase");
 
-    for (unsigned int i = 1; i < block.vtx.size(); i++)
+    if (block.vtx[0]->IsCoinBase() && block.nHeight != 0) {
+        CTransaction coinbaseTx = *(block.vtx[0]);
+
+        if (coinbaseTx.vout.size() == 1)
+            return state.DoS(100, false, REJECT_INVALID, "bad-cb-vout-size", false, "invalid coinbase vout size");
+
+        CTxDestination subsidyAddress;
+        CAmount subsidyAmount = coinbaseTx.vout[1].nValue;
+
+        ExtractDestination(coinbaseTx.vout[1].scriptPubKey, subsidyAddress);
+
+        CAmount blockSubsidy = GetBlockSubsidy(block.nHeight, consensusParams);
+
+        if (subsidyAmount != blockSubsidy * 0.25)
+            return state.DoS(100, false, REJECT_INVALID, "bad-cb-subsidy-value", false, "subsidy value is invalid");
+
+        if (subsidyAddress != DecodeDestination(GetParams().DevelopmentRewardAddress()))
+            return state.DoS(100, false, REJECT_INVALID, "bad-cb-subsidy-recipient", false, "subsidy recipient is invalid");
+    }
+
+    for (unsigned int i = 1; i < block.vtx.size(); i++) 
         if (block.vtx[i]->IsCoinBase())
             return state.DoS(100, false, REJECT_INVALID, "bad-cb-multiple", false, "more than one coinbase");
 
@@ -4025,6 +4045,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
         // We only want to check the blocks when they are added to our chain
         // We want to make sure when nodes shutdown and restart that they still
         // verify the blocks in the database correctly even if Enforce Value BIP is active
+
         fCheckBlock = CHECK_BLOCK_TRANSACTION_TRUE;
         if (fDBCheck){
             fCheckBlock = CHECK_BLOCK_TRANSACTION_FALSE;

@@ -181,10 +181,10 @@ public:
         nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
 
-        uint32_t nGenesisTime = 1716174637;  // Tuesday, May 14 2024 02:31:50 (GMT +0)
-        uint32_t nGenesisNonce = 103786739; 
+        uint32_t nGenesisTime = 1717934680;  // Tuesday, May 14 2024 02:31:50 (GMT +0)
+        uint32_t nGenesisNonce = 18024118; 
 
-        std::string nGenesisBlockHash = "0x0000008cbb910e5cd9d9ff3a89c648f22d65d4cd8e99695f322351271b0ffcab";
+        std::string nGenesisBlockHash = "0x000000e3323a157b5ce950eb2ebef7960c5325106253e65e8fc4edc500c2e506";
         std::string nGenesisMerkleRoot = "457e7d4f5c3d388fbf90f9a5260ed627a43a0c13f4578d48bc2f983b6ce6e5f7";
 
         genesis = CreateGenesisBlock(nGenesisTime, nGenesisNonce, 0x1e00ffff, 1, 468 * COIN);
