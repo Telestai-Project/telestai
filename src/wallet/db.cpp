@@ -266,8 +266,10 @@ bool CDB::VerifyEnvironment(const std::string& walletFile, const fs::path& dataD
     LogPrintf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
     LogPrintf("Using wallet %s\n", walletFile);
 
+    fs::path walletPath(walletFile);
+
     // Wallet file must be a plain filename without a directory
-    if (walletFile != fs::basename(walletFile) + fs::extension(walletFile))
+    if (walletFile != walletPath.stem().string() + walletPath.extension().string())
     {
         errorStr = strprintf(_("Wallet %s resides outside data directory %s"), walletFile, dataDir.string());
         return false;
@@ -706,10 +708,20 @@ bool CWalletDBWrapper::Backup(const std::string& strDest)
                     pathDest /= strFile;
 
                 try {
+                  #if BOOST_VERSION >= 107400
+                    // Boost 1.74.0 and up implements std++17 like "copy_options", and this
+                    // is the only remaining enum after 1.85.0
+                    fs::copy_file(pathSrc, pathDest, fs::copy_options::overwrite_existing);
+                  #elif BOOST_VERSION >= 104000
                     fs::copy_file(pathSrc, pathDest, fs::copy_option::overwrite_if_exists);
-                    LogPrintf("copied %s to %s\n", strFile, pathDest.string());
-                    return true;
-                } catch (const fs::filesystem_error& e) {
+                  #else
+                    fs::copy_file(pathSrc, pathDest, fs::copy_option::overwrite_if_exists);
+                  #endif 
+
+                  LogPrintf("copied %s to %s\n", strFile, pathDest.string());
+
+                  return true;
+               } catch (const fs::filesystem_error& e) {
                     LogPrintf("error copying %s to %s - %s\n", strFile, pathDest.string(), e.what());
                     return false;
                 }
