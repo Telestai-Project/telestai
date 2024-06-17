@@ -5,7 +5,7 @@
 
 #include <assets/assets.h>
 
-#include <test/test_raven.h>
+#include <test/test_telestai.h>
 
 #include <boost/test/unit_test.hpp>
 

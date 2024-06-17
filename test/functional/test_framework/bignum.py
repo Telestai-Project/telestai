@@ -5,7 +5,7 @@
 
 """
 Big number routines.
-This file is copied from python-ravenlib.
+This file is copied from python-telestailib.
 """
 
 import struct

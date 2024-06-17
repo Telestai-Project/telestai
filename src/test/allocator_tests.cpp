@@ -6,7 +6,7 @@
 #include "util.h"
 
 #include "support/allocators/secure.h"
-#include "test/test_raven.h"
+#include "test/test_telestai.h"
 
 #include <boost/test/unit_test.hpp>
 

@@ -54,10 +54,10 @@ RUN useradd -ms /bin/bash telestai && \
 VOLUME /var/lib/telestai
 
 #Copy the compiled binaries from the build
-COPY --from=build /home/telestai/build/Telestai/src/ravend /usr/local/bin/ravend
+COPY --from=build /home/telestai/build/Telestai/src/telestaid /usr/local/bin/telestaid
 COPY --from=build /home/telestai/build/Telestai/src/telestai-cli /usr/local/bin/telestai-cli
 
 WORKDIR /home/telestai
 USER telestai
 
-CMD /usr/local/bin/ravend -datadir=/var/lib/telestai -printtoconsole -onlynet=ipv4
+CMD /usr/local/bin/telestaid -datadir=/var/lib/telestai -printtoconsole -onlynet=ipv4

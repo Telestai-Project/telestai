@@ -21,13 +21,13 @@ EXCLUDE = [
     'src/secp256k1/include/secp256k1_ecdh.h',
     'src/secp256k1/include/secp256k1_recovery.h',
     'src/secp256k1/include/secp256k1_schnorr.h',
-    'src/secp256k1/src/java/org_raven_NativeSecp256k1.c',
-    'src/secp256k1/src/java/org_raven_NativeSecp256k1.h',
-    'src/secp256k1/src/java/org_raven_Secp256k1Context.c',
-    'src/secp256k1/src/java/org_raven_Secp256k1Context.h',
+    'src/secp256k1/src/java/org_telestai_NativeSecp256k1.c',
+    'src/secp256k1/src/java/org_telestai_NativeSecp256k1.h',
+    'src/secp256k1/src/java/org_telestai_Secp256k1Context.c',
+    'src/secp256k1/src/java/org_telestai_Secp256k1Context.h',
     # auto generated:
     'src/univalue/lib/univalue_escapes.h',
-    'src/qt/ravenstrings.cpp',
+    'src/qt/telestaistrings.cpp',
     'src/chainparamsseeds.h',
     # other external copyrights:
     'src/tinyformat.h',

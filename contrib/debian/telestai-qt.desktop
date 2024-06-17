@@ -8,6 +8,6 @@ Comment[tr]=Telestai, eşten eşe kriptografik sanal para birimi
 Exec=telestai-qt %u
 Terminal=false
 Type=Application
-Icon=raven128
+Icon=telestai128
 MimeType=x-scheme-handler/telestai;
 Categories=Office;Finance;

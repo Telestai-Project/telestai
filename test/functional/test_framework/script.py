@@ -7,7 +7,7 @@
 """
 Functionality to build scripts, as well as signature_hash().
 
-This file is modified from python-ravenlib.
+This file is modified from python-telestailib.
 """
 
 from .mininode import CTransaction, CTxOut, sha256, hash256, uint256_from_str, ser_uint256, ser_string

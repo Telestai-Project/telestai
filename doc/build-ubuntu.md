@@ -175,7 +175,7 @@ You can now start telestai-qt from the build directory.
 
 `src/qt/telestai-qt`
 
-ravend and telestai-cli are in `src/`
+telestaid and telestai-cli are in `src/`
 
 
 __Optional:__

@@ -6,11 +6,11 @@
 
   3. All unit and functional tests pass
 
-  4. Check PROTOCOL_VERSION in the iOS app located at ravenwallet-ios
+  4. Check PROTOCOL_VERSION in the iOS app located at telestaiwallet-ios
 
-  5. Check PROTOCOL_VERSION is the android app located at ravenwallet-android
+  5. Check PROTOCOL_VERSION is the android app located at telestaiwallet-android
 
-  6. Check the Javascript stack (ravencore) for any block serialization or rpc changes
+  6. Check the Javascript stack (telestaicore) for any block serialization or rpc changes
   
   7. Build release notes for all new features and bug fixes
 

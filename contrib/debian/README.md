@@ -1,8 +1,8 @@
 
 Debian
 ====================
-This directory contains files used to package ravend/telestai-qt
-for Debian-based Linux systems. If you compile ravend/telestai-qt yourself, there are some useful files here.
+This directory contains files used to package telestaid/telestai-qt
+for Debian-based Linux systems. If you compile telestaid/telestai-qt yourself, there are some useful files here.
 
 ## telestai: URI support ##
 
@@ -15,7 +15,7 @@ To install:
 
 If you build yourself, you will either need to modify the paths in
 the .desktop file or copy or symlink your telestai-qt binary to `/usr/bin`
-and the `../../share/pixmaps/raven128.png` to `/usr/share/pixmaps`
+and the `../../share/pixmaps/telestai128.png` to `/usr/share/pixmaps`
 
 telestai-qt.protocol (KDE)
 

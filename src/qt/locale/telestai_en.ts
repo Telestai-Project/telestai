@@ -227,7 +227,7 @@
     </message>
     <message>
         <location line="-56"/>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your ravens from being stolen by malware infecting your computer.</source>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your telestais from being stolen by malware infecting your computer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2176,7 +2176,7 @@ They are not recoverable !!</source>
     </message>
     <message>
         <location line="+19"/>
-        <source>Attempting to spend ravens that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <source>Attempting to spend telestais that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3030,7 +3030,7 @@ They are not recoverable !!</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../ravenunits.cpp" line="+244"/>
+        <location filename="../telestaiunits.cpp" line="+244"/>
         <source>Amount</source>
         <translation type="unfinished">Amount</translation>
     </message>
@@ -3670,7 +3670,7 @@ They are not recoverable !!</source>
 <context>
     <name>RavenGUI</name>
     <message>
-        <location filename="../ravengui.cpp" line="+476"/>
+        <location filename="../telestaigui.cpp" line="+476"/>
         <source>Sign &amp;message...</source>
         <translation>Sign &amp;message...</translation>
     </message>
@@ -5587,7 +5587,7 @@ They are not recoverable !!</source>
     </message>
     <message>
         <location line="-1140"/>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive less ravens than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less telestais than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5679,7 +5679,7 @@ They are not recoverable !!</source>
     </message>
     <message>
         <location line="+6"/>
-        <source>You can sign messages/agreements with your addresses to prove you can receive ravens sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <source>You can sign messages/agreements with your addresses to prove you can receive telestais sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6564,7 +6564,7 @@ They are not recoverable !!</source>
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../ravengui.cpp" line="+151"/>
+        <location filename="../telestaigui.cpp" line="+151"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6666,7 +6666,7 @@ They are not recoverable !!</source>
 <context>
     <name>telestai-core</name>
     <message>
-        <location filename="../ravenstrings.cpp" line="+469"/>
+        <location filename="../telestaistrings.cpp" line="+469"/>
         <source>Options:</source>
         <translation>Options:</translation>
     </message>

@@ -7,9 +7,9 @@ User=telestai
 Group=telestai
 
 Type=forking
-PIDFile=/var/lib/ravend/ravend.pid
-ExecStart=/usr/bin/ravend -daemon -pid=/var/lib/ravend/ravend.pid \
--conf=/etc/telestai/telestai.conf -datadir=/var/lib/ravend -disablewallet
+PIDFile=/var/lib/telestaid/telestaid.pid
+ExecStart=/usr/bin/telestaid -daemon -pid=/var/lib/telestaid/telestaid.pid \
+-conf=/etc/telestai/telestai.conf -datadir=/var/lib/telestaid -disablewallet
 
 Restart=always
 PrivateTmp=true

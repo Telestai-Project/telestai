@@ -1735,7 +1735,7 @@
   <customwidget>
    <class>RavenAmountField</class>
    <extends>QLineEdit</extends>
-   <header>ravenamountfield.h</header>
+   <header>telestaiamountfield.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -14,7 +14,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.ravenfoundation.Telestai-Qt";
+        return @"org.telestaifoundation.Telestai-Qt";
     } else {
         return [self __bundleIdentifier];
     }

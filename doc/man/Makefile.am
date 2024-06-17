@@ -1,7 +1,7 @@
 dist_man1_MANS=
 
 if BUILD_RAVEND
-  dist_man1_MANS+=ravend.1
+  dist_man1_MANS+=telestaid.1
 endif
 
 if ENABLE_QT

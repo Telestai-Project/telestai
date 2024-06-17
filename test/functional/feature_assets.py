@@ -161,10 +161,10 @@ class AssetTest(RavenTestFramework):
         assert_equal(assetdata["has_ipfs"], 1)
         assert_equal(assetdata["ipfs_hash"], ipfs_hash)
 
-        raven_assets = n0.listassets(asset="RAVEN*", verbose=False, count=2, start=-2)
-        assert_equal(len(raven_assets), 2)
-        assert_equal(raven_assets[0], "RAVEN2")
-        assert_equal(raven_assets[1], "RAVEN3")
+        telestai_assets = n0.listassets(asset="RAVEN*", verbose=False, count=2, start=-2)
+        assert_equal(len(telestai_assets), 2)
+        assert_equal(telestai_assets[0], "RAVEN2")
+        assert_equal(telestai_assets[1], "RAVEN3")
         self.sync_all()
 
     def issue_param_checks(self):

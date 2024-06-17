@@ -7,9 +7,9 @@
 #include "config/telestai-config.h"
 #endif
 
-#include "ravengui.h"
+#include "telestaigui.h"
 
-#include "ravenunits.h"
+#include "telestaiunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -600,7 +600,7 @@ void RavenGUI::createToolBars()
             labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/rvntext")));
         }
         else {
-            labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/ravencointext")));
+            labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/telestaicointext")));
         }
         labelToolbar->setStyleSheet(".QLabel{background-color: transparent;}");
 
@@ -660,11 +660,11 @@ void RavenGUI::createToolBars()
 
         overviewAction->setChecked(true);
 
-        QVBoxLayout* ravenLabelLayout = new QVBoxLayout(toolbarWidget);
-        ravenLabelLayout->addWidget(labelToolbar);
-        ravenLabelLayout->addWidget(m_toolbar);
-        ravenLabelLayout->setDirection(QBoxLayout::TopToBottom);
-        ravenLabelLayout->addStretch(1);
+        QVBoxLayout* telestaiLabelLayout = new QVBoxLayout(toolbarWidget);
+        telestaiLabelLayout->addWidget(labelToolbar);
+        telestaiLabelLayout->addWidget(m_toolbar);
+        telestaiLabelLayout->setDirection(QBoxLayout::TopToBottom);
+        telestaiLabelLayout->addStretch(1);
 
         QString mainWalletWidgetStyle = QString(".QWidget{background-color: %1}").arg(platformStyle->MainBackGroundColor().name());
         QWidget* mainWalletWidget = new QWidget();
@@ -920,7 +920,7 @@ void RavenGUI::updateIconsOnlyToolbar(bool IconsOnly)
         m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     }
     else {
-        labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/ravencointext")));
+        labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/telestaicointext")));
         m_toolbar->setMinimumWidth(labelToolbar->width());
         m_toolbar->setMaximumWidth(255);
         m_toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);        

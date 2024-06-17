@@ -8,7 +8,7 @@
 #else
 #define UNUSED
 #endif
-static const char UNUSED *raven_strings[] = {
+static const char UNUSED *telestai_strings[] = {
 QT_TRANSLATE_NOOP("telestai-core", "Telestai Core"),
 QT_TRANSLATE_NOOP("telestai-core", "The %s developers"),
 QT_TRANSLATE_NOOP("telestai-core", ""

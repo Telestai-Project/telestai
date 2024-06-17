@@ -172,7 +172,7 @@
         <translation>Novčanik enkriptovan</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your ravens from being stolen by malware infecting your computer.</source>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your telestais from being stolen by malware infecting your computer.</source>
         <translation>%1 će se zatvoriti kako bi se završio proces enkripcije.
 Zapamtite da enkripcija vašeg novčanika ne može u potpunosti zaštititi vaša sredstva od krađe ukoliko je vaš računar kompromitovan računarskim virusom ili drugim oblicima malicioznog softvera.</translation>
     </message>

@@ -4,7 +4,7 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-"""Test running ravend with the -rpcbind and -rpcallowip options."""
+"""Test running telestaid with the -rpcbind and -rpcallowip options."""
 
 import socket
 import sys

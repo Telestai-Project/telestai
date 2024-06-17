@@ -13,7 +13,7 @@ import operator
 import os
 import sys
 
-OUT_CPP="qt/ravenstrings.cpp"
+OUT_CPP="qt/telestaistrings.cpp"
 EMPTY=['""']
 
 def parse_po(text):
@@ -77,7 +77,7 @@ f.write("""
 #define UNUSED
 #endif
 """)
-f.write('static const char UNUSED *raven_strings[] = {\n')
+f.write('static const char UNUSED *telestai_strings[] = {\n')
 f.write('QT_TRANSLATE_NOOP("telestai-core", "%s"),\n' % (os.getenv('PACKAGE_NAME'),))
 f.write('QT_TRANSLATE_NOOP("telestai-core", "%s"),\n' % (os.getenv('COPYRIGHT_HOLDERS'),))
 if os.getenv('COPYRIGHT_HOLDERS_SUBSTITUTION') != os.getenv('PACKAGE_NAME'):

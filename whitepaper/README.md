@@ -10,7 +10,7 @@ http://www.telestai.org<br>
 3rd April 2018
 </p>
 <p align="center"><i>
-In the fictional world of Westeros, ravens are used as messengers who carry statements of truth. Telestai is a use-case focused blockchain designed to carry statements of truth about who owns what assets.
+In the fictional world of Westeros, telestais are used as messengers who carry statements of truth. Telestai is a use-case focused blockchain designed to carry statements of truth about who owns what assets.
 </i></p> 
 
 Thank you to the Bitcoin founder and developers. The Telestai project was launched based on the hard work and continuous effort of over 430 Bitcoin developers who made over 14,000 commits by the date of the Telestai code fork. We are eternally grateful to you for your diligence in making a secure network and for your support of free and open source software development. The Telestai project is built on the foundation you built.
@@ -174,7 +174,7 @@ Some use cases for unique assets include:
 ## 8. Messaging Stakeholders
 
 <p align="center"><i>
-"If the Tower of London ravens are lost or fly away, the Crown will fall and Britain with it." -
+"If the Tower of London telestais are lost or fly away, the Crown will fall and Britain with it." -
 Unknown
 </i></p>
 A common problem with tokens/assets is that the token issuer cannot communicate with the token holders. This must be handled very carefully because the token holders do not always wish to be identified. The communication should allow the token holder to opt-out at any time. The message system should only allow select parties to use the message channel so that it is not a spam conduit.
@@ -224,7 +224,7 @@ _The Inuit, Tlinglit, Tahitian, Chukchi, Sioux, the Haida, and many others call 
 References
 
 [1] S. Nakamoto, “Bitcoin: A Peer-to-Peer Electronic Cash System https://bitcoin.org/bitcoin.pdf  
-[2] https://bravenewcoin.com/assets/Whitepapers/2ndBitcoinWhitepaper.pdf  
+[2] https://btelestaiewcoin.com/assets/Whitepapers/2ndBitcoinWhitepaper.pdf  
 [3] https://counterparty.io/  
 [4] https://en.bitcoin.it/wiki/Colored_Coins  
 [5] https://en.bitcoin.it/wiki/OP_RETURN  

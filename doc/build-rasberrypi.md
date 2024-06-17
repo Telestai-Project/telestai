@@ -1,6 +1,6 @@
 RASBERRY PI BUILD NOTES
 ====================
-Origin: traysi.org/raven_rpi.php
+Origin: traysi.org/telestai_rpi.php
 
 # Install necessary packages:
 ```

@@ -13,7 +13,7 @@ Construct a linear, no-fork, best version of the blockchain.
 
 ### [Qos](/contrib/qos) ###
 
-A Linux bash script that will set up traffic control (tc) to limit the outgoing bandwidth for connections to the Telestai network. This means one can have an always-on ravend instance running, and another local ravend/telestai-qt instance which connects to this node and receives blocks from it.
+A Linux bash script that will set up traffic control (tc) to limit the outgoing bandwidth for connections to the Telestai network. This means one can have an always-on telestaid instance running, and another local telestaid/telestai-qt instance which connects to this node and receives blocks from it.
 
 ### [Seeds](/contrib/seeds) ###
 Utility to generate the pnSeed[] array that is compiled into the client.
@@ -22,8 +22,8 @@ Build Tools and Keys
 ---------------------
 
 ### [Debian](/contrib/debian) ###
-Contains files used to package ravend/telestai-qt
-for Debian-based Linux systems. If you compile ravend/telestai-qt yourself, there are some useful files here.
+Contains files used to package telestaid/telestai-qt
+for Debian-based Linux systems. If you compile telestaid/telestai-qt yourself, there are some useful files here.
 
 ### [Gitian-descriptors](/contrib/gitian-descriptors) ###
 Files used during the gitian build process. For more information about gitian, see the [the Telestai Core documentation repository](https://github.com/telestai-core/docs).

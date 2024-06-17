@@ -5,7 +5,7 @@
 
 #include "merkleblock.h"
 #include "uint256.h"
-#include "test/test_raven.h"
+#include "test/test_telestai.h"
 
 #include <boost/test/unit_test.hpp>
 

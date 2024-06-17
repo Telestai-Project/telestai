@@ -89,7 +89,7 @@ if [[ ${OS} == "windows" ]]; then
         fi
     done
 
-    for rmfile in detach-sig-create.sh win-codesign.cert telestai-cli.exe telestai-qt.exe ravend.exe; do
+    for rmfile in detach-sig-create.sh win-codesign.cert telestai-cli.exe telestai-qt.exe telestaid.exe; do
         if [[ -e ${rmfile} ]]; then
             rm -f ${rmfile}
         fi
@@ -208,7 +208,7 @@ elif [[ ${OS} == "arm32v7" || ${OS} == "arm32v7-disable-wallet" ]]; then
             exit 1
         fi
         cd ${STAGE_DIR}
-        cp -Rf ${DISTNAME}/bin/ravend .
+        cp -Rf ${DISTNAME}/bin/telestaid .
         cp -Rf ${DISTNAME}/bin/telestai-cli .
     else
         echo "release directory doesn't exist"
@@ -244,7 +244,7 @@ elif [[ ${OS} == "aarch64" || ${OS} == "aarch64-disable-wallet" ]]; then
             exit 1
         fi
         cd ${STAGE_DIR}
-        cp -Rf ${DISTNAME}/bin/ravend .
+        cp -Rf ${DISTNAME}/bin/telestaid .
         cp -Rf ${DISTNAME}/bin/telestai-cli .
     else
         echo "release directory doesn't exist"

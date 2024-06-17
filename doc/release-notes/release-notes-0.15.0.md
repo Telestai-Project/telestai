@@ -19,7 +19,7 @@ How to Upgrade
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes for older versions), then run the
 installer (on Windows) or just copy over `/Applications/Telestai-Qt` (on Mac)
-or `ravend`/`telestai-qt` (on Linux).
+or `telestaid`/`telestai-qt` (on Linux).
 
 The first time you run version 0.15.0, your chainstate database will be converted to a
 new format, which will take anywhere from a few minutes to half an hour,
@@ -199,7 +199,7 @@ Version 0.15 introduces several new RPC methods:
   in the chain (See [PR 9733](https://github.com/bitcoin/bitcoin/pull/9733)).
 - `listwallets` lists wallets which are currently loaded. See the *Multi-wallet* section
   of these release notes for full details (See [Multi-wallet support](#multi-wallet-support)).
-- `uptime` returns the total runtime of the `ravend` server since its last start (See [PR 10400](https://github.com/bitcoin/bitcoin/pull/10400)).
+- `uptime` returns the total runtime of the `telestaid` server since its last start (See [PR 10400](https://github.com/bitcoin/bitcoin/pull/10400)).
 
 Low-level RPC changes
 ---------------------
@@ -268,13 +268,13 @@ Low-level RPC changes
   or subnet is invalid. Previously returned RPC_CLIENT_NODE_ALREADY_ADDED.
   - `setban` now returns RPC_CLIENT_INVALID_IP_OR_SUBNET if the user tries to unban
   a node that has not previously been banned. Previously returned RPC_MISC_ERROR.
-  - `removeprunedfunds` now returns RPC_WALLET_ERROR if `ravend` is unable to remove
+  - `removeprunedfunds` now returns RPC_WALLET_ERROR if `telestaid` is unable to remove
   the transaction. Previously returned RPC_INTERNAL_ERROR.
   - `removeprunedfunds` now returns RPC_INVALID_PARAMETER if the transaction does not
   exist in the wallet. Previously returned RPC_INTERNAL_ERROR.
   - `fundrawtransaction` now returns RPC_INVALID_ADDRESS_OR_KEY if an invalid change
   address is provided. Previously returned RPC_INVALID_PARAMETER.
-  - `fundrawtransaction` now returns RPC_WALLET_ERROR if `ravend` is unable to create
+  - `fundrawtransaction` now returns RPC_WALLET_ERROR if `telestaid` is unable to create
   the transaction. The error message provides further details. Previously returned
   RPC_INTERNAL_ERROR.
   - `bumpfee` now returns RPC_INVALID_PARAMETER if the provided transaction has
@@ -338,7 +338,7 @@ Low-level RPC changes
 - #10191 `00350bd` [trivial] Rename unused RPC arguments 'dummy' (jnewbery)
 - #10627 `b62b4c8` fixed listunspent rpc convert parameter (tnakagawa)
 - #10412 `bef02fb` Improve wallet rescan API (ryanofsky)
-- #10400 `1680ee0` [RPC] Add an uptime command that displays the amount of time (in seconds) ravend has been running (rvelhote)
+- #10400 `1680ee0` [RPC] Add an uptime command that displays the amount of time (in seconds) telestaid has been running (rvelhote)
 - #10683 `d81bec7` rpc: Move the `generate` RPC call to rpcwallet (laanwj)
 - #10710 `30bc0f6` REST/RPC example update (Mirobit)
 - #10747 `9edda0c` [rpc] fix verbose argument for getblock in telestai-cli (jnewbery)
@@ -576,7 +576,7 @@ Low-level RPC changes
 - #9497 `2c781fb` CCheckQueue Unit Tests (JeremyRubin)
 - #10024 `9225de2` [trivial] Use log.info() instead of print() in remaining functional test cases (jnewbery)
 - #9956 `3192e52` Reorganise qa directory (jnewbery)
-- #10017 `02d64bd` combine_logs.py - aggregates log files from multiple ravends during functional tests (jnewbery)
+- #10017 `02d64bd` combine_logs.py - aggregates log files from multiple telestaids during functional tests (jnewbery)
 - #10047 `dfef6b6` [tests] Remove unused variables and imports (practicalswift)
 - #9701 `a230b05` Make bumpfee tests less fragile (ryanofsky)
 - #10053 `ca20923` [test] Allow functional test cases to be skipped (jnewbery)
@@ -596,7 +596,7 @@ Low-level RPC changes
 - #10152 `080d7c7` [trivial] remove unused line in Travis config (jnewbery)
 - #10159 `df1ca9e` [tests] color test results and sort alphabetically (jnewbery)
 - #10124 `88799ea` [test] Suppress test logging spam (jnewbery)
-- #10142 `ed09dd3` Run raven_test-qt under minimal QPA platform (ryanofsky)
+- #10142 `ed09dd3` Run telestai_test-qt under minimal QPA platform (ryanofsky)
 - #9949 `a27dbc5` [bench] Avoid function call arguments which are pointers to uninitialized values (practicalswift)
 - #10187 `b44adf9` tests: Fix test_runner return value in case of skipped test (laanwj)
 - #10197 `d86bb07` [tests] Functional test warnings (jnewbery)
@@ -648,7 +648,7 @@ Low-level RPC changes
 - #10555 `643fa0b` [tests] various improvements to zmq_test.py (jnewbery)
 - #10533 `d083bd9` [tests] Use cookie auth instead of rpcuser and rpcpassword (achow101)
 - #10632 `c68a9a6` qa: Add stopatheight test (MarcoFalke)
-- #10636 `4bc853b` [qa] util: Check return code after closing ravend proc (MarcoFalke)
+- #10636 `4bc853b` [qa] util: Check return code after closing telestaid proc (MarcoFalke)
 - #10662 `e0a7801` Initialize randomness in benchmarks (achow101)
 - #10612 `7c87a9c` The young person's guide to the test_framework (jnewbery)
 - #10659 `acb1153` [qa] blockchain: Pass on closed connection during generate call (MarcoFalke)
@@ -718,10 +718,10 @@ Low-level RPC changes
 - #10372 `15254e9` Add perf counter data to GetStrongRandBytes state in scheduler (TheBlueMatt)
 - #10461 `55b72f3` Update style guide (sipa)
 - #10486 `10e8c0a` devtools: Retry after signing fails in github-merge (laanwj)
-- #10447 `f259263` Make ravend invalid argument error message specific (laanwj)
+- #10447 `f259263` Make telestaid invalid argument error message specific (laanwj)
 - #10495 `6a38b79` contrib: Update location of seeds.txt (laanwj)
 - #10469 `b6b150b` Fixing typo in rpcdump.cpp help message (keystrike)
-- #10451 `27b9931` contrib/init/ravend.openrcconf: Don't disable wallet by default (luke-jr)
+- #10451 `27b9931` contrib/init/telestaid.openrcconf: Don't disable wallet by default (luke-jr)
 - #10323 `00d3692` Update to latest libsecp256k1 master (sipa)
 - #10422 `cec9e1e` Fix timestamp in fee estimate debug message (morcos)
 - #10566 `5d034ee` [docs] Use the "domain name setup" image (previously unused) in the gitian docs (practicalswift)
@@ -740,7 +740,7 @@ Low-level RPC changes
 - #10728 `7397af9` fix typo in help text for removeprunedfunds (AkioNak)
 - #10193 `6dbcc74` scripted-diff: Remove #include <boost/foreach.hpp> (jtimon)
 - #10676 `379aed0` document script-based return fields for validateaddress (instagibbs)
-- #10651 `cef4b5c` Verify binaries from ravencore.org and telestai.org (TheBlueMatt)
+- #10651 `cef4b5c` Verify binaries from telestaicore.org and telestai.org (TheBlueMatt)
 - #10786 `ca4c545` Add PR description to merge commit in github-merge.py (sipa)
 - #10812 `c5904e8` [utils] Allow telestai-cli's -rpcconnect option to be used with square brackets (jnewbery)
 - #10842 `3895e25` Fix incorrect Doxygen tag (@ince → @since). Doxygen parameter name matching (practicalswift)

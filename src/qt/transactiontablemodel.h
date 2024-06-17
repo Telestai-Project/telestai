@@ -6,7 +6,7 @@
 #ifndef RAVEN_QT_TRANSACTIONTABLEMODEL_H
 #define RAVEN_QT_TRANSACTIONTABLEMODEL_H
 
-#include "ravenunits.h"
+#include "telestaiunits.h"
 
 #include <QAbstractTableModel>
 #include <QStringList>

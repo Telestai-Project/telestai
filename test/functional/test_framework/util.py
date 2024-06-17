@@ -259,7 +259,7 @@ def hash256(byte_str):
     return sha256d.digest()[::-1]
 
 
-x16r_hash_cmd = os.path.dirname(os.path.realpath(__file__)) + "/../../../src/test/test_raven_hash"
+x16r_hash_cmd = os.path.dirname(os.path.realpath(__file__)) + "/../../../src/test/test_telestai_hash"
 
 
 def x16_hash_block(hex_str, algorithm="2"):

@@ -7,7 +7,7 @@
 #include "config/telestai-config.h"
 #endif
 
-#include "ravengui.h"
+#include "telestaigui.h"
 
 #include "chainparams.h"
 #include "clientmodel.h"
@@ -146,11 +146,11 @@ static void initTranslations(QTranslator &qtTranslatorBase, QTranslator &qtTrans
     if (qtTranslator.load("qt_" + lang_territory, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
         QApplication::installTranslator(&qtTranslator);
 
-    // Load e.g. raven_de.qm (shortcut "de" needs to be defined in telestai.qrc)
+    // Load e.g. telestai_de.qm (shortcut "de" needs to be defined in telestai.qrc)
     if (translatorBase.load(lang, ":/translations/"))
         QApplication::installTranslator(&translatorBase);
 
-    // Load e.g. raven_de_DE.qm (shortcut "de_DE" needs to be defined in telestai.qrc)
+    // Load e.g. telestai_de_DE.qm (shortcut "de_DE" needs to be defined in telestai.qrc)
     if (translator.load(lang_territory, ":/translations/"))
         QApplication::installTranslator(&translator);
 }
@@ -608,7 +608,7 @@ int main(int argc, char *argv[])
 #endif
 
     Q_INIT_RESOURCE(telestai);
-    Q_INIT_RESOURCE(raven_locale);
+    Q_INIT_RESOURCE(telestai_locale);
 
 #if QT_VERSION > 0x050600
     // Generate high-dpi pixmaps

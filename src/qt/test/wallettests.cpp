@@ -1,6 +1,6 @@
 #include "wallettests.h"
 
-#include "qt/ravenamountfield.h"
+#include "qt/telestaiamountfield.h"
 #include "qt/callback.h"
 #include "qt/optionsmodel.h"
 #include "qt/platformstyle.h"
@@ -10,7 +10,7 @@
 #include "qt/transactiontablemodel.h"
 #include "qt/transactionview.h"
 #include "qt/walletmodel.h"
-#include "test/test_raven.h"
+#include "test/test_telestai.h"
 #include "validation.h"
 #include "wallet/wallet.h"
 #include "qt/overviewpage.h"
@@ -144,9 +144,9 @@ void BumpFee(TransactionView& view, const uint256& txid, bool expectDisabled, st
 //
 // This also requires overriding the default minimal Qt platform:
 //
-//     src/qt/test/test_raven-qt -platform xcb      # Linux
-//     src/qt/test/test_raven-qt -platform windows  # Windows
-//     src/qt/test/test_raven-qt -platform cocoa    # macOS
+//     src/qt/test/test_telestai-qt -platform xcb      # Linux
+//     src/qt/test/test_telestai-qt -platform windows  # Windows
+//     src/qt/test/test_telestai-qt -platform cocoa    # macOS
 void TestGUI()
 {
     // Set up wallet and chain with 105 blocks (5 mature blocks for spending).

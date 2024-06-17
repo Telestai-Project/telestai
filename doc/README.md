@@ -25,7 +25,7 @@ The following are some helpful notes on how to run Telestai on your native platf
 
    b. Core deamon:
 
-   `./ravend -deamon`
+   `./telestaid -deamon`
 
 #### Ubuntu 16.04, 17.04/17.10 and 18.04
 

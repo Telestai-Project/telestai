@@ -89,7 +89,7 @@
 const int64_t nStartupTime = GetTime();
 
 const char *const RAVEN_CONF_FILENAME = "telestai.conf";
-const char *const RAVEN_PID_FILENAME = "ravend.pid";
+const char *const RAVEN_PID_FILENAME = "telestaid.pid";
 
 ArgsManager gArgs;
 bool fPrintToConsole = false;

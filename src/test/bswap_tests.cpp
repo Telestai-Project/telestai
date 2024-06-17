@@ -4,7 +4,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "compat/byteswap.h"
-#include "test/test_raven.h"
+#include "test/test_telestai.h"
 
 #include <boost/test/unit_test.hpp>
 

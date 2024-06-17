@@ -16,7 +16,7 @@
 #include "uint256.h"
 #include "util.h"
 #include "utilstrencodings.h"
-#include "test/test_raven.h"
+#include "test/test_telestai.h"
 
 #include <vector>
 
@@ -517,7 +517,7 @@ BOOST_FIXTURE_TEST_SUITE(bloom_tests, BasicTestingSetup)
                 ++nHits;
         }
 
-        // Run test_raven with --log_level=message to see BOOST_TEST_MESSAGEs:
+        // Run test_telestai with --log_level=message to see BOOST_TEST_MESSAGEs:
         BOOST_TEST_MESSAGE("RollingBloomFilter got " << nHits << " false positives (~100 expected)");
 
         // Insanely unlikely to get a fp count outside this range:

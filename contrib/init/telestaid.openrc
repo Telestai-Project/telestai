@@ -5,23 +5,23 @@
 if [ -d "/var/lib/telestai/.telestai" ]; then
 	RAVEND_DEFAULT_DATADIR="/var/lib/telestai/.telestai"
 else
-	RAVEND_DEFAULT_DATADIR="/var/lib/ravend"
+	RAVEND_DEFAULT_DATADIR="/var/lib/telestaid"
 fi
 
 RAVEND_CONFIGFILE=${RAVEND_CONFIGFILE:-/etc/telestai/telestai.conf}
-RAVEND_PIDDIR=${RAVEND_PIDDIR:-/var/run/ravend}
-RAVEND_PIDFILE=${RAVEND_PIDFILE:-${RAVEND_PIDDIR}/ravend.pid}
+RAVEND_PIDDIR=${RAVEND_PIDDIR:-/var/run/telestaid}
+RAVEND_PIDFILE=${RAVEND_PIDFILE:-${RAVEND_PIDDIR}/telestaid.pid}
 RAVEND_DATADIR=${RAVEND_DATADIR:-${RAVEND_DEFAULT_DATADIR}}
 RAVEND_USER=${RAVEND_USER:-${RAVEN_USER:-telestai}}
 RAVEND_GROUP=${RAVEND_GROUP:-telestai}
-RAVEND_BIN=${RAVEND_BIN:-/usr/bin/ravend}
+RAVEND_BIN=${RAVEND_BIN:-/usr/bin/telestaid}
 RAVEND_NICE=${RAVEND_NICE:-${NICELEVEL:-0}}
 RAVEND_OPTS="${RAVEND_OPTS:-${RAVEN_OPTS}}"
 
 name="Telestai Core Daemon"
 description="Telestai cryptocurrency P2P network daemon"
 
-command="/usr/bin/ravend"
+command="/usr/bin/telestaid"
 command_args="-pid=\"${RAVEND_PIDFILE}\" \
 		-conf=\"${RAVEND_CONFIGFILE}\" \
 		-datadir=\"${RAVEND_DATADIR}\" \
@@ -71,7 +71,7 @@ checkconfig()
 {
 	if ! grep -qs '^rpcpassword=' "${RAVEND_CONFIGFILE}" ; then
 		eerror ""
-		eerror "ERROR: You must set a secure rpcpassword to run ravend."
+		eerror "ERROR: You must set a secure rpcpassword to run telestaid."
 		eerror "The setting must appear in ${RAVEND_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "

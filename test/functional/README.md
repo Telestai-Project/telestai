@@ -60,10 +60,10 @@ over the network (`CBlock`, `CTransaction`, etc, along with the network-level
 wrappers for them, `msg_block`, `msg_tx`, etc).
 
 - P2P tests have two threads. One thread handles all network communication
-with the ravend(s) being tested (using python's asyncore package); the other
+with the telestaid(s) being tested (using python's asyncore package); the other
 implements the test logic.
 
-- `NodeConn` is the class used to connect to a ravend.  If you implement
+- `NodeConn` is the class used to connect to a telestaid.  If you implement
 a callback class that derives from `NodeConnCB` and pass that to the
 `NodeConn` object, your code will receive the appropriate callbacks when
 events of interest arrive.
@@ -78,7 +78,7 @@ Examples tests are `p2p-accept-block.py`, `p2p-compactblocks.py`.
 ### test-framework modules
 
 #### [test_framework/authproxy.py](test_framework/authproxy.py)
-Taken from the [python-ravenrpc repository](https://github.com/jgarzik/python-ravenrpc).
+Taken from the [python-telestairpc repository](https://github.com/jgarzik/python-telestairpc).
 
 #### [test_framework/test_framework.py](test_framework/test_framework.py)
 Base class for functional tests.
@@ -87,13 +87,13 @@ Base class for functional tests.
 Generally useful functions.
 
 #### [test_framework/mininode.py](test_framework/mininode.py)
-Basic code to support P2P connectivity to a ravend.
+Basic code to support P2P connectivity to a telestaid.
 
 #### [test_framework/script.py](test_framework/script.py)
-Utilities for manipulating transaction scripts (originally from python-ravenlib)
+Utilities for manipulating transaction scripts (originally from python-telestailib)
 
 #### [test_framework/key.py](test_framework/key.py)
-Wrapper around OpenSSL EC_Key (originally from python-ravenlib)
+Wrapper around OpenSSL EC_Key (originally from python-telestailib)
 
 #### [test_framework/bignum.py](test_framework/bignum.py)
 Helpers for script.py

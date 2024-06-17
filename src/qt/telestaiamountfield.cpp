@@ -3,9 +3,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "ravenamountfield.h"
+#include "telestaiamountfield.h"
 
-#include "ravenunits.h"
+#include "telestaiunits.h"
 #include "guiconstants.h"
 #include "qvaluecombobox.h"
 #include "platformstyle.h"
@@ -225,7 +225,7 @@ Q_SIGNALS:
     void valueChanged();
 };
 
-#include "ravenamountfield.moc"
+#include "telestaiamountfield.moc"
 
 RavenAmountField::RavenAmountField(QWidget *parent) :
     QWidget(parent),

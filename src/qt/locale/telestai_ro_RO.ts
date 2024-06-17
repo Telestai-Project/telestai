@@ -180,7 +180,7 @@
         <translation>Portofel criptat</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your ravens from being stolen by malware infecting your computer.</source>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your telestais from being stolen by malware infecting your computer.</source>
         <translation>%1 o să se inchidă acum pentru a finaliza procesul de criptare.Vă reamintim că criptarea portofelului nu poate să protejeze pe deplin monedele Telestai de a fi furate de către malware care vă infectează calculatorul.</translation>
     </message>
     <message>

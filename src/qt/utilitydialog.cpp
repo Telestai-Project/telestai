@@ -11,7 +11,7 @@
 
 #include "ui_helpmessagedialog.h"
 
-#include "ravengui.h"
+#include "telestaigui.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "intro.h"

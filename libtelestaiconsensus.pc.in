@@ -6,6 +6,6 @@ includedir=@includedir@
 Name: @PACKAGE_NAME@ consensus library
 Description: Library for the Telestai consensus protocol.
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lravenconsensus
+Libs: -L${libdir} -ltelestaiconsensus
 Cflags: -I${includedir}
 Requires.private: libcrypto

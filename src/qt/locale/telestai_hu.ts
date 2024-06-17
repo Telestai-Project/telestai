@@ -1540,7 +1540,7 @@
     </message>
     <message>
         <source>Insufficient funds</source>
-        <translation type="vanished">Nincs elég ravenod.</translation>
+        <translation type="vanished">Nincs elég telestaiod.</translation>
     </message>
     <message>
         <source>Loading block index...</source>

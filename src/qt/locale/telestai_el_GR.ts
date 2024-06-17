@@ -172,8 +172,8 @@
         <translation>Το πορτοφόλι κρυπτογραφήθηκε</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your ravens from being stolen by malware infecting your computer.</source>
-        <translation>%1 θα κλείσει τώρα για να τελειώσει την διαδικασία κρυπτογράφησης. Θυμήσου οτι η κρυπτογράφηση του πορτοφολιού σας δεν μπορεί να προστατεύσει πλήρως τα ravens από το να κλαπούν λόγω κακόβουλου λογισμικού στον υπολογιστή σας.</translation>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your telestais from being stolen by malware infecting your computer.</source>
+        <translation>%1 θα κλείσει τώρα για να τελειώσει την διαδικασία κρυπτογράφησης. Θυμήσου οτι η κρυπτογράφηση του πορτοφολιού σας δεν μπορεί να προστατεύσει πλήρως τα telestais από το να κλαπούν λόγω κακόβουλου λογισμικού στον υπολογιστή σας.</translation>
     </message>
     <message>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>

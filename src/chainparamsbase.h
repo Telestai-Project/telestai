@@ -11,7 +11,7 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between telestai-cli and ravend)
+ * CBaseChainParams defines the base parameters (shared between telestai-cli and telestaid)
  * of a given instance of the Telestai system.
  */
 class CBaseChainParams

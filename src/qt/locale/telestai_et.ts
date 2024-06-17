@@ -968,11 +968,11 @@
     </message>
     <message>
         <source>Request payments (generates QR codes and telestai: URIs)</source>
-        <translation>Loo maksepäring (genereerib QR koodid ja raveni: URId)</translation>
+        <translation>Loo maksepäring (genereerib QR koodid ja telestaii: URId)</translation>
     </message>
     <message>
         <source>Open a telestai: URI or payment request</source>
-        <translation>Ava raveni: URI või maksepäring</translation>
+        <translation>Ava telestaii: URI või maksepäring</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>

@@ -38,7 +38,7 @@
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.ravenfoundation.Telestai-Qt</string>
+  <string>org.telestaifoundation.Telestai-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -71,7 +71,7 @@
         <string>application/x-telestai-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>ravenpaymentrequest</string>
+          <string>telestaipaymentrequest</string>
         </array>
       </dict>
     </dict>

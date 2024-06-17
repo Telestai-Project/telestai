@@ -30,7 +30,7 @@ Homepage: https://telestai.org/
 Vcs-Git: git://github.com/RavenProject/Telestai.git
 Vcs-Browser: https://github.com/RavenProject/Telestai
 
-Package: ravend
+Package: telestaid
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - daemon
@@ -40,7 +40,7 @@ Description: peer-to-peer network based digital currency - daemon
  transact directly with each other, with the help of a P2P network to
  check for double-spending.
  .
- This package provides the daemon, ravend, and the CLI tool
+ This package provides the daemon, telestaid, and the CLI tool
  telestai-cli to interact with the daemon.
 
 Package: telestai-qt

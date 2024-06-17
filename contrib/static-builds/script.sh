@@ -29,7 +29,7 @@ cd ~/
 # Removes any existing builds and starts clean WARNING
 rm -rf ~/telestai ~/sign ~/release
 
-git clone https://github.com/ravenproject/telestai
+git clone https://github.com/telestaiproject/telestai
 cd ~/telestai
 git checkout $BRANCH
 

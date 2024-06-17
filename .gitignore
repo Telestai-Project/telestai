@@ -4,13 +4,13 @@ Jenkinsfile
 
 *.exe
 src/telestai
-src/ravend
+src/telestaid
 src/telestai-cli
 src/telestai-tx
-src/test/test_raven
-src/test/test_raven_fuzzy
-src/test/test_raven_hash
-src/qt/test/test_raven-qt
+src/test/test_telestai
+src/test/test_telestai_fuzzy
+src/test/test_telestai_hash
+src/qt/test/test_telestai-qt
 .vscode
 output.txt
 
@@ -102,7 +102,7 @@ build
 *.gcno
 *.gcda
 /*.info
-test_raven.coverage/
+test_telestai.coverage/
 total.coverage/
 coverage_percent.txt
 
@@ -117,7 +117,7 @@ test/cache/*
 
 /doc/doxygen/
 
-libravenconsensus.pc
+libtelestaiconsensus.pc
 contrib/devtools/split-debug.sh
 .idea
 cmake-build-debug
