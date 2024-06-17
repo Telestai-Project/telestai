@@ -65,6 +65,7 @@ elif [[ ${OS} == "osx" ]]; then
     s3curl \
     sleuthkit \
     bison \
+    libstdc++6 \
     libtinfo5
     
 elif [[ ${OS} == "linux" || ${OS} == "linux-disable-wallet" || ${OS} == "aarch64" || ${OS} == "aarch64-disable-wallet" ]]; then
