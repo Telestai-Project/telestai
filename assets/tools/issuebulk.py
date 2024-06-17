@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Script to issue assets on the Ravencoin platform
+# Script to issue assets on the Telestai platform
 # Reads from a csv file
 # Template Google Spreadsheet at:  
 #   https://docs.google.com/spreadsheets/d/1Ym88-ggbw8yiMgVxOtVYDsCXJGNGZqlpOfgdbVK8iYU
@@ -23,15 +23,15 @@ import json
 import hashlib
 
 
-#Set this to your raven-cli program
-cli = "raven-cli"
+#Set this to your telestai-cli program
+cli = "telestai-cli"
 
 mode =  "-testnet"
 rpc_port = 18766
 #mode =  "-regtest"
 #rpc_port = 18443
-csv_file = "Raven Assets - Sheet1.csv"
-#Set this information in your raven.conf file (in datadir, not testnet3)
+csv_file = "Telestai Assets - Sheet1.csv"
+#Set this information in your telestai.conf file (in datadir, not testnet3)
 rpc_user = 'rpcuser'
 rpc_pass = 'rpcpass555'
 

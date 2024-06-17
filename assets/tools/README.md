@@ -35,7 +35,7 @@ Loops through blocks and transactions and pins asset issuance meta-data and then
 
 * Install ipfsapi with ```pip3 install ipfsapi```
 
-* Run ravend or raven-qt with parameter to use zmq: ```-zmqpubrawtx=tcp://127.0.0.1:28766```
+* Run ravend or telestai-qt with parameter to use zmq: ```-zmqpubrawtx=tcp://127.0.0.1:28766```
 
 Optional Arguments
 ```  

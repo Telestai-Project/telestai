@@ -6,10 +6,10 @@ etc.
 There are currently two sets of tests in this directory:
 
 - [functional](/test/functional) which test the functionality of 
-ravend and raven-qt by interacting with them through the RPC and P2P
+ravend and telestai-qt by interacting with them through the RPC and P2P
 interfaces.
-- [util](test/util) which tests the raven utilities, currently only
-raven-tx.
+- [util](test/util) which tests the telestai utilities, currently only
+telestai-tx.
 
 The util tests are run as part of `make check` target. The functional
 tests are run by the travis continuous build process whenever a pull
@@ -177,7 +177,7 @@ Note: gdb attach step may require `sudo`
 
 ### Util tests
 
-Util tests can be run locally by running `test/util/raven-util-test.py`. 
+Util tests can be run locally by running `test/util/telestai-util-test.py`. 
 Use the `-v` option for verbose output.
 
 # Writing functional tests

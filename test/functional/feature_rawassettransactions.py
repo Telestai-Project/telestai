@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
-# Copyright (c) 2017-2020 The Raven Core developers
+# Copyright (c) 2017-2020 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -62,7 +62,7 @@ class RawAssetTransactionsTest(RavenTestFramework):
         self.num_nodes = 3
 
     def activate_assets(self):
-        self.log.info("Generating RVN for node[0] and activating assets...")
+        self.log.info("Generating TLS for node[0] and activating assets...")
         n0 = self.nodes[0]
 
         n0.generate(1)
@@ -274,7 +274,7 @@ class RawAssetTransactionsTest(RavenTestFramework):
                 tx.vout[n].scriptPubKey = hex_str_to_bytes(tampered_script)
         tx_bad_issue = bytes_to_hex_str(tx.serialize())
         tx_bad_issue_signed = n0.signrawtransaction(tx_bad_issue)['hex']
-        assert_raises_rpc_error(-26, "bad-txns-op-rvn-asset-not-in-right-script-location",
+        assert_raises_rpc_error(-26, "bad-txns-op-tls-asset-not-in-right-script-location",
                                 n0.sendrawtransaction, tx_bad_issue_signed)
 
         ########################################
@@ -1496,9 +1496,9 @@ class RawAssetTransactionsTest(RavenTestFramework):
         balance2 = float(n2.getwalletinfo()['balance'])
 
         ########################################
-        # rvn for assets
+        # tls for assets
 
-        # n1 buys 400 ANDUIN from n2 for 300 RVN
+        # n1 buys 400 ANDUIN from n2 for 300 TLS
         price = 300
         amount = 400
         fee = 0.01
@@ -1545,9 +1545,9 @@ class RawAssetTransactionsTest(RavenTestFramework):
         assert_equal(starting_amount - amount, int(n2.listmyassets()[anduin]))
 
         ########################################
-        # rvn for owner
+        # tls for owner
 
-        # n2 buys JAINA! from n1 for 200 RVN
+        # n2 buys JAINA! from n1 for 200 TLS
         price = 200
         amount = 1
         balance1 = newbalance1

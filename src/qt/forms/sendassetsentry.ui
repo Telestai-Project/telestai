@@ -42,7 +42,7 @@
     <item row="9" column="1">
      <widget class="QLabel" name="messageTextLabel">
       <property name="toolTip">
-       <string>A message that was attached to the raven: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Raven network.</string>
+       <string>A message that was attached to the telestai: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Telestai network.</string>
       </property>
       <property name="textFormat">
        <enum>Qt::PlainText</enum>
@@ -131,7 +131,7 @@
       <item>
        <widget class="QValidatedLineEdit" name="payTo">
         <property name="toolTip">
-         <string>The Raven address to send the payment to</string>
+         <string>The Telestai address to send the payment to</string>
         </property>
        </widget>
       </item>
@@ -144,7 +144,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../raven.qrc">
+         <iconset resource="../telestai.qrc">
           <normaloff>:/icons/address-book</normaloff>:/icons/address-book</iconset>
         </property>
         <property name="iconSize">
@@ -167,7 +167,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../raven.qrc">
+         <iconset resource="../telestai.qrc">
           <normaloff>:/icons/editpaste</normaloff>:/icons/editpaste</iconset>
         </property>
         <property name="iconSize">
@@ -190,7 +190,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../raven.qrc">
+         <iconset resource="../telestai.qrc">
           <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
         </property>
         <property name="iconSize">
@@ -728,7 +728,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../raven.qrc">
+         <iconset resource="../telestai.qrc">
           <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
         </property>
        </widget>
@@ -1261,7 +1261,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../raven.qrc">
+         <iconset resource="../telestai.qrc">
           <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
         </property>
        </widget>
@@ -1338,7 +1338,7 @@
   <tabstop>deleteButton_s</tabstop>
  </tabstops>
  <resources>
-  <include location="../raven.qrc"/>
+  <include location="../telestai.qrc"/>
  </resources>
  <connections/>
 </ui>

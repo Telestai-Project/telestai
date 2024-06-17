@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2017-2021 The Raven Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -600,7 +600,7 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
         case Amount:
             return formatTxAmount(rec, true, RavenUnits::separatorAlways);
         case AssetName:
-            if (rec->assetName != "RVN")
+            if (rec->assetName != "TLS")
                return QString::fromStdString(rec->assetName);
             else
                return QString(RavenUnits::name(walletModel->getOptionsModel()->getDisplayUnit()));
@@ -650,7 +650,7 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
         }
         if(index.column() == AssetName)
         {
-            if (rec->assetName != "RVN")
+            if (rec->assetName != "TLS")
                return platformStyle->AssetTxColor();
         }
         break;
@@ -712,7 +712,7 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
     case AssetNameRole:
         {
             QString assetName;
-            if (rec->assetName != "RVN")
+            if (rec->assetName != "TLS")
                assetName.append(QString::fromStdString(rec->assetName));
             else
                assetName.append(QString(RavenUnits::name(walletModel->getOptionsModel()->getDisplayUnit())));
@@ -752,7 +752,7 @@ QVariant TransactionTableModel::headerData(int section, Qt::Orientation orientat
             case Amount:
                 return tr("Amount removed from or added to balance.");
             case AssetName:
-                return tr("The asset (or RVN) removed or added to balance.");
+                return tr("The asset (or TLS) removed or added to balance.");
             }
         }
     }

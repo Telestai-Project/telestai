@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2017-2021 The Raven Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -150,7 +150,7 @@ bool IsStandardTx(const CTransaction& tx, std::string& reason, const bool witnes
 
     // only one hundred OP_RAVEN_ASSET txout is permitted
     if (nAssetDataOut > 100) {
-        reason = "tomany-op-rvn-asset";
+        reason = "tomany-op-tls-asset";
         return false;
     }
 

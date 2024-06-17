@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
-# Copyright (c) 2017-2020 The Raven Core developers
+# Copyright (c) 2017-2020 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,9 +36,9 @@ TEST_EXIT_SKIPPED = 77
 
 
 class RavenTestFramework:
-    """Base class for a raven test script.
+    """Base class for a telestai test script.
 
-    Individual raven test scripts should subclass this class and override the set_test_params() and run_test() methods.
+    Individual telestai test scripts should subclass this class and override the set_test_params() and run_test() methods.
 
     Individual tests can also override the following methods to customize the test setup:
 
@@ -72,7 +72,7 @@ class RavenTestFramework:
         parser.add_option("--noshutdown", dest="noshutdown", default=False, action="store_true", help="Don't stop ravends after the test execution")
         parser.add_option("--pdbonfailure", dest="pdbonfailure", default=False, action="store_true", help="Attach a python debugger if test fails")
         parser.add_option("--portseed", dest="port_seed", default=os.getpid(), type='int', help="The seed to use for assigning port numbers (default: current process id)")
-        parser.add_option("--srcdir", dest="srcdir", default=os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + "/../../../src"), help="Source directory containing ravend/raven-cli (default: %default)")
+        parser.add_option("--srcdir", dest="srcdir", default=os.path.normpath(os.path.dirname(os.path.realpath(__file__)) + "/../../../src"), help="Source directory containing ravend/telestai-cli (default: %default)")
         parser.add_option("--tmpdir", dest="tmpdir", help="Root directory for datadirs")
         parser.add_option("--tracerpc", dest="trace_rpc", default=False, action="store_true", help="Print out all RPC calls as they are made")
 
@@ -430,7 +430,7 @@ class RavenTestFramework:
             from_dir = os.path.join(self.options.cachedir, "node" + str(i))
             to_dir = os.path.join(self.options.tmpdir, "node" + str(i))
             shutil.copytree(from_dir, to_dir)
-            initialize_data_dir(self.options.tmpdir, i)  # Overwrite port/rpcport in raven.conf
+            initialize_data_dir(self.options.tmpdir, i)  # Overwrite port/rpcport in telestai.conf
 
     def _initialize_chain_clean(self):
         """Initialize empty blockchain for use by the test.

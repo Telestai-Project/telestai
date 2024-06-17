@@ -8,18 +8,18 @@ define(_CLIENT_VERSION_RC, 0)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2022)
 define(_COPYRIGHT_HOLDERS,[The %s developers])
-define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Raven Core]])
-AC_INIT([Raven Core],m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_REVISION, m4_if(_CLIENT_VERSION_BUILD, [0], [], _CLIENT_VERSION_BUILD))m4_if(_CLIENT_VERSION_RC, [0], [], [test]_CLIENT_VERSION_RC),[https://github.com/RavenProject/Ravencoin/issues],[raven],[https://ravencoin.org/])
+define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Telestai Core]])
+AC_INIT([Telestai Core],m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_REVISION, m4_if(_CLIENT_VERSION_BUILD, [0], [], _CLIENT_VERSION_BUILD))m4_if(_CLIENT_VERSION_RC, [0], [], [test]_CLIENT_VERSION_RC),[https://github.com/RavenProject/Telestai/issues],[telestai],[https://telestai.org/])
 
 AC_CONFIG_SRCDIR([src/validation.cpp])
-AC_CONFIG_HEADERS([src/config/raven-config.h])
+AC_CONFIG_HEADERS([src/config/telestai-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 RAVEN_DAEMON_NAME=ravend
-RAVEN_GUI_NAME=raven-qt
-RAVEN_CLI_NAME=raven-cli
-RAVEN_TX_NAME=raven-tx
+RAVEN_GUI_NAME=telestai-qt
+RAVEN_CLI_NAME=telestai-cli
+RAVEN_TX_NAME=telestai-tx
 
 dnl Unless the user specified ARFLAGS, force it to be cr
 AC_ARG_VAR(ARFLAGS, [Flags for the archiver, defaults to <cr> if not set])
@@ -301,13 +301,13 @@ CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
 AC_ARG_WITH([cli],
   [AS_HELP_STRING([--with-cli],
-  [build raven-cli (default=yes)])],
+  [build telestai-cli (default=yes)])],
   [build_raven_cli=$withval],
   [build_raven_cli=yes])
 
 AC_ARG_WITH([tx],
   [AS_HELP_STRING([--with-tx],
-  [build raven-tx (default=no)])],
+  [build telestai-tx (default=no)])],
   [build_raven_tx=$withval],
   [build_raven_tx=no])
 
@@ -518,7 +518,7 @@ AC_C_BIGENDIAN
 dnl Check for pthread compile/link requirements
 AX_PTHREAD
 
-# The following macro will add the necessary defines to raven-config.h, but
+# The following macro will add the necessary defines to telestai-config.h, but
 # they also need to be passed down to any subprojects. Pull the results out of
 # the cache and add them to CPPFLAGS.
 AC_SYS_LARGEFILE
@@ -1070,11 +1070,11 @@ AC_MSG_CHECKING([whether to build ravend])
 AM_CONDITIONAL([BUILD_RAVEND], [test x$build_ravend = xyes])
 AC_MSG_RESULT($build_ravend)
 
-AC_MSG_CHECKING([whether to build raven-cli])
+AC_MSG_CHECKING([whether to build telestai-cli])
 AM_CONDITIONAL([BUILD_RAVEN_CLI], [test x$build_raven_cli = xyes])
 AC_MSG_RESULT($build_raven_cli)
 
-AC_MSG_CHECKING([whether to build raven-tx])
+AC_MSG_CHECKING([whether to build telestai-tx])
 AM_CONDITIONAL([BUILD_RAVEN_TX], [test x$build_raven_tx = xyes])
 AC_MSG_RESULT($build_raven_tx)
 
@@ -1274,7 +1274,7 @@ AC_CONFIG_FILES([contrib/devtools/split-debug.sh],[chmod +x contrib/devtools/spl
 AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([doc/Doxyfile])])
 AC_CONFIG_LINKS([contrib/filter-lcov.py:contrib/filter-lcov.py])
 AC_CONFIG_LINKS([test/functional/test_runner.py:test/functional/test_runner.py])
-AC_CONFIG_LINKS([test/util/raven-util-test.py:test/util/raven-util-test.py])
+AC_CONFIG_LINKS([test/util/telestai-util-test.py:test/util/telestai-util-test.py])
 AC_CONFIG_LINKS([src/crypto/md_helper.c:src/crypto/md_helper.c])
 
 dnl boost's m4 checks do something really nasty: they export these vars. As a
@@ -1330,8 +1330,8 @@ esac
 
 echo
 echo "Options used to compile and link:"
-echo "  build raven-cli = $build_raven_cli"
-echo "  build raven-tx  = $build_raven_tx"
+echo "  build telestai-cli = $build_raven_cli"
+echo "  build telestai-tx  = $build_raven_tx"
 echo "  with wallet     = $enable_wallet"
 echo "  with gui / qt   = $raven_enable_qt"
 if test x$raven_enable_qt != xno; then

@@ -314,7 +314,7 @@ result hash(const epoch_context& context, int block_number, const hash256& heade
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply ravencoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
             state[i] = ravencoin_kawpow[i-10];
 
@@ -340,7 +340,7 @@ result hash(const epoch_context& context, int block_number, const hash256& heade
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply ravencoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
         state[i] = ravencoin_kawpow[i - 16];
 
@@ -388,7 +388,7 @@ result hash(const epoch_context_full& context, int block_number, const hash256& 
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply ravencoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
             state[i] = ravencoin_kawpow[i-10];
 
@@ -415,7 +415,7 @@ result hash(const epoch_context_full& context, int block_number, const hash256& 
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply ravencoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
         state[i] = ravencoin_kawpow[i - 16];
 
@@ -448,7 +448,7 @@ bool verify(const epoch_context& context, int block_number, const hash256& heade
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply ravencoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
             state[i] = ravencoin_kawpow[i-10];
 
@@ -473,7 +473,7 @@ bool verify(const epoch_context& context, int block_number, const hash256& heade
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply ravencoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
         state[i] = ravencoin_kawpow[i - 16];
 
@@ -513,7 +513,7 @@ hash256 hash_no_verify(const int& block_number, const hash256& header_hash,
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply ravencoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
             state[i] = ravencoin_kawpow[i-10];
 
@@ -535,7 +535,7 @@ hash256 hash_no_verify(const int& block_number, const hash256& header_hash,
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply ravencoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
         state[i] = ravencoin_kawpow[i - 16];
 

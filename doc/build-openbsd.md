@@ -18,7 +18,7 @@ pkg_add autoconf # (select highest version, e.g. 2.69)
 pkg_add automake # (select highest version, e.g. 1.16)
 pkg_add python # (select highest version, e.g. 3.8)
 
-git clone https://github.com/RavenProject/Ravencoin.git
+git clone https://github.com/RavenProject/Telestai.git
 ```
 
 See [dependencies.md](dependencies.md) for a complete overview.
@@ -53,10 +53,10 @@ Do not use `pkg_add boost`! The boost version installed thus is compiled using t
     ...
     Segmentation fault (core dumped)
 
-This makes it necessary to build boost, or at least the parts used by Raven Core, manually:
+This makes it necessary to build boost, or at least the parts used by Telestai Core, manually:
 
 ```
-# Pick some path to install boost to, here we create a directory within the raven directory
+# Pick some path to install boost to, here we create a directory within the telestai directory
 RAVEN_ROOT=$(pwd)
 BOOST_PREFIX="${RAVEN_ROOT}/boost"
 mkdir -p $BOOST_PREFIX
@@ -72,7 +72,7 @@ cd boost_1_64_0
 # Also here: https://gist.githubusercontent.com/laanwj/bf359281dc319b8ff2e1/raw/92250de8404b97bb99d72ab898f4a8cb35ae1ea3/patch-boost_test_impl_execution_monitor_ipp.patch
 patch -p0 < /usr/ports/devel/boost/patches/patch-boost_test_impl_execution_monitor_ipp
 
-# Build w/ minimum configuration necessary for raven
+# Build w/ minimum configuration necessary for telestai
 echo 'using gcc : : eg++ : <cxxflags>"-fvisibility=hidden -fPIC" <linkflags>"" <archiver>"ar" <striper>"strip"  <ranlib>"ranlib" <rc>"" : ;' > user-config.jam
 config_opts="runtime-link=shared threadapi=pthread threading=multi link=static variant=release --layout=tagged --build-type=complete --user-config=user-config.jam -sNO_BZIP2=1"
 ./bootstrap.sh --without-icu --with-libraries=chrono,filesystem,program_options,system,thread,test
@@ -88,7 +88,7 @@ See "Berkeley DB" in [build_unix.md](build_unix.md) for instructions on how to b
 You cannot use the BerkeleyDB library from ports, for the same reason as boost above (g++/libstd++ incompatibility).
 
 ```bash
-# Pick some path to install BDB to, here we create a directory within the raven directory
+# Pick some path to install BDB to, here we create a directory within the telestai directory
 RAVEN_ROOT=$(pwd)
 BDB_PREFIX="${RAVEN_ROOT}/db4"
 mkdir -p $BDB_PREFIX
@@ -122,7 +122,7 @@ The change will only affect the current shell and processes spawned by it. To
 make the change system-wide, change `datasize-cur` and `datasize-max` in
 `/etc/login.conf`, and reboot.
 
-### Building Raven Core
+### Building Telestai Core
 
 **Important**: use `gmake`, not `make`. The non-GNU `make` will exit with a horrible error.
 

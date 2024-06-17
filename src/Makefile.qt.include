@@ -1,12 +1,12 @@
 # Copyright (c) 2013-2016 The Bitcoin Core developers
-# Copyright (c) 2017-2019 The Raven Core developers
+# Copyright (c) 2017-2019 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-bin_PROGRAMS += qt/raven-qt
+bin_PROGRAMS += qt/telestai-qt
 EXTRA_LIBRARIES += qt/libravenqt.a
 
-# raven qt core #
+# telestai qt core #
 QT_TS = \
   qt/locale/raven_af.ts \
   qt/locale/raven_af_ZA.ts \
@@ -191,7 +191,7 @@ RAVEN_MM = \
   qt/macnotificationhandler.mm
 
 QT_MOC = \
-  qt/raven.moc \
+  qt/telestai.moc \
   qt/ravenamountfield.moc \
   qt/callback.moc \
   qt/intro.moc \
@@ -199,7 +199,7 @@ QT_MOC = \
   qt/rpcconsole.moc
 
 QT_QRC_CPP = qt/qrc_raven.cpp
-QT_QRC = qt/raven.qrc
+QT_QRC = qt/telestai.qrc
 QT_QRC_LOCALE_CPP = qt/qrc_raven_locale.cpp
 QT_QRC_LOCALE = qt/raven_locale.qrc
 
@@ -293,9 +293,9 @@ RES_ICONS = \
   qt/res/icons/asset_transfer.png \
   qt/res/icons/asset_transfer_selected.png \
   qt/res/icons/ravencointext.png \
-  qt/res/icons/raven.ico \
+  qt/res/icons/telestai.ico \
   qt/res/icons/raven_testnet.ico \
-  qt/res/icons/raven.png \
+  qt/res/icons/telestai.png \
   qt/res/icons/chevron.png \
   qt/res/icons/clock1.png \
   qt/res/icons/clock2.png \
@@ -472,7 +472,7 @@ RES_IMAGES =
 
 RES_MOVIES = $(wildcard $(srcdir)/qt/res/movies/spinner-*.png)
 
-RAVEN_RC = qt/res/raven-qt-res.rc
+RAVEN_RC = qt/res/telestai-qt-res.rc
 
 RAVEN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
   -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
@@ -500,12 +500,12 @@ $(qt_libravenqt_a_OBJECTS) $(qt_raven_qt_OBJECTS) : | $(QT_MOC)
 $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
-# raven-qt binary #
+# telestai-qt binary #
 qt_raven_qt_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES) $(RAVEN_QT_INCLUDES) \
   $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
 qt_raven_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
-qt_raven_qt_SOURCES = qt/raven.cpp
+qt_raven_qt_SOURCES = qt/telestai.cpp
 if TARGET_DARWIN
   qt_raven_qt_SOURCES += $(RAVEN_MM)
 endif
@@ -534,7 +534,7 @@ $(srcdir)/qt/ravenstrings.cpp: $(libraven_server_a_SOURCES) $(libraven_wallet_a_
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
 	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) PACKAGE_NAME="$(PACKAGE_NAME)" COPYRIGHT_HOLDERS="$(COPYRIGHT_HOLDERS)" COPYRIGHT_HOLDERS_SUBSTITUTION="$(COPYRIGHT_HOLDERS_SUBSTITUTION)" $(PYTHON) ../share/qt/extract_strings_qt.py $^
 
-translate: $(srcdir)/qt/ravenstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(RAVEN_QT_BASE_CPP) qt/raven.cpp $(RAVEN_QT_WINDOWS_CPP) $(RAVEN_QT_WALLET_CPP) $(RAVEN_QT_H) $(RAVEN_MM)
+translate: $(srcdir)/qt/ravenstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(RAVEN_QT_BASE_CPP) qt/telestai.cpp $(RAVEN_QT_WINDOWS_CPP) $(RAVEN_QT_WALLET_CPP) $(RAVEN_QT_H) $(RAVEN_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/raven_en.ts
 
@@ -547,7 +547,7 @@ $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 
 $(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(PROTOBUF_H)
 	@test -f $(RCC)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name raven $< | \
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name telestai $< | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
 CLEAN_QT = $(nodist_qt_libravenqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
@@ -555,9 +555,9 @@ CLEAN_QT = $(nodist_qt_libravenqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt
 CLEANFILES += $(CLEAN_QT)
 
 raven_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libravenqt_a_OBJECTS) $(qt_raven_qt_OBJECTS) qt/raven-qt$(EXEEXT) $(LIBRAVENQT)
+	rm -f $(CLEAN_QT) $(qt_libravenqt_a_OBJECTS) $(qt_raven_qt_OBJECTS) qt/telestai-qt$(EXEEXT) $(LIBRAVENQT)
 
-raven_qt : qt/raven-qt$(EXEEXT)
+raven_qt : qt/telestai-qt$(EXEEXT)
 
 ui_%.h: %.ui
 	@test -f $(UIC)

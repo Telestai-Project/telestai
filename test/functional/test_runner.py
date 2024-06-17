@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
-# Copyright (c) 2017-2021 The Raven Core developers
+# Copyright (c) 2017-2021 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -378,7 +378,7 @@ def run_tests(test_list, src_dir, build_dir, exeext, tmpdir, use_term_control, j
     #Set env vars
     if "RAVEND" not in os.environ:
         os.environ["RAVEND"] = build_dir + '/src/ravend' + exeext
-        os.environ["RAVENCLI"] = build_dir + '/src/raven-cli' + exeext
+        os.environ["RAVENCLI"] = build_dir + '/src/telestai-cli' + exeext
 
     tests_dir = src_dir + '/test/functional/'
 
@@ -667,7 +667,7 @@ class RPCCoverage:
     Coverage calculation works by having each test script subprocess write
     coverage files into a particular directory. These files contain the RPC
     commands invoked during testing, as well as a complete listing of RPC
-    commands per `raven-cli help` (`rpc_interface.txt`).
+    commands per `telestai-cli help` (`rpc_interface.txt`).
 
     After all tests complete, the commands run are combined and diff'd against
     the complete list to calculate uncovered RPC commands.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2017 The Bitcoin Core developers
-# Copyright (c) 2017-2020 The Raven Core developers
+# Copyright (c) 2017-2020 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,7 +18,7 @@ class RewardsTest(RavenTestFramework):
                            ["-assetindex"]]
 
     def activate_assets(self):
-        self.log.info("Generating RVN for node[0] and activating assets...")
+        self.log.info("Generating TLS for node[0] and activating assets...")
         n0, n1, n2 = self.nodes[0], self.nodes[1], self.nodes[2]
 
         n0.generate(5)
@@ -27,18 +27,18 @@ class RewardsTest(RavenTestFramework):
         self.sync_all()
         assert_equal("active", n0.getblockchaininfo()["bip9_softforks"]["assets"]["status"])
 
-    # Basic functionality test - RVN reward
+    # Basic functionality test - TLS reward
     # - create the main owner address
-    # - mine blocks to have enough RVN for the reward payments, plus purchasing the asset
+    # - mine blocks to have enough TLS for the reward payments, plus purchasing the asset
     # - issue the STOCK1 asset to the owner
     # - create 5 shareholder addresses
     # - distribute different amounts of the STOCK1 asset to each of the shareholder addresses
     # - mine some blocks
     # - retrieve the current chain height
-    # - distribute an RVN reward amongst the shareholders
-    # - verify that each one receives the expected amount of reward RVN
+    # - distribute an TLS reward amongst the shareholders
+    # - verify that each one receives the expected amount of reward TLS
     def basic_test_rvn(self):
-        self.log.info("Running basic RVN reward test!")
+        self.log.info("Running basic TLS reward test!")
         n0, n1, n2 = self.nodes[0], self.nodes[1], self.nodes[2]
 
         self.log.info("Creating owner address")
@@ -179,14 +179,14 @@ class RewardsTest(RavenTestFramework):
         # assert_equal(n0.listassetbalancesbyaddress(shareholder_addr4)["STOCK1"], 700)
 
         self.log.info("Initiating reward payout")
-        n0.distributereward(asset_name="STOCK1", snapshot_height=tgt_block_height, distribution_asset_name="RVN",
+        n0.distributereward(asset_name="STOCK1", snapshot_height=tgt_block_height, distribution_asset_name="TLS",
                             gross_distribution_amount=2000, exception_addresses=dist_addr0)
         n0.generate(10)
         self.sync_all()
 
         #  Inexplicably, order matters here. We need to verify the amount
         #      using the node that created the address (?!)
-        self.log.info("Verifying RVN holdings after payout")
+        self.log.info("Verifying TLS holdings after payout")
         assert_equal(n0.getreceivedbyaddress(shareholder_addr0, 0), 200)
         assert_equal(n1.getreceivedbyaddress(shareholder_addr1, 0), 300)
         assert_equal(n2.getreceivedbyaddress(shareholder_addr2, 0), 400)
@@ -195,7 +195,7 @@ class RewardsTest(RavenTestFramework):
 
     # Basic functionality test - ASSET reward
     # - create the main owner address
-    # - mine blocks to have enough RVN for the reward fees, plus purchasing the asset
+    # - mine blocks to have enough TLS for the reward fees, plus purchasing the asset
     # - issue the STOCK2 asset to the owner
     # - create 5 shareholder addresses
     # - issue the PAYOUT1 asset to the owner
@@ -367,7 +367,7 @@ class RewardsTest(RavenTestFramework):
 
         self.log.info("Initiating failing reward payout")
         assert_raises_rpc_error(-32600, "Snapshot request not found",
-                                n0.distributereward, "STOCK3", tgt_block_height, "RVN", 2000, owner_addr0)
+                                n0.distributereward, "STOCK3", tgt_block_height, "TLS", 2000, owner_addr0)
 
     # Attempts a payout for an invalid ownership asset
     def payout_with_invalid_ownership_asset(self):
@@ -391,7 +391,7 @@ class RewardsTest(RavenTestFramework):
 
         self.log.info("Initiating failing reward payout")
         assert_raises_rpc_error(-32600, "The asset hasn't been created: STOCK4",
-                                n0.distributereward, "STOCK4", tgt_block_height, "RVN", 2000, owner_addr0)
+                                n0.distributereward, "STOCK4", tgt_block_height, "TLS", 2000, owner_addr0)
 
     # Attempts a payout for an invalid payout asset
     def payout_with_invalid_payout_asset(self):
@@ -454,9 +454,9 @@ class RewardsTest(RavenTestFramework):
             "Initiating failing reward payout because we are only 15 block ahead of the snapshot instead of 60")
         assert_raises_rpc_error(-32600,
                                 "For security of the rewards payout, it is recommended to wait until chain is 60 blocks ahead of the snapshot height. You can modify this by using the -minrewardsheight.",
-                                n0.distributereward, "STOCK6", tgt_block_height, "RVN", 2000, owner_addr0)
+                                n0.distributereward, "STOCK6", tgt_block_height, "TLS", 2000, owner_addr0)
 
-    # Attempts a payout using a custom rewards height of 15, and they have low rvn balance
+    # Attempts a payout using a custom rewards height of 15, and they have low tls balance
     def payout_custom_height_set_with_low_funds(self):
         self.log.info("Running payout before minimum rewards height is reached with custom min height value set!")
         n0, n1, n2 = self.nodes[0], self.nodes[1], self.nodes[2]
@@ -494,12 +494,12 @@ class RewardsTest(RavenTestFramework):
         self.sync_all()
 
         self.log.info("Initiating reward payout should succeed because -minrewardheight=15 on node1")
-        n1.distributereward("STOCK7", tgt_block_height, "RVN", 2000, owner_addr0)
+        n1.distributereward("STOCK7", tgt_block_height, "TLS", 2000, owner_addr0)
 
         n1.generate(2)
         self.sync_all()
 
-        assert_equal(n1.getdistributestatus("STOCK7", tgt_block_height, "RVN", 2000, owner_addr0)['Status'], 3)
+        assert_equal(n1.getdistributestatus("STOCK7", tgt_block_height, "TLS", 2000, owner_addr0)['Status'], 3)
 
         n0.sendtoaddress(n1.getnewaddress(), 3000)
         n0.generate(5)
@@ -510,7 +510,7 @@ class RewardsTest(RavenTestFramework):
 
         assert_equal(n2.getreceivedbyaddress(shareholder_addr0, 1), 2000)
 
-    # Attempts a payout using a custom rewards height of 15, and they have low rvn balance
+    # Attempts a payout using a custom rewards height of 15, and they have low tls balance
     def payout_with_insufficient_asset_amount(self):
         self.log.info("Running payout before minimum rewards height is reached with custom min height value set!")
         n0, n1, n2 = self.nodes[0], self.nodes[1], self.nodes[2]
@@ -1143,7 +1143,7 @@ class RewardsTest(RavenTestFramework):
         assert_equal(n0.listassetbalancesbyaddress(shareholder_addr3)["PAYOUT12"], Decimal(str(0.6)))
 
     def test_rvn_bulk(self):
-        self.log.info("Running basic RVN reward test!")
+        self.log.info("Running basic TLS reward test!")
         n0, n1, n2, n3 = self.nodes[0], self.nodes[1], self.nodes[2], self.nodes[3]
 
         self.log.info("Creating owner address")

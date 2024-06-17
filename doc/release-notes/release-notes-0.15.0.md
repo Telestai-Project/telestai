@@ -1,25 +1,25 @@
-Raven Core version *0.15.0* is now available from:
+Telestai Core version *0.15.0* is now available from:
 
-  <https://raven.org/bin/raven-core-0.15.0/>
+  <https://telestai.org/bin/telestai-core-0.15.0/>
 
 This is a new major version release, including new features, various bugfixes
 and performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/RavenProject/Ravencoin/issues>
+  <https://github.com/RavenProject/Telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://ravencoin.org/en/list/announcements/join/>
+  <https://telestai.org/en/list/announcements/join/>
 
 How to Upgrade
 ==============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes for older versions), then run the
-installer (on Windows) or just copy over `/Applications/Raven-Qt` (on Mac)
-or `ravend`/`raven-qt` (on Linux).
+installer (on Windows) or just copy over `/Applications/Telestai-Qt` (on Mac)
+or `ravend`/`telestai-qt` (on Linux).
 
 The first time you run version 0.15.0, your chainstate database will be converted to a
 new format, which will take anywhere from a few minutes to half an hour,
@@ -48,10 +48,10 @@ processing the entire blockchain.
 Compatibility
 ==============
 
-Raven Core is extensively tested on multiple operating systems using
+Telestai Core is extensively tested on multiple operating systems using
 the Linux kernel, macOS 10.8+, and Windows Vista and later. Windows XP is not supported.
 
-Raven Core should also work on most other Unix-like systems but is not
+Telestai Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 Notes for 0.15.0
@@ -136,23 +136,23 @@ Fee estimation has been significantly improved in version 0.15, with more accura
     - The `nblocks` argument has been renamed to `conf_target` (to be consistent with other RPC methods).
     - An `estimate_mode` argument has been added. This argument takes one of the following strings: `CONSERVATIVE`, `ECONOMICAL` or `UNSET` (which defaults to `CONSERVATIVE`).
     - The RPC return object now contains an `errors` member, which returns errors encountered during processing.
-    - If Raven Core has not been running for long enough and has not seen enough blocks or transactions to produce an accurate fee estimation, an error will be returned (previously a value of -1 was used to indicate an error, which could be confused for a feerate).
+    - If Telestai Core has not been running for long enough and has not seen enough blocks or transactions to produce an accurate fee estimation, an error will be returned (previously a value of -1 was used to indicate an error, which could be confused for a feerate).
 - A new `estimaterawfee` RPC is added to provide raw fee data. External clients can query and use this data in their own fee estimation logic.
 
 Multi-wallet support
 --------------------
 
-Raven Core now supports loading multiple, separate wallets (See [PR 8694](https://github.com/bitcoin/bitcoin/pull/8694), [PR 10849](https://github.com/bitcoin/bitcoin/pull/10849)). The wallets are completely separated, with individual balances, keys and received transactions.
+Telestai Core now supports loading multiple, separate wallets (See [PR 8694](https://github.com/bitcoin/bitcoin/pull/8694), [PR 10849](https://github.com/bitcoin/bitcoin/pull/10849)). The wallets are completely separated, with individual balances, keys and received transactions.
 
-Multi-wallet is enabled by using more than one `-wallet` argument when starting Raven, either on the command line or in the Raven config file.
+Multi-wallet is enabled by using more than one `-wallet` argument when starting Telestai, either on the command line or in the Telestai config file.
 
-**In Raven-Qt, only the first wallet will be displayed and accessible for creating and signing transactions.** GUI selectable multiple wallets will be supported in a future version. However, even in 0.15 other loaded wallets will remain synchronized to the node's current tip in the background. This can be useful if running a pruned node, since loading a wallet where the most recent sync is beyond the pruned height results in having to download and revalidate the whole blockchain. Continuing to synchronize all wallets in the background avoids this problem.
+**In Telestai-Qt, only the first wallet will be displayed and accessible for creating and signing transactions.** GUI selectable multiple wallets will be supported in a future version. However, even in 0.15 other loaded wallets will remain synchronized to the node's current tip in the background. This can be useful if running a pruned node, since loading a wallet where the most recent sync is beyond the pruned height results in having to download and revalidate the whole blockchain. Continuing to synchronize all wallets in the background avoids this problem.
 
-Raven Core 0.15.0 contains the following changes to the RPC interface and `raven-cli` for multi-wallet:
+Telestai Core 0.15.0 contains the following changes to the RPC interface and `telestai-cli` for multi-wallet:
 
-* When running Raven Core with a single wallet, there are **no** changes to the RPC interface or `raven-cli`. All RPC calls and `raven-cli` commands continue to work as before.
-* When running Raven Core with multi-wallet, all *node-level* RPC methods continue to work as before. HTTP RPC requests should be send to the normal `<RPC IP address>:<RPC port>/` endpoint, and `raven-cli` commands should be run as before. A *node-level* RPC method is any method which does not require access to the wallet.
-* When running Raven Core with multi-wallet, *wallet-level* RPC methods must specify the wallet for which they're intended in every request. HTTP RPC requests should be send to the `<RPC IP address>:<RPC port>/wallet/<wallet name>/` endpoint, for example `127.0.0.1:8766/wallet/wallet1.dat/`. `raven-cli` commands should be run with a `-rpcwallet` option, for example `raven-cli -rpcwallet=wallet1.dat getbalance`.
+* When running Telestai Core with a single wallet, there are **no** changes to the RPC interface or `telestai-cli`. All RPC calls and `telestai-cli` commands continue to work as before.
+* When running Telestai Core with multi-wallet, all *node-level* RPC methods continue to work as before. HTTP RPC requests should be send to the normal `<RPC IP address>:<RPC port>/` endpoint, and `telestai-cli` commands should be run as before. A *node-level* RPC method is any method which does not require access to the wallet.
+* When running Telestai Core with multi-wallet, *wallet-level* RPC methods must specify the wallet for which they're intended in every request. HTTP RPC requests should be send to the `<RPC IP address>:<RPC port>/wallet/<wallet name>/` endpoint, for example `127.0.0.1:8766/wallet/wallet1.dat/`. `telestai-cli` commands should be run with a `-rpcwallet` option, for example `telestai-cli -rpcwallet=wallet1.dat getbalance`.
 * A new *node-level* `listwallets` RPC method is added to display which wallets are currently loaded. The names returned by this method are the same as those used in the HTTP endpoint and for the `rpcwallet` argument.
 
 Note that while multi-wallet is now fully supported, the RPC multi-wallet interface should be considered unstable for version 0.15.0, and there may backwards-incompatible changes in future versions.
@@ -160,7 +160,7 @@ Note that while multi-wallet is now fully supported, the RPC multi-wallet interf
 Replace-by-fee control in the GUI
 ---------------------------------
 
-Raven Core has supported creating opt-in replace-by-fee (RBF) transactions
+Telestai Core has supported creating opt-in replace-by-fee (RBF) transactions
 since version 0.12.0, and since version 0.14.0 has included a `bumpfee` RPC method to
 replace unconfirmed opt-in RBF transactions with a new transaction that pays
 a higher fee.
@@ -171,7 +171,7 @@ transaction with a higher-fee transaction are both supported in the GUI (See [PR
 Removal of Coin Age Priority
 ----------------------------
 
-In previous versions of Raven Core, a portion of each block could be reserved for transactions based on the age and value of UTXOs they spent. This concept (Coin Age Priority) is a policy choice by miners, and there are no consensus rules around the inclusion of Coin Age Priority transactions in blocks. In practice, only a few miners continue to use Coin Age Priority for transaction selection in blocks. Raven Core 0.15 removes all remaining support for Coin Age Priority (See [PR 9602](https://github.com/bitcoin/bitcoin/pull/9602)). This has the following implications:
+In previous versions of Telestai Core, a portion of each block could be reserved for transactions based on the age and value of UTXOs they spent. This concept (Coin Age Priority) is a policy choice by miners, and there are no consensus rules around the inclusion of Coin Age Priority transactions in blocks. In practice, only a few miners continue to use Coin Age Priority for transaction selection in blocks. Telestai Core 0.15 removes all remaining support for Coin Age Priority (See [PR 9602](https://github.com/bitcoin/bitcoin/pull/9602)). This has the following implications:
 
 - The concept of *free transactions* has been removed. High Coin Age Priority transactions would previously be allowed to be relayed even if they didn't attach a miner fee. This is no longer possible since there is no concept of Coin Age Priority. The `-limitfreerelay` and `-relaypriority` options which controlled relay of free transactions have therefore been removed.
 - The `-sendfreetransactions` option has been removed, since almost all miners do not include transactions which do not attach a transaction fee.
@@ -204,7 +204,7 @@ Version 0.15 introduces several new RPC methods:
 Low-level RPC changes
 ---------------------
 
-- When using Raven Core in multi-wallet mode, RPC requests for wallet methods must specify
+- When using Telestai Core in multi-wallet mode, RPC requests for wallet methods must specify
   the wallet that they're intended for. See [Multi-wallet support](#multi-wallet-support) for full details.
 
 - The new database model no longer stores information about transaction
@@ -246,7 +246,7 @@ Low-level RPC changes
 
 - The `disconnectnode` RPC can now disconnect a node specified by node ID (as well as by IP address/port). To disconnect a node based on node ID, call the RPC with the new `nodeid` argument (See [PR 10143](https://github.com/bitcoin/bitcoin/pull/10143)).
 
-- The second argument in `prioritisetransaction` has been renamed from `priority_delta` to `dummy` since Raven Core no longer has a concept of coin age priority. The `dummy` argument has no functional effect, but is retained for positional argument compatibility. See [Removal of Coin Age Priority](#removal-of-coin-age-priority).
+- The second argument in `prioritisetransaction` has been renamed from `priority_delta` to `dummy` since Telestai Core no longer has a concept of coin age priority. The `dummy` argument has no functional effect, but is retained for positional argument compatibility. See [Removal of Coin Age Priority](#removal-of-coin-age-priority).
 
 - The `resendwallettransactions` RPC throws an error if the `-walletbroadcast` option is set to false (See [PR 10995](https://github.com/bitcoin/bitcoin/pull/10995)).
 
@@ -325,13 +325,13 @@ Low-level RPC changes
 - #8384 `e317c0d` Add witness data output to TxInError messages (instagibbs)
 - #9571 `4677151` RPC: getblockchaininfo returns BIP signaling statistics  (pinheadmz)
 - #10450 `ef2d062` Fix bumpfee rpc "errors" return value (ryanofsky)
-- #10475 `39039b1` [RPC] getmempoolinfo mempoolminfee is a RVN/KB feerate (instagibbs)
+- #10475 `39039b1` [RPC] getmempoolinfo mempoolminfee is a TLS/KB feerate (instagibbs)
 - #10478 `296928e` rpc: Add listen address to incoming connections in `getpeerinfo` (laanwj)
 - #10403 `08d0390` Fix importmulti failure to return rescan errors (ryanofsky)
 - #9740 `9fec4da` Add friendly output to dumpwallet (aideca)
 - #10426 `16f6c98` Replace bytes_serialized with bogosize (sipa)
 - #10252 `980deaf` RPC/Mining: Restore API compatibility for prioritisetransaction (luke-jr)
-- #9672 `46311e7` Opt-into-RBF for RPC & raven-tx (luke-jr)
+- #9672 `46311e7` Opt-into-RBF for RPC & telestai-tx (luke-jr)
 - #10481 `9c248e3` Decodehextx scripts sanity check  (achow101)
 - #10488 `fa1f106` Note that the prioritizetransaction dummy value is deprecated, and has no meaning (TheBlueMatt)
 - #9738 `c94b89e` gettxoutproof() should return consistent result (jnewbery)
@@ -341,7 +341,7 @@ Low-level RPC changes
 - #10400 `1680ee0` [RPC] Add an uptime command that displays the amount of time (in seconds) ravend has been running (rvelhote)
 - #10683 `d81bec7` rpc: Move the `generate` RPC call to rpcwallet (laanwj)
 - #10710 `30bc0f6` REST/RPC example update (Mirobit)
-- #10747 `9edda0c` [rpc] fix verbose argument for getblock in raven-cli (jnewbery)
+- #10747 `9edda0c` [rpc] fix verbose argument for getblock in telestai-cli (jnewbery)
 - #10589 `104f5f2` More economical fee estimates for RBF and RPC options to control (morcos)
 - #10543 `b27b004` Change API to estimaterawfee (morcos)
 - #10807 `afd2fca` getbalance example covers at least 6 confirms (instagibbs)
@@ -450,7 +450,7 @@ Low-level RPC changes
 - #10136 `81da4c7` build: Disable Wshadow warning (laanwj)
 - #10166 `64962ae` Ignore Doxyfile generated from Doxyfile.in template (paveljanik)
 - #10239 `0416ea9` Make Boost use std::atomic internally (sipa)
-- #10228 `27faa6c` build: regenerate raven-config.h as necessary (theuni)
+- #10228 `27faa6c` build: regenerate telestai-config.h as necessary (theuni)
 - #10273 `8979f45` [scripts] Minor improvements to `macdeployqtplus` script (chrisgavin)
 - #10325 `a26280b` 0.15.0 Depends Updates (fanquake)
 - #10328 `79aeff6` Update contrib/debian to latest Ubuntu PPA upload (TheBlueMatt)
@@ -694,7 +694,7 @@ Low-level RPC changes
 - #9734 `0c17afc` Add updating of chainTxData to release process (sipa)
 - #10063 `530fcbd` add missing spaces so that markdown recognizes headline (flack)
 - #10085 `db1ae54` Docs: remove 'noconnect' option (jlopp)
-- #10090 `8e4f7e7` Update raven.conf with example for pruning (coinables)
+- #10090 `8e4f7e7` Update telestai.conf with example for pruning (coinables)
 - #9424 `1a5aaab` Change LogAcceptCategory to use uint32_t rather than sets of strings (gmaxwell)
 - #10036 `fbf36ca` Fix init README format to render correctly on github (jlopp)
 - #10058 `a2cd0b0` No need to use OpenSSL malloc/free (tjps)
@@ -740,9 +740,9 @@ Low-level RPC changes
 - #10728 `7397af9` fix typo in help text for removeprunedfunds (AkioNak)
 - #10193 `6dbcc74` scripted-diff: Remove #include <boost/foreach.hpp> (jtimon)
 - #10676 `379aed0` document script-based return fields for validateaddress (instagibbs)
-- #10651 `cef4b5c` Verify binaries from ravencore.org and raven.org (TheBlueMatt)
+- #10651 `cef4b5c` Verify binaries from ravencore.org and telestai.org (TheBlueMatt)
 - #10786 `ca4c545` Add PR description to merge commit in github-merge.py (sipa)
-- #10812 `c5904e8` [utils] Allow raven-cli's -rpcconnect option to be used with square brackets (jnewbery)
+- #10812 `c5904e8` [utils] Allow telestai-cli's -rpcconnect option to be used with square brackets (jnewbery)
 - #10842 `3895e25` Fix incorrect Doxygen tag (@ince → @since). Doxygen parameter name matching (practicalswift)
 - #10681 `df0793f` add gdb attach process to test README (instagibbs)
 - #10789 `1124328` Punctuation/grammer fixes in rpcwallet.cpp (stevendlander)
@@ -759,7 +759,7 @@ Low-level RPC changes
 - #9792 `342b9bc` FastRandomContext improvements and switch to ChaCha20 (sipa)
 - #9505 `67ed40e` Prevector Quick Destruct (JeremyRubin)
 - #10820 `ef37f20` Use cpuid intrinsics instead of asm code (sipa)
-- #9999 `a328904` [LevelDB] Plug leveldb logs to raven logs (NicolasDorier)
+- #9999 `a328904` [LevelDB] Plug leveldb logs to telestai logs (NicolasDorier)
 - #9693 `c5e9e42` Prevent integer overflow in ReadVarInt (gmaxwell)
 - #10129 `351d0ad` scheduler: fix sub-second precision with boost < 1.50 (theuni)
 - #10153 `fade788` logging: Fix off-by-one for shrinkdebugfile default (MarcoFalke)
@@ -771,7 +771,7 @@ Low-level RPC changes
 - #10837 `8bc6d1f` Fix resource leak on error in GetDevURandom (corebob)
 - #10832 `89bb036` init: Factor out AppInitLockDataDirectory and fix startup core dump issue (laanwj)
 - #10914 `b995a37` Add missing lock in CScheduler::AreThreadsServicingQueue() (TheBlueMatt)
-- #10958 `659c096` Update to latest Raven patches for LevelDB (sipa)
+- #10958 `659c096` Update to latest Telestai patches for LevelDB (sipa)
 - #10919 `c1c671f` Fix more init bugs (TheBlueMatt)
 
 Credits
@@ -875,4 +875,4 @@ Thanks to everyone who directly contributed to this release:
 - Warren Togami
 - Wladimir J. van der Laan
 
-As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/raven/).
+As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/telestai/).

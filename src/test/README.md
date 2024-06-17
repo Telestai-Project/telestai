@@ -14,9 +14,9 @@ To add more ravend tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
 .cpp files in the `test/` directory or add new .cpp files that
 implement new BOOST_AUTO_TEST_SUITE sections.
 
-To run the raven-qt tests manually, launch `src/qt/test/test_raven-qt`
+To run the telestai-qt tests manually, launch `src/qt/test/test_raven-qt`
 
-To add more raven-qt tests, add them to the `src/qt/test/` directory and
+To add more telestai-qt tests, add them to the `src/qt/test/` directory and
 the `src/qt/test/test_main.cpp` file.
 
 To display progress information the unit tests should be run as follows:
@@ -32,7 +32,7 @@ Additional optional parameters are available. To display all optional parameters
 To display what individual tests are running (as they are running) use the
 `--log_level=message` parameter.  
 
-By default the log messages from the Raven Core application are not echoed 
+By default the log messages from the Telestai Core application are not echoed 
 when running the unit tests.  If it is desired to print this log data change 
 the following from 'false' to 'true' in the `test_raven.cpp` file and uncomment
 three lines in the `script\interpreter.cpp\ VerifyScript` method and recompile:
@@ -64,7 +64,7 @@ To run just the 'getarg_tests' (verbosely):
 ### Note on adding test cases
 
 The sources in this directory are unit test cases.  Boost includes a
-unit testing framework, and since raven already uses boost, it makes
+unit testing framework, and since telestai already uses boost, it makes
 sense to simply use this framework rather than require developers to
 configure some other framework (we want as few impediments to creating
 unit tests as possible).

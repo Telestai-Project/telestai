@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2017-2021 The Raven Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -276,7 +276,7 @@ UniValue importaddress(const JSONRPCRequest& request)
         std::vector<unsigned char> data(ParseHex(request.params[0].get_str()));
         ImportScript(pwallet, CScript(data.begin(), data.end()), strLabel, fP2SH);
     } else {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Raven address or script");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address or script");
     }
 
     if (fRescan)
@@ -561,7 +561,7 @@ UniValue dumpprivkey(const JSONRPCRequest& request)
             "\nReveals the private key corresponding to 'address'.\n"
             "Then the importprivkey can be used with this output\n"
             "\nArguments:\n"
-            "1. \"address\"   (string, required) The raven address for the private key\n"
+            "1. \"address\"   (string, required) The telestai address for the private key\n"
             "\nResult:\n"
             "\"key\"                (string) The private key\n"
             "\nExamples:\n"
@@ -577,7 +577,7 @@ UniValue dumpprivkey(const JSONRPCRequest& request)
     std::string strAddress = request.params[0].get_str();
     CTxDestination dest = DecodeDestination(strAddress);
     if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Raven address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address");
     }
     const CKeyID *keyID = boost::get<CKeyID>(&dest);
     if (!keyID) {
@@ -649,7 +649,7 @@ UniValue dumpwallet(const JSONRPCRequest& request)
     std::sort(vKeyBirth.begin(), vKeyBirth.end());
 
     // produce output
-    file << strprintf("# Wallet dump created by Raven %s\n", CLIENT_BUILD);
+    file << strprintf("# Wallet dump created by Telestai %s\n", CLIENT_BUILD);
     file << strprintf("# * Created on %s\n", EncodeDumpTime(GetTime()));
     file << strprintf("# * Best block at time of backup was %i (%s),\n", chainActive.Height(), chainActive.Tip()->GetBlockHash().ToString());
     file << strprintf("#   mined on %s\n", EncodeDumpTime(chainActive.Tip()->GetBlockTime()));
@@ -786,7 +786,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
                 CExtKey masterKey;
                 masterKey.SetSeed(seed.begin(), seed.size());;
 
-                // Get the Raven Ext Key from the master key
+                // Get the Telestai Ext Key from the master key
                 CRavenExtKey b58extkey;
                 b58extkey.SetKey(masterKey);
 
@@ -794,7 +794,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
                 CExtPubKey pubkey;
                 pubkey = masterKey.Neuter();
 
-                // Get the Raven Ext Key from the public key
+                // Get the Telestai Ext Key from the public key
                 CRavenExtPubKey b58extpubkey;
                 b58extpubkey.SetKey(pubkey);
 
@@ -811,11 +811,11 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
                 CExtPubKey account_extended_public_key;
                 account_extended_public_key = accountKey.Neuter();
 
-                // Create the Raven Account Ext Private Key
+                // Create the Telestai Account Ext Private Key
                 CRavenExtKey b58accountextprivatekey;
                 b58accountextprivatekey.SetKey(accountKey);
 
-                // Create the Raven Account Ext Public Key
+                // Create the Telestai Account Ext Public Key
                 CRavenExtPubKey b58actextpubkey;
                 b58actextpubkey.SetKey(account_extended_public_key);
 
@@ -841,7 +841,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
             CExtKey masterKey;
             masterKey.SetSeed(vchSeed.data(), vchSeed.size());
 
-            // Get the Raven Ext Key from the master key
+            // Get the Telestai Ext Key from the master key
             CRavenExtKey b58extkey;
             b58extkey.SetKey(masterKey);
 
@@ -849,7 +849,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
             CExtPubKey pubkey;
             pubkey = masterKey.Neuter();
 
-            // Get the Raven Ext Key from the public key
+            // Get the Telestai Ext Key from the public key
             CRavenExtPubKey b58extpubkey;
             b58extpubkey.SetKey(pubkey);
 
@@ -874,11 +874,11 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
             CExtPubKey account_extended_public_key;
             account_extended_public_key = accountKey.Neuter();
 
-            // Create the Raven Account Ext Private Key
+            // Create the Telestai Account Ext Private Key
             CRavenExtKey b58accountextprivatekey;
             b58accountextprivatekey.SetKey(accountKey);
 
-            // Create the Raven Account Ext Public Key
+            // Create the Telestai Account Ext Public Key
             CRavenExtPubKey b58actextpubkey;
             b58actextpubkey.SetKey(account_extended_public_key);
 

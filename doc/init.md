@@ -13,7 +13,7 @@ can be found in the contrib/init folder.
 Service User
 ---------------------------------
 
-All three Linux startup configurations assume the existence of a "raven" user
+All three Linux startup configurations assume the existence of a "telestai" user
 and group.  They must be created before attempting to use these scripts.
 The OS X configuration assumes ravend will be set up for the current user.
 
@@ -44,7 +44,7 @@ This allows for running ravend without having to do any manual configuration.
 relative to the data directory. `wallet` *only* supports relative paths.
 
 For an example configuration file that describes the configuration settings,
-see `contrib/debian/examples/raven.conf`.
+see `contrib/debian/examples/telestai.conf`.
 
 Paths
 ---------------------------------
@@ -54,29 +54,29 @@ Paths
 All three configurations assume several paths that might need to be adjusted.
 
 Binary:              `/usr/bin/ravend`  
-Configuration file:  `/etc/raven/raven.conf`  
+Configuration file:  `/etc/telestai/telestai.conf`  
 Data directory:      `/var/lib/ravend`  
 PID file:            `/var/run/ravend/ravend.pid` (OpenRC and Upstart) or `/var/lib/ravend/ravend.pid` (systemd)  
 Lock file:           `/var/lock/subsys/ravend` (CentOS)  
 
 The configuration file, PID directory (if applicable) and data directory
-should all be owned by the raven user and group.  It is advised for security
+should all be owned by the telestai user and group.  It is advised for security
 reasons to make the configuration file and data directory only readable by the
-raven user and group.  Access to raven-cli and other ravend rpc clients
+telestai user and group.  Access to telestai-cli and other ravend rpc clients
 can then be controlled by group membership.
 
 NOTE: When using the systemd .service file, the creation of the aforementioned
 directories and the setting of their permissions is automatically handled by
-systemd. Directories are given a permission of 710, giving the ravencoin group
+systemd. Directories are given a permission of 710, giving the telestai group
 access to files under it _if_ the files themselves give permission to the
-ravencoin group to do so (e.g. when `-sysperms` is specified). This does not allow
+telestai group to do so (e.g. when `-sysperms` is specified). This does not allow
 for the listing of files under the directory.
 
 NOTE: It is not currently possible to override `datadir` in
-`/etc/raven/raven.conf` with the current systemd, OpenRC, and Upstart init
+`/etc/telestai/telestai.conf` with the current systemd, OpenRC, and Upstart init
 files out-of-the-box. This is because the command line options specified in the
 init files take precedence over the configurations in
-`/etc/raven/raven.conf`. However, some init systems have their own
+`/etc/telestai/telestai.conf`. However, some init systems have their own
 configuration mechanisms that would allow for overriding the command line
 options specified in the init files (e.g. setting `RAVEND_DATADIR` for
 OpenRC).
@@ -84,9 +84,9 @@ OpenRC).
 ### macOS
 
 Binary:              `/usr/local/bin/ravend`  
-Configuration file:  `~/Library/Application Support/Raven/raven.conf`  
-Data directory:      `~/Library/Application Support/Raven`  
-Lock file:           `~/Library/Application Support/Raven/.lock`  
+Configuration file:  `~/Library/Application Support/Telestai/telestai.conf`  
+Data directory:      `~/Library/Application Support/Telestai`  
+Lock file:           `~/Library/Application Support/Telestai/.lock`  
 
 Installing Service Configuration
 -----------------------------------
@@ -125,14 +125,14 @@ setting the RAVEND and FLAGS environment variables in the file
 
 ### Mac OS X
 
-Copy org.raven.ravend.plist into ~/Library/LaunchAgents. Load the launch agent by
-running `launchctl load ~/Library/LaunchAgents/org.raven.ravend.plist`.
+Copy org.telestai.ravend.plist into ~/Library/LaunchAgents. Load the launch agent by
+running `launchctl load ~/Library/LaunchAgents/org.telestai.ravend.plist`.
 
 This Launch Agent will cause ravend to start whenever the user logs in.
 
 NOTE: This approach is intended for those wanting to run ravend as the current user.
-You will need to modify org.raven.ravend.plist if you intend to use it as a
-Launch Daemon with a dedicated raven user.
+You will need to modify org.telestai.ravend.plist if you intend to use it as a
+Launch Daemon with a dedicated telestai user.
 
 Auto-respawn
 -----------------------------------

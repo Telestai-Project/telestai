@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2017 The Bitcoin Core developers
-# Copyright (c) 2017-2020 The Raven Core developers
+# Copyright (c) 2017-2020 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -93,8 +93,8 @@ class ListSinceBlockTest (RavenTestFramework):
 
         Problematic case:
 
-        1. User 1 receives RVN in tx1 from utxo1 in block aa1.
-        2. User 2 receives RVN in tx2 from utxo1 (same) in block bb1
+        1. User 1 receives TLS in tx1 from utxo1 in block aa1.
+        2. User 2 receives TLS in tx2 from utxo1 (same) in block bb1
         3. User 1 sees 2 confirmations at block aa3.
         4. Reorg into bb chain.
         5. User 1 asks `listsinceblock aa3` and does not see that tx1 is now

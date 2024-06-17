@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Script to find signed contract_urls
-# Reads from a Ravencoin node - make sure its running
+# Reads from a Telestai node - make sure its running
 # Runs through the assets looking for ones with meta data
 # Checks the meta data for contract_url
 # Downloads the documents - (named by asset)
@@ -23,7 +23,7 @@ import json
 import hashlib
 
 
-cli = "raven-cli"
+cli = "telestai-cli"
 mode =  "-testnet"
 rpc_user = 'rpcuser'
 rpc_pass = 'rpcpass555'

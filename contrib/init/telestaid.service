@@ -1,0 +1,22 @@
+[Unit]
+Description=Telestai's distributed currency daemon
+After=network.target
+
+[Service]
+User=telestai
+Group=telestai
+
+Type=forking
+PIDFile=/var/lib/ravend/ravend.pid
+ExecStart=/usr/bin/ravend -daemon -pid=/var/lib/ravend/ravend.pid \
+-conf=/etc/telestai/telestai.conf -datadir=/var/lib/ravend -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

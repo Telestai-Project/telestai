@@ -1,5 +1,5 @@
 # Copyright (c) 2013-2016 The Bitcoin Core developers
-# Copyright (c) 2017-2019 The Raven Core developers
+# Copyright (c) 2017-2019 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -179,8 +179,8 @@ raven_test_clean : FORCE
 	rm -f $(CLEAN_RAVEN_TEST) $(test_test_raven_OBJECTS) $(TEST_BINARY)
 
 check-local:
-	@echo "Running test/util/raven-util-test.py..."
-	$(PYTHON) $(top_builddir)/test/util/raven-util-test.py
+	@echo "Running test/util/telestai-util-test.py..."
+	$(PYTHON) $(top_builddir)/test/util/telestai-util-test.py
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C secp256k1 check
 if EMBEDDED_UNIVALUE
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C univalue check

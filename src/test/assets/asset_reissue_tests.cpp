@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2019 The Raven Core developers
+// Copyright (c) 2017-2019 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -31,7 +31,7 @@ BOOST_FIXTURE_TEST_SUITE(asset_reissue_tests, BasicTestingSetup)
 
         CNewAsset asset1("RVNASSET", CAmount(100 * COIN), 8, 1, 0, "");
 
-        // Add an asset to a valid rvn address
+        // Add an asset to a valid tls address
         uint256 hash = uint256();
         BOOST_CHECK_MESSAGE(cache.AddNewAsset(asset1, GetParams().GlobalBurnAddress(), 0, hash), "Failed to add new asset");
 
@@ -91,7 +91,7 @@ BOOST_FIXTURE_TEST_SUITE(asset_reissue_tests, BasicTestingSetup)
 
         CNewAsset asset1("RVNASSET", CAmount(100 * COIN), 8, 1, 0, "");
 
-        // Add an asset to a valid rvn address
+        // Add an asset to a valid tls address
         uint256 hash = uint256();
         BOOST_CHECK_MESSAGE(cache.AddNewAsset(asset1, GetParams().GlobalBurnAddress(), 0, hash), "Failed to add new asset");
 
@@ -150,7 +150,7 @@ BOOST_FIXTURE_TEST_SUITE(asset_reissue_tests, BasicTestingSetup)
 
         CNewAsset asset1("RVNASSET", CAmount(100 * COIN), 8, 1, 0, "");
 
-        // Add an asset to a valid rvn address
+        // Add an asset to a valid tls address
         BOOST_CHECK_MESSAGE(cache.AddNewAsset(asset1, GetParams().GlobalBurnAddress(), 0, uint256()), "Failed to add new asset");
 
         // Create a reissuance of the asset that is valid
@@ -177,7 +177,7 @@ BOOST_FIXTURE_TEST_SUITE(asset_reissue_tests, BasicTestingSetup)
         // Create a new asset object with units of 0
         CNewAsset asset2("RVNASSET2", CAmount(100 * COIN), 0, 1, 0, "");
 
-        // Add new asset2 to a valid rvn address
+        // Add new asset2 to a valid tls address
         BOOST_CHECK_MESSAGE(cache.AddNewAsset(asset2, GetParams().GlobalBurnAddress(), 0, uint256()), "Failed to add new asset");
 
         // Create a reissuance of the asset that is valid unit go from 0 -> 1 and change the ipfs hash
@@ -193,7 +193,7 @@ BOOST_FIXTURE_TEST_SUITE(asset_reissue_tests, BasicTestingSetup)
         // Create a new asset3 object
         CNewAsset asset3("DATAHASH", CAmount(100 * COIN), 8, 1, 0, "");
 
-        // Add new asset3 to a valid rvn address
+        // Add new asset3 to a valid tls address
         BOOST_CHECK_MESSAGE(cache.AddNewAsset(asset3, GetParams().GlobalBurnAddress(), 0, uint256()), "Failed to add new asset");
 
         // Create a reissuance of the asset that is valid txid but messaging isn't active in unit tests

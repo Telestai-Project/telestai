@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2017-2021 The Raven Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #include "streams.h"
@@ -143,9 +143,9 @@ const char* GetOpName(opcodetype opcode)
     case OP_NOP9                   : return "OP_NOP9";
     case OP_NOP10                  : return "OP_NOP10";
 
-    /** RVN START */
+    /** TLS START */
     case OP_RVN_ASSET              : return "OP_RVN_ASSET";
-    /** RVN END */
+    /** TLS END */
 
     case OP_INVALIDOPCODE          : return "OP_INVALIDOPCODE";
 
@@ -227,7 +227,7 @@ bool CScript::IsPayToScriptHash() const
             (*this)[22] == OP_EQUAL);
 }
 
-/** RVN START */
+/** TLS START */
 bool CScript::IsAssetScript() const
 {
     int nType = 0;
@@ -247,12 +247,12 @@ bool CScript::IsAssetScript(int& nType, bool& fIsOwner, int& nStartingIndex) con
     if (this->size() > 31) {
         if ((*this)[25] == OP_RVN_ASSET) { // OP_RVN_ASSET is always in the 25 index of the script if it exists
             int index = -1;
-            if ((*this)[27] == RVN_R) { // Check to see if RVN starts at 27 ( this->size() < 105)
+            if ((*this)[27] == RVN_R) { // Check to see if TLS starts at 27 ( this->size() < 105)
                 if ((*this)[28] == RVN_V)
                     if ((*this)[29] == RVN_N)
                         index = 30;
             } else {
-                if ((*this)[28] == RVN_R) // Check to see if RVN starts at 28 ( this->size() >= 105)
+                if ((*this)[28] == RVN_R) // Check to see if TLS starts at 28 ( this->size() >= 105)
                     if ((*this)[29] == RVN_V)
                         if ((*this)[30] == RVN_N)
                             index = 31;
@@ -353,7 +353,7 @@ bool CScript::IsNullAssetVerifierTxDataScript() const
             (*this)[1] == OP_RESERVED &&
             (*this)[2] != OP_RESERVED);
 }
-/** RVN END */
+/** TLS END */
 
 bool CScript::IsPayToWitnessScriptHash() const
 {

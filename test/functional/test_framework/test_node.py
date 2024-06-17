@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2017 The Bitcoin Core developers
-# Copyright (c) 2017-2020 The Raven Core developers
+# Copyright (c) 2017-2020 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -53,7 +53,7 @@ class TestNode:
         self.extra_args = extra_args
         self.args = [self.binary, "-datadir=" + self.datadir, "-server", "-keypool=2", "-discover=0", "-rest", "-logtimemicros", "-debug", "-debugexclude=libevent", "-debugexclude=leveldb", "-bip44=1", "-mocktime=" + str(mocktime), "-uacomment=testnode%d" % i]
 
-        self.cli = TestNodeCLI(os.getenv("RAVENCLI", "raven-cli"), self.datadir)
+        self.cli = TestNodeCLI(os.getenv("RAVENCLI", "telestai-cli"), self.datadir)
 
         self.running = False
         AuthServiceProxy.running = False
@@ -192,7 +192,7 @@ class TestNode:
 
 
 class TestNodeCLI:
-    """Interface to raven-cli for an individual node"""
+    """Interface to telestai-cli for an individual node"""
 
     def __init__(self, binary, datadir):
         self.args = []
@@ -201,7 +201,7 @@ class TestNodeCLI:
         self.input = None
 
     def __call__(self, *args, input_data=None):
-        # TestNodeCLI is callable with raven-cli command-line args
+        # TestNodeCLI is callable with telestai-cli command-line args
         self.args = [str(arg) for arg in args]
         self.input = input_data
         return self
@@ -213,11 +213,11 @@ class TestNodeCLI:
         return dispatcher
 
     def send_cli(self, command, *args, **kwargs):
-        """Run raven-cli command. Deserializes returned string as python object."""
+        """Run telestai-cli command. Deserializes returned string as python object."""
 
         pos_args = [str(arg) for arg in args]
         named_args = [str(key) + "=" + str(value) for (key, value) in kwargs.items()]
-        assert not (pos_args and named_args), "Cannot use positional arguments and named arguments in the same raven-cli call"
+        assert not (pos_args and named_args), "Cannot use positional arguments and named arguments in the same telestai-cli call"
         p_args = [self.binary, "-datadir=" + self.datadir] + self.args
         if named_args:
             p_args += ["-named"]

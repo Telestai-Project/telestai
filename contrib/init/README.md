@@ -5,7 +5,7 @@ Upstart: ravend.conf
 OpenRC:  ravend.openrc
          ravend.openrcconf
 CentOS:  ravend.init
-OS X:    org.raven.ravend.plist
+OS X:    org.telestai.ravend.plist
 ```
 have been made available to assist packagers in creating node packages here.
 
