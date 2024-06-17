@@ -103,8 +103,8 @@ elif [[ ${OS} == "osx" ]]; then
 
     make deploydir
 
-    if [[ -e ${GITHUB_WORKSPACE}/dist/raven-Qt.app/Contents/MacOS/install_cli.sh ]]; then
-        chmod +x ${GITHUB_WORKSPACE}/dist/raven-Qt.app/Contents/MacOS/install_cli.sh
+    if [[ -e ${GITHUB_WORKSPACE}/dist/Raven-Qt.app/Contents/MacOS/install_cli.sh ]]; then
+        chmod +x ${GITHUB_WORKSPACE}/dist/Raven-Qt.app/Contents/MacOS/install_cli.sh
     fi
 
     mkdir -p unsigned-app-${DISTNAME}
@@ -123,7 +123,7 @@ elif [[ ${OS} == "osx" ]]; then
 
     make deploy
 
-    ${GITHUB_WORKSPACE}/depends/x86_64-apple-darwin14/native/bin/dmg dmg "raven-Core.dmg" ${RELEASE_LOCATION}/${DISTNAME}-osx-unsigned.dmg
+    ${GITHUB_WORKSPACE}/depends/x86_64-apple-darwin14/native/bin/dmg dmg "Raven-Core.dmg" ${RELEASE_LOCATION}/${DISTNAME}-osx-unsigned.dmg
 
     cd ${STAGE_DIR}
     find . -name "lib*.la" -delete
