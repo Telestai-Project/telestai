@@ -30,7 +30,7 @@ To finish on the words of the Whitepaper:
 "While Telestai as a project aims are to birth this ecosystem, it is the community that will breath life into the bold vision. 
 The digital foundations of the future are now laid."
 
-To read the Whitepaper, please visit: [ here: 
+To read the Whitepaper, please visit: [ here 
 ](https://medium.com/@john-117/telestai-the-foundations-for-a-new-online-ecosystem-f1dde5645f93)
 
 To engage with development, please join the [Discord](https://discord.gg/hmv8nQZeUt). 
