@@ -322,7 +322,7 @@ void RavenGUI::createActions()
 #if !defined(Q_OS_MAC)
     font.setFamily("Open Sans");
 #endif
-    font.setWeight(QFont::Weight::ExtraLight);
+    font.setWeight(QFont::Bold);
 
     QActionGroup *tabGroup = new QActionGroup(this);
 
@@ -593,8 +593,8 @@ void RavenGUI::createToolBars()
         toolbarWidget->setStyleSheet(widgetStyleSheet.arg(platformStyle->LightBlueColor().name(), platformStyle->DarkBlueColor().name()));
 
         labelToolbar = new QLabel();
-        labelToolbar->setContentsMargins(0,0,0,50);
-        labelToolbar->setAlignment(Qt::AlignLeft);
+        labelToolbar->setContentsMargins(0,0,0,10);
+        labelToolbar->setAlignment(Qt::AlignCenter);
 
         if(IconsOnly) {
             labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/rvntext")));
@@ -602,7 +602,7 @@ void RavenGUI::createToolBars()
         else {
             labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/telestaicointext")));
         }
-        labelToolbar->setStyleSheet(".QLabel{background-color: transparent;}");
+        labelToolbar->setStyleSheet(".QLabel{background-color: transparent; margin-top: 20px; border: none; padding-left: 0px; padding-right: 0px;}");
 
         /** TLS END */
 
@@ -619,6 +619,11 @@ void RavenGUI::createToolBars()
             m_toolbar->setMinimumWidth(labelToolbar->width());
             m_toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         }
+
+         // Use bold font for toolbar action text
+        QString boldFontString = "font: bold 22pt \"Open Sans\";";
+        m_toolbar->setStyleSheet(boldFontString);
+
         m_toolbar->addAction(overviewAction);
         m_toolbar->addAction(sendCoinsAction);
         m_toolbar->addAction(receiveCoinsAction);
@@ -641,11 +646,10 @@ void RavenGUI::createToolBars()
 #endif
 
         /** TLS START */
-        QString tbStyleSheet = ".QToolBar {background-color : transparent; border-color: transparent; }  "
-                               ".QToolButton {background-color: transparent; border-color: transparent; width: 249px; color: %1; border: none;} "
-                               ".QToolButton:checked {background: none; background-color: none; selection-background-color: none; color: %2; border: none; font: %4} "
-                               ".QToolButton:hover {background: none; background-color: none; border: none; color: %3;} "
-                               ".QToolButton:disabled {color: gray;}";
+        QString tbStyleSheet = ".QToolBar {background-color: transparent; border-color: transparent; }  "
+                       ".QToolButton {background-color: transparent; border-color: transparent; width: 249px; color: white; border: none; padding-left: 0px; padding-right: 0px; border-radius: 10px; margin-bottom: 4px;} "
+                       ".QToolButton:checked, .QToolButton:hover {background: #153144; color: white; border: none; border-radius: 10px;} "
+                       ".QToolButton:disabled {color: gray;}";
 
         m_toolbar->setStyleSheet(tbStyleSheet.arg(platformStyle->ToolBarNotSelectedTextColor().name(),
                                                 platformStyle->ToolBarSelectedTextColor().name(),
@@ -656,15 +660,27 @@ void RavenGUI::createToolBars()
 
         QLayout* lay = m_toolbar->layout();
         for(int i = 0; i < lay->count(); ++i)
-            lay->itemAt(i)->setAlignment(Qt::AlignLeft);
+            lay->itemAt(i)->setAlignment(Qt::AlignCenter);
 
         overviewAction->setChecked(true);
+
+        QLabel* telestaiLabel = new QLabel("TELESTAI");
+        telestaiLabel->setAlignment(Qt::AlignCenter);
+        telestaiLabel->setStyleSheet("color: white; font-weight: bold; font-size: 20px;"); // Adjust the font size as needed
+
+        // Create a QLabel for version information
+        QString currentVersion = QString("Version: %1.%2.%3").arg(CLIENT_VERSION_MAJOR).arg(CLIENT_VERSION_MINOR).arg(CLIENT_VERSION_REVISION);
+        QLabel* versionLabel = new QLabel(currentVersion);
+        versionLabel->setAlignment(Qt::AlignCenter);
+        versionLabel->setStyleSheet("color: white; font-size: 14px;"); // Adjust the font size as needed
 
         QVBoxLayout* telestaiLabelLayout = new QVBoxLayout(toolbarWidget);
         telestaiLabelLayout->addWidget(labelToolbar);
         telestaiLabelLayout->addWidget(m_toolbar);
-        telestaiLabelLayout->setDirection(QBoxLayout::TopToBottom);
         telestaiLabelLayout->addStretch(1);
+        telestaiLabelLayout->addWidget(meowcoinLabel);
+        telestaiLabelLayout->addWidget(versionLabel);  // Add the QLabel for version
+        telestaiLabelLayout->setDirection(QBoxLayout::TopToBottom);
 
         QString mainWalletWidgetStyle = QString(".QWidget{background-color: %1}").arg(platformStyle->MainBackGroundColor().name());
         QWidget* mainWalletWidget = new QWidget();
@@ -690,7 +706,7 @@ void RavenGUI::createToolBars()
 
         QFont currentMarketFont;
         currentMarketFont.setFamily("Open Sans");
-        currentMarketFont.setWeight(QFont::Weight::Normal);
+        currentMarketFont.setWeight(QFont::Weight::Bold);
         currentMarketFont.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.6);
         currentMarketFont.setPixelSize(18);
 
