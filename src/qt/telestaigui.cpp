@@ -678,7 +678,7 @@ void RavenGUI::createToolBars()
         telestaiLabelLayout->addWidget(labelToolbar);
         telestaiLabelLayout->addWidget(m_toolbar);
         telestaiLabelLayout->addStretch(1);
-        telestaiLabelLayout->addWidget(meowcoinLabel);
+        telestaiLabelLayout->addWidget(telestaiLabel);
         telestaiLabelLayout->addWidget(versionLabel);  // Add the QLabel for version
         telestaiLabelLayout->setDirection(QBoxLayout::TopToBottom);
 
