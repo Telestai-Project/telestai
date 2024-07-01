@@ -239,7 +239,7 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
-        strDevelopmentRewardAddress = "TiNHWYdQxW3KXc7B7pE2wQZfSFaiHZiUPF";
+        strDevelopmentRewardAddress = "TfQHU3guGrMzvbCngYh6XXaQcHMth5fJrZ";
 
         // Burn Addresses
         strIssueAssetBurnAddress = "ToissueAssetXXXXXXXXXXXXXXXXZ9zEc4";
