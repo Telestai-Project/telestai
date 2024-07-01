@@ -200,8 +200,8 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        // Telestai BIP44 cointype in mainnet is '175'
-        nExtCoinType = 175;
+        // Telestai BIP44 cointype in mainnet is '10117'
+        nExtCoinType = 10117;
 
         vSeeds.clear();
         vFixedSeeds.clear();
