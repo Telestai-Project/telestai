@@ -166,7 +166,7 @@ public:
         // The best chain should have at least this much work
         consensus.nMinimumChainWork = uint256S("0"); // Block 2383567
 
-        // By default assume that the signatures in ancestors of this block are valid. Block# 1040000
+        // Assume that the signatures in ancestors of this block are valid. Block# 1040000
         consensus.defaultAssumeValid = uint256S("0"); // Block 2383560
 
         /**
