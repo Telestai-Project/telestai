@@ -110,7 +110,7 @@ bool CChainParams::CSVEnabled() const{
  * + Is surrounded by blocks with reasonable timestamps
  *   (no blocks before with a timestamp after, none after with
  *    timestamp before)
- * + Contains no strange transactions
+ * + Contains no strange information/transactions
  */
 
 class CMainParams : public CChainParams {
