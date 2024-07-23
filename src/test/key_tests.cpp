@@ -35,7 +35,7 @@ BOOST_FIXTURE_TEST_SUITE(key_tests, BasicTestingSetup)
     {
         BOOST_TEST_MESSAGE("Running Key Test");
 
-        CRavenSecret bsecret1, bsecret2, bsecret1C, bsecret2C, baddress1;
+        CTelestaiSecret bsecret1, bsecret2, bsecret1C, bsecret2C, baddress1;
         BOOST_CHECK(bsecret1.SetString(strSecret1));
         BOOST_CHECK(bsecret2.SetString(strSecret2));
         BOOST_CHECK(bsecret1C.SetString(strSecret1C));

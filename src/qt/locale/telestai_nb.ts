@@ -168,8 +168,8 @@
         <translation>Bekreft kryptering av lommebok</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RAVENS&lt;/b&gt;!</source>
-        <translation>Advarsel: Hvis du krypterer lommeboken og mister adgangsfrasen, så vil du &lt;b&gt;MISTE ALLE DINE RAVENS&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR TELESTAIS&lt;/b&gt;!</source>
+        <translation>Advarsel: Hvis du krypterer lommeboken og mister adgangsfrasen, så vil du &lt;b&gt;MISTE ALLE DINE TELESTAIS&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -610,7 +610,7 @@
     </message>
     <message>
         <source>Warning: Invalid Telestai address</source>
-        <translation>Advarsel: Ugyldig Ravenadresse</translation>
+        <translation>Advarsel: Ugyldig Telestaiadresse</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -1082,7 +1082,7 @@
     </message>
     <message>
         <source>Warning: Invalid Telestai address</source>
-        <translation>Advarsel: Ugyldig Ravenadresse</translation>
+        <translation>Advarsel: Ugyldig Telestaiadresse</translation>
     </message>
     <message>
         <source>Valid Asset</source>
@@ -2283,7 +2283,7 @@
     </message>
 </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Signer &amp;melding...</translation>
@@ -2985,7 +2985,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Send Ravens</translation>
+        <translation>Send Telestais</translation>
     </message>
     <message>
         <source>Coin Control Features</source>
@@ -3209,7 +3209,7 @@
     </message>
     <message>
         <source>Warning: Invalid Telestai address</source>
-        <translation>Advarsel: Ugyldig Ravenadresse</translation>
+        <translation>Advarsel: Ugyldig Telestaiadresse</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>

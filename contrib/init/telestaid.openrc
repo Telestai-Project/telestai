@@ -3,40 +3,40 @@
 # backward compatibility for existing gentoo layout 
 #
 if [ -d "/var/lib/telestai/.telestai" ]; then
-	RAVEND_DEFAULT_DATADIR="/var/lib/telestai/.telestai"
+	TELESTAID_DEFAULT_DATADIR="/var/lib/telestai/.telestai"
 else
-	RAVEND_DEFAULT_DATADIR="/var/lib/telestaid"
+	TELESTAID_DEFAULT_DATADIR="/var/lib/telestaid"
 fi
 
-RAVEND_CONFIGFILE=${RAVEND_CONFIGFILE:-/etc/telestai/telestai.conf}
-RAVEND_PIDDIR=${RAVEND_PIDDIR:-/var/run/telestaid}
-RAVEND_PIDFILE=${RAVEND_PIDFILE:-${RAVEND_PIDDIR}/telestaid.pid}
-RAVEND_DATADIR=${RAVEND_DATADIR:-${RAVEND_DEFAULT_DATADIR}}
-RAVEND_USER=${RAVEND_USER:-${RAVEN_USER:-telestai}}
-RAVEND_GROUP=${RAVEND_GROUP:-telestai}
-RAVEND_BIN=${RAVEND_BIN:-/usr/bin/telestaid}
-RAVEND_NICE=${RAVEND_NICE:-${NICELEVEL:-0}}
-RAVEND_OPTS="${RAVEND_OPTS:-${RAVEN_OPTS}}"
+TELESTAID_CONFIGFILE=${TELESTAID_CONFIGFILE:-/etc/telestai/telestai.conf}
+TELESTAID_PIDDIR=${TELESTAID_PIDDIR:-/var/run/telestaid}
+TELESTAID_PIDFILE=${TELESTAID_PIDFILE:-${TELESTAID_PIDDIR}/telestaid.pid}
+TELESTAID_DATADIR=${TELESTAID_DATADIR:-${TELESTAID_DEFAULT_DATADIR}}
+TELESTAID_USER=${TELESTAID_USER:-${TELESTAI_USER:-telestai}}
+TELESTAID_GROUP=${TELESTAID_GROUP:-telestai}
+TELESTAID_BIN=${TELESTAID_BIN:-/usr/bin/telestaid}
+TELESTAID_NICE=${TELESTAID_NICE:-${NICELEVEL:-0}}
+TELESTAID_OPTS="${TELESTAID_OPTS:-${TELESTAI_OPTS}}"
 
 name="Telestai Core Daemon"
 description="Telestai cryptocurrency P2P network daemon"
 
 command="/usr/bin/telestaid"
-command_args="-pid=\"${RAVEND_PIDFILE}\" \
-		-conf=\"${RAVEND_CONFIGFILE}\" \
-		-datadir=\"${RAVEND_DATADIR}\" \
+command_args="-pid=\"${TELESTAID_PIDFILE}\" \
+		-conf=\"${TELESTAID_CONFIGFILE}\" \
+		-datadir=\"${TELESTAID_DATADIR}\" \
 		-daemon \
-		${RAVEND_OPTS}"
+		${TELESTAID_OPTS}"
 
-required_files="${RAVEND_CONFIGFILE}"
-start_stop_daemon_args="-u ${RAVEND_USER} \
-			-N ${RAVEND_NICE} -w 2000"
-pidfile="${RAVEND_PIDFILE}"
+required_files="${TELESTAID_CONFIGFILE}"
+start_stop_daemon_args="-u ${TELESTAID_USER} \
+			-N ${TELESTAID_NICE} -w 2000"
+pidfile="${TELESTAID_PIDFILE}"
 
 # The retry schedule to use when stopping the daemon. Could be either
 # a timeout in seconds or multiple signal/timeout pairs (like
 # "SIGKILL/180 SIGTERM/300")
-retry="${RAVEND_SIGTERM_TIMEOUT}"
+retry="${TELESTAID_SIGTERM_TIMEOUT}"
 
 depend() {
 	need localmount net
@@ -50,29 +50,29 @@ start_pre() {
 	checkpath \
 	-d \
 	--mode 0750 \
-	--owner "${RAVEND_USER}:${RAVEND_GROUP}" \
-	"${RAVEND_DATADIR}"
+	--owner "${TELESTAID_USER}:${TELESTAID_GROUP}" \
+	"${TELESTAID_DATADIR}"
 
 	checkpath \
 	-d \
 	--mode 0755 \
-	--owner "${RAVEND_USER}:${RAVEND_GROUP}" \
-	"${RAVEND_PIDDIR}"
+	--owner "${TELESTAID_USER}:${TELESTAID_GROUP}" \
+	"${TELESTAID_PIDDIR}"
 
 	checkpath -f \
-	-o ${RAVEND_USER}:${RAVEND_GROUP} \
+	-o ${TELESTAID_USER}:${TELESTAID_GROUP} \
 	-m 0660 \
-	${RAVEND_CONFIGFILE}
+	${TELESTAID_CONFIGFILE}
 
 	checkconfig || return 1
 }
 
 checkconfig()
 {
-	if ! grep -qs '^rpcpassword=' "${RAVEND_CONFIGFILE}" ; then
+	if ! grep -qs '^rpcpassword=' "${TELESTAID_CONFIGFILE}" ; then
 		eerror ""
 		eerror "ERROR: You must set a secure rpcpassword to run telestaid."
-		eerror "The setting must appear in ${RAVEND_CONFIGFILE}"
+		eerror "The setting must appear in ${TELESTAID_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "
 		eerror "and must not be the same as the rpcuser setting."

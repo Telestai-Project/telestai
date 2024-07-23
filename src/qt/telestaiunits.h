@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_RAVENUNITS_H
-#define RAVEN_QT_RAVENUNITS_H
+#ifndef TELESTAI_QT_TELESTAIUNITS_H
+#define TELESTAI_QT_TELESTAIUNITS_H
 
 #include "amount.h"
 
@@ -50,12 +50,12 @@
 /** Telestai unit definitions. Encapsulates parsing and formatting
    and serves as list model for drop-down selection boxes.
 */
-class RavenUnits: public QAbstractListModel
+class TelestaiUnits: public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit RavenUnits(QObject *parent);
+    explicit TelestaiUnits(QObject *parent);
 
     /** Telestai units.
       @note Source: https://en.bitcoin.it/wiki/Units . Please add only sensible ones
@@ -132,8 +132,8 @@ public:
     static CAmount maxMoney();
 
 private:
-    QList<RavenUnits::Unit> unitlist;
+    QList<TelestaiUnits::Unit> unitlist;
 };
-typedef RavenUnits::Unit RavenUnit;
+typedef TelestaiUnits::Unit TelestaiUnit;
 
-#endif // RAVEN_QT_RAVENUNITS_H
+#endif // TELESTAI_QT_TELESTAIUNITS_H

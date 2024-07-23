@@ -1299,7 +1299,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="RavenAmountField" name="payAmount_s">
+     <widget class="TelestaiAmountField" name="payAmount_s">
       <property name="acceptDrops">
        <bool>false</bool>
       </property>
@@ -1315,7 +1315,7 @@
    <header>qvalidatedlineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>RavenAmountField</class>
+   <class>TelestaiAmountField</class>
    <extends>QLineEdit</extends>
    <header>telestaiamountfield.h</header>
    <container>1</container>

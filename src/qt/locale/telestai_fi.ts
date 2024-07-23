@@ -168,8 +168,8 @@
         <translation>Vahvista lompakon salaaminen</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RAVENS&lt;/b&gt;!</source>
-        <translation>Varoitus: Jos salaat lompakkosi ja menetät tunnuslauseesi, &lt;b&gt;MENETÄT KAIKKI RAVENISI&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR TELESTAIS&lt;/b&gt;!</source>
+        <translation>Varoitus: Jos salaat lompakkosi ja menetät tunnuslauseesi, &lt;b&gt;MENETÄT KAIKKI TELESTAIISI&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -879,7 +879,7 @@
     </message>
     <message>
         <source>Your current total balance</source>
-        <translation>Tililläsi tällä hetkellä olevien Ravenien määrä</translation>
+        <translation>Tililläsi tällä hetkellä olevien Telestaiien määrä</translation>
     </message>
     <message>
         <source>Your current balance in watch-only addresses</source>
@@ -1253,7 +1253,7 @@
     </message>
 </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>&amp;Allekirjoita viesti...</translation>
@@ -1480,7 +1480,7 @@
     </message>
     <message>
         <source>Show the %1 help message to get a list with possible Telestai command-line options</source>
-        <translation>Näytä %1 ohjeet saadaksesi listan mahdollisista Ravenin komentorivivalinnoista</translation>
+        <translation>Näytä %1 ohjeet saadaksesi listan mahdollisista Telestaiin komentorivivalinnoista</translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -1711,7 +1711,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Lähetä Raveneja</translation>
+        <translation>Lähetä Telestaieja</translation>
     </message>
     <message>
         <source>Coin Control Features</source>

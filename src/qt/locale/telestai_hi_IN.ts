@@ -211,7 +211,7 @@
     </message>
     </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>Synchronizing with network...</source>
         <translation>नेटवर्क से समकालिक (मिल) रहा है ...</translation>

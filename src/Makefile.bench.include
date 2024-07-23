@@ -32,14 +32,14 @@ bench_bench_telestai_SOURCES = \
 
 nodist_bench_bench_telestai_SOURCES = $(GENERATED_BENCH_FILES)
 
-bench_bench_telestai_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES) $(EVENT_CLFAGS) $(EVENT_PTHREADS_CFLAGS) -I$(builddir)/bench/
+bench_bench_telestai_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES) $(EVENT_CLFAGS) $(EVENT_PTHREADS_CFLAGS) -I$(builddir)/bench/
 bench_bench_telestai_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 bench_bench_telestai_LDADD = \
-  $(LIBRAVEN_SERVER) \
-  $(LIBRAVEN_COMMON) \
-  $(LIBRAVEN_UTIL) \
-  $(LIBRAVEN_CONSENSUS) \
-  $(LIBRAVEN_CRYPTO) \
+  $(LIBTELESTAI_SERVER) \
+  $(LIBTELESTAI_COMMON) \
+  $(LIBTELESTAI_UTIL) \
+  $(LIBTELESTAI_CONSENSUS) \
+  $(LIBTELESTAI_CRYPTO) \
   $(LIBLEVELDB) \
   $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
@@ -47,20 +47,20 @@ bench_bench_telestai_LDADD = \
   $(LIBUNIVALUE)
 
 if ENABLE_ZMQ
-bench_bench_telestai_LDADD += $(LIBRAVEN_ZMQ) $(ZMQ_LIBS)
+bench_bench_telestai_LDADD += $(LIBTELESTAI_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
 bench_bench_telestai_SOURCES += bench/coin_selection.cpp
-bench_bench_telestai_LDADD += $(LIBRAVEN_WALLET) $(LIBRAVEN_CRYPTO)
+bench_bench_telestai_LDADD += $(LIBTELESTAI_WALLET) $(LIBTELESTAI_CRYPTO)
 endif
 
 bench_bench_telestai_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 bench_bench_telestai_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
-CLEAN_RAVEN_BENCH = bench/*.gcda bench/*.gcno $(GENERATED_BENCH_FILES)
+CLEAN_TELESTAI_BENCH = bench/*.gcda bench/*.gcno $(GENERATED_BENCH_FILES)
 
-CLEANFILES += $(CLEAN_RAVEN_BENCH)
+CLEANFILES += $(CLEAN_TELESTAI_BENCH)
 
 bench/checkblock.cpp: bench/data/block566553.raw.h
 
@@ -70,7 +70,7 @@ bench: $(BENCH_BINARY) FORCE
 	$(BENCH_BINARY)
 
 telestai_bench_clean : FORCE
-	rm -f $(CLEAN_RAVEN_BENCH) $(bench_bench_telestai_OBJECTS) $(BENCH_BINARY)
+	rm -f $(CLEAN_TELESTAI_BENCH) $(bench_bench_telestai_OBJECTS) $(BENCH_BINARY)
 
 %.raw.h: %.raw
 	@$(MKDIR_P) $(@D)

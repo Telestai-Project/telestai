@@ -3,34 +3,34 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_RAVENADDRESSVALIDATOR_H
-#define RAVEN_QT_RAVENADDRESSVALIDATOR_H
+#ifndef TELESTAI_QT_TELESTAIADDRESSVALIDATOR_H
+#define TELESTAI_QT_TELESTAIADDRESSVALIDATOR_H
 
 #include <QValidator>
 
 /** Base58 entry widget validator, checks for valid characters and
  * removes some whitespace.
  */
-class RavenAddressEntryValidator : public QValidator
+class TelestaiAddressEntryValidator : public QValidator
 {
     Q_OBJECT
 
 public:
-    explicit RavenAddressEntryValidator(QObject *parent);
+    explicit TelestaiAddressEntryValidator(QObject *parent);
 
     State validate(QString &input, int &pos) const;
 };
 
 /** Telestai address widget validator, checks for a valid telestai address.
  */
-class RavenAddressCheckValidator : public QValidator
+class TelestaiAddressCheckValidator : public QValidator
 {
     Q_OBJECT
 
 public:
-    explicit RavenAddressCheckValidator(QObject *parent);
+    explicit TelestaiAddressCheckValidator(QObject *parent);
 
     State validate(QString &input, int &pos) const;
 };
 
-#endif // RAVEN_QT_RAVENADDRESSVALIDATOR_H
+#endif // TELESTAI_QT_TELESTAIADDRESSVALIDATOR_H

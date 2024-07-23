@@ -6,7 +6,7 @@
 
 """Test the fundrawtransaction RPC."""
 
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import connect_nodes_bi, assert_equal, Decimal, assert_raises_rpc_error, assert_greater_than, count_bytes, assert_fee_amount, assert_greater_than_or_equal
 
 def get_unspent(listunspent, amount):
@@ -15,7 +15,7 @@ def get_unspent(listunspent, amount):
             return utx
     raise AssertionError('Could not find unspent with amount={}'.format(amount))
 
-class RawTransactionsTest(RavenTestFramework):
+class RawTransactionsTest(TelestaiTestFramework):
     def set_test_params(self):
         self.num_nodes = 4
         self.setup_clean_chain = True

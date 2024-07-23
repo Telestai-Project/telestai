@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_PREVECTOR_H
-#define RAVEN_PREVECTOR_H
+#ifndef TELESTAI_PREVECTOR_H
+#define TELESTAI_PREVECTOR_H
 
 #include <assert.h>
 #include <stdlib.h>
@@ -515,4 +515,4 @@ public:
 };
 #pragma pack(pop)
 
-#endif // RAVEN_PREVECTOR_H
+#endif // TELESTAI_PREVECTOR_H

@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_QVALIDATEDLINEEDIT_H
-#define RAVEN_QT_QVALIDATEDLINEEDIT_H
+#ifndef TELESTAI_QT_QVALIDATEDLINEEDIT_H
+#define TELESTAI_QT_QVALIDATEDLINEEDIT_H
 
 #include <QLineEdit>
 
@@ -41,4 +41,4 @@ private Q_SLOTS:
     void checkValidity();
 };
 
-#endif // RAVEN_QT_QVALIDATEDLINEEDIT_H
+#endif // TELESTAI_QT_QVALIDATEDLINEEDIT_H

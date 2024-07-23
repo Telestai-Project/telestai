@@ -76,7 +76,7 @@ many free market countries)
 *  A token which represents a crowd-funded item with the ability to transfer or resell the item
 
 **Representing virtual goods**
-*  Tickets to an event such as a Baltimore Ravens game with the ability to resell
+*  Tickets to an event such as a Baltimore Telestais game with the ability to resell
 *  A license to allow an activity
 *  An access token to use a service
 *  In-game currency and items, transferable outside of the game platform
@@ -234,7 +234,7 @@ References
 [9] https://www.ethereum.org/  
 [10] W. Dei, “B-Money” [http://www.weidai.com/bmoney.txt](http://www.weidai.com/bmoney.txt)  
 [11] B. Fenton, “Telestai: A digital peer to peer network for the facilitation of asset transfers.” https://medium.com/@telestai/telestai-4683cd00f83c  
-[12] https://github.com/RavenProject/Telestai  
+[12] https://github.com/TelestaiProject/Telestai  
 [13] T. Black, J. Weight “X16R” Algorithm White Paper https://telestai.org/wp-content/uploads/2018/03/X16R-Whitepaper.pdf  
 [14] [http://coinspark.org/developers/assets-introduction/](http://coinspark.org/developers/assets-introduction/)  
 [15] N. Szabo, “Secure Property Titles with Owner Authority” [http://nakamotoinstitute.org/secure-property-titles/#selection-7.7-7.50](http://nakamotoinstitute.org/secure-property-titles/#selection-7.7-7.50)  

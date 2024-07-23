@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_BANTABLEMODEL_H
-#define RAVEN_QT_BANTABLEMODEL_H
+#ifndef TELESTAI_QT_BANTABLEMODEL_H
+#define TELESTAI_QT_BANTABLEMODEL_H
 
 #include "net.h"
 
@@ -71,4 +71,4 @@ private:
     std::unique_ptr<BanTablePriv> priv;
 };
 
-#endif // RAVEN_QT_BANTABLEMODEL_H
+#endif // TELESTAI_QT_BANTABLEMODEL_H

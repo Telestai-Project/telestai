@@ -446,7 +446,7 @@ UniValue signmessagewithprivkey(const JSONRPCRequest& request)
     std::string strPrivkey = request.params[0].get_str();
     std::string strMessage = request.params[1].get_str();
 
-    CRavenSecret vchSecret;
+    CTelestaiSecret vchSecret;
     bool fGood = vchSecret.SetString(strPrivkey);
     if (!fGood)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key");
@@ -654,9 +654,9 @@ UniValue echo(const JSONRPCRequest& request)
 bool getAddressFromIndex(const int &type, const uint160 &hash, std::string &address)
 {
     if (type == 2) {
-        address = CRavenAddress(CScriptID(hash)).ToString();
+        address = CTelestaiAddress(CScriptID(hash)).ToString();
     } else if (type == 1) {
-        address = CRavenAddress(CKeyID(hash)).ToString();
+        address = CTelestaiAddress(CKeyID(hash)).ToString();
     } else {
         return false;
     }
@@ -666,7 +666,7 @@ bool getAddressFromIndex(const int &type, const uint160 &hash, std::string &addr
 bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint160, int> > &addresses)
 {
     if (params[0].isStr()) {
-        CRavenAddress address(params[0].get_str());
+        CTelestaiAddress address(params[0].get_str());
         uint160 hashBytes;
         int type = 0;
         if (!address.GetIndexKey(hashBytes, type)) {
@@ -684,7 +684,7 @@ bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint16
 
         for (std::vector<UniValue>::iterator it = values.begin(); it != values.end(); ++it) {
 
-            CRavenAddress address(it->get_str());
+            CTelestaiAddress address(it->get_str());
             uint160 hashBytes;
             int type = 0;
             if (!address.GetIndexKey(hashBytes, type)) {

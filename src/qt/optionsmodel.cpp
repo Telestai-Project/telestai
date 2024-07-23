@@ -76,7 +76,7 @@ void OptionsModel::Init(bool resetSettings)
 
     // Display
     if (!settings.contains("nDisplayUnit"))
-        settings.setValue("nDisplayUnit", RavenUnits::TLS);
+        settings.setValue("nDisplayUnit", TelestaiUnits::TLS);
     nDisplayUnit = settings.value("nDisplayUnit").toInt();
     
     if (!settings.contains("nDisplayCurrencyIndex"))

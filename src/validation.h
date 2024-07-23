@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_VALIDATION_H
-#define RAVEN_VALIDATION_H
+#ifndef TELESTAI_VALIDATION_H
+#define TELESTAI_VALIDATION_H
 
 #if defined(HAVE_CONFIG_H)
 #include "config/telestai-config.h"
@@ -615,4 +615,4 @@ bool IsRestrictedActive(unsigned int nBlockNumber);
 CAssetsCache* GetCurrentAssetCache();
 /** TLS END */
 
-#endif // RAVEN_VALIDATION_H
+#endif // TELESTAI_VALIDATION_H

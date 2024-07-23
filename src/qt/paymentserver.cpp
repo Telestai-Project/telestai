@@ -46,8 +46,8 @@
 #include <QUrlQuery>
 #endif
 
-const int RAVEN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString RAVEN_IPC_PREFIX("telestai:");
+const int TELESTAI_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
+const QString TELESTAI_IPC_PREFIX("telestai:");
 // BIP70 payment protocol messages
 const char* BIP70_MESSAGE_PAYMENTACK = "PaymentACK";
 const char* BIP70_MESSAGE_PAYMENTREQUEST = "PaymentRequest";
@@ -78,7 +78,7 @@ namespace // Anon namespace
 //
 static QString ipcServerName()
 {
-    QString name("RavenQt");
+    QString name("TelestaiQt");
 
     // Append a simple hash of the datadir
     // Note that GetDataDir(true) returns a different path
@@ -212,12 +212,12 @@ void PaymentServer::ipcParseCommandLine(int argc, char* argv[])
         // network as that would require fetching and parsing the payment request.
         // That means clicking such an URI which contains a testnet payment request
         // will start a mainnet instance and throw a "wrong network" error.
-        if (arg.startsWith(RAVEN_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
+        if (arg.startsWith(TELESTAI_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
         {
             savedPaymentRequests.append(arg);
 
             SendCoinsRecipient r;
-            if (GUIUtil::parseRavenURI(arg, &r) && !r.address.isEmpty())
+            if (GUIUtil::parseTelestaiURI(arg, &r) && !r.address.isEmpty())
             {
                 auto tempChainParams = CreateChainParams(CBaseChainParams::MAIN);
 
@@ -270,7 +270,7 @@ bool PaymentServer::ipcSendCommandLine()
     {
         QLocalSocket* socket = new QLocalSocket();
         socket->connectToServer(ipcServerName(), QIODevice::WriteOnly);
-        if (!socket->waitForConnected(RAVEN_IPC_CONNECT_TIMEOUT))
+        if (!socket->waitForConnected(TELESTAI_IPC_CONNECT_TIMEOUT))
         {
             delete socket;
             socket = nullptr;
@@ -285,7 +285,7 @@ bool PaymentServer::ipcSendCommandLine()
 
         socket->write(block);
         socket->flush();
-        socket->waitForBytesWritten(RAVEN_IPC_CONNECT_TIMEOUT);
+        socket->waitForBytesWritten(TELESTAI_IPC_CONNECT_TIMEOUT);
         socket->disconnectFromServer();
 
         delete socket;
@@ -406,7 +406,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
         return;
     }
 
-    if (s.startsWith(RAVEN_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
+    if (s.startsWith(TELESTAI_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
     {
         QUrlQuery uri((QUrl(s)));
         if (uri.hasQueryItem("r")) // payment request URI
@@ -434,7 +434,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
         else // normal URI
         {
             SendCoinsRecipient recipient;
-            if (GUIUtil::parseRavenURI(s, &recipient))
+            if (GUIUtil::parseTelestaiURI(s, &recipient))
             {
                 if (!IsValidDestinationString(recipient.address.toStdString())) {
                     Q_EMIT message(tr("URI handling"), tr("Invalid payment address %1").arg(recipient.address),
@@ -578,7 +578,7 @@ bool PaymentServer::processPaymentRequest(const PaymentRequestPlus& request, Sen
         CTxOut txOut(sendingTo.second, sendingTo.first);
         if (IsDust(txOut, ::dustRelayFee)) {
             Q_EMIT message(tr("Payment request error"), tr("Requested payment amount of %1 is too small (considered dust).")
-                .arg(RavenUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second)),
+                .arg(TelestaiUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second)),
                 CClientUIInterface::MSG_ERROR);
 
             return false;

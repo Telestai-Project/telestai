@@ -180,11 +180,11 @@ void DebugMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
 /** Class encapsulating Telestai Core startup and shutdown.
  * Allows running startup and shutdown in a different thread from the UI thread.
  */
-class RavenCore: public QObject
+class TelestaiCore: public QObject
 {
     Q_OBJECT
 public:
-    explicit RavenCore();
+    explicit TelestaiCore();
     /** Basic initialization, before starting initialization/shutdown thread.
      * Return true on success.
      */
@@ -209,12 +209,12 @@ private:
 };
 
 /** Main Telestai application object */
-class RavenApplication: public QApplication
+class TelestaiApplication: public QApplication
 {
     Q_OBJECT
 public:
-    explicit RavenApplication();
-    ~RavenApplication();
+    explicit TelestaiApplication();
+    ~TelestaiApplication();
 
 #ifdef ENABLE_WALLET
     /// Create payment server
@@ -237,7 +237,7 @@ public:
     /// Get process return value
     int getReturnValue() const { return returnValue; }
 
-    /// Get window identifier of QMainWindow (RavenGUI)
+    /// Get window identifier of QMainWindow (TelestaiGUI)
     WId getMainWinId() const;
 
     OptionsModel* getOptionsModel() const { return optionsModel; }
@@ -259,7 +259,7 @@ private:
     QThread *coreThread;
     OptionsModel *optionsModel;
     ClientModel *clientModel;
-    RavenGUI *window;
+    TelestaiGUI *window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
     PaymentServer* paymentServer;
@@ -274,18 +274,18 @@ private:
 
 #include "telestai.moc"
 
-RavenCore::RavenCore():
+TelestaiCore::TelestaiCore():
     QObject()
 {
 }
 
-void RavenCore::handleRunawayException(const std::exception *e)
+void TelestaiCore::handleRunawayException(const std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
     Q_EMIT runawayException(QString::fromStdString(GetWarnings("gui")));
 }
 
-bool RavenCore::baseInitialize()
+bool TelestaiCore::baseInitialize()
 {
     if (!AppInitBasicSetup())
     {
@@ -306,7 +306,7 @@ bool RavenCore::baseInitialize()
     return true;
 }
 
-void RavenCore::initialize()
+void TelestaiCore::initialize()
 {
     try
     {
@@ -320,7 +320,7 @@ void RavenCore::initialize()
     }
 }
 
-void RavenCore::restart(QStringList args)
+void TelestaiCore::restart(QStringList args)
 {
     static bool executing_restart{false};
 
@@ -347,7 +347,7 @@ void RavenCore::restart(QStringList args)
     }
 }
 
-void RavenCore::shutdown()
+void TelestaiCore::shutdown()
 {
     try
     {
@@ -367,7 +367,7 @@ void RavenCore::shutdown()
 static int qt_argc = 1;
 static const char* qt_argv = "telestai-qt";
 
-RavenApplication::RavenApplication():
+TelestaiApplication::TelestaiApplication():
     QApplication(qt_argc, const_cast<char **>(&qt_argv)),
     coreThread(0),
     optionsModel(0),
@@ -383,17 +383,17 @@ RavenApplication::RavenApplication():
     setQuitOnLastWindowClosed(false);
 
     // UI per-platform customization
-    // This must be done inside the RavenApplication constructor, or after it, because
+    // This must be done inside the TelestaiApplication constructor, or after it, because
     // PlatformStyle::instantiate requires a QApplication
     std::string platformName;
-    platformName = gArgs.GetArg("-uiplatform", RavenGUI::DEFAULT_UIPLATFORM);
+    platformName = gArgs.GetArg("-uiplatform", TelestaiGUI::DEFAULT_UIPLATFORM);
     platformStyle = PlatformStyle::instantiate(QString::fromStdString(platformName));
     if (!platformStyle) // Fall back to "other" if specified name not found
         platformStyle = PlatformStyle::instantiate("other");
     assert(platformStyle);
 }
 
-RavenApplication::~RavenApplication()
+TelestaiApplication::~TelestaiApplication()
 {
     if(coreThread)
     {
@@ -416,20 +416,20 @@ RavenApplication::~RavenApplication()
 }
 
 #ifdef ENABLE_WALLET
-void RavenApplication::createPaymentServer()
+void TelestaiApplication::createPaymentServer()
 {
     paymentServer = new PaymentServer(this);
 }
 #endif
 
-void RavenApplication::createOptionsModel(bool resetSettings)
+void TelestaiApplication::createOptionsModel(bool resetSettings)
 {
     optionsModel = new OptionsModel(nullptr, resetSettings);
 }
 
-void RavenApplication::createWindow(const NetworkStyle *networkStyle)
+void TelestaiApplication::createWindow(const NetworkStyle *networkStyle)
 {
-    window = new RavenGUI(platformStyle, networkStyle, 0);
+    window = new TelestaiGUI(platformStyle, networkStyle, 0);
     window->setMinimumSize(1024,700);
     window->setBaseSize(1024,700);
 
@@ -438,7 +438,7 @@ void RavenApplication::createWindow(const NetworkStyle *networkStyle)
     pollShutdownTimer->start(200);
 }
 
-void RavenApplication::createSplashScreen(const NetworkStyle *networkStyle)
+void TelestaiApplication::createSplashScreen(const NetworkStyle *networkStyle)
 {
     SplashScreen *splash = new SplashScreen(networkStyle);
     // We don't hold a direct pointer to the splash screen after creation, but the splash
@@ -448,12 +448,12 @@ void RavenApplication::createSplashScreen(const NetworkStyle *networkStyle)
     connect(this, SIGNAL(requestedShutdown()), splash, SLOT(close()));
 }
 
-void RavenApplication::startThread()
+void TelestaiApplication::startThread()
 {
     if(coreThread)
         return;
     coreThread = new QThread(this);
-    RavenCore *executor = new RavenCore();
+    TelestaiCore *executor = new TelestaiCore();
     executor->moveToThread(coreThread);
 
     /*  communication to and from thread */
@@ -470,20 +470,20 @@ void RavenApplication::startThread()
     coreThread->start();
 }
 
-void RavenApplication::parameterSetup()
+void TelestaiApplication::parameterSetup()
 {
     InitLogging();
     InitParameterInteraction();
 }
 
-void RavenApplication::requestInitialize()
+void TelestaiApplication::requestInitialize()
 {
     qDebug() << __func__ << ": Requesting initialize";
     startThread();
     Q_EMIT requestedInitialize();
 }
 
-void RavenApplication::requestShutdown()
+void TelestaiApplication::requestShutdown()
 {
     // Show a simple window indicating shutdown status
     // Do this first as some of the steps may take some time below,
@@ -510,7 +510,7 @@ void RavenApplication::requestShutdown()
     Q_EMIT requestedShutdown();
 }
 
-void RavenApplication::initializeResult(bool success)
+void TelestaiApplication::initializeResult(bool success)
 {
     qDebug() << __func__ << ": Initialization result: " << success;
     // Set exit result.
@@ -533,8 +533,8 @@ void RavenApplication::initializeResult(bool success)
         {
             walletModel = new WalletModel(platformStyle, vpwallets[0], optionsModel);
 
-            window->addWallet(RavenGUI::DEFAULT_WALLET, walletModel);
-            window->setCurrentWallet(RavenGUI::DEFAULT_WALLET);
+            window->addWallet(TelestaiGUI::DEFAULT_WALLET, walletModel);
+            window->setCurrentWallet(TelestaiGUI::DEFAULT_WALLET);
 
             connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
                              paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
@@ -568,20 +568,20 @@ void RavenApplication::initializeResult(bool success)
     }
 }
 
-void RavenApplication::shutdownResult(bool success)
+void TelestaiApplication::shutdownResult(bool success)
 {
     returnValue = success ? EXIT_SUCCESS : EXIT_FAILURE;
     qDebug() << __func__ << ": Shutdown result: " << returnValue;
     quit(); // Exit main loop after shutdown finished
 }
 
-void RavenApplication::handleRunawayException(const QString &message)
+void TelestaiApplication::handleRunawayException(const QString &message)
 {
-    QMessageBox::critical(0, "Runaway exception", RavenGUI::tr("A fatal error occurred. Telestai can no longer continue safely and will quit.") + QString("\n\n") + message);
+    QMessageBox::critical(0, "Runaway exception", TelestaiGUI::tr("A fatal error occurred. Telestai can no longer continue safely and will quit.") + QString("\n\n") + message);
     ::exit(EXIT_FAILURE);
 }
 
-WId RavenApplication::getMainWinId() const
+WId TelestaiApplication::getMainWinId() const
 {
     if (!window)
         return 0;
@@ -589,7 +589,7 @@ WId RavenApplication::getMainWinId() const
     return window->winId();
 }
 
-#ifndef RAVEN_QT_TEST
+#ifndef TELESTAI_QT_TEST
 int main(int argc, char *argv[])
 {
     SetupEnvironment();
@@ -628,7 +628,7 @@ int main(int argc, char *argv[])
 #endif
 
     // This should be after the attributes.
-    RavenApplication app;
+    TelestaiApplication app;
 
     // Register meta types used for QMetaObject::invokeMethod
     qRegisterMetaType< bool* >();
@@ -674,7 +674,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     try {
-        gArgs.ReadConfigFile(gArgs.GetArg("-conf", RAVEN_CONF_FILENAME));
+        gArgs.ReadConfigFile(gArgs.GetArg("-conf", TELESTAI_CONF_FILENAME));
     } catch (const std::exception& e) {
         QMessageBox::critical(0, QObject::tr(PACKAGE_NAME),
                               QObject::tr("Error: Cannot parse configuration file: %1. Only use key=value syntax.").arg(e.what()));
@@ -760,7 +760,7 @@ int main(int argc, char *argv[])
         // Perform base initialization before spinning up initialization/shutdown thread
         // This is acceptable because this function only contains steps that are quick to execute,
         // so the GUI thread won't be held up.
-        if (RavenCore::baseInitialize()) {
+        if (TelestaiCore::baseInitialize()) {
             app.requestInitialize();
 #if defined(Q_OS_WIN) && QT_VERSION >= 0x050000
             WinShutdownMonitor::registerShutdownBlockReason(QObject::tr("%1 didn't yet exit safely...").arg(QObject::tr(PACKAGE_NAME)), (HWND)app.getMainWinId());
@@ -782,4 +782,4 @@ int main(int argc, char *argv[])
     }
     return rv;
 }
-#endif // RAVEN_QT_TEST
+#endif // TELESTAI_QT_TEST

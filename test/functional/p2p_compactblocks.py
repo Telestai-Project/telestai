@@ -15,7 +15,7 @@ from test_framework.mininode import (NodeConnCB, mininode_lock, MsgGetHeaders, M
                                      P2PHeaderAndShortIDs, PrefilledTransaction, from_hex, CBlock, HeaderAndShortIDs, CInv, MsgGetdata, MsgInv, calculate_shortid, MsgWitnessBlocktxn, MsgBlockTxn,
                                      BlockTransactions, MsgTx, MSG_WITNESS_FLAG, MsgWitnessBlock, MsgGetBlockTxn, BlockTransactionsRequest, to_hex, CTxInWitness, ser_uint256, NodeConn, NODE_NETWORK,
                                      NetworkThread, NODE_WITNESS)
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import wait_until, assert_equal, satoshi_round, Decimal, random, get_bip9_status, p2p_port, sync_blocks
 from test_framework.blocktools import create_block, create_coinbase, add_witness_commitment
 from test_framework.script import CScript, OP_TRUE
@@ -94,7 +94,7 @@ class TestNode(NodeConnCB):
         self.send_message(message)
         wait_until(lambda: not self.connected, timeout=timeout, lock=mininode_lock, err_msg="send_wait_disconnect")
 
-class CompactBlocksTest(RavenTestFramework):
+class CompactBlocksTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         # Node0 = pre-segwit, node1 = segwit-aware

@@ -7,7 +7,7 @@
 """Testing unique asset use cases"""
 
 import random
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_contains, assert_does_not_contain_key, assert_equal, assert_raises_rpc_error
 
 
@@ -30,7 +30,7 @@ def gen_unique_asset_name(root):
     return name
 
 
-class UniqueAssetTest(RavenTestFramework):
+class UniqueAssetTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3

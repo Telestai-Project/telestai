@@ -35,11 +35,11 @@ import random
 import time
 from test_framework.mininode import CTxIn, COutPoint, COIN, to_hex
 from test_framework.script import CTransaction, CTxOut
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import create_confirmed_utxos, hex_str_to_bytes, assert_equal
 
 
-class ChainstateWriteCrashTest(RavenTestFramework):
+class ChainstateWriteCrashTest(TelestaiTestFramework):
 
     def set_test_params(self):
         self.num_nodes = 4

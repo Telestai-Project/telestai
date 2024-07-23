@@ -69,7 +69,7 @@ uint256 SendCoins(CWallet& wallet, SendCoinsDialog& sendCoinsDialog, const CTxDe
     QVBoxLayout* entries = sendCoinsDialog.findChild<QVBoxLayout*>("entries");
     SendCoinsEntry* entry = qobject_cast<SendCoinsEntry*>(entries->itemAt(0)->widget());
     entry->findChild<QValidatedLineEdit*>("payTo")->setText(QString::fromStdString(EncodeDestination(address)));
-    entry->findChild<RavenAmountField*>("payAmount")->setValue(amount);
+    entry->findChild<TelestaiAmountField*>("payAmount")->setValue(amount);
     sendCoinsDialog.findChild<QFrame*>("frameFee")
         ->findChild<QFrame*>("frameFeeSelection")
         ->findChild<QCheckBox*>("optInRBF")
@@ -198,7 +198,7 @@ void TestGUI()
     QString balanceText = balanceLabel->text();
     int unit = walletModel.getOptionsModel()->getDisplayUnit();
     CAmount balance = walletModel.getBalance();
-    QString balanceComparison = RavenUnits::formatWithUnit(unit, balance, false, RavenUnits::separatorAlways);
+    QString balanceComparison = TelestaiUnits::formatWithUnit(unit, balance, false, TelestaiUnits::separatorAlways);
     QCOMPARE(balanceText, balanceComparison);
 
     // Check Request Payment button
@@ -211,7 +211,7 @@ void TestGUI()
     labelInput->setText("TEST_LABEL_1");
 
     // Amount input
-    RavenAmountField* amountInput = receiveCoinsDialog.findChild<RavenAmountField*>("reqAmount");
+    TelestaiAmountField* amountInput = receiveCoinsDialog.findChild<TelestaiAmountField*>("reqAmount");
     amountInput->setValue(1);
 
     // Message input

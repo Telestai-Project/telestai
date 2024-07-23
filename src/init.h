@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_INIT_H
-#define RAVEN_INIT_H
+#ifndef TELESTAI_INIT_H
+#define TELESTAI_INIT_H
 
 #include <string>
 
@@ -71,8 +71,8 @@ void PrepareShutdown();
 /** The help message mode determines what help message to show */
 enum HelpMessageMode
 {
-    HMM_RAVEND,
-    HMM_RAVEN_QT
+    HMM_TELESTAID,
+    HMM_TELESTAI_QT
 };
 
 /** Help for options shared between UI and daemon (for -help) */
@@ -81,4 +81,4 @@ std::string HelpMessage(HelpMessageMode mode);
 /** Returns licensing information (for -version) */
 std::string LicenseInfo();
 
-#endif // RAVEN_INIT_H
+#endif // TELESTAI_INIT_H

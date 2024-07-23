@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_NETADDRESS_H
-#define RAVEN_NETADDRESS_H
+#ifndef TELESTAI_NETADDRESS_H
+#define TELESTAI_NETADDRESS_H
 
 #if defined(HAVE_CONFIG_H)
 #include "config/telestai-config.h"
@@ -175,4 +175,4 @@ class CService : public CNetAddr
         }
 };
 
-#endif // RAVEN_NETADDRESS_H
+#endif // TELESTAI_NETADDRESS_H

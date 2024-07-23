@@ -21,7 +21,7 @@ UPDATE: Telestai RIP-2 uses bit 1 << 5.  Currently there are no unsupported serv
 """
 
 from test_framework.mininode import NodeConnCB, NodeConn, MsgVerack, MsgPing, MsgGetAddr, NetworkThread, mininode_lock
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import logger, p2p_port, wait_until, time
 
 banscore = 10
@@ -99,7 +99,7 @@ class CNodeNoVerackIdle(CLazyNode):
         conn.send_message(MsgPing())
         conn.send_message(MsgGetAddr())
 
-class P2PLeakTest(RavenTestFramework):
+class P2PLeakTest(TelestaiTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [['-banscore='+str(banscore)]]

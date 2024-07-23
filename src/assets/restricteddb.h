@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef RAVENCOIN_RESTRICTEDDB_H
-#define RAVENCOIN_RESTRICTEDDB_H
+#ifndef TELESTAICOIN_RESTRICTEDDB_H
+#define TELESTAICOIN_RESTRICTEDDB_H
 
 #include <dbwrapper.h>
 
@@ -56,4 +56,4 @@ public:
 };
 
 
-#endif //RAVENCOIN_RESTRICTEDDB_H
+#endif //TELESTAICOIN_RESTRICTEDDB_H

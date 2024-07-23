@@ -36,7 +36,7 @@ sudo make install
 # Build Telestai
 ```
 cd ~/build/
-git clone https://github.com/RavenProject/Telestai
+git clone https://github.com/TelestaiProject/Telestai
 cd Telestai/
 ./autogen.sh
 ./configure --disable-tests --with-gui=no CPPFLAGS="-I/usr/local/BerkeleyDB.4.8/include -O2" LDFLAGS="-L/usr/local/BerkeleyDB.4.8/lib"

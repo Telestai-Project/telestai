@@ -9,17 +9,17 @@ define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2024)
 define(_COPYRIGHT_HOLDERS,[The %s developers])
 define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Telestai Core]])
-AC_INIT([Telestai Core],m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_REVISION, m4_if(_CLIENT_VERSION_BUILD, [0], [], _CLIENT_VERSION_BUILD))m4_if(_CLIENT_VERSION_RC, [0], [], [test]_CLIENT_VERSION_RC),[https://github.com/RavenProject/Telestai/issues],[telestai],[https://telestai.org/])
+AC_INIT([Telestai Core],m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_REVISION, m4_if(_CLIENT_VERSION_BUILD, [0], [], _CLIENT_VERSION_BUILD))m4_if(_CLIENT_VERSION_RC, [0], [], [test]_CLIENT_VERSION_RC),[https://github.com/TelestaiProject/Telestai/issues],[telestai],[https://telestai.org/])
 
 AC_CONFIG_SRCDIR([src/validation.cpp])
 AC_CONFIG_HEADERS([src/config/telestai-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-RAVEN_DAEMON_NAME=telestaid
-RAVEN_GUI_NAME=telestai-qt
-RAVEN_CLI_NAME=telestai-cli
-RAVEN_TX_NAME=telestai-tx
+TELESTAI_DAEMON_NAME=telestaid
+TELESTAI_GUI_NAME=telestai-qt
+TELESTAI_CLI_NAME=telestai-cli
+TELESTAI_TX_NAME=telestai-tx
 
 dnl Unless the user specified ARFLAGS, force it to be cr
 AC_ARG_VAR(ARFLAGS, [Flags for the archiver, defaults to <cr> if not set])
@@ -29,9 +29,9 @@ fi
 
 AC_CANONICAL_HOST
 
-AH_TOP([#ifndef RAVEN_CONFIG_H])
-AH_TOP([#define RAVEN_CONFIG_H])
-AH_BOTTOM([#endif //RAVEN_CONFIG_H])
+AH_TOP([#ifndef TELESTAI_CONFIG_H])
+AH_TOP([#define TELESTAI_CONFIG_H])
+AH_BOTTOM([#endif //TELESTAI_CONFIG_H])
 
 dnl faketime breaks configure and is only needed for make. Disable it here.
 unset FAKETIME
@@ -723,7 +723,7 @@ AC_SUBST(LIBMEMENV)
 
 if test x$enable_wallet != xno; then
     dnl Check for libdb_cxx only if wallet enabled
-    RAVEN_FIND_BDB48
+    TELESTAI_FIND_BDB48
 fi
 
 dnl Check for libminiupnpc (optional)
@@ -755,10 +755,10 @@ if test x$have_miniupnpc != xno; then
 fi
 fi
 
-RAVEN_QT_INIT
+TELESTAI_QT_INIT
 
 dnl sets $telestai_enable_qt, $telestai_enable_qt_test, $telestai_enable_qt_dbus
-RAVEN_QT_CONFIGURE([$use_pkgconfig], [qt5])
+TELESTAI_QT_CONFIGURE([$use_pkgconfig], [qt5])
 
 if test x$build_telestai_cli$build_telestai_tx$build_telestaid$telestai_enable_qt$use_tests$use_bench = xnononononono; then
     use_boost=no
@@ -942,9 +942,9 @@ if test x$use_pkgconfig = xyes; then
     [
       PKG_CHECK_MODULES([SSL], [libssl],, [AC_MSG_ERROR(openssl  not found.)])
       PKG_CHECK_MODULES([CRYPTO], [libcrypto],,[AC_MSG_ERROR(libcrypto  not found.)])
-      RAVEN_QT_CHECK([PKG_CHECK_MODULES([PROTOBUF], [protobuf], [have_protobuf=yes], [RAVEN_QT_FAIL(libprotobuf not found)])])
+      TELESTAI_QT_CHECK([PKG_CHECK_MODULES([PROTOBUF], [protobuf], [have_protobuf=yes], [TELESTAI_QT_FAIL(libprotobuf not found)])])
       if test x$use_qr != xno; then
-        RAVEN_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
+        TELESTAI_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
       fi
       if test x$build_telestai_cli$build_telestai_tx$build_telestaid$telestai_enable_qt$use_tests != xnonononono; then
         PKG_CHECK_MODULES([EVENT], [libevent],, [AC_MSG_ERROR(libevent not found.)])
@@ -1002,10 +1002,10 @@ else
     esac
   fi
 
-  RAVEN_QT_CHECK(AC_CHECK_LIB([protobuf] ,[main],[PROTOBUF_LIBS=-lprotobuf], RAVEN_QT_FAIL(libprotobuf not found)))
+  TELESTAI_QT_CHECK(AC_CHECK_LIB([protobuf] ,[main],[PROTOBUF_LIBS=-lprotobuf], TELESTAI_QT_FAIL(libprotobuf not found)))
   if test x$use_qr != xno; then
-    RAVEN_QT_CHECK([AC_CHECK_LIB([qrencode], [main],[QR_LIBS=-lqrencode], [have_qrencode=no])])
-    RAVEN_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
+    TELESTAI_QT_CHECK([AC_CHECK_LIB([qrencode], [main],[QR_LIBS=-lqrencode], [have_qrencode=no])])
+    TELESTAI_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
   fi
 fi
 
@@ -1064,22 +1064,22 @@ AM_CONDITIONAL([EMBEDDED_UNIVALUE],[test x$need_bundled_univalue = xyes])
 AC_SUBST(UNIVALUE_CFLAGS)
 AC_SUBST(UNIVALUE_LIBS)
 
-RAVEN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
+TELESTAI_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
 AC_MSG_CHECKING([whether to build telestaid])
-AM_CONDITIONAL([BUILD_RAVEND], [test x$build_telestaid = xyes])
+AM_CONDITIONAL([BUILD_TELESTAID], [test x$build_telestaid = xyes])
 AC_MSG_RESULT($build_telestaid)
 
 AC_MSG_CHECKING([whether to build telestai-cli])
-AM_CONDITIONAL([BUILD_RAVEN_CLI], [test x$build_telestai_cli = xyes])
+AM_CONDITIONAL([BUILD_TELESTAI_CLI], [test x$build_telestai_cli = xyes])
 AC_MSG_RESULT($build_telestai_cli)
 
 AC_MSG_CHECKING([whether to build telestai-tx])
-AM_CONDITIONAL([BUILD_RAVEN_TX], [test x$build_telestai_tx = xyes])
+AM_CONDITIONAL([BUILD_TELESTAI_TX], [test x$build_telestai_tx = xyes])
 AC_MSG_RESULT($build_telestai_tx)
 
 AC_MSG_CHECKING([whether to build libraries])
-AM_CONDITIONAL([BUILD_RAVEN_LIBS], [test x$build_telestai_libs = xyes])
+AM_CONDITIONAL([BUILD_TELESTAI_LIBS], [test x$build_telestai_libs = xyes])
 if test x$build_telestai_libs = xyes; then
   AC_DEFINE(HAVE_CONSENSUS_LIB, 1, [Define this symbol if the consensus lib has been built])
   AC_CONFIG_FILES([libtelestaiconsensus.pc:libtelestaiconsensus.pc.in])
@@ -1240,10 +1240,10 @@ AC_SUBST(COPYRIGHT_YEAR, _COPYRIGHT_YEAR)
 AC_SUBST(COPYRIGHT_HOLDERS, "_COPYRIGHT_HOLDERS")
 AC_SUBST(COPYRIGHT_HOLDERS_SUBSTITUTION, "_COPYRIGHT_HOLDERS_SUBSTITUTION")
 AC_SUBST(COPYRIGHT_HOLDERS_FINAL, "_COPYRIGHT_HOLDERS_FINAL")
-AC_SUBST(RAVEN_DAEMON_NAME)
-AC_SUBST(RAVEN_GUI_NAME)
-AC_SUBST(RAVEN_CLI_NAME)
-AC_SUBST(RAVEN_TX_NAME)
+AC_SUBST(TELESTAI_DAEMON_NAME)
+AC_SUBST(TELESTAI_GUI_NAME)
+AC_SUBST(TELESTAI_CLI_NAME)
+AC_SUBST(TELESTAI_TX_NAME)
 
 AC_SUBST(RELDFLAGS)
 AC_SUBST(COMPAT_LDFLAGS)

@@ -25,7 +25,7 @@ happened previously.
 import collections
 import enum
 import itertools
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_raises_rpc_error, connect_nodes, sync_blocks, assert_equal, set_node_times
 
 # noinspection PyArgumentList
@@ -120,7 +120,7 @@ IMPORT_NODES = [ImportNode(*fields) for fields in itertools.product((False, True
 TIMESTAMP_WINDOW = 2 * 60 * 60
 
 
-class ImportRescanTest(RavenTestFramework):
+class ImportRescanTest(TelestaiTestFramework):
     def set_test_params(self):
         self.num_nodes = 2 + len(IMPORT_NODES)
 

@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_PRIMITIVES_BLOCK_H
-#define RAVEN_PRIMITIVES_BLOCK_H
+#ifndef TELESTAI_PRIMITIVES_BLOCK_H
+#define TELESTAI_PRIMITIVES_BLOCK_H
 
 #include "primitives/transaction.h"
 #include "serialize.h"
@@ -232,4 +232,4 @@ public:
     }
 };
 
-#endif // RAVEN_PRIMITIVES_BLOCK_H
+#endif // TELESTAI_PRIMITIVES_BLOCK_H

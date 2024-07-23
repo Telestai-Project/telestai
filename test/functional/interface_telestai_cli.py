@@ -4,10 +4,10 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test telestai-cli"""
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import (assert_equal, assert_raises_process_error, get_auth_cookie)
 
-class TestRavenCli(RavenTestFramework):
+class TestTelestaiCli(TelestaiTestFramework):
 
     def set_test_params(self):
         self.setup_clean_chain = True
@@ -56,4 +56,4 @@ class TestRavenCli(RavenTestFramework):
         # unlocked_until is not tested because the wallet is not encrypted
 
 if __name__ == '__main__':
-    TestRavenCli().main()
+    TestTelestaiCli().main()

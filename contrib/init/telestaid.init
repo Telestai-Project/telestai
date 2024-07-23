@@ -19,14 +19,14 @@ fi
 RETVAL=0
 
 prog=telestaid
-# you can override the lockfile via RAVEND_LOCKFILE in /etc/sysconfig/telestaid
-lockfile=${RAVEND_LOCKFILE-/var/lock/subsys/telestaid}
+# you can override the lockfile via TELESTAID_LOCKFILE in /etc/sysconfig/telestaid
+lockfile=${TELESTAID_LOCKFILE-/var/lock/subsys/telestaid}
 
-# telestaid defaults to /usr/bin/telestaid, override with RAVEND_BIN
-telestaid=${RAVEND_BIN-/usr/bin/telestaid}
+# telestaid defaults to /usr/bin/telestaid, override with TELESTAID_BIN
+telestaid=${TELESTAID_BIN-/usr/bin/telestaid}
 
-# telestaid opts default to -disablewallet, override with RAVEND_OPTS
-telestaid_opts=${RAVEND_OPTS--disablewallet}
+# telestaid opts default to -disablewallet, override with TELESTAID_OPTS
+telestaid_opts=${TELESTAID_OPTS--disablewallet}
 
 start() {
     echo -n $"Starting $prog: "

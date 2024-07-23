@@ -8,10 +8,10 @@
 Testing messaging
 """
 
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_equal, assert_raises_rpc_error, assert_contains, assert_does_not_contain, assert_contains_pair
 
-class MessagingTest(RavenTestFramework):
+class MessagingTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3

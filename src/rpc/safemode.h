@@ -3,11 +3,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_RPC_SAFEMODE_H
-#define RAVEN_RPC_SAFEMODE_H
+#ifndef TELESTAI_RPC_SAFEMODE_H
+#define TELESTAI_RPC_SAFEMODE_H
 
 static const bool DEFAULT_DISABLE_SAFEMODE = true;
 
 void ObserveSafeMode();
 
-#endif // RAVEN_RPC_SAFEMODE_H
+#endif // TELESTAI_RPC_SAFEMODE_H

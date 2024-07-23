@@ -1,4 +1,4 @@
-TOR SUPPORT IN RAVEN
+TOR SUPPORT IN TELESTAI
 ======================
 
 It is possible to run Telestai as a Tor hidden service, and connect to such services.

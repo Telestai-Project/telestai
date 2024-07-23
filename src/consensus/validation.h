@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_CONSENSUS_VALIDATION_H
-#define RAVEN_CONSENSUS_VALIDATION_H
+#ifndef TELESTAI_CONSENSUS_VALIDATION_H
+#define TELESTAI_CONSENSUS_VALIDATION_H
 
 #include <string>
 #include "version.h"
@@ -117,4 +117,4 @@ static inline int64_t GetBlockWeight(const CBlock& block)
     return ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) * (WITNESS_SCALE_FACTOR - 1) + ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION);
 }
 
-#endif // RAVEN_CONSENSUS_VALIDATION_H
+#endif // TELESTAI_CONSENSUS_VALIDATION_H

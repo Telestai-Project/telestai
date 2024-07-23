@@ -19,28 +19,28 @@ else
 LIBUNIVALUE = $(UNIVALUE_LIBS)
 endif
 
-RAVEN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
+TELESTAI_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
-RAVEN_INCLUDES += -I$(srcdir)/secp256k1/include
-RAVEN_INCLUDES += $(UNIVALUE_CFLAGS)
+TELESTAI_INCLUDES += -I$(srcdir)/secp256k1/include
+TELESTAI_INCLUDES += $(UNIVALUE_CFLAGS)
 
-LIBRAVEN_SERVER=libtelestai_server.a
-LIBRAVEN_COMMON=libtelestai_common.a
-LIBRAVEN_CONSENSUS=libtelestai_consensus.a
-LIBRAVEN_CLI=libtelestai_cli.a
-LIBRAVEN_UTIL=libtelestai_util.a
-LIBRAVEN_CRYPTO=crypto/libtelestai_crypto.a
-LIBRAVENQT=qt/libtelestaiqt.a
+LIBTELESTAI_SERVER=libtelestai_server.a
+LIBTELESTAI_COMMON=libtelestai_common.a
+LIBTELESTAI_CONSENSUS=libtelestai_consensus.a
+LIBTELESTAI_CLI=libtelestai_cli.a
+LIBTELESTAI_UTIL=libtelestai_util.a
+LIBTELESTAI_CRYPTO=crypto/libtelestai_crypto.a
+LIBTELESTAIQT=qt/libtelestaiqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
 if ENABLE_ZMQ
-LIBRAVEN_ZMQ=libtelestai_zmq.a
+LIBTELESTAI_ZMQ=libtelestai_zmq.a
 endif
-if BUILD_RAVEN_LIBS
-LIBRAVENCONSENSUS=libtelestaiconsensus.la
+if BUILD_TELESTAI_LIBS
+LIBTELESTAICONSENSUS=libtelestaiconsensus.la
 endif
 if ENABLE_WALLET
-LIBRAVEN_WALLET=libtelestai_wallet.a
+LIBTELESTAI_WALLET=libtelestai_wallet.a
 endif
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
@@ -49,37 +49,37 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
 EXTRA_LIBRARIES += \
-  $(LIBRAVEN_CRYPTO) \
-  $(LIBRAVEN_UTIL) \
-  $(LIBRAVEN_COMMON) \
-  $(LIBRAVEN_CONSENSUS) \
-  $(LIBRAVEN_SERVER) \
-  $(LIBRAVEN_CLI) \
-  $(LIBRAVEN_WALLET) \
-  $(LIBRAVEN_ZMQ)
+  $(LIBTELESTAI_CRYPTO) \
+  $(LIBTELESTAI_UTIL) \
+  $(LIBTELESTAI_COMMON) \
+  $(LIBTELESTAI_CONSENSUS) \
+  $(LIBTELESTAI_SERVER) \
+  $(LIBTELESTAI_CLI) \
+  $(LIBTELESTAI_WALLET) \
+  $(LIBTELESTAI_ZMQ)
 
-lib_LTLIBRARIES = $(LIBRAVENCONSENSUS)
+lib_LTLIBRARIES = $(LIBTELESTAICONSENSUS)
 
 bin_PROGRAMS =
 noinst_PROGRAMS =
 TESTS =
 BENCHMARKS =
 
-if BUILD_RAVEND
+if BUILD_TELESTAID
   bin_PROGRAMS += telestaid
 endif
 
-if BUILD_RAVEN_CLI
+if BUILD_TELESTAI_CLI
   bin_PROGRAMS += telestai-cli
 endif
 
-if BUILD_RAVEN_TX
+if BUILD_TELESTAI_TX
   bin_PROGRAMS += telestai-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
 # telestai core #
-RAVEN_CORE_H = \
+TELESTAI_CORE_H = \
   addrdb.h \
   addressindex.h \
   algo/sph_groestl.h \
@@ -243,7 +243,7 @@ obj/build.h: FORCE
 libtelestai_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between telestaid and telestai-qt
-libtelestai_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libtelestai_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libtelestai_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libtelestai_server_a_SOURCES = \
   addrdb.cpp \
@@ -297,10 +297,10 @@ libtelestai_server_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
-  $(RAVEN_CORE_H)
+  $(TELESTAI_CORE_H)
 
 if ENABLE_ZMQ
-libtelestai_zmq_a_CPPFLAGS = $(RAVEN_INCLUDES) $(ZMQ_CFLAGS)
+libtelestai_zmq_a_CPPFLAGS = $(TELESTAI_INCLUDES) $(ZMQ_CFLAGS)
 libtelestai_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libtelestai_zmq_a_SOURCES = \
   zmq/zmqabstractnotifier.cpp \
@@ -311,7 +311,7 @@ endif
 
 # wallet: shared between telestaid and telestai-qt, but only linked
 # when wallet enabled
-libtelestai_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES)
+libtelestai_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES)
 libtelestai_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libtelestai_wallet_a_SOURCES = \
   wallet/crypter.cpp \
@@ -324,7 +324,7 @@ libtelestai_wallet_a_SOURCES = \
   wallet/wallet.cpp \
   wallet/walletdb.cpp \
   wallet/bip39.cpp \
-  $(RAVEN_CORE_H)
+  $(TELESTAI_CORE_H)
 
 # crypto primitives library
 crypto_libtelestai_crypto_a_CPPFLAGS = $(AM_CPPFLAGS)
@@ -376,7 +376,7 @@ crypto_libtelestai_crypto_a_SOURCES += crypto/sha256_sse4.cpp
 endif
 
 # consensus: shared between all executables that validate any consensus rules.
-libtelestai_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES)
+libtelestai_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES)
 libtelestai_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libtelestai_consensus_a_SOURCES = \
   amount.h \
@@ -413,10 +413,10 @@ libtelestai_consensus_a_SOURCES = \
   version.h \
   LibBoolEE.cpp \
   LibBoolEE.h \
-  $(RAVEN_CORE_H)
+  $(TELESTAI_CORE_H)
 
 # common: shared between telestaid, and telestai-qt and non-server tools
-libtelestai_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES)
+libtelestai_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES)
 libtelestai_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libtelestai_common_a_SOURCES = \
   base58.cpp \
@@ -435,12 +435,12 @@ libtelestai_common_a_SOURCES = \
   script/sign.cpp \
   script/standard.cpp \
   warnings.cpp \
-  $(RAVEN_CORE_H)
+  $(TELESTAI_CORE_H)
 
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
 # backward-compatibility objects and their sanity checks are linked.
-libtelestai_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES)
+libtelestai_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES)
 libtelestai_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libtelestai_util_a_SOURCES = \
   support/lockedpool.cpp \
@@ -458,7 +458,7 @@ libtelestai_util_a_SOURCES = \
   utilmoneystr.cpp \
   utilstrencodings.cpp \
   utiltime.cpp \
-  $(RAVEN_CORE_H)
+  $(TELESTAI_CORE_H)
 
 if GLIBC_BACK_COMPAT
 libtelestai_util_a_SOURCES += compat/glibc_compat.cpp
@@ -466,18 +466,18 @@ AM_LDFLAGS += $(COMPAT_LDFLAGS)
 endif
 
 # cli: shared between telestai-cli and telestai-qt
-libtelestai_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES)
+libtelestai_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES)
 libtelestai_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libtelestai_cli_a_SOURCES = \
   rpc/client.cpp \
-  $(RAVEN_CORE_H)
+  $(TELESTAI_CORE_H)
 
 nodist_libtelestai_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # telestaid binary #
 telestaid_SOURCES = telestaid.cpp
-telestaid_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES)
+telestaid_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES)
 telestaid_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 telestaid_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
@@ -486,14 +486,14 @@ telestaid_SOURCES += telestaid-res.rc
 endif
 
 telestaid_LDADD = \
-  $(LIBRAVEN_SERVER) \
-  $(LIBRAVEN_COMMON) \
+  $(LIBTELESTAI_SERVER) \
+  $(LIBTELESTAI_COMMON) \
   $(LIBUNIVALUE) \
-  $(LIBRAVEN_UTIL) \
-  $(LIBRAVEN_WALLET) \
-  $(LIBRAVEN_ZMQ) \
-  $(LIBRAVEN_CONSENSUS) \
-  $(LIBRAVEN_CRYPTO) \
+  $(LIBTELESTAI_UTIL) \
+  $(LIBTELESTAI_WALLET) \
+  $(LIBTELESTAI_ZMQ) \
+  $(LIBTELESTAI_CONSENSUS) \
+  $(LIBTELESTAI_CRYPTO) \
   $(LIBLEVELDB) \
   $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
@@ -503,7 +503,7 @@ telestaid_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUP
 
 # telestai-cli binary #
 telestai_cli_SOURCES = telestai-cli.cpp
-telestai_cli_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES) $(EVENT_CFLAGS)
+telestai_cli_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES) $(EVENT_CFLAGS)
 telestai_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 telestai_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
@@ -512,17 +512,17 @@ telestai_cli_SOURCES += telestai-cli-res.rc
 endif
 
 telestai_cli_LDADD = \
-  $(LIBRAVEN_CLI) \
+  $(LIBTELESTAI_CLI) \
   $(LIBUNIVALUE) \
-  $(LIBRAVEN_UTIL) \
-  $(LIBRAVEN_CRYPTO)
+  $(LIBTELESTAI_UTIL) \
+  $(LIBTELESTAI_CRYPTO)
 
 telestai_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
 # telestai-tx binary #
 telestai_tx_SOURCES = telestai-tx.cpp
-telestai_tx_CPPFLAGS = $(AM_CPPFLAGS) $(RAVEN_INCLUDES)
+telestai_tx_CPPFLAGS = $(AM_CPPFLAGS) $(TELESTAI_INCLUDES)
 telestai_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 telestai_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
@@ -532,17 +532,17 @@ endif
 
 telestai_tx_LDADD = \
   $(LIBUNIVALUE) \
-  $(LIBRAVEN_COMMON) \
-  $(LIBRAVEN_UTIL) \
-  $(LIBRAVEN_CONSENSUS) \
-  $(LIBRAVEN_CRYPTO) \
+  $(LIBTELESTAI_COMMON) \
+  $(LIBTELESTAI_UTIL) \
+  $(LIBTELESTAI_CONSENSUS) \
+  $(LIBTELESTAI_CRYPTO) \
   $(LIBSECP256K1)
 
 telestai_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # telestaiconsensus library #
-if BUILD_RAVEN_LIBS
+if BUILD_TELESTAI_LIBS
 include_HEADERS = script/telestaiconsensus.h
 libtelestaiconsensus_la_SOURCES = $(crypto_libtelestai_crypto_a_SOURCES) $(libtelestai_consensus_a_SOURCES)
 
@@ -552,7 +552,7 @@ endif
 
 libtelestaiconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
 libtelestaiconsensus_la_LIBADD = $(LIBSECP256K1) $(BOOST_LIBS)
-libtelestaiconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_RAVEN_INTERNAL
+libtelestaiconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_TELESTAI_INTERNAL
 libtelestaiconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif

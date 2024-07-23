@@ -2,7 +2,7 @@
 
   1. Check PROTOCOL_VERSION in the following location: src/version.h
 
-  2. Check Ravend Version in the following locations: configure.ac, src/version.h
+  2. Check Telestaid Version in the following locations: configure.ac, src/version.h
 
   3. All unit and functional tests pass
 

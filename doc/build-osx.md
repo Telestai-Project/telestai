@@ -46,7 +46,7 @@ from the root of the repository.
 
 1. Clone the Telestai Core source code:
     ```shell
-    git clone https://github.com/RavenProject/Telestai
+    git clone https://github.com/TelestaiProject/Telestai
     cd Telestai
     ```
 

@@ -43,7 +43,7 @@ The interface is defined in the C header `telestaiconsensus.h` located in  `src/
 - `telestaiconsensus_ERR_AMOUNT_REQUIRED` - Input amount is required if WITNESS is used
 
 ### Example Implementations
-- [NRaven](https://github.com/NicolasDorier/NRaven/blob/master/NRaven/Script.cs#L814) (.NET Bindings)
+- [NTelestai](https://github.com/NicolasDorier/NTelestai/blob/master/NTelestai/Script.cs#L814) (.NET Bindings)
 - [node-libtelestaiconsensus](https://github.com/bitpay/node-libtelestaiconsensus) (Node.js Bindings)
 - [java-libtelestaiconsensus](https://github.com/dexX7/java-libtelestaiconsensus) (Java Bindings)
 - [telestaiconsensus-php](https://github.com/Bit-Wasp/telestaiconsensus-php) (PHP Bindings)

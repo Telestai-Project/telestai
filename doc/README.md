@@ -5,7 +5,7 @@ Setup
 ---------------------
 Telestai Core is the original Telestai client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Telestai transactions; depending on the speed of your computer and network connection, the synchronization process is typically complete in under an hour.
 
-To download compiled binaries of the Telestai Core and wallet, visit the [GitHub release page](https://github.com/RavenProject/Telestai/releases).
+To download compiled binaries of the Telestai Core and wallet, visit the [GitHub release page](https://github.com/TelestaiProject/Telestai/releases).
 
 Running
 ---------------------
@@ -99,54 +99,54 @@ To resolve, you will need to copy libboost_system.dylib to libboost_system-mt.dy
 
 ### Need Help?
 
-- See the documentation at the [Telestai Wiki](https://telestai.wiki/wiki/Ravencoin_Wiki)
+- See the documentation at the [Telestai Wiki](https://telestai.wiki/wiki/Telestaicoin_Wiki)
 for help and more information.
-- Ask for help on [Discord](https://discord.gg/DUkcBst), [Telegram](https://t.me/RavencoinDev) or [Reddit](https://www.reddit.com/r/Telestai/).
+- Ask for help on [Discord](https://discord.gg/DUkcBst), [Telegram](https://t.me/TelestaicoinDev) or [Reddit](https://www.reddit.com/r/Telestai/).
 
 Building from source
 ---------------------
 The following are developer notes on how to build the Telestai core software on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
-- [Dependencies](https://github.com/RavenProject/Telestai/tree/master/doc/dependencies.md)
-- [OS X Build Notes](https://github.com/RavenProject/Telestai/tree/master/doc/build-osx.md)
-- [Unix Build Notes](https://github.com/RavenProject/Telestai/tree/master/doc/build-unix.md)
-- [Windows Build Notes](https://github.com/RavenProject/Telestai/tree/master/doc/build-windows.md)
-- [OpenBSD Build Notes](https://github.com/RavenProject/Telestai/tree/master/doc/build-openbsd.md)
-- [Gitian Building Guide](https://github.com/RavenProject/Telestai/tree/master/doc/gitian-building.md)
+- [Dependencies](https://github.com/TelestaiProject/Telestai/tree/master/doc/dependencies.md)
+- [OS X Build Notes](https://github.com/TelestaiProject/Telestai/tree/master/doc/build-osx.md)
+- [Unix Build Notes](https://github.com/TelestaiProject/Telestai/tree/master/doc/build-unix.md)
+- [Windows Build Notes](https://github.com/TelestaiProject/Telestai/tree/master/doc/build-windows.md)
+- [OpenBSD Build Notes](https://github.com/TelestaiProject/Telestai/tree/master/doc/build-openbsd.md)
+- [Gitian Building Guide](https://github.com/TelestaiProject/Telestai/tree/master/doc/gitian-building.md)
 
 Development
 ---------------------
-Telestai repo's [root README](https://github.com/RavenProject/Telestai/blob/master/README.md) contains relevant information on the development process and automated testing.
+Telestai repo's [root README](https://github.com/TelestaiProject/Telestai/blob/master/README.md) contains relevant information on the development process and automated testing.
 
-- [Developer Notes](https://github.com/RavenProject/Telestai/blob/master/doc/developer-notes.md)
-- [Release Notes](https://github.com/RavenProject/Telestai/blob/master/doc/release-notes.md)
-- [Release Process](https://github.com/RavenProject/Telestai/blob/master/doc/release-process.md)
+- [Developer Notes](https://github.com/TelestaiProject/Telestai/blob/master/doc/developer-notes.md)
+- [Release Notes](https://github.com/TelestaiProject/Telestai/blob/master/doc/release-notes.md)
+- [Release Process](https://github.com/TelestaiProject/Telestai/blob/master/doc/release-process.md)
 - [Source Code Documentation (External Link)](https://dev.visucore.com/telestai/doxygen/) -- 2018-05-11 -- Broken link
-- [Translation Process](https://github.com/RavenProject/Telestai/blob/master/doc/translation_process.md)
-- [Translation Strings Policy](https://github.com/RavenProject/Telestai/blob/master/doc/translation_strings_policy.md)
-- [Travis CI](https://github.com/RavenProject/Telestai/blob/master/doc/travis-ci.md)
-- [Unauthenticated REST Interface](https://github.com/RavenProject/Telestai/blob/master/doc/REST-interface.md)
-- [Shared Libraries](https://github.com/RavenProject/Telestai/blob/master/doc/shared-libraries.md)
-- [BIPS](https://github.com/RavenProject/Telestai/blob/master/doc/bips.md)
-- [Dnsseed Policy](https://github.com/RavenProject/Telestai/blob/master/doc/dnsseed-policy.md)
-- [Benchmarking](https://github.com/RavenProject/Telestai/blob/master/doc/benchmarking.md)
+- [Translation Process](https://github.com/TelestaiProject/Telestai/blob/master/doc/translation_process.md)
+- [Translation Strings Policy](https://github.com/TelestaiProject/Telestai/blob/master/doc/translation_strings_policy.md)
+- [Travis CI](https://github.com/TelestaiProject/Telestai/blob/master/doc/travis-ci.md)
+- [Unauthenticated REST Interface](https://github.com/TelestaiProject/Telestai/blob/master/doc/REST-interface.md)
+- [Shared Libraries](https://github.com/TelestaiProject/Telestai/blob/master/doc/shared-libraries.md)
+- [BIPS](https://github.com/TelestaiProject/Telestai/blob/master/doc/bips.md)
+- [Dnsseed Policy](https://github.com/TelestaiProject/Telestai/blob/master/doc/dnsseed-policy.md)
+- [Benchmarking](https://github.com/TelestaiProject/Telestai/blob/master/doc/benchmarking.md)
 
 ### Resources
-- Discuss on chat [Discord](https://discord.gg/jn6uhur), [Telegram](https://t.me/RavencoinDev) or [Reddit](https://www.reddit.com/r/Telestai/).
-- Find out more on the [Telestai Wiki](https://telestai.wiki/wiki/Ravencoin_Wiki)
+- Discuss on chat [Discord](https://discord.gg/jn6uhur), [Telegram](https://t.me/TelestaicoinDev) or [Reddit](https://www.reddit.com/r/Telestai/).
+- Find out more on the [Telestai Wiki](https://telestai.wiki/wiki/Telestaicoin_Wiki)
 - Visit the project home [Telestai.org](https://telestai.org)
 
 ### Miscellaneous
-- [Assets Attribution](https://github.com/RavenProject/Telestai/blob/master/doc/assets-attribution.md)
-- [Files](https://github.com/RavenProject/Telestai/blob/master/doc/files.md)
-- [Fuzz-testing](https://github.com/RavenProject/Telestai/blob/master/doc/fuzzing.md)
-- [Reduce Traffic](https://github.com/RavenProject/Telestai/blob/master/doc/reduce-traffic.md)
-- [Tor Support](https://github.com/RavenProject/Telestai/blob/master/doc/tor.md)
-- [Init Scripts (systemd/upstart/openrc)](https://github.com/RavenProject/Telestai/blob/master/doc/init.md)
-- [ZMQ](https://github.com/RavenProject/Telestai/blob/master/doc/zmq.md)
+- [Assets Attribution](https://github.com/TelestaiProject/Telestai/blob/master/doc/assets-attribution.md)
+- [Files](https://github.com/TelestaiProject/Telestai/blob/master/doc/files.md)
+- [Fuzz-testing](https://github.com/TelestaiProject/Telestai/blob/master/doc/fuzzing.md)
+- [Reduce Traffic](https://github.com/TelestaiProject/Telestai/blob/master/doc/reduce-traffic.md)
+- [Tor Support](https://github.com/TelestaiProject/Telestai/blob/master/doc/tor.md)
+- [Init Scripts (systemd/upstart/openrc)](https://github.com/TelestaiProject/Telestai/blob/master/doc/init.md)
+- [ZMQ](https://github.com/TelestaiProject/Telestai/blob/master/doc/zmq.md)
 
 License
 ---------------------
-Distributed under the [MIT software license](https://github.com/RavenProject/Telestai/blob/master/COPYING).
+Distributed under the [MIT software license](https://github.com/TelestaiProject/Telestai/blob/master/COPYING).
 This product includes software developed by the OpenSSL Project for use in the [OpenSSL Toolkit](https://www.openssl.org/). This product includes
 cryptographic software written by Eric Young ([eay@cryptsoft.com](mailto:eay@cryptsoft.com)), and UPnP software written by Thomas Bernard.

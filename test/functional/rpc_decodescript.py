@@ -7,11 +7,11 @@
 """Test decoding scripts via decodescript RPC command."""
 
 from io import BytesIO
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_equal
 from test_framework.mininode import CTransaction, hex_str_to_bytes, bytes_to_hex_str
 
-class DecodeScriptTest(RavenTestFramework):
+class DecodeScriptTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1

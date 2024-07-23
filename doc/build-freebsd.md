@@ -43,7 +43,7 @@ Make the directory for sources and go into it.
 
 __Download Telestai source.__
 
-`git clone https://github.com/RavenProject/Telestai`
+`git clone https://github.com/TelestaiProject/Telestai`
 
 `cd Telestai`
 

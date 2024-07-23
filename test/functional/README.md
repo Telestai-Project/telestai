@@ -23,7 +23,7 @@ don't have test cases for.
 - Avoid wildcard imports where possible
 - Use a module-level docstring to describe what the test is testing, and how it
   is testing it.
-- When subclassing the RavenTestFramwork, place overrides for the
+- When subclassing the TelestaiTestFramwork, place overrides for the
   `set_test_params()`, `add_options()` and `setup_xxxx()` methods at the top of
   the subclass, then locally-defined helper methods, then the `run_test()` method.
 

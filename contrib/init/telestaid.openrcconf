@@ -1,33 +1,33 @@
 # /etc/conf.d/telestaid: config file for /etc/init.d/telestaid
 
 # Config file location
-#RAVEND_CONFIGFILE="/etc/telestai/telestai.conf"
+#TELESTAID_CONFIGFILE="/etc/telestai/telestai.conf"
 
-# What directory to write pidfile to?  (created and owned by $RAVEND_USER)
-#RAVEND_PIDDIR="/var/run/telestaid"
+# What directory to write pidfile to?  (created and owned by $TELESTAID_USER)
+#TELESTAID_PIDDIR="/var/run/telestaid"
 
 # What filename to give the pidfile
-#RAVEND_PIDFILE="${RAVEND_PIDDIR}/telestaid.pid"
+#TELESTAID_PIDFILE="${TELESTAID_PIDDIR}/telestaid.pid"
 
 # Where to write telestaid data (be mindful that the blockchain is large)
-#RAVEND_DATADIR="/var/lib/telestaid"
+#TELESTAID_DATADIR="/var/lib/telestaid"
 
 # User and group to own telestaid process
-#RAVEND_USER="telestai"
-#RAVEND_GROUP="telestai"
+#TELESTAID_USER="telestai"
+#TELESTAID_GROUP="telestai"
 
 # Path to telestaid executable
-#RAVEND_BIN="/usr/bin/telestaid"
+#TELESTAID_BIN="/usr/bin/telestaid"
 
 # Nice value to run telestaid under
-#RAVEND_NICE=0
+#TELESTAID_NICE=0
 
 # Additional options (avoid -conf and -datadir, use flags above)
-#RAVEND_OPTS=""
+#TELESTAID_OPTS=""
 
 # The timeout in seconds OpenRC will wait for telestaid to terminate
 # after a SIGTERM has been raised.
 # Note that this will be mapped as argument to start-stop-daemon's
 # '--retry' option, which means you can specify a retry schedule
 # here. For more information see man 8 start-stop-daemon.
-RAVEND_SIGTERM_TIMEOUT=60
+TELESTAID_SIGTERM_TIMEOUT=60

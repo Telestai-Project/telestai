@@ -16,12 +16,12 @@
   - All lower-case letters except for 'l'
 */
 
-RavenAddressEntryValidator::RavenAddressEntryValidator(QObject *parent) :
+TelestaiAddressEntryValidator::TelestaiAddressEntryValidator(QObject *parent) :
     QValidator(parent)
 {
 }
 
-QValidator::State RavenAddressEntryValidator::validate(QString &input, int &pos) const
+QValidator::State TelestaiAddressEntryValidator::validate(QString &input, int &pos) const
 {
     Q_UNUSED(pos);
 
@@ -81,12 +81,12 @@ QValidator::State RavenAddressEntryValidator::validate(QString &input, int &pos)
     return state;
 }
 
-RavenAddressCheckValidator::RavenAddressCheckValidator(QObject *parent) :
+TelestaiAddressCheckValidator::TelestaiAddressCheckValidator(QObject *parent) :
     QValidator(parent)
 {
 }
 
-QValidator::State RavenAddressCheckValidator::validate(QString &input, int &pos) const
+QValidator::State TelestaiAddressCheckValidator::validate(QString &input, int &pos) const
 {
     Q_UNUSED(pos);
     // Validate the passed Telestai address

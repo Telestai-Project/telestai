@@ -38,7 +38,7 @@ WORKDIR /home/telestai/build/Telestai
 WORKDIR /home/telestai/build/Telestai/contrib
 RUN ./install_db4.sh ../../
 
-# build Ravencore
+# build Telestaicore
 WORKDIR /home/telestai/build/Telestai
 RUN ./autogen.sh && ./configure --disable-tests BDB_LIBS="-L/home/telestai/build/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I/home/telestai/build/db4/include" --with-gui=no  && make -j4
 

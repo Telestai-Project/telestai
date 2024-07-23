@@ -3,8 +3,8 @@
 // Copyright (c) 2017-2019 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef RAVEN_POLICYESTIMATOR_H
-#define RAVEN_POLICYESTIMATOR_H
+#ifndef TELESTAI_POLICYESTIMATOR_H
+#define TELESTAI_POLICYESTIMATOR_H
 
 #include "amount.h"
 #include "feerate.h"
@@ -301,4 +301,4 @@ static const std::array<int, 9> confTargets = { {2, 4, 6, 12, 24, 48, 144, 504, 
 int getConfTargetForIndex(int index);
 int getIndexForConfTarget(int target);
 
-#endif /*RAVEN_POLICYESTIMATOR_H */
+#endif /*TELESTAI_POLICYESTIMATOR_H */

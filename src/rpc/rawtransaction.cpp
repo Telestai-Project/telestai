@@ -62,9 +62,9 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry, 
                     in.pushKV("value", ValueFromAmount(spentInfo.satoshis));
                     in.pushKV("valueSat", spentInfo.satoshis);
                     if (spentInfo.addressType == 1) {
-                        in.pushKV("address", CRavenAddress(CKeyID(spentInfo.addressHash)).ToString());
+                        in.pushKV("address", CTelestaiAddress(CKeyID(spentInfo.addressHash)).ToString());
                     } else if (spentInfo.addressType == 2) {
-                        in.pushKV("address", CRavenAddress(CScriptID(spentInfo.addressHash)).ToString());
+                        in.pushKV("address", CTelestaiAddress(CScriptID(spentInfo.addressHash)).ToString());
                     }
                 }
                 newVin.push_back(in);
@@ -444,7 +444,7 @@ UniValue createrawtransaction(const JSONRPCRequest& request)
             "               \"reissuable\":[0-1],         (number, required) 1=reissuable asset\n"
             "               \"has_ipfs\":[0-1],           (number, required) 1=passing ipfs_hash\n"
             "               \"ipfs_hash\":\"hash\"          (string, optional) an ipfs hash for discovering asset metadata\n"
-            // TODO if we decide to remove the consensus check from issue 675 https://github.com/RavenProject/Telestai/issues/675
+            // TODO if we decide to remove the consensus check from issue 675 https://github.com/TelestaiProject/Telestai/issues/675
    //TODO"               \"custom_owner_address\": \"addr\" (string, optional) owner token will get sent to this address if set\n"
             "             }\n"
             "         }\n"
@@ -721,7 +721,7 @@ UniValue createrawtransaction(const JSONRPCRequest& request)
                     const UniValue& has_ipfs = find_value(assetData, "has_ipfs");
                     if (!has_ipfs.isNum())
                         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, missing asset metadata for key: has_ipfs");
-// TODO, if we decide to remove the consensus check https://github.com/RavenProject/Telestai/issues/675, remove or add the code (requires consensus change)
+// TODO, if we decide to remove the consensus check https://github.com/TelestaiProject/Telestai/issues/675, remove or add the code (requires consensus change)
 //                    const UniValue& custom_owner_address = find_value(assetData, "custom_owner_address");
 //                    if (!custom_owner_address.isNull()) {
 //                        CTxDestination dest = DecodeDestination(custom_owner_address.get_str());
@@ -1890,7 +1890,7 @@ UniValue signrawtransaction(const JSONRPCRequest& request)
         UniValue keys = request.params[2].get_array();
         for (unsigned int idx = 0; idx < keys.size(); idx++) {
             UniValue k = keys[idx];
-            CRavenSecret vchSecret;
+            CTelestaiSecret vchSecret;
             bool fGood = vchSecret.SetString(k.get_str());
             if (!fGood)
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key");

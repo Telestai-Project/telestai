@@ -226,7 +226,7 @@ Threads
 
 - ThreadRPCServer : Remote procedure call handler, listens on port 8766 for connections and services them.
 
-- RavenMiner : Generates telestais (if wallet is enabled).
+- TelestaiMiner : Generates telestais (if wallet is enabled).
 
 - Shutdown : Does an orderly shutdown of everything.
 

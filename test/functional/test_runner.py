@@ -13,7 +13,7 @@ forward all unrecognized arguments onto the individual test scripts.
 Functional tests are disabled on Windows by default. Use --force to run them anyway.
 
 For a description of arguments recognized by test scripts, see
-`test/functional/test_framework/test_framework.py:RavenTestFramework.main`.
+`test/functional/test_framework/test_framework.py:TelestaiTestFramework.main`.
 
 
 """
@@ -267,7 +267,7 @@ def main():
     # Check that the build was configured with wallet, utils, and telestaid
     enable_wallet = config["components"].getboolean("ENABLE_WALLET")
     enable_cli = config["components"].getboolean("ENABLE_UTILS")
-    enable_telestaid = config["components"].getboolean("ENABLE_RAVEND")
+    enable_telestaid = config["components"].getboolean("ENABLE_TELESTAID")
     if not (enable_wallet and enable_cli and enable_telestaid):
         print("No functional tests to run. Wallet, utils, and telestaid must all be enabled")
         print("Rerun `configure` with --enable-wallet, --with-cli and --with-daemon and rerun make")
@@ -376,9 +376,9 @@ def run_tests(test_list, src_dir, build_dir, exeext, tmpdir, use_term_control, j
         print("%sWARNING!%s There is a cache directory here: %s. If tests fail unexpectedly, try deleting the cache directory." % (BOLD[1], BOLD[0], cache_dir))
 
     #Set env vars
-    if "RAVEND" not in os.environ:
-        os.environ["RAVEND"] = build_dir + '/src/telestaid' + exeext
-        os.environ["RAVENCLI"] = build_dir + '/src/telestai-cli' + exeext
+    if "TELESTAID" not in os.environ:
+        os.environ["TELESTAID"] = build_dir + '/src/telestaid' + exeext
+        os.environ["TELESTAICLI"] = build_dir + '/src/telestai-cli' + exeext
 
     tests_dir = src_dir + '/test/functional/'
 

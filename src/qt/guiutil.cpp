@@ -215,8 +215,8 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
     widget->setPlaceholderText(QObject::tr("Enter a Telestai address (e.g. %1)").arg(
         QString::fromStdString(DummyAddress(GetParams()))));
 #endif
-    widget->setValidator(new RavenAddressEntryValidator(parent));
-    widget->setCheckValidator(new RavenAddressCheckValidator(parent));
+    widget->setValidator(new TelestaiAddressEntryValidator(parent));
+    widget->setCheckValidator(new TelestaiAddressCheckValidator(parent));
 }
 
 void setupAmountWidget(QLineEdit *widget, QWidget *parent)
@@ -228,7 +228,7 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
     widget->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
 }
 
-bool parseRavenURI(const QUrl &uri, SendCoinsRecipient *out)
+bool parseTelestaiURI(const QUrl &uri, SendCoinsRecipient *out)
 {
     // return if URI is not valid or is no telestai: URI
     if(!uri.isValid() || uri.scheme() != QString("telestai"))
@@ -271,7 +271,7 @@ bool parseRavenURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!RavenUnits::parse(RavenUnits::TLS, i->second, &rv.amount))
+                if(!TelestaiUnits::parse(TelestaiUnits::TLS, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -289,7 +289,7 @@ bool parseRavenURI(const QUrl &uri, SendCoinsRecipient *out)
     return true;
 }
 
-bool parseRavenURI(QString uri, SendCoinsRecipient *out)
+bool parseTelestaiURI(QString uri, SendCoinsRecipient *out)
 {
     // Convert telestai:// to telestai:
     //
@@ -300,17 +300,17 @@ bool parseRavenURI(QString uri, SendCoinsRecipient *out)
         uri.replace(0, 10, "telestai:");
     }
     QUrl uriInstance(uri);
-    return parseRavenURI(uriInstance, out);
+    return parseTelestaiURI(uriInstance, out);
 }
 
-QString formatRavenURI(const SendCoinsRecipient &info)
+QString formatTelestaiURI(const SendCoinsRecipient &info)
 {
     QString ret = QString("telestai:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(RavenUnits::format(RavenUnits::TLS, info.amount, false, RavenUnits::separatorNever));
+        ret += QString("?amount=%1").arg(TelestaiUnits::format(TelestaiUnits::TLS, info.amount, false, TelestaiUnits::separatorNever));
         paramCount++;
     }
 
@@ -500,9 +500,9 @@ void openDebugLogfile()
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathDebug)));
 }
 
-bool openRavenConf()
+bool openTelestaiConf()
 {
-    boost::filesystem::path pathConfig = GetConfigFile(RAVEN_CONF_FILENAME);
+    boost::filesystem::path pathConfig = GetConfigFile(TELESTAI_CONF_FILENAME);
 
     /* Create the file */
     boost::filesystem::ofstream configFile(pathConfig, std::ios_base::app);

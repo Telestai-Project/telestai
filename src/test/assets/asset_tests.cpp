@@ -47,19 +47,19 @@ BOOST_FIXTURE_TEST_SUITE(asset_tests, BasicTestingSetup)
         BOOST_CHECK(!IsAssetNameValid("A._BC", type));
         BOOST_CHECK(!IsAssetNameValid("AB_.C", type));
 
-        //- Versions of RAVENCOIN NOT allowed
+        //- Versions of TELESTAICOIN NOT allowed
         BOOST_CHECK(!IsAssetNameValid("TLS", type));
-        BOOST_CHECK(!IsAssetNameValid("RAVEN", type));
-        BOOST_CHECK(!IsAssetNameValid("RAVENCOIN", type));
+        BOOST_CHECK(!IsAssetNameValid("TELESTAI", type));
+        BOOST_CHECK(!IsAssetNameValid("TELESTAICOIN", type));
 
-        //- Versions of RAVENCOIN ALLOWED
-        BOOST_CHECK(IsAssetNameValid("RAVEN.COIN", type));
-        BOOST_CHECK(IsAssetNameValid("RAVEN_COIN", type));
+        //- Versions of TELESTAICOIN ALLOWED
+        BOOST_CHECK(IsAssetNameValid("TELESTAI.COIN", type));
+        BOOST_CHECK(IsAssetNameValid("TELESTAI_COIN", type));
         BOOST_CHECK(IsAssetNameValid("RVNSPYDER", type));
         BOOST_CHECK(IsAssetNameValid("SPYDERRVN", type));
-        BOOST_CHECK(IsAssetNameValid("RAVENSPYDER", type));
-        BOOST_CHECK(IsAssetNameValid("SPYDERAVEN", type));
-        BOOST_CHECK(IsAssetNameValid("BLACK_RAVENS", type));
+        BOOST_CHECK(IsAssetNameValid("TELESTAISPYDER", type));
+        BOOST_CHECK(IsAssetNameValid("SPYDETELESTAI", type));
+        BOOST_CHECK(IsAssetNameValid("BLACK_TELESTAIS", type));
         BOOST_CHECK(IsAssetNameValid("SERVNOT", type));
 
         // subs
@@ -227,7 +227,7 @@ BOOST_FIXTURE_TEST_SUITE(asset_tests, BasicTestingSetup)
         SelectParams(CBaseChainParams::MAIN);
 
         // Create the asset scriptPubKey
-        CAssetTransfer asset("RAVEN", 1000);
+        CAssetTransfer asset("TELESTAI", 1000);
         CScript scriptPubKey = GetScriptForDestination(DecodeDestination(GetParams().GlobalBurnAddress()));
         asset.ConstructTransaction(scriptPubKey);
 
@@ -248,7 +248,7 @@ BOOST_FIXTURE_TEST_SUITE(asset_tests, BasicTestingSetup)
         SelectParams(CBaseChainParams::MAIN);
 
         // Create the asset scriptPubKey
-        CNewAsset asset("RAVEN", 1000, 8, 1, 0, "");
+        CNewAsset asset("TELESTAI", 1000, 8, 1, 0, "");
         CScript scriptPubKey = GetScriptForDestination(DecodeDestination(GetParams().GlobalBurnAddress()));
         asset.ConstructTransaction(scriptPubKey);
 

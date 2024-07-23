@@ -1,7 +1,7 @@
 Telestai Core version *2.2.2* is now available!!
 ==============
 
-  <https://github.com/RavenProject/Telestai/releases/tag/v2.2.2>
+  <https://github.com/TelestaiProject/Telestai/releases/tag/v2.2.2>
 
 
 This is a major release containing bug fixes and enhancements for 2.2.0/2.2.1.  It is highly recommended that users 
@@ -9,7 +9,7 @@ upgrade to this version.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/RavenProject/Telestai/issues>
+  <https://github.com/TelestaiProject/Telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
@@ -79,7 +79,7 @@ Notable changes
 2.2.2 Change log
 ==============
 
-Changelog available here: <https://github.com/RavenProject/Telestai/commits/release_2.2.2>
+Changelog available here: <https://github.com/TelestaiProject/Telestai/commits/release_2.2.2>
 
 Credits
 ==============

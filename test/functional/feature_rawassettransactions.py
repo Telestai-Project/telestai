@@ -10,7 +10,7 @@ Test the rawtransaction RPCs for asset transactions.
 
 import math
 from io import BytesIO
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_equal, assert_raises_rpc_error, assert_is_hash_string, assert_does_not_contain_key, assert_contains_key, assert_contains_pair
 from test_framework.mininode import CTransaction, hex_str_to_bytes, bytes_to_hex_str, CScriptReissue, CScriptOwner, CScriptTransfer, CTxOut, CScriptIssue
 
@@ -56,7 +56,7 @@ def get_tx_issue_hex(self, node, asset_name, asset_quantity, asset_units=0):
 
 
 # noinspection PyTypeChecker
-class RawAssetTransactionsTest(RavenTestFramework):
+class RawAssetTransactionsTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3

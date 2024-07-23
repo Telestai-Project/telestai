@@ -119,7 +119,7 @@ UniValue importprivkey(const JSONRPCRequest& request)
     if (fRescan && fPruneMode)
         throw JSONRPCError(RPC_WALLET_ERROR, "Rescan is disabled in pruned mode");
 
-    CRavenSecret vchSecret;
+    CTelestaiSecret vchSecret;
     bool fGood = vchSecret.SetString(strSecret);
 
     if (!fGood) throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key encoding");
@@ -500,7 +500,7 @@ UniValue importwallet(const JSONRPCRequest& request)
         boost::split(vstr, line, boost::is_any_of(" "));
         if (vstr.size() < 2)
             continue;
-        CRavenSecret vchSecret;
+        CTelestaiSecret vchSecret;
         if (!vchSecret.SetString(vstr[0]))
             continue;
         CKey key = vchSecret.GetKey();
@@ -587,7 +587,7 @@ UniValue dumpprivkey(const JSONRPCRequest& request)
     if (!pwallet->GetKey(*keyID, vchSecret)) {
         throw JSONRPCError(RPC_WALLET_ERROR, "Private key for address " + strAddress + " is not known");
     }
-    return CRavenSecret(vchSecret).ToString();
+    return CTelestaiSecret(vchSecret).ToString();
 }
 
 
@@ -666,13 +666,13 @@ UniValue dumpwallet(const JSONRPCRequest& request)
                 CExtKey masterKey;
                 masterKey.SetSeed(seed.begin(), seed.size());
 
-                CRavenExtKey b58extkey;
+                CTelestaiExtKey b58extkey;
                 b58extkey.SetKey(masterKey);
 
                 CExtPubKey pubkey;
                 pubkey = masterKey.Neuter();
 
-                CRavenExtPubKey b58extpubkey;
+                CTelestaiExtPubKey b58extpubkey;
                 b58extpubkey.SetKey(pubkey);
 
                 file << "# extended private masterkey: " << b58extkey.ToString() << "\n\n";
@@ -694,13 +694,13 @@ UniValue dumpwallet(const JSONRPCRequest& request)
             CExtKey masterKey;
             masterKey.SetSeed(vchSeed.data(), vchSeed.size());
 
-            CRavenExtKey b58extkey;
+            CTelestaiExtKey b58extkey;
             b58extkey.SetKey(masterKey);
 
             CExtPubKey pubkey;
             pubkey = masterKey.Neuter();
 
-            CRavenExtPubKey b58extpubkey;
+            CTelestaiExtPubKey b58extpubkey;
             b58extpubkey.SetKey(pubkey);
 
             file << "# extended private masterkey: " << b58extkey.ToString() << "\n\n";
@@ -718,7 +718,7 @@ UniValue dumpwallet(const JSONRPCRequest& request)
         std::string strAddr = EncodeDestination(keyid);
         CKey key;
         if (pwallet->GetKey(keyid, key)) {
-            file << strprintf("%s %s ", CRavenSecret(key).ToString(), strTime);
+            file << strprintf("%s %s ", CTelestaiSecret(key).ToString(), strTime);
             if (pwallet->mapAddressBook.count(keyid)) {
                 file << strprintf("label=%s", EncodeDumpString(pwallet->mapAddressBook[keyid].name));
             } else if (keyid == seed_id) {
@@ -787,7 +787,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
                 masterKey.SetSeed(seed.begin(), seed.size());;
 
                 // Get the Telestai Ext Key from the master key
-                CRavenExtKey b58extkey;
+                CTelestaiExtKey b58extkey;
                 b58extkey.SetKey(masterKey);
 
                 // Get the public key from the master key
@@ -795,7 +795,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
                 pubkey = masterKey.Neuter();
 
                 // Get the Telestai Ext Key from the public key
-                CRavenExtPubKey b58extpubkey;
+                CTelestaiExtPubKey b58extpubkey;
                 b58extpubkey.SetKey(pubkey);
 
                 // Add the private and public key to the output
@@ -812,11 +812,11 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
                 account_extended_public_key = accountKey.Neuter();
 
                 // Create the Telestai Account Ext Private Key
-                CRavenExtKey b58accountextprivatekey;
+                CTelestaiExtKey b58accountextprivatekey;
                 b58accountextprivatekey.SetKey(accountKey);
 
                 // Create the Telestai Account Ext Public Key
-                CRavenExtPubKey b58actextpubkey;
+                CTelestaiExtPubKey b58actextpubkey;
                 b58actextpubkey.SetKey(account_extended_public_key);
 
                 // Add the account extended public and private keys to the return
@@ -842,7 +842,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
             masterKey.SetSeed(vchSeed.data(), vchSeed.size());
 
             // Get the Telestai Ext Key from the master key
-            CRavenExtKey b58extkey;
+            CTelestaiExtKey b58extkey;
             b58extkey.SetKey(masterKey);
 
             // Get the public key from the master key
@@ -850,7 +850,7 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
             pubkey = masterKey.Neuter();
 
             // Get the Telestai Ext Key from the public key
-            CRavenExtPubKey b58extpubkey;
+            CTelestaiExtPubKey b58extpubkey;
             b58extpubkey.SetKey(pubkey);
 
             // Add the private and public key to the output
@@ -875,11 +875,11 @@ UniValue getmasterkeyinfo(const JSONRPCRequest& request)
             account_extended_public_key = accountKey.Neuter();
 
             // Create the Telestai Account Ext Private Key
-            CRavenExtKey b58accountextprivatekey;
+            CTelestaiExtKey b58accountextprivatekey;
             b58accountextprivatekey.SetKey(accountKey);
 
             // Create the Telestai Account Ext Public Key
-            CRavenExtPubKey b58actextpubkey;
+            CTelestaiExtPubKey b58actextpubkey;
             b58actextpubkey.SetKey(account_extended_public_key);
 
             // Add the account extended public and private keys to the return
@@ -1007,7 +1007,7 @@ UniValue ProcessImport(CWallet * const pwallet, const UniValue& data, const int6
                 for (size_t i = 0; i < keys.size(); i++) {
                     const std::string& privkey = keys[i].get_str();
 
-                    CRavenSecret vchSecret;
+                    CTelestaiSecret vchSecret;
                     bool fGood = vchSecret.SetString(privkey);
 
                     if (!fGood) {
@@ -1114,7 +1114,7 @@ UniValue ProcessImport(CWallet * const pwallet, const UniValue& data, const int6
                 const std::string& strPrivkey = keys[0].get_str();
 
                 // Checks.
-                CRavenSecret vchSecret;
+                CTelestaiSecret vchSecret;
                 bool fGood = vchSecret.SetString(strPrivkey);
 
                 if (!fGood) {

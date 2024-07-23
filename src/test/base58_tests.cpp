@@ -156,7 +156,7 @@ BOOST_FIXTURE_TEST_SUITE(base58_tests, BasicTestingSetup)
         BOOST_TEST_MESSAGE("Running Base58 Keys Valid Parse Test");
 
         UniValue tests = read_json(std::string(json_tests::base58_keys_valid, json_tests::base58_keys_valid + sizeof(json_tests::base58_keys_valid)));
-        CRavenSecret secret;
+        CTelestaiSecret secret;
         CTxDestination destination;
         SelectParams(CBaseChainParams::MAIN);
 
@@ -240,7 +240,7 @@ BOOST_FIXTURE_TEST_SUITE(base58_tests, BasicTestingSetup)
                 CKey key;
                 key.Set(exp_payload.begin(), exp_payload.end(), isCompressed);
                 assert(key.IsValid());
-                CRavenSecret secret;
+                CTelestaiSecret secret;
                 secret.SetKey(key);
                 BOOST_CHECK_MESSAGE(secret.ToString() == exp_base58string, "result mismatch: " + strTest);
             } else
@@ -276,7 +276,7 @@ BOOST_FIXTURE_TEST_SUITE(base58_tests, BasicTestingSetup)
         BOOST_TEST_MESSAGE("Running Base58 Keys Invalid Test");
 
         UniValue tests = read_json(std::string(json_tests::base58_keys_invalid, json_tests::base58_keys_invalid + sizeof(json_tests::base58_keys_invalid))); // Negative testcases
-        CRavenSecret secret;
+        CTelestaiSecret secret;
         CTxDestination destination;
 
         for (unsigned int idx = 0; idx < tests.size(); idx++)

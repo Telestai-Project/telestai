@@ -245,7 +245,7 @@
     </message>
     </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>&amp;Send</source>
         <translation>&amp;ناردن</translation>

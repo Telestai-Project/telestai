@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_COINS_H
-#define RAVEN_COINS_H
+#ifndef TELESTAI_COINS_H
+#define TELESTAI_COINS_H
 
 #include "primitives/transaction.h"
 #include "compressor.h"
@@ -318,4 +318,4 @@ void AddCoins(CCoinsViewCache& cache, const CTransaction& tx, int nHeight, uint2
 // lookups to database, so it should be used with care.
 const Coin& AccessByTxid(const CCoinsViewCache& cache, const uint256& txid);
 
-#endif // RAVEN_COINS_H
+#endif // TELESTAI_COINS_H

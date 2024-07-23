@@ -57,9 +57,9 @@ BOOST_AUTO_TEST_CASE(bip39_vectors)
         key.SetSeed(&seed[0], 64);
         pubkey = key.Neuter();
 
-        CRavenExtKey b58key;
+        CTelestaiExtKey b58key;
         b58key.SetKey(key);
-        // printf("CRavenExtKey: %s\n", b58key.ToString().c_str());
+        // printf("CTelestaiExtKey: %s\n", b58key.ToString().c_str());
         BOOST_CHECK(b58key.ToString() == test[3].get_str());
     }
 }

@@ -772,7 +772,7 @@ void RPCConsole::buildParameterlist(QString arg)
     // Append repair parameter to command line.
     args.append(arg);
 
-    // Send command-line arguments to RavenGUI::handleRestart()
+    // Send command-line arguments to TelestaiGUI::handleRestart()
     Q_EMIT handleRestart(args);
 }
 

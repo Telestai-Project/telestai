@@ -780,7 +780,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_Buttons">
        <item>
-        <widget class="QPushButton" name="openRavenConfButton">
+        <widget class="QPushButton" name="openTelestaiConfButton">
          <property name="toolTip">
           <string>Open the %1 configuration file from the working directory.</string>
          </property>

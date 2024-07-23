@@ -35,7 +35,7 @@ TEST_EXIT_FAILED = 1
 TEST_EXIT_SKIPPED = 77
 
 
-class RavenTestFramework:
+class TelestaiTestFramework:
     """Base class for a telestai test script.
 
     Individual telestai test scripts should subclass this class and override the set_test_params() and run_test() methods.
@@ -355,7 +355,7 @@ class RavenTestFramework:
         self.log.addHandler(ch)
 
         if self.options.trace_rpc:
-            rpc_logger = logging.getLogger("RavenRPC")
+            rpc_logger = logging.getLogger("TelestaiRPC")
             rpc_logger.setLevel(logging.DEBUG)
             rpc_handler = logging.StreamHandler(sys.stdout)
             rpc_handler.setLevel(logging.DEBUG)
@@ -385,7 +385,7 @@ class RavenTestFramework:
             # Create cache directories, run telestaids:
             for i in range(MAX_NODES):
                 datadir = initialize_data_dir(self.options.cachedir, i)
-                args = [os.getenv("RAVEND", "telestaid"), "-server", "-keypool=1", "-datadir=" + datadir, "-discover=0"]
+                args = [os.getenv("TELESTAID", "telestaid"), "-server", "-keypool=1", "-datadir=" + datadir, "-discover=0"]
                 if i > 0:
                     args.append("-connect=127.0.0.1:" + str(p2p_port(0)))
                 self.nodes.append(

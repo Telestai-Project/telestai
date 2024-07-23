@@ -168,8 +168,8 @@
         <translation>Kinnita rahakoti krüpteerimine.</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RAVENS&lt;/b&gt;!</source>
-        <translation>Hoiatus:Kui sa krüpteerid oma rahakoti ja kaotad salafraasi, siis sa&lt;b&gt;KAOTAD OMA RAVENID&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR TELESTAIS&lt;/b&gt;!</source>
+        <translation>Hoiatus:Kui sa krüpteerid oma rahakoti ja kaotad salafraasi, siis sa&lt;b&gt;KAOTAD OMA TELESTAIID&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -536,7 +536,7 @@
     </message>
     <message>
         <source>Automatically open the Telestai client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Raveni kliendi pordi automaatne avamine ruuteris. Toimib, kui sinu ruuter aktsepteerib UPnP ühendust.</translation>
+        <translation>Telestaii kliendi pordi automaatne avamine ruuteris. Toimib, kui sinu ruuter aktsepteerib UPnP ühendust.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -833,7 +833,7 @@
     </message>
 </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Signeeri &amp;sõnum</translation>
@@ -904,7 +904,7 @@
     </message>
     <message>
         <source>Send coins to a Telestai address</source>
-        <translation>Saada münte Raveni aadressile</translation>
+        <translation>Saada münte Telestaii aadressile</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -952,11 +952,11 @@
     </message>
     <message>
         <source>Sign messages with your Telestai addresses to prove you own them</source>
-        <translation>Omandi tõestamiseks allkirjasta sõnumid oma Raveni aadressiga</translation>
+        <translation>Omandi tõestamiseks allkirjasta sõnumid oma Telestaii aadressiga</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Telestai addresses</source>
-        <translation>Kinnita sõnumid kindlustamaks et need allkirjastati määratud Raveni aadressiga</translation>
+        <translation>Kinnita sõnumid kindlustamaks et need allkirjastati määratud Telestaii aadressiga</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -1419,7 +1419,7 @@
     </message>
     <message>
         <source>Sign the message to prove you own this Telestai address</source>
-        <translation>Allkirjasta sõnum Raveni aadressi sulle kuulumise tõestamiseks</translation>
+        <translation>Allkirjasta sõnum Telestaii aadressi sulle kuulumise tõestamiseks</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1443,7 +1443,7 @@
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Telestai address</source>
-        <translation>Kinnita sõnum tõestamaks selle allkirjastatust määratud Raveni aadressiga.</translation>
+        <translation>Kinnita sõnum tõestamaks selle allkirjastatust määratud Telestaii aadressiga.</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1728,7 +1728,7 @@
     </message>
     <message>
         <source>Telestai Core</source>
-        <translation>Raveni tuumik</translation>
+        <translation>Telestaii tuumik</translation>
     </message>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>

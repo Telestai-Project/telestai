@@ -17,7 +17,7 @@ if uploadtarget has been reached.
 from collections import defaultdict
 import time
 from test_framework.mininode import NodeConn, NodeConnCB, NetworkThread, MsgGetdata, CInv
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import p2p_port, mine_large_block, assert_equal
 
 
@@ -34,7 +34,7 @@ class TestNode(NodeConnCB):
         self.block_receive_map[message.block.x16r] += 1
 
 
-class MaxUploadTest(RavenTestFramework):
+class MaxUploadTest(TelestaiTestFramework):
 
     def set_test_params(self):
         self.setup_clean_chain = True

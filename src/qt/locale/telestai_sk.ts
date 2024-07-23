@@ -168,8 +168,8 @@
         <translation>Potvrďte zašifrovanie peňaženky</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RAVENS&lt;/b&gt;!</source>
-        <translation>Varovanie: Ak zašifrujete peňaženku a stratíte heslo, &lt;b&gt;STRATÍTE VŠETKY VAŠE RAVENY&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR TELESTAIS&lt;/b&gt;!</source>
+        <translation>Varovanie: Ak zašifrujete peňaženku a stratíte heslo, &lt;b&gt;STRATÍTE VŠETKY VAŠE TELESTAIY&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -784,7 +784,7 @@
     </message>
     <message>
         <source>Connect to the Telestai network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Pripojiť k Ravenovej sieti cez separované SOCKS5 proxy pre skrytú službu Tor.</translation>
+        <translation>Pripojiť k Telestaiovej sieti cez separované SOCKS5 proxy pre skrytú službu Tor.</translation>
     </message>
     <message>
         <source>&amp;Window</source>
@@ -1390,7 +1390,7 @@
     </message>
 </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Podpísať &amp;správu...</translation>
@@ -1617,7 +1617,7 @@
     </message>
     <message>
         <source>Show the %1 help message to get a list with possible Telestai command-line options</source>
-        <translation>Ukáž %1 zoznam možných nastavení Ravenu pomocou príkazového riadku</translation>
+        <translation>Ukáž %1 zoznam možných nastavení Telestaiu pomocou príkazového riadku</translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -1876,7 +1876,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Poslať Ravens</translation>
+        <translation>Poslať Telestais</translation>
     </message>
     <message>
         <source>Coin Control Features</source>

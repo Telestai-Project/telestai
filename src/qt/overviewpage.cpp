@@ -46,7 +46,7 @@ class TxViewDelegate : public QAbstractItemDelegate
     Q_OBJECT
 public:
     explicit TxViewDelegate(const PlatformStyle *_platformStyle, QObject *parent=nullptr):
-        QAbstractItemDelegate(parent), unit(RavenUnits::TLS),
+        QAbstractItemDelegate(parent), unit(TelestaiUnits::TLS),
         platformStyle(_platformStyle)
     {
 
@@ -155,7 +155,7 @@ class AssetViewDelegate : public QAbstractItemDelegate
 Q_OBJECT
 public:
     explicit AssetViewDelegate(const PlatformStyle *_platformStyle, QObject *parent=nullptr):
-            QAbstractItemDelegate(parent), unit(RavenUnits::TLS),
+            QAbstractItemDelegate(parent), unit(TelestaiUnits::TLS),
             platformStyle(_platformStyle)
     {
 
@@ -561,14 +561,14 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     currentWatchOnlyBalance = watchOnlyBalance;
     currentWatchUnconfBalance = watchUnconfBalance;
     currentWatchImmatureBalance = watchImmatureBalance;
-    ui->labelBalance->setText(RavenUnits::formatWithUnit(unit, balance, false, RavenUnits::separatorAlways));
-    ui->labelUnconfirmed->setText(RavenUnits::formatWithUnit(unit, unconfirmedBalance, false, RavenUnits::separatorAlways));
-    ui->labelImmature->setText(RavenUnits::formatWithUnit(unit, immatureBalance, false, RavenUnits::separatorAlways));
-    ui->labelTotal->setText(RavenUnits::formatWithUnit(unit, balance + unconfirmedBalance + immatureBalance, false, RavenUnits::separatorAlways));
-    ui->labelWatchAvailable->setText(RavenUnits::formatWithUnit(unit, watchOnlyBalance, false, RavenUnits::separatorAlways));
-    ui->labelWatchPending->setText(RavenUnits::formatWithUnit(unit, watchUnconfBalance, false, RavenUnits::separatorAlways));
-    ui->labelWatchImmature->setText(RavenUnits::formatWithUnit(unit, watchImmatureBalance, false, RavenUnits::separatorAlways));
-    ui->labelWatchTotal->setText(RavenUnits::formatWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance, false, RavenUnits::separatorAlways));
+    ui->labelBalance->setText(TelestaiUnits::formatWithUnit(unit, balance, false, TelestaiUnits::separatorAlways));
+    ui->labelUnconfirmed->setText(TelestaiUnits::formatWithUnit(unit, unconfirmedBalance, false, TelestaiUnits::separatorAlways));
+    ui->labelImmature->setText(TelestaiUnits::formatWithUnit(unit, immatureBalance, false, TelestaiUnits::separatorAlways));
+    ui->labelTotal->setText(TelestaiUnits::formatWithUnit(unit, balance + unconfirmedBalance + immatureBalance, false, TelestaiUnits::separatorAlways));
+    ui->labelWatchAvailable->setText(TelestaiUnits::formatWithUnit(unit, watchOnlyBalance, false, TelestaiUnits::separatorAlways));
+    ui->labelWatchPending->setText(TelestaiUnits::formatWithUnit(unit, watchUnconfBalance, false, TelestaiUnits::separatorAlways));
+    ui->labelWatchImmature->setText(TelestaiUnits::formatWithUnit(unit, watchImmatureBalance, false, TelestaiUnits::separatorAlways));
+    ui->labelWatchTotal->setText(TelestaiUnits::formatWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance, false, TelestaiUnits::separatorAlways));
 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users

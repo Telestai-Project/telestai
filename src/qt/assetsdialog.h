@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_ASSETSDIALOG_H
-#define RAVEN_QT_ASSETSDIALOG_H
+#ifndef TELESTAI_QT_ASSETSDIALOG_H
+#define TELESTAI_QT_ASSETSDIALOG_H
 
 #include "walletmodel.h"
 
@@ -118,4 +118,4 @@ private Q_SLOTS:
             void message(const QString &title, const QString &message, unsigned int style);
 };
 
-#endif // RAVEN_QT_ASSETSSDIALOG_H
+#endif // TELESTAI_QT_ASSETSSDIALOG_H

@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_RAVENGUI_H
-#define RAVEN_QT_RAVENGUI_H
+#ifndef TELESTAI_QT_TELESTAIGUI_H
+#define TELESTAI_QT_TELESTAIGUI_H
 
 #if defined(HAVE_CONFIG_H)
 #include "config/telestai-config.h"
@@ -47,7 +47,7 @@ QT_END_NAMESPACE
   Telestai GUI main class. This class represents the main window of the Telestai UI. It communicates with both the client and
   wallet models to give the user an up-to-date view of the current core state.
 */
-class RavenGUI : public QMainWindow
+class TelestaiGUI : public QMainWindow
 {
     Q_OBJECT
 
@@ -55,8 +55,8 @@ public:
     static const QString DEFAULT_WALLET;
     static const std::string DEFAULT_UIPLATFORM;
 
-    explicit RavenGUI(const PlatformStyle *platformStyle, const NetworkStyle *networkStyle, QWidget *parent = 0);
-    ~RavenGUI();
+    explicit TelestaiGUI(const PlatformStyle *platformStyle, const NetworkStyle *networkStyle, QWidget *parent = 0);
+    ~TelestaiGUI();
 
     /** Set the client model.
         The client model represents the part of the core that communicates with the P2P network, and is wallet-agnostic.
@@ -345,4 +345,4 @@ private Q_SLOTS:
 };
 
 
-#endif // RAVEN_QT_RAVENGUI_H
+#endif // TELESTAI_QT_TELESTAIGUI_H

@@ -149,7 +149,7 @@
     <name>RPCConsole</name>
     </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     </context>
 <context>
     <name>ReceiveCoinsDialog</name>

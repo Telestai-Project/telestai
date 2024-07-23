@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_RAVENAMOUNTFIELD_H
-#define RAVEN_QT_RAVENAMOUNTFIELD_H
+#ifndef TELESTAI_QT_TELESTAIAMOUNTFIELD_H
+#define TELESTAI_QT_TELESTAIAMOUNTFIELD_H
 
 #include "amount.h"
 
@@ -18,7 +18,7 @@ QT_END_NAMESPACE
 
 /** Widget for entering telestai amounts.
   */
-class RavenAmountField: public QWidget
+class TelestaiAmountField: public QWidget
 {
     Q_OBJECT
 
@@ -27,7 +27,7 @@ class RavenAmountField: public QWidget
     Q_PROPERTY(qint64 value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
-    explicit RavenAmountField(QWidget *parent = 0);
+    explicit TelestaiAmountField(QWidget *parent = 0);
 
     CAmount value(bool *value=0) const;
     void setValue(const CAmount& value);
@@ -127,4 +127,4 @@ private:
 };
 
 
-#endif // RAVEN_QT_RAVENAMOUNTFIELD_H
+#endif // TELESTAI_QT_TELESTAIAMOUNTFIELD_H

@@ -7,7 +7,7 @@
 """Test restricted asset related RPC commands."""
 
 import math
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_equal
 
 BURN_ADDRESSES = {
@@ -257,7 +257,7 @@ def get_tx_freeze_asset_hex(node, op, asset_name, owner_change_address):
     return tx_freeze_hex
 
 
-class RawRestrictedAssetsTest(RavenTestFramework):
+class RawRestrictedAssetsTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2

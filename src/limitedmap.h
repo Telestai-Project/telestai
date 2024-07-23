@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_LIMITEDMAP_H
-#define RAVEN_LIMITEDMAP_H
+#ifndef TELESTAI_LIMITEDMAP_H
+#define TELESTAI_LIMITEDMAP_H
 
 #include <assert.h>
 #include <map>
@@ -98,4 +98,4 @@ public:
     }
 };
 
-#endif // RAVEN_LIMITEDMAP_H
+#endif // TELESTAI_LIMITEDMAP_H

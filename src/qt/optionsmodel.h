@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_OPTIONSMODEL_H
-#define RAVEN_QT_OPTIONSMODEL_H
+#ifndef TELESTAI_QT_OPTIONSMODEL_H
+#define TELESTAI_QT_OPTIONSMODEL_H
 
 #include "amount.h"
 
@@ -40,7 +40,7 @@ public:
         ProxyUseTor,            // bool
         ProxyIPTor,             // QString
         ProxyPortTor,           // int
-        DisplayUnit,            // RavenUnits::Unit
+        DisplayUnit,            // TelestaiUnits::Unit
         DisplayCurrencyIndex,   // int
         ThirdPartyTxUrls,       // QString
         IpfsUrl,                // QString
@@ -117,4 +117,4 @@ Q_SIGNALS:
     void updateIconsOnlyToolbar(bool);
 };
 
-#endif // RAVEN_QT_OPTIONSMODEL_H
+#endif // TELESTAI_QT_OPTIONSMODEL_H

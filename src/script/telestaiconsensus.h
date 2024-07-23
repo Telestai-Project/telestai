@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_RAVENCONSENSUS_H
-#define RAVEN_RAVENCONSENSUS_H
+#ifndef TELESTAI_TELESTAICONSENSUS_H
+#define TELESTAI_TELESTAICONSENSUS_H
 
 #include <stdint.h>
 
-#if defined(BUILD_RAVEN_INTERNAL) && defined(HAVE_CONFIG_H)
+#if defined(BUILD_TELESTAI_INTERNAL) && defined(HAVE_CONFIG_H)
 #include "config/telestai-config.h"
   #if defined(_WIN32)
     #if defined(DLL_EXPORT)
@@ -22,7 +22,7 @@
   #elif defined(HAVE_FUNC_ATTRIBUTE_VISIBILITY)
     #define EXPORT_SYMBOL __attribute__ ((visibility ("default")))
   #endif
-#elif defined(MSC_VER) && !defined(STATIC_LIBRAVENCONSENSUS)
+#elif defined(MSC_VER) && !defined(STATIC_LIBTELESTAICONSENSUS)
   #define EXPORT_SYMBOL __declspec(dllimport)
 #endif
 
@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#define RAVENCONSENSUS_API_VER 1
+#define TELESTAICONSENSUS_API_VER 1
 
 typedef enum telestaiconsensus_error_t
 {
@@ -81,4 +81,4 @@ EXPORT_SYMBOL unsigned int telestaiconsensus_version();
 
 #undef EXPORT_SYMBOL
 
-#endif // RAVEN_RAVENCONSENSUS_H
+#endif // TELESTAI_TELESTAICONSENSUS_H

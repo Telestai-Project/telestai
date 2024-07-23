@@ -91,7 +91,7 @@ using namespace boost::placeholders;
 #define QTversionPreFiveEleven
 #endif
 
-const std::string RavenGUI::DEFAULT_UIPLATFORM =
+const std::string TelestaiGUI::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
         "macosx"
 #elif defined(Q_OS_WIN)
@@ -103,7 +103,7 @@ const std::string RavenGUI::DEFAULT_UIPLATFORM =
 
 /** Display name for default wallet name. Uses tilde to avoid name
  * collisions in the future with additional wallets */
-const QString RavenGUI::DEFAULT_WALLET = "~Default";
+const QString TelestaiGUI::DEFAULT_WALLET = "~Default";
 
 /* Bit of a bodge, c++ really doesn't want you to predefine values
  * in only header files, so we do one-time value assignment here. */
@@ -115,9 +115,9 @@ std::array<CurrencyUnitDetails, 5> CurrencyUnits::CurrencyOptions = { {
     { "USDT",   "RVNUSDT" , 1,          5}
 } };
 
-static bool ThreadSafeMessageBox(RavenGUI *gui, const std::string& message, const std::string& caption, unsigned int style);
+static bool ThreadSafeMessageBox(TelestaiGUI *gui, const std::string& message, const std::string& caption, unsigned int style);
 
-RavenGUI::RavenGUI(const PlatformStyle *_platformStyle, const NetworkStyle *networkStyle, QWidget *parent) :
+TelestaiGUI::TelestaiGUI(const PlatformStyle *_platformStyle, const NetworkStyle *networkStyle, QWidget *parent) :
     QMainWindow(parent),
     enableWallet(false),
     platformStyle(_platformStyle)
@@ -282,7 +282,7 @@ RavenGUI::RavenGUI(const PlatformStyle *_platformStyle, const NetworkStyle *netw
 #endif
 }
 
-RavenGUI::~RavenGUI()
+TelestaiGUI::~TelestaiGUI()
 {
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
@@ -299,7 +299,7 @@ RavenGUI::~RavenGUI()
     delete rpcConsole;
 }
 
-void RavenGUI::loadFonts()
+void TelestaiGUI::loadFonts()
 {
     QFontDatabase::addApplicationFont(":/fonts/opensans-bold");
     QFontDatabase::addApplicationFont(":/fonts/opensans-bolditalic");
@@ -314,7 +314,7 @@ void RavenGUI::loadFonts()
 }
 
 
-void RavenGUI::createActions()
+void TelestaiGUI::createActions()
 {
     QFont font = QFont();
     font.setPixelSize(22);
@@ -530,7 +530,7 @@ void RavenGUI::createActions()
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D), this, SLOT(showDebugWindow()));
 }
 
-void RavenGUI::createMenuBar()
+void TelestaiGUI::createMenuBar()
 {
 #ifdef Q_OS_MAC
     // Create a decoupled menu bar on Mac which stays even if the window is closed
@@ -577,7 +577,7 @@ void RavenGUI::createMenuBar()
     help->addAction(aboutQtAction);
 }
 
-void RavenGUI::createToolBars()
+void TelestaiGUI::createToolBars()
 {
     if(walletFrame)
     {
@@ -738,7 +738,7 @@ void RavenGUI::createToolBars()
         comboRvnUnit->setStyleSheet(STRING_LABEL_COLOR);
         comboRvnUnit->setFont(currentMarketFont);
 
-        labelVersionUpdate->setText("<a href=\"https://github.com/RavenProject/Telestai/releases\">New Wallet Version Available</a>");
+        labelVersionUpdate->setText("<a href=\"https://github.com/TelestaiProject/Telestai/releases\">New Wallet Version Available</a>");
         labelVersionUpdate->setTextFormat(Qt::RichText);
         labelVersionUpdate->setTextInteractionFlags(Qt::TextBrowserInteraction);
         labelVersionUpdate->setOpenExternalLinks(true);
@@ -912,7 +912,7 @@ void RavenGUI::createToolBars()
                                            "New Wallet Version Found",
                                            CClientUIInterface::MSG_VERSION | CClientUIInterface::BTN_NO);
                                    if (fRet) {
-                                       QString link = "https://github.com/RavenProject/Telestai/releases";
+                                       QString link = "https://github.com/TelestaiProject/Telestai/releases";
                                        QDesktopServices::openUrl(QUrl(link));
                                    }
                                }
@@ -928,7 +928,7 @@ void RavenGUI::createToolBars()
     }
 }
 
-void RavenGUI::updateIconsOnlyToolbar(bool IconsOnly)
+void TelestaiGUI::updateIconsOnlyToolbar(bool IconsOnly)
 {
     if(IconsOnly) {
         labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/rvntext")));
@@ -942,7 +942,7 @@ void RavenGUI::updateIconsOnlyToolbar(bool IconsOnly)
         m_toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);        
     }
 }
-void RavenGUI::setClientModel(ClientModel *_clientModel)
+void TelestaiGUI::setClientModel(ClientModel *_clientModel)
 {
     this->clientModel = _clientModel;
     if(_clientModel)
@@ -1015,7 +1015,7 @@ void RavenGUI::setClientModel(ClientModel *_clientModel)
 }
 
 #ifdef ENABLE_WALLET
-bool RavenGUI::addWallet(const QString& name, WalletModel *walletModel)
+bool TelestaiGUI::addWallet(const QString& name, WalletModel *walletModel)
 {
     if(!walletFrame)
         return false;
@@ -1023,14 +1023,14 @@ bool RavenGUI::addWallet(const QString& name, WalletModel *walletModel)
     return walletFrame->addWallet(name, walletModel);
 }
 
-bool RavenGUI::setCurrentWallet(const QString& name)
+bool TelestaiGUI::setCurrentWallet(const QString& name)
 {
     if(!walletFrame)
         return false;
     return walletFrame->setCurrentWallet(name);
 }
 
-void RavenGUI::removeAllWallets()
+void TelestaiGUI::removeAllWallets()
 {
     if(!walletFrame)
         return;
@@ -1039,7 +1039,7 @@ void RavenGUI::removeAllWallets()
 }
 #endif // ENABLE_WALLET
 
-void RavenGUI::setWalletActionsEnabled(bool enabled)
+void TelestaiGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
@@ -1067,7 +1067,7 @@ void RavenGUI::setWalletActionsEnabled(bool enabled)
     /** TLS END */
 }
 
-void RavenGUI::createTrayIcon(const NetworkStyle *networkStyle)
+void TelestaiGUI::createTrayIcon(const NetworkStyle *networkStyle)
 {
 #ifndef Q_OS_MAC
     trayIcon = new QSystemTrayIcon(this);
@@ -1080,7 +1080,7 @@ void RavenGUI::createTrayIcon(const NetworkStyle *networkStyle)
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
 }
 
-void RavenGUI::createTrayIconMenu()
+void TelestaiGUI::createTrayIconMenu()
 {
 #ifndef Q_OS_MAC
     // return if trayIcon is unset (only on non-Mac OSes)
@@ -1117,7 +1117,7 @@ void RavenGUI::createTrayIconMenu()
 }
 
 #ifndef Q_OS_MAC
-void RavenGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+void TelestaiGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
     {
@@ -1127,7 +1127,7 @@ void RavenGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 }
 #endif
 
-void RavenGUI::optionsClicked()
+void TelestaiGUI::optionsClicked()
 {
     if(!clientModel || !clientModel->getOptionsModel())
         return;
@@ -1137,7 +1137,7 @@ void RavenGUI::optionsClicked()
     dlg.exec();
 }
 
-void RavenGUI::aboutClicked()
+void TelestaiGUI::aboutClicked()
 {
     if(!clientModel)
         return;
@@ -1146,7 +1146,7 @@ void RavenGUI::aboutClicked()
     dlg.exec();
 }
 
-void RavenGUI::showDebugWindow()
+void TelestaiGUI::showDebugWindow()
 {
     rpcConsole->showNormal();
     rpcConsole->show();
@@ -1154,25 +1154,25 @@ void RavenGUI::showDebugWindow()
     rpcConsole->activateWindow();
 }
 
-void RavenGUI::showDebugWindowActivateConsole()
+void TelestaiGUI::showDebugWindowActivateConsole()
 {
     rpcConsole->setTabFocus(RPCConsole::TAB_CONSOLE);
     showDebugWindow();
 }
 
-void RavenGUI::showWalletRepair()
+void TelestaiGUI::showWalletRepair()
 {
     rpcConsole->setTabFocus(RPCConsole::TAB_REPAIR);
     showDebugWindow();
 }
 
-void RavenGUI::showHelpMessageClicked()
+void TelestaiGUI::showHelpMessageClicked()
 {
     helpMessageDialog->show();
 }
 
 #ifdef ENABLE_WALLET
-void RavenGUI::openClicked()
+void TelestaiGUI::openClicked()
 {
     OpenURIDialog dlg(this);
     if(dlg.exec())
@@ -1181,60 +1181,60 @@ void RavenGUI::openClicked()
     }
 }
 
-void RavenGUI::gotoOverviewPage()
+void TelestaiGUI::gotoOverviewPage()
 {
     overviewAction->setChecked(true);
     if (walletFrame) walletFrame->gotoOverviewPage();
 }
 
-void RavenGUI::gotoHistoryPage()
+void TelestaiGUI::gotoHistoryPage()
 {
     historyAction->setChecked(true);
     if (walletFrame) walletFrame->gotoHistoryPage();
 }
 
-void RavenGUI::gotoReceiveCoinsPage()
+void TelestaiGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
 }
 
-void RavenGUI::gotoSendCoinsPage(QString addr)
+void TelestaiGUI::gotoSendCoinsPage(QString addr)
 {
     sendCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
 }
 
-void RavenGUI::gotoSignMessageTab(QString addr)
+void TelestaiGUI::gotoSignMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoSignMessageTab(addr);
 }
 
-void RavenGUI::gotoVerifyMessageTab(QString addr)
+void TelestaiGUI::gotoVerifyMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
 }
 
 /** TLS START */
-void RavenGUI::gotoAssetsPage()
+void TelestaiGUI::gotoAssetsPage()
 {
     transferAssetAction->setChecked(true);
     if (walletFrame) walletFrame->gotoAssetsPage();
 };
 
-void RavenGUI::gotoCreateAssetsPage()
+void TelestaiGUI::gotoCreateAssetsPage()
 {
     createAssetAction->setChecked(true);
     if (walletFrame) walletFrame->gotoCreateAssetsPage();
 };
 
-void RavenGUI::gotoManageAssetsPage()
+void TelestaiGUI::gotoManageAssetsPage()
 {
     manageAssetAction->setChecked(true);
     if (walletFrame) walletFrame->gotoManageAssetsPage();
 };
 
-void RavenGUI::gotoRestrictedAssetsPage()
+void TelestaiGUI::gotoRestrictedAssetsPage()
 {
     restrictedAssetAction->setChecked(true);
     if (walletFrame) walletFrame->gotoRestrictedAssetsPage();
@@ -1242,7 +1242,7 @@ void RavenGUI::gotoRestrictedAssetsPage()
 /** TLS END */
 #endif // ENABLE_WALLET
 
-void RavenGUI::updateNetworkState()
+void TelestaiGUI::updateNetworkState()
 {
     int count = clientModel->getNumConnections();
     QString icon;
@@ -1271,17 +1271,17 @@ void RavenGUI::updateNetworkState()
     connectionsControl->setPixmap(platformStyle->SingleColorIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
 }
 
-void RavenGUI::setNumConnections(int count)
+void TelestaiGUI::setNumConnections(int count)
 {
     updateNetworkState();
 }
 
-void RavenGUI::setNetworkActive(bool networkActive)
+void TelestaiGUI::setNetworkActive(bool networkActive)
 {
     updateNetworkState();
 }
 
-void RavenGUI::updateHeadersSyncProgressLabel()
+void TelestaiGUI::updateHeadersSyncProgressLabel()
 {
     int64_t headersTipTime = clientModel->getHeaderTipTime();
     int headersTipHeight = clientModel->getHeaderTipHeight();
@@ -1290,7 +1290,7 @@ void RavenGUI::updateHeadersSyncProgressLabel()
         progressBarLabel->setText(tr("Syncing Headers (%1%)...").arg(QString::number(100.0 / (headersTipHeight+estHeadersLeft)*headersTipHeight, 'f', 1)));
 }
 
-void RavenGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header)
+void TelestaiGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header)
 {
     if (modalOverlay)
     {
@@ -1401,7 +1401,7 @@ void RavenGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerif
     progressBar->setToolTip(tooltip);
 }
 
-void RavenGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
+void TelestaiGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
 {
     QString strTitle = tr("Telestai"); // default title
     // Default to information icon
@@ -1460,7 +1460,7 @@ void RavenGUI::message(const QString &title, const QString &message, unsigned in
         notificator->notify((Notificator::Class)nNotifyIcon, strTitle, message);
 }
 
-void RavenGUI::changeEvent(QEvent *e)
+void TelestaiGUI::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
 #ifndef Q_OS_MAC // Ignored on Mac
@@ -1479,7 +1479,7 @@ void RavenGUI::changeEvent(QEvent *e)
 #endif
 }
 
-void RavenGUI::closeEvent(QCloseEvent *event)
+void TelestaiGUI::closeEvent(QCloseEvent *event)
 {
 #ifndef Q_OS_MAC // Ignored on Mac
     if(clientModel && clientModel->getOptionsModel())
@@ -1502,7 +1502,7 @@ void RavenGUI::closeEvent(QCloseEvent *event)
 #endif
 }
 
-void RavenGUI::showEvent(QShowEvent *event)
+void TelestaiGUI::showEvent(QShowEvent *event)
 {
     // enable the debug window when the main window shows up
     openRPCConsoleAction->setEnabled(true);
@@ -1511,14 +1511,14 @@ void RavenGUI::showEvent(QShowEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-void RavenGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label, const QString& assetName)
+void TelestaiGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label, const QString& assetName)
 {
     // On new transaction, make an info balloon
     QString msg = tr("Date: %1\n").arg(date);
     if (assetName == "TLS")
-        msg += tr("Amount: %1\n").arg(RavenUnits::formatWithUnit(unit, amount, true));
+        msg += tr("Amount: %1\n").arg(TelestaiUnits::formatWithUnit(unit, amount, true));
     else
-        msg += tr("Amount: %1\n").arg(RavenUnits::formatWithCustomName(assetName, amount, MAX_ASSET_UNITS, true));
+        msg += tr("Amount: %1\n").arg(TelestaiUnits::formatWithCustomName(assetName, amount, MAX_ASSET_UNITS, true));
 
     msg += tr("Type: %1\n").arg(type);
 
@@ -1530,7 +1530,7 @@ void RavenGUI::incomingTransaction(const QString& date, int unit, const CAmount&
              msg, CClientUIInterface::MSG_INFORMATION);
 }
 
-void RavenGUI::checkAssets()
+void TelestaiGUI::checkAssets()
 {
     // Check that status of RIP2 and activate the assets icon if it is active
     if(AreAssetsDeployed()) {
@@ -1559,14 +1559,14 @@ void RavenGUI::checkAssets()
 }
 #endif // ENABLE_WALLET
 
-void RavenGUI::dragEnterEvent(QDragEnterEvent *event)
+void TelestaiGUI::dragEnterEvent(QDragEnterEvent *event)
 {
     // Accept only URIs
     if(event->mimeData()->hasUrls())
         event->acceptProposedAction();
 }
 
-void RavenGUI::dropEvent(QDropEvent *event)
+void TelestaiGUI::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasUrls())
     {
@@ -1578,7 +1578,7 @@ void RavenGUI::dropEvent(QDropEvent *event)
     event->acceptProposedAction();
 }
 
-bool RavenGUI::eventFilter(QObject *object, QEvent *event)
+bool TelestaiGUI::eventFilter(QObject *object, QEvent *event)
 {
     // Catch status tip events
     if (event->type() == QEvent::StatusTip)
@@ -1591,7 +1591,7 @@ bool RavenGUI::eventFilter(QObject *object, QEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-bool RavenGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
+bool TelestaiGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
 {
     // URI has to be valid
     if (walletFrame && walletFrame->handlePaymentRequest(recipient))
@@ -1603,7 +1603,7 @@ bool RavenGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
     return false;
 }
 
-void RavenGUI::setHDStatus(int hdEnabled)
+void TelestaiGUI::setHDStatus(int hdEnabled)
 {
     QString icon = "";
     if (hdEnabled == HD_DISABLED) {
@@ -1621,7 +1621,7 @@ void RavenGUI::setHDStatus(int hdEnabled)
     labelWalletHDStatusIcon->setEnabled(hdEnabled);
 }
 
-void RavenGUI::setEncryptionStatus(int status)
+void TelestaiGUI::setEncryptionStatus(int status)
 {
     switch(status)
     {
@@ -1651,7 +1651,7 @@ void RavenGUI::setEncryptionStatus(int status)
 }
 #endif // ENABLE_WALLET
 
-void RavenGUI::showNormalIfMinimized(bool fToggleHidden)
+void TelestaiGUI::showNormalIfMinimized(bool fToggleHidden)
 {
     if(!clientModel)
         return;
@@ -1676,12 +1676,12 @@ void RavenGUI::showNormalIfMinimized(bool fToggleHidden)
         hide();
 }
 
-void RavenGUI::toggleHidden()
+void TelestaiGUI::toggleHidden()
 {
     showNormalIfMinimized(true);
 }
 
-void RavenGUI::detectShutdown()
+void TelestaiGUI::detectShutdown()
 {
     if (ShutdownRequested())
     {
@@ -1691,7 +1691,7 @@ void RavenGUI::detectShutdown()
     }
 }
 
-void RavenGUI::showProgress(const QString &title, int nProgress)
+void TelestaiGUI::showProgress(const QString &title, int nProgress)
 {
     if (nProgress == 0)
     {
@@ -1714,7 +1714,7 @@ void RavenGUI::showProgress(const QString &title, int nProgress)
         progressDialog->setValue(nProgress);
 }
 
-void RavenGUI::setTrayIconVisible(bool fHideTrayIcon)
+void TelestaiGUI::setTrayIconVisible(bool fHideTrayIcon)
 {
     if (trayIcon)
     {
@@ -1722,13 +1722,13 @@ void RavenGUI::setTrayIconVisible(bool fHideTrayIcon)
     }
 }
 
-void RavenGUI::showModalOverlay()
+void TelestaiGUI::showModalOverlay()
 {
     if (modalOverlay && (progressBar->isVisible() || modalOverlay->isLayerVisible()))
         modalOverlay->toggleVisibility();
 }
 
-static bool ThreadSafeMessageBox(RavenGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
+static bool ThreadSafeMessageBox(TelestaiGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
 {
     bool modal = (style & CClientUIInterface::MODAL);
     // The SECURE flag has no effect in the Qt GUI.
@@ -1745,7 +1745,7 @@ static bool ThreadSafeMessageBox(RavenGUI *gui, const std::string& message, cons
     return ret;
 }
 
-static bool ThreadSafeMnemonic(RavenGUI *gui, unsigned int style)
+static bool ThreadSafeMnemonic(TelestaiGUI *gui, unsigned int style)
 {
     bool modal = (style & CClientUIInterface::MODAL);
     // The SECURE flag has no effect in the Qt GUI.
@@ -1758,7 +1758,7 @@ static bool ThreadSafeMnemonic(RavenGUI *gui, unsigned int style)
     return ret;
 }
 
-void RavenGUI::subscribeToCoreSignals()
+void TelestaiGUI::subscribeToCoreSignals()
 {
     // Connect signals to client
     uiInterface.ThreadSafeMessageBox.connect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
@@ -1766,7 +1766,7 @@ void RavenGUI::subscribeToCoreSignals()
     uiInterface.ShowMnemonic.connect(boost::bind(ThreadSafeMnemonic, this, _1));
 }
 
-void RavenGUI::unsubscribeFromCoreSignals()
+void TelestaiGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
     uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
@@ -1774,7 +1774,7 @@ void RavenGUI::unsubscribeFromCoreSignals()
     uiInterface.ShowMnemonic.disconnect(boost::bind(ThreadSafeMnemonic, this, _1));
 }
 
-void RavenGUI::toggleNetworkActive()
+void TelestaiGUI::toggleNetworkActive()
 {
     if (clientModel) {
         clientModel->setNetworkActive(!clientModel->getNetworkActive());
@@ -1782,7 +1782,7 @@ void RavenGUI::toggleNetworkActive()
 }
 
 /** Get restart command-line parameters and request restart */
-void RavenGUI::handleRestart(QStringList args)
+void TelestaiGUI::handleRestart(QStringList args)
 {
     if (!ShutdownRequested())
         Q_EMIT requestedRestart(args);
@@ -1794,15 +1794,15 @@ UnitDisplayStatusBarControl::UnitDisplayStatusBarControl(const PlatformStyle *pl
 {
     createContextMenu(platformStyle);
     setToolTip(tr("Unit to show amounts in. Click to select another unit."));
-    QList<RavenUnits::Unit> units = RavenUnits::availableUnits();
+    QList<TelestaiUnits::Unit> units = TelestaiUnits::availableUnits();
     int max_width = 0;
     const QFontMetrics fm(font());
-    for (const RavenUnits::Unit unit : units)
+    for (const TelestaiUnits::Unit unit : units)
     {
     #ifndef QTversionPreFiveEleven
-        max_width = qMax(max_width, fm.horizontalAdvance(RavenUnits::name(unit)));
+        max_width = qMax(max_width, fm.horizontalAdvance(TelestaiUnits::name(unit)));
     #else
-        max_width = qMax(max_width, fm.width(RavenUnits::name(unit)));
+        max_width = qMax(max_width, fm.width(TelestaiUnits::name(unit)));
     #endif
     }
     setMinimumSize(max_width, 0);
@@ -1820,9 +1820,9 @@ void UnitDisplayStatusBarControl::mousePressEvent(QMouseEvent *event)
 void UnitDisplayStatusBarControl::createContextMenu(const PlatformStyle *platformStyle)
 {
     menu = new QMenu(this);
-    for (RavenUnits::Unit u : RavenUnits::availableUnits())
+    for (TelestaiUnits::Unit u : TelestaiUnits::availableUnits())
     {
-        QAction *menuAction = new QAction(QString(RavenUnits::name(u)), this);
+        QAction *menuAction = new QAction(QString(TelestaiUnits::name(u)), this);
         menuAction->setData(QVariant(u));
         menu->addAction(menuAction);
     }
@@ -1848,7 +1848,7 @@ void UnitDisplayStatusBarControl::setOptionsModel(OptionsModel *_optionsModel)
 /** When Display Units are changed on OptionsModel it will refresh the display text of the control on the status bar */
 void UnitDisplayStatusBarControl::updateDisplayUnit(int newUnits)
 {
-    setText(RavenUnits::name(newUnits));
+    setText(TelestaiUnits::name(newUnits));
 }
 
 /** Shows context menu with Display Unit options by the mouse coordinates */
@@ -1868,7 +1868,7 @@ void UnitDisplayStatusBarControl::onMenuSelection(QAction* action)
 }
 
 /** Triggered only when the user changes the combobox on the main GUI */
-void RavenGUI::currencySelectionChanged(int unitIndex)
+void TelestaiGUI::currencySelectionChanged(int unitIndex)
 {
     if(clientModel && clientModel->getOptionsModel())
     {
@@ -1877,9 +1877,9 @@ void RavenGUI::currencySelectionChanged(int unitIndex)
 }
 
 /** Triggered when the options model's display currency is updated */
-void RavenGUI::onCurrencyChange(int newIndex)
+void TelestaiGUI::onCurrencyChange(int newIndex)
 {
-    qDebug() << "RavenGUI::onPriceUnitChange: " + QString::number(newIndex);
+    qDebug() << "TelestaiGUI::onPriceUnitChange: " + QString::number(newIndex);
 
     if(newIndex < 0 || newIndex >= CurrencyUnits::count()){
         return;
@@ -1893,22 +1893,22 @@ void RavenGUI::onCurrencyChange(int newIndex)
     this->getPriceInfo();
 }
 
-void RavenGUI::getPriceInfo()
+void TelestaiGUI::getPriceInfo()
 {
     request->setUrl(QUrl(QString("https://api.binance.com/api/v1/ticker/price?symbol=%1").arg(this->currentPriceDisplay->Ticker)));
     networkManager->get(*request);
 }
 
 #ifdef ENABLE_WALLET
-void RavenGUI::mnemonic()
+void TelestaiGUI::mnemonic()
 {
         MnemonicDialog dlg(this);
         dlg.exec();
 }
 #endif
 
-void RavenGUI::getLatestVersion()
+void TelestaiGUI::getLatestVersion()
 {
-    versionRequest->setUrl(QUrl("https://api.github.com/repos/RavenProject/Telestai/releases"));
+    versionRequest->setUrl(QUrl("https://api.github.com/repos/TelestaiProject/Telestai/releases"));
     networkVersionManager->get(*versionRequest);
 }

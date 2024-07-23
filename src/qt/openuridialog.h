@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_OPENURIDIALOG_H
-#define RAVEN_QT_OPENURIDIALOG_H
+#ifndef TELESTAI_QT_OPENURIDIALOG_H
+#define TELESTAI_QT_OPENURIDIALOG_H
 
 #include <QDialog>
 
@@ -32,4 +32,4 @@ private:
     Ui::OpenURIDialog *ui;
 };
 
-#endif // RAVEN_QT_OPENURIDIALOG_H
+#endif // TELESTAI_QT_OPENURIDIALOG_H

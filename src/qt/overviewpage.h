@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_OVERVIEWPAGE_H
-#define RAVEN_QT_OVERVIEWPAGE_H
+#ifndef TELESTAI_QT_OVERVIEWPAGE_H
+#define TELESTAI_QT_OVERVIEWPAGE_H
 
 #include "amount.h"
 
@@ -94,4 +94,4 @@ private Q_SLOTS:
     void assetSearchChanged();
 };
 
-#endif // RAVEN_QT_OVERVIEWPAGE_H
+#endif // TELESTAI_QT_OVERVIEWPAGE_H

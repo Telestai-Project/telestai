@@ -132,7 +132,7 @@
            </widget>
           </item>
           <item row="5" column="2">
-           <widget class="RavenAmountField" name="reqAmount">
+           <widget class="TelestaiAmountField" name="reqAmount">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -320,7 +320,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>RavenAmountField</class>
+   <class>TelestaiAmountField</class>
    <extends>QLineEdit</extends>
    <header>telestaiamountfield.h</header>
    <container>1</container>

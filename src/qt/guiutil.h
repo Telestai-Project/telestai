@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_GUIUTIL_H
-#define RAVEN_QT_GUIUTIL_H
+#ifndef TELESTAI_QT_GUIUTIL_H
+#define TELESTAI_QT_GUIUTIL_H
 
 #include "amount.h"
 #include "fs.h"
@@ -58,9 +58,9 @@ namespace GUIUtil
     void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
     // Parse "telestai:" URI into recipient object, return true on successful parsing
-    bool parseRavenURI(const QUrl &uri, SendCoinsRecipient *out);
-    bool parseRavenURI(QString uri, SendCoinsRecipient *out);
-    QString formatRavenURI(const SendCoinsRecipient &info);
+    bool parseTelestaiURI(const QUrl &uri, SendCoinsRecipient *out);
+    bool parseTelestaiURI(QString uri, SendCoinsRecipient *out);
+    QString formatTelestaiURI(const SendCoinsRecipient &info);
 
     // Returns true if given address+amount meets "dust" definition
     bool isDust(const QString& address, const CAmount& amount);
@@ -127,7 +127,7 @@ namespace GUIUtil
     void openDebugLogfile();
 
     // Open the config file
-    bool openRavenConf();
+    bool openTelestaiConf();
 
     // Replace invalid default fonts with known good ones
     void SubstituteFonts(const QString& language);
@@ -270,4 +270,4 @@ namespace GUIUtil
 
 } // namespace GUIUtil
 
-#endif // RAVEN_QT_GUIUTIL_H
+#endif // TELESTAI_QT_GUIUTIL_H

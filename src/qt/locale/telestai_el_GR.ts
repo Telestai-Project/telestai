@@ -160,8 +160,8 @@
         <translation>επιβεβαίωση κρυπτογράφησης πορτοφολιού</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RAVENS&lt;/b&gt;!</source>
-        <translation>Προειδοποίηση: Αν κρυπτογραφήσεις το πορτοφόλι σου και χάσεις τον κωδικό, &lt;b&gt; ΘΑ ΧΑΣΕΙΣ ΟΛΑ ΤΑ RAVENS&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR TELESTAIS&lt;/b&gt;!</source>
+        <translation>Προειδοποίηση: Αν κρυπτογραφήσεις το πορτοφόλι σου και χάσεις τον κωδικό, &lt;b&gt; ΘΑ ΧΑΣΕΙΣ ΟΛΑ ΤΑ TELESTAIS&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -994,7 +994,7 @@
     </message>
 </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Υπογραφή &amp;Μηνύματος...</translation>

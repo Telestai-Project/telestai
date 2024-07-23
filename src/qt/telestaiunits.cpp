@@ -9,22 +9,22 @@
 
 #include <QStringList>
 
-RavenUnits::RavenUnits(QObject *parent):
+TelestaiUnits::TelestaiUnits(QObject *parent):
         QAbstractListModel(parent),
         unitlist(availableUnits())
 {
 }
 
-QList<RavenUnits::Unit> RavenUnits::availableUnits()
+QList<TelestaiUnits::Unit> TelestaiUnits::availableUnits()
 {
-    QList<RavenUnits::Unit> unitlist;
+    QList<TelestaiUnits::Unit> unitlist;
     unitlist.append(TLS);
     unitlist.append(mRVN);
     unitlist.append(uRVN);
     return unitlist;
 }
 
-bool RavenUnits::valid(int unit)
+bool TelestaiUnits::valid(int unit)
 {
     switch(unit)
     {
@@ -37,7 +37,7 @@ bool RavenUnits::valid(int unit)
     }
 }
 
-QString RavenUnits::name(int unit)
+QString TelestaiUnits::name(int unit)
 {
     switch(unit)
     {
@@ -48,18 +48,18 @@ QString RavenUnits::name(int unit)
     }
 }
 
-QString RavenUnits::description(int unit)
+QString TelestaiUnits::description(int unit)
 {
     switch(unit)
     {
-    case TLS: return QString("Ravens");
-    case mRVN: return QString("Milli-Ravens (1 / 1" THIN_SP_UTF8 "000)");
-    case uRVN: return QString("Micro-Ravens (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case TLS: return QString("Telestais");
+    case mRVN: return QString("Milli-Telestais (1 / 1" THIN_SP_UTF8 "000)");
+    case uRVN: return QString("Micro-Telestais (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
 }
 
-qint64 RavenUnits::factor(int unit)
+qint64 TelestaiUnits::factor(int unit)
 {
     switch(unit)
     {
@@ -70,7 +70,7 @@ qint64 RavenUnits::factor(int unit)
     }
 }
 
-qint64 RavenUnits::factorAsset(int unit)
+qint64 TelestaiUnits::factorAsset(int unit)
 {
     switch(unit)
     {
@@ -87,7 +87,7 @@ qint64 RavenUnits::factorAsset(int unit)
     }
 }
 
-int RavenUnits::decimals(int unit)
+int TelestaiUnits::decimals(int unit)
 {
     switch(unit)
     {
@@ -98,7 +98,7 @@ int RavenUnits::decimals(int unit)
     }
 }
 
-QString RavenUnits::format(int unit, const CAmount& nIn, bool fPlus, SeparatorStyle separators, const int nAssetUnit)
+QString TelestaiUnits::format(int unit, const CAmount& nIn, bool fPlus, SeparatorStyle separators, const int nAssetUnit)
 {
     // Note: not using straight sprintf here because we do NOT want
     // localized number formatting.
@@ -143,17 +143,17 @@ QString RavenUnits::format(int unit, const CAmount& nIn, bool fPlus, SeparatorSt
 // Please take care to use formatHtmlWithUnit instead, when
 // appropriate.
 
-QString RavenUnits::formatWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)
+QString TelestaiUnits::formatWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)
 {
     return format(unit, amount, plussign, separators) + QString(" ") + name(unit);
 }
 
-QString RavenUnits::formatWithCustomName(QString customName, const CAmount& amount, int unit, bool plussign, SeparatorStyle separators)
+QString TelestaiUnits::formatWithCustomName(QString customName, const CAmount& amount, int unit, bool plussign, SeparatorStyle separators)
 {
     return format(TLS, amount / factorAsset(MAX_ASSET_UNITS - unit), plussign, separators, unit) + QString(" ") + customName;
 }
 
-QString RavenUnits::formatHtmlWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)
+QString TelestaiUnits::formatHtmlWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)
 {
     QString str(formatWithUnit(unit, amount, plussign, separators));
     str.replace(QChar(THIN_SP_CP), QString(THIN_SP_HTML));
@@ -161,7 +161,7 @@ QString RavenUnits::formatHtmlWithUnit(int unit, const CAmount& amount, bool plu
 }
 
 
-bool RavenUnits::parse(int unit, const QString &value, CAmount *val_out)
+bool TelestaiUnits::parse(int unit, const QString &value, CAmount *val_out)
 {
     if(!valid(unit) || value.isEmpty())
         return false; // Refuse to parse invalid unit or empty string
@@ -200,7 +200,7 @@ bool RavenUnits::parse(int unit, const QString &value, CAmount *val_out)
     return ok;
 }
 
-bool RavenUnits::assetParse(int assetUnit, const QString &value, CAmount *val_out)
+bool TelestaiUnits::assetParse(int assetUnit, const QString &value, CAmount *val_out)
 {
     if(!(assetUnit >= 0 && assetUnit <= 8) || value.isEmpty())
         return false; // Refuse to parse invalid unit or empty string
@@ -239,23 +239,23 @@ bool RavenUnits::assetParse(int assetUnit, const QString &value, CAmount *val_ou
     return ok;
 }
 
-QString RavenUnits::getAmountColumnTitle(int unit)
+QString TelestaiUnits::getAmountColumnTitle(int unit)
 {
     QString amountTitle = QObject::tr("Amount");
-    if (RavenUnits::valid(unit))
+    if (TelestaiUnits::valid(unit))
     {
-        amountTitle += " ("+RavenUnits::name(unit) + ")";
+        amountTitle += " ("+TelestaiUnits::name(unit) + ")";
     }
     return amountTitle;
 }
 
-int RavenUnits::rowCount(const QModelIndex &parent) const
+int TelestaiUnits::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return unitlist.size();
 }
 
-QVariant RavenUnits::data(const QModelIndex &index, int role) const
+QVariant TelestaiUnits::data(const QModelIndex &index, int role) const
 {
     int row = index.row();
     if(row >= 0 && row < unitlist.size())
@@ -275,7 +275,7 @@ QVariant RavenUnits::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-CAmount RavenUnits::maxMoney()
+CAmount TelestaiUnits::maxMoney()
 {
     return MAX_MONEY;
 }

@@ -420,19 +420,19 @@ bool TransactionRecord::isSwapTransaction(const CWallet *wallet, const CWalletTx
                 //Trade!
                 //Amount represents the asset we sent, no matter the perspective
                 sub.credit = recvAmount;
-                std::string asset_qty_format = RavenUnits::formatWithCustomName(QString::fromStdString(sentType), sentAmount, 2).toUtf8().constData();
+                std::string asset_qty_format = TelestaiUnits::formatWithCustomName(QString::fromStdString(sentType), sentAmount, 2).toUtf8().constData();
                 sub.assetName = strprintf("%s (%s %s)", TransactionView::tr("Traded Away").toUtf8().constData(), recvType, asset_qty_format);
             } else if (fSentAssets) {
                 //Sell!
                 //Total price paid, need to use net calculation when we executed
                 sub.credit = mine ? myReceievedOutput.nValue : nNet;
-                std::string asset_qty_format = RavenUnits::formatWithCustomName(QString::fromStdString(sentType), sentAmount, 2).toUtf8().constData();
+                std::string asset_qty_format = TelestaiUnits::formatWithCustomName(QString::fromStdString(sentType), sentAmount, 2).toUtf8().constData();
                 sub.assetName = strprintf("TLS (%s %s)", TransactionView::tr("Sold").toUtf8().constData(), asset_qty_format);
             } else if (fRecvAssets) {
                 //Buy!
                 //Total price paid, need to use net calculation when we executed
                 sub.credit = (mine ? -myProvidedInput.nValue : nNet);
-                std::string asset_qty_format = RavenUnits::formatWithCustomName(QString::fromStdString(recvType), recvAmount, 2).toUtf8().constData();
+                std::string asset_qty_format = TelestaiUnits::formatWithCustomName(QString::fromStdString(recvType), recvAmount, 2).toUtf8().constData();
                 sub.assetName = strprintf("TLS (%s %s)", TransactionView::tr("Bought").toUtf8().constData(), asset_qty_format);
             } else {
                 LogPrintf("\tFell Through!\n");

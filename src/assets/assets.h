@@ -3,8 +3,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef RAVENCOIN_ASSET_PROTOCOL_H
-#define RAVENCOIN_ASSET_PROTOCOL_H
+#ifndef TELESTAICOIN_ASSET_PROTOCOL_H
+#define TELESTAICOIN_ASSET_PROTOCOL_H
 
 #include "amount.h"
 #include "tinyformat.h"
@@ -463,10 +463,10 @@ bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type);
 bool CheckReissueBurnTx(const CTxOut& txOut);
 
 //! issue asset scripts to make sure script meets the standards
-bool CheckIssueDataTx(const CTxOut& txOut); // OP_RAVEN_ASSET RVNQ (That is a Q as in Que not an O)
-bool CheckOwnerDataTx(const CTxOut& txOut);// OP_RAVEN_ASSET RVNO
-bool CheckReissueDataTx(const CTxOut& txOut);// OP_RAVEN_ASSET RVNR
-bool CheckTransferOwnerTx(const CTxOut& txOut);// OP_RAVEN_ASSET RVNT
+bool CheckIssueDataTx(const CTxOut& txOut); // OP_TELESTAI_ASSET RVNQ (That is a Q as in Que not an O)
+bool CheckOwnerDataTx(const CTxOut& txOut);// OP_TELESTAI_ASSET RVNO
+bool CheckReissueDataTx(const CTxOut& txOut);// OP_TELESTAI_ASSET RVNR
+bool CheckTransferOwnerTx(const CTxOut& txOut);// OP_TELESTAI_ASSET RVNT
 
 //! Check the Encoded hash and make sure it is either an IPFS hash or a OIP hash
 bool CheckEncoded(const std::string& hash, std::string& strError);
@@ -579,4 +579,4 @@ bool ContextualCheckReissueAsset(CAssetsCache* assetCache, const CReissueAsset& 
 bool ContextualCheckUniqueAssetTx(CAssetsCache* assetCache, std::string& strError, const CTransaction& tx);
 bool ContextualCheckUniqueAsset(CAssetsCache* assetCache, const CNewAsset& unique_asset, std::string& strError);
 
-#endif //RAVENCOIN_ASSET_PROTOCOL_H
+#endif //TELESTAICOIN_ASSET_PROTOCOL_H

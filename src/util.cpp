@@ -88,8 +88,8 @@
 // Application startup time (used for uptime calculation)
 const int64_t nStartupTime = GetTime();
 
-const char *const RAVEN_CONF_FILENAME = "telestai.conf";
-const char *const RAVEN_PID_FILENAME = "telestaid.pid";
+const char *const TELESTAI_CONF_FILENAME = "telestai.conf";
+const char *const TELESTAI_PID_FILENAME = "telestaid.pid";
 
 ArgsManager gArgs;
 bool fPrintToConsole = false;
@@ -656,7 +656,7 @@ void ArgsManager::ReadConfigFile(const std::string &confPath)
 
 fs::path GetPidFile()
 {
-    fs::path pathPidFile(gArgs.GetArg("-pid", RAVEN_PID_FILENAME));
+    fs::path pathPidFile(gArgs.GetArg("-pid", TELESTAI_PID_FILENAME));
     if (!pathPidFile.is_absolute()) pathPidFile = GetDataDir() / pathPidFile;
     return pathPidFile;
 }

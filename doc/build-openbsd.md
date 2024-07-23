@@ -18,7 +18,7 @@ pkg_add autoconf # (select highest version, e.g. 2.69)
 pkg_add automake # (select highest version, e.g. 1.16)
 pkg_add python # (select highest version, e.g. 3.8)
 
-git clone https://github.com/RavenProject/Telestai.git
+git clone https://github.com/TelestaiProject/Telestai.git
 ```
 
 See [dependencies.md](dependencies.md) for a complete overview.
@@ -57,8 +57,8 @@ This makes it necessary to build boost, or at least the parts used by Telestai C
 
 ```
 # Pick some path to install boost to, here we create a directory within the telestai directory
-RAVEN_ROOT=$(pwd)
-BOOST_PREFIX="${RAVEN_ROOT}/boost"
+TELESTAI_ROOT=$(pwd)
+BOOST_PREFIX="${TELESTAI_ROOT}/boost"
 mkdir -p $BOOST_PREFIX
 
 # Fetch the source and verify that it is not tampered with
@@ -89,8 +89,8 @@ You cannot use the BerkeleyDB library from ports, for the same reason as boost a
 
 ```bash
 # Pick some path to install BDB to, here we create a directory within the telestai directory
-RAVEN_ROOT=$(pwd)
-BDB_PREFIX="${RAVEN_ROOT}/db4"
+TELESTAI_ROOT=$(pwd)
+BDB_PREFIX="${TELESTAI_ROOT}/db4"
 mkdir -p $BDB_PREFIX
 
 # Fetch the source and verify that it is not tampered with

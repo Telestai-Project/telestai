@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_CHAINPARAMS_H
-#define RAVEN_CHAINPARAMS_H
+#ifndef TELESTAI_CHAINPARAMS_H
+#define TELESTAI_CHAINPARAMS_H
 
 #include "chainparamsbase.h"
 #include "consensus/params.h"
@@ -244,4 +244,4 @@ void TurnOffBIP66();
 
 void TurnOffCSV();
 
-#endif // RAVEN_CHAINPARAMS_H
+#endif // TELESTAI_CHAINPARAMS_H

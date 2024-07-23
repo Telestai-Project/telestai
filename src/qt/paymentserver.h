@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_PAYMENTSERVER_H
-#define RAVEN_QT_PAYMENTSERVER_H
+#ifndef TELESTAI_QT_PAYMENTSERVER_H
+#define TELESTAI_QT_PAYMENTSERVER_H
 
 // This class handles payment requests from clicking on
 // telestai: URIs
@@ -146,4 +146,4 @@ private:
     OptionsModel *optionsModel;
 };
 
-#endif // RAVEN_QT_PAYMENTSERVER_H
+#endif // TELESTAI_QT_PAYMENTSERVER_H

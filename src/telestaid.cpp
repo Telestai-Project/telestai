@@ -88,7 +88,7 @@ bool AppInit(int argc, char* argv[])
             strUsage += "\n" + _("Usage:") + "\n" +
                   "  telestaid [options]                     " + strprintf(_("Start %s Daemon"), _(PACKAGE_NAME)) + "\n";
 
-            strUsage += "\n" + HelpMessage(HMM_RAVEND);
+            strUsage += "\n" + HelpMessage(HMM_TELESTAID);
         }
 
         fprintf(stdout, "%s", strUsage.c_str());
@@ -104,7 +104,7 @@ bool AppInit(int argc, char* argv[])
         }
         try
         {
-            gArgs.ReadConfigFile(gArgs.GetArg("-conf", RAVEN_CONF_FILENAME));
+            gArgs.ReadConfigFile(gArgs.GetArg("-conf", TELESTAI_CONF_FILENAME));
         } catch (const std::exception& e) {
             fprintf(stderr,"Error reading configuration file: %s\n", e.what());
             return false;

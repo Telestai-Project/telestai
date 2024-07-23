@@ -46,7 +46,7 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.telestai.RavenPayment</string>
+      <string>org.telestai.TelestaiPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
         <string>telestai</string>

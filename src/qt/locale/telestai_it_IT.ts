@@ -169,7 +169,7 @@
     <name>RPCConsole</name>
     </context>
 <context>
-    <name>RavenGUI</name>
+    <name>TelestaiGUI</name>
     <message>
         <source>&amp;Transactions</source>
         <translation>Transazioni</translation>

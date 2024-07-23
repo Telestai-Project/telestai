@@ -10,7 +10,7 @@ Test BIP68 implementation.
 
 import time
 import random
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import satoshi_round, assert_raises_rpc_error, get_bip9_status, assert_equal, assert_greater_than, sync_blocks
 from test_framework.blocktools import CTransaction, COIN, CTxIn, COutPoint, CTxOut, CScript, create_block, create_coinbase
 from test_framework.mininode import to_hex, from_hex
@@ -24,7 +24,7 @@ SEQUENCE_LOCKTIME_MASK = 0x0000ffff
 NOT_FINAL_ERROR = "64: non-BIP68-final"
 
 
-class BIP68Test(RavenTestFramework):
+class BIP68Test(TelestaiTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.extra_args = [[], ["-acceptnonstdtxn=0"]]

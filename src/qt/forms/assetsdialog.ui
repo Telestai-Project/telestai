@@ -876,7 +876,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="RavenAmountField" name="customFee"/>
+                    <widget class="TelestaiAmountField" name="customFee"/>
                    </item>
                    <item>
                     <spacer name="horizontalSpacer_6">
@@ -1289,7 +1289,7 @@
    <header>qvalidatedlineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>RavenAmountField</class>
+   <class>TelestaiAmountField</class>
    <extends>QLineEdit</extends>
    <header>telestaiamountfield.h</header>
    <container>1</container>

@@ -31,7 +31,7 @@ class AmountSpinBox: public QAbstractSpinBox
 public:
     explicit AmountSpinBox(QWidget *parent):
         QAbstractSpinBox(parent),
-        currentUnit(RavenUnits::TLS),
+        currentUnit(TelestaiUnits::TLS),
         singleStep(100000), // satoshis
         assetUnit(-1)
     {
@@ -56,7 +56,7 @@ public:
         CAmount val = parse(input, &valid);
         if(valid)
         {
-            input = RavenUnits::format(currentUnit, val, false, RavenUnits::separatorAlways, assetUnit);
+            input = TelestaiUnits::format(currentUnit, val, false, TelestaiUnits::separatorAlways, assetUnit);
             lineEdit()->setText(input);
         }
     }
@@ -68,7 +68,7 @@ public:
 
     void setValue(const CAmount& value)
     {
-        lineEdit()->setText(RavenUnits::format(currentUnit, value, false, RavenUnits::separatorAlways, assetUnit));
+        lineEdit()->setText(TelestaiUnits::format(currentUnit, value, false, TelestaiUnits::separatorAlways, assetUnit));
         Q_EMIT valueChanged();
     }
 
@@ -77,7 +77,7 @@ public:
         bool valid = false;
         CAmount val = value(&valid);
         val = val + steps * singleStep;
-        val = qMin(qMax(val, CAmount(0)), RavenUnits::maxMoney());
+        val = qMin(qMax(val, CAmount(0)), TelestaiUnits::maxMoney());
         setValue(val);
     }
 
@@ -124,9 +124,9 @@ public:
             const QFontMetrics fm(fontMetrics());
             int h = lineEdit()->minimumSizeHint().height();
 			#ifndef QTversionPreFiveEleven
-            	int w = fm.horizontalAdvance(RavenUnits::format(RavenUnits::TLS, RavenUnits::maxMoney(), false, RavenUnits::separatorAlways, assetUnit));
+            	int w = fm.horizontalAdvance(TelestaiUnits::format(TelestaiUnits::TLS, TelestaiUnits::maxMoney(), false, TelestaiUnits::separatorAlways, assetUnit));
 			#else
-				int w = fm.width(RavenUnits::format(RavenUnits::TLS, RavenUnits::maxMoney(), false, RavenUnits::separatorAlways, assetUnit));
+				int w = fm.width(TelestaiUnits::format(TelestaiUnits::TLS, TelestaiUnits::maxMoney(), false, TelestaiUnits::separatorAlways, assetUnit));
 			#endif
             w += 2; // cursor blinking space
 
@@ -170,14 +170,14 @@ private:
         // Update parsing function to work with asset parsing units
         bool valid = false;
         if (assetUnit >= 0) {
-            valid = RavenUnits::assetParse(assetUnit, text, &val);
+            valid = TelestaiUnits::assetParse(assetUnit, text, &val);
         }
         else
-            valid = RavenUnits::parse(currentUnit, text, &val);
+            valid = TelestaiUnits::parse(currentUnit, text, &val);
 
         if(valid)
         {
-            if(val < 0 || val > RavenUnits::maxMoney())
+            if(val < 0 || val > TelestaiUnits::maxMoney())
                 valid = false;
         }
         if(valid_out)
@@ -215,7 +215,7 @@ protected:
         {
             if(val > 0)
                 rv |= StepDownEnabled;
-            if(val < RavenUnits::maxMoney())
+            if(val < TelestaiUnits::maxMoney())
                 rv |= StepUpEnabled;
         }
         return rv;
@@ -227,7 +227,7 @@ Q_SIGNALS:
 
 #include "telestaiamountfield.moc"
 
-RavenAmountField::RavenAmountField(QWidget *parent) :
+TelestaiAmountField::TelestaiAmountField(QWidget *parent) :
     QWidget(parent),
     amount(0)
 {
@@ -239,7 +239,7 @@ RavenAmountField::RavenAmountField(QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(amount);
     unit = new QValueComboBox();
-    unit->setModel(new RavenUnits(this));
+    unit->setModel(new TelestaiUnits(this));
     layout->addWidget(unit);
     layout->addStretch(1);
     layout->setContentsMargins(0,0,0,0);
@@ -258,19 +258,19 @@ RavenAmountField::RavenAmountField(QWidget *parent) :
 
 }
 
-void RavenAmountField::clear()
+void TelestaiAmountField::clear()
 {
     amount->clear();
     unit->setCurrentIndex(0);
 }
 
-void RavenAmountField::setEnabled(bool fEnabled)
+void TelestaiAmountField::setEnabled(bool fEnabled)
 {
     amount->setEnabled(fEnabled);
     unit->setEnabled(fEnabled);
 }
 
-bool RavenAmountField::validate()
+bool TelestaiAmountField::validate()
 {
     bool valid = false;
     value(&valid);
@@ -278,7 +278,7 @@ bool RavenAmountField::validate()
     return valid;
 }
 
-void RavenAmountField::setValid(bool valid)
+void TelestaiAmountField::setValid(bool valid)
 {
     if (valid) {
             amount->setStyleSheet("");
@@ -287,7 +287,7 @@ void RavenAmountField::setValid(bool valid)
     }
 }
 
-bool RavenAmountField::eventFilter(QObject *object, QEvent *event)
+bool TelestaiAmountField::eventFilter(QObject *object, QEvent *event)
 {
     if (event->type() == QEvent::FocusIn)
     {
@@ -297,45 +297,45 @@ bool RavenAmountField::eventFilter(QObject *object, QEvent *event)
     return QWidget::eventFilter(object, event);
 }
 
-QWidget *RavenAmountField::setupTabChain(QWidget *prev)
+QWidget *TelestaiAmountField::setupTabChain(QWidget *prev)
 {
     QWidget::setTabOrder(prev, amount);
     QWidget::setTabOrder(amount, unit);
     return unit;
 }
 
-CAmount RavenAmountField::value(bool *valid_out) const
+CAmount TelestaiAmountField::value(bool *valid_out) const
 {
     return amount->value(valid_out);
 }
 
-void RavenAmountField::setValue(const CAmount& value)
+void TelestaiAmountField::setValue(const CAmount& value)
 {
     amount->setValue(value);
 }
 
-void RavenAmountField::setReadOnly(bool fReadOnly)
+void TelestaiAmountField::setReadOnly(bool fReadOnly)
 {
     amount->setReadOnly(fReadOnly);
 }
 
-void RavenAmountField::unitChanged(int idx)
+void TelestaiAmountField::unitChanged(int idx)
 {
     // Use description tooltip for current unit for the combobox
     unit->setToolTip(unit->itemData(idx, Qt::ToolTipRole).toString());
 
     // Determine new unit ID
-    int newUnit = unit->itemData(idx, RavenUnits::UnitRole).toInt();
+    int newUnit = unit->itemData(idx, TelestaiUnits::UnitRole).toInt();
 
     amount->setDisplayUnit(newUnit);
 }
 
-void RavenAmountField::setDisplayUnit(int newUnit)
+void TelestaiAmountField::setDisplayUnit(int newUnit)
 {
     unit->setValue(newUnit);
 }
 
-void RavenAmountField::setSingleStep(const CAmount& step)
+void TelestaiAmountField::setSingleStep(const CAmount& step)
 {
     amount->setSingleStep(step);
 }
@@ -406,7 +406,7 @@ bool AssetAmountField::eventFilter(QObject *object, QEvent *event)
 
 CAmount AssetAmountField::value(bool *valid_out) const
 {
-    return amount->value(valid_out) * RavenUnits::factorAsset(8 - assetUnit);
+    return amount->value(valid_out) * TelestaiUnits::factorAsset(8 - assetUnit);
 }
 
 void AssetAmountField::setValue(const CAmount& value)

@@ -6,11 +6,11 @@
 
 """Test restricted asset related RPC commands."""
 
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_equal, assert_raises_rpc_error, assert_does_not_contain_key, assert_does_not_contain, assert_contains_key, assert_happening, assert_contains
 
 # noinspection PyAttributeOutsideInit
-class RestrictedAssetsTest(RavenTestFramework):
+class RestrictedAssetsTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2

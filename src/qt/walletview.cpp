@@ -114,7 +114,7 @@ WalletView::~WalletView()
 {
 }
 
-void WalletView::setRavenGUI(RavenGUI *gui)
+void WalletView::setTelestaiGUI(TelestaiGUI *gui)
 {
     if (gui)
     {
@@ -186,7 +186,7 @@ void WalletView::setWalletModel(WalletModel *_walletModel)
         updateEncryptionStatus();
 
         // update HD status
-        Q_EMIT hdEnabledStatusChanged(_walletModel->hd44Enabled() ? RavenGUI::HD44_ENABLED : _walletModel->hdEnabled() ? RavenGUI::HD_ENABLED : RavenGUI::HD_DISABLED);
+        Q_EMIT hdEnabledStatusChanged(_walletModel->hd44Enabled() ? TelestaiGUI::HD44_ENABLED : _walletModel->hdEnabled() ? TelestaiGUI::HD_ENABLED : TelestaiGUI::HD_DISABLED);
 
         // Balloon pop-up for new transaction
         connect(_walletModel->getTransactionTableModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),

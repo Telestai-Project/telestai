@@ -6,7 +6,7 @@
 
 """Test the RBF code."""
 
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import satoshi_round, assert_raises_rpc_error, assert_equal, Decimal
 from test_framework.script import CScript
 from test_framework.mininode import COIN, CTransaction, CTxIn, COutPoint, CTxOut
@@ -64,7 +64,7 @@ def make_utxo(node, amount, confirmed=True, script_pub_key=CScript([1])):
     return COutPoint(int(txid, 16), 0)
 
 
-class ReplaceByFeeTest(RavenTestFramework):
+class ReplaceByFeeTest(TelestaiTestFramework):
 
     def set_test_params(self):
         self.num_nodes = 2

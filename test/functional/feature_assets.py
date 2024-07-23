@@ -6,13 +6,13 @@
 
 """Testing asset use cases"""
 
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import TelestaiTestFramework
 from test_framework.util import assert_equal, assert_is_hash_string, assert_does_not_contain_key, assert_raises_rpc_error, JSONRPCException, Decimal
 
 import string
 
 
-class AssetTest(RavenTestFramework):
+class AssetTest(TelestaiTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3
@@ -136,13 +136,13 @@ class AssetTest(RavenTestFramework):
         assert_equal(n0.listassetbalancesbyaddress(address0)["MY_ASSET"], 2000)
 
         self.log.info("Checking listassets()...")
-        n0.issue("RAVEN1", 1000)
-        n0.issue("RAVEN2", 1000)
-        n0.issue("RAVEN3", 1000)
+        n0.issue("TELESTAI1", 1000)
+        n0.issue("TELESTAI2", 1000)
+        n0.issue("TELESTAI3", 1000)
         n0.generate(1)
         self.sync_all()
 
-        n0.listassets(asset="RAVEN*", verbose=False, count=2, start=-2)
+        n0.listassets(asset="TELESTAI*", verbose=False, count=2, start=-2)
 
         self.log.info("Creating some sub-assets...")
         n0.issue(asset_name="MY_ASSET/SUB1", qty=1000, to_address=address0, change_address=address0, units=4, reissuable=True, has_ipfs=True, ipfs_hash=ipfs_hash)
@@ -161,10 +161,10 @@ class AssetTest(RavenTestFramework):
         assert_equal(assetdata["has_ipfs"], 1)
         assert_equal(assetdata["ipfs_hash"], ipfs_hash)
 
-        telestai_assets = n0.listassets(asset="RAVEN*", verbose=False, count=2, start=-2)
+        telestai_assets = n0.listassets(asset="TELESTAI*", verbose=False, count=2, start=-2)
         assert_equal(len(telestai_assets), 2)
-        assert_equal(telestai_assets[0], "RAVEN2")
-        assert_equal(telestai_assets[1], "RAVEN3")
+        assert_equal(telestai_assets[0], "TELESTAI2")
+        assert_equal(telestai_assets[1], "TELESTAI3")
         self.sync_all()
 
     def issue_param_checks(self):

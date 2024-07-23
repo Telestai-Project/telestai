@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_QT_MACDOCKICONHANDLER_H
-#define RAVEN_QT_MACDOCKICONHANDLER_H
+#ifndef TELESTAI_QT_MACDOCKICONHANDLER_H
+#define TELESTAI_QT_MACDOCKICONHANDLER_H
 
 #include <QMainWindow>
 #include <QObject>
@@ -42,4 +42,4 @@ private:
     QMainWindow *mainWindow;
 };
 
-#endif // RAVEN_QT_MACDOCKICONHANDLER_H
+#endif // TELESTAI_QT_MACDOCKICONHANDLER_H

@@ -214,13 +214,13 @@ int CBase58Data::CompareTo(const CBase58Data& b58) const
 namespace
 {
 
-class CRavenAddressVisitor : public boost::static_visitor<bool>
+class CTelestaiAddressVisitor : public boost::static_visitor<bool>
 {
 private:
-    CRavenAddress* addr;
+    CTelestaiAddress* addr;
 
 public:
-    explicit CRavenAddressVisitor(CRavenAddress* addrIn) : addr(addrIn) {}
+    explicit CTelestaiAddressVisitor(CTelestaiAddress* addrIn) : addr(addrIn) {}
 
     bool operator()(const CKeyID& id) const { return addr->Set(id); }
     bool operator()(const CScriptID& id) const { return addr->Set(id); }
@@ -229,29 +229,29 @@ public:
 
 } // namespace
 
-bool CRavenAddress::Set(const CKeyID& id)
+bool CTelestaiAddress::Set(const CKeyID& id)
 {
     SetData(GetParams().Base58Prefix(CChainParams::PUBKEY_ADDRESS), &id, 20);
     return true;
 }
 
-bool CRavenAddress::Set(const CScriptID& id)
+bool CTelestaiAddress::Set(const CScriptID& id)
 {
     SetData(GetParams().Base58Prefix(CChainParams::SCRIPT_ADDRESS), &id, 20);
     return true;
 }
 
-bool CRavenAddress::Set(const CTxDestination& dest)
+bool CTelestaiAddress::Set(const CTxDestination& dest)
 {
-    return boost::apply_visitor(CRavenAddressVisitor(this), dest);
+    return boost::apply_visitor(CTelestaiAddressVisitor(this), dest);
 }
 
-bool CRavenAddress::IsValid() const
+bool CTelestaiAddress::IsValid() const
 {
     return IsValid(GetParams());
 }
 
-bool CRavenAddress::IsValid(const CChainParams& params) const
+bool CTelestaiAddress::IsValid(const CChainParams& params) const
 {
     bool fCorrectSize = vchData.size() == 20;
     bool fKnownVersion = vchVersion == params.Base58Prefix(CChainParams::PUBKEY_ADDRESS) ||
@@ -260,7 +260,7 @@ bool CRavenAddress::IsValid(const CChainParams& params) const
     return fCorrectSize && fKnownVersion;
 }
 
-CTxDestination CRavenAddress::Get() const
+CTxDestination CTelestaiAddress::Get() const
 {
     if (!IsValid())
         return CNoDestination();
@@ -274,7 +274,7 @@ CTxDestination CRavenAddress::Get() const
         return CNoDestination();
 }
 
-bool CRavenAddress::GetIndexKey(uint160& hashBytes, int& type) const
+bool CTelestaiAddress::GetIndexKey(uint160& hashBytes, int& type) const
 {
     if (!IsValid()) {
         return false;
@@ -291,7 +291,7 @@ bool CRavenAddress::GetIndexKey(uint160& hashBytes, int& type) const
     return false;
 }
 
-void CRavenSecret::SetKey(const CKey& vchSecret)
+void CTelestaiSecret::SetKey(const CKey& vchSecret)
 {
     assert(vchSecret.IsValid());
     SetData(GetParams().Base58Prefix(CChainParams::SECRET_KEY), vchSecret.begin(), vchSecret.size());
@@ -299,7 +299,7 @@ void CRavenSecret::SetKey(const CKey& vchSecret)
         vchData.push_back(1);
 }
 
-CKey CRavenSecret::GetKey()
+CKey CTelestaiSecret::GetKey()
 {
     CKey ret;
     assert(vchData.size() >= 32);
@@ -307,7 +307,7 @@ CKey CRavenSecret::GetKey()
     return ret;
 }
 
-bool CRavenSecret::IsValid() const
+bool CTelestaiSecret::IsValid() const
 {
         bool fExpectedFormat = vchData.size() == 32 || (vchData.size() == 33 && vchData[32] == 1);
         bool fCorrectVersion = vchVersion == GetParams().Base58Prefix(CChainParams::SECRET_KEY);
@@ -315,34 +315,34 @@ bool CRavenSecret::IsValid() const
         return fExpectedFormat && fCorrectVersion;
 }
 
-bool CRavenSecret::SetString(const char* pszSecret)
+bool CTelestaiSecret::SetString(const char* pszSecret)
 {
     return CBase58Data::SetString(pszSecret) && IsValid();
 }
 
-bool CRavenSecret::SetString(const std::string& strSecret)
+bool CTelestaiSecret::SetString(const std::string& strSecret)
 {
     return SetString(strSecret.c_str());
 }
 
 std::string EncodeDestination(const CTxDestination& dest)
 {
-    CRavenAddress addr(dest);
+    CTelestaiAddress addr(dest);
     if (!addr.IsValid()) return "";
     return addr.ToString();
 }
 
 CTxDestination DecodeDestination(const std::string& str)
 {
-    return CRavenAddress(str).Get();
+    return CTelestaiAddress(str).Get();
 }
 
 bool IsValidDestinationString(const std::string& str, const CChainParams& params)
 {
-    return CRavenAddress(str).IsValid(params);
+    return CTelestaiAddress(str).IsValid(params);
 }
 
 bool IsValidDestinationString(const std::string& str)
 {
-    return CRavenAddress(str).IsValid();
+    return CTelestaiAddress(str).IsValid();
 }

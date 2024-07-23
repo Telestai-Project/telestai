@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_PUBKEY_H
-#define RAVEN_PUBKEY_H
+#ifndef TELESTAI_PUBKEY_H
+#define TELESTAI_PUBKEY_H
 
 #include "hash.h"
 #include "serialize.h"
@@ -248,4 +248,4 @@ public:
     ~ECCVerifyHandle();
 };
 
-#endif // RAVEN_PUBKEY_H
+#endif // TELESTAI_PUBKEY_H
