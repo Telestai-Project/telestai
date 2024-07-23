@@ -78,7 +78,7 @@ SplashScreen::SplashScreen(const NetworkStyle* networkStyle)
     pixPaint.fillRect(rGradient, gradient);
 
     // draw the telestai icon, expected size of PNG: 1024x1024
-    QRect rectIcon(QPoint(-40,0), QSize(310,310));
+    QRect rectIcon(QPoint(30,40), QSize(200,200));
 
     const QSize requiredSize(1024,1024);
     QPixmap icon(networkStyle->getSplashIcon().pixmap(requiredSize));

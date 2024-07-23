@@ -92,7 +92,7 @@ public:
 
     CScript DevelopmentRewardScript(const std::string rewardAddress) const;
 
-    /** TLS Start **/
+    /** Telestai Start **/
     const CAmount& IssueAssetBurnAmount() const { return nIssueAssetBurnAmount; }
     const CAmount& ReissueAssetBurnAmount() const { return nReissueAssetBurnAmount; }
     const CAmount& IssueSubAssetBurnAmount() const { return nIssueSubAssetBurnAmount; }

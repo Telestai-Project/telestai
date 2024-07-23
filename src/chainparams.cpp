@@ -110,14 +110,14 @@ bool CChainParams::CSVEnabled() const{
  * + Is surrounded by blocks with reasonable timestamps
  *   (no blocks before with a timestamp after, none after with
  *    timestamp before)
- * + Contains no strange transactions
+ * + Contains no strange information/transactions
  */
 
 class CMainParams : public CChainParams {
 public:
     CMainParams() {
         strNetworkID = "main";
-        consensus.nSubsidyHalvingInterval = 2100000;  //~ 4 yrs at 1 min block time
+        consensus.nSubsidyHalvingInterval = 2102400;  //~ 4 yrs at 1 min block time
         consensus.nBIP34Enabled = true;
         consensus.nBIP65Enabled = true; // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.nBIP66Enabled = true;
@@ -166,7 +166,7 @@ public:
         // The best chain should have at least this much work
         consensus.nMinimumChainWork = uint256S("0"); // Block 2383567
 
-        // By default assume that the signatures in ancestors of this block are valid. Block# 1040000
+        // Assume that the signatures in ancestors of this block are valid. Block# 1040000
         consensus.defaultAssumeValid = uint256S("0"); // Block 2383560
 
         /**
@@ -200,8 +200,8 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        // Telestai BIP44 cointype in mainnet is '175'
-        nExtCoinType = 175;
+        // Telestai BIP44 cointype in mainnet is '10117'
+        nExtCoinType = 10117;
 
         vSeeds.clear();
         vFixedSeeds.clear();
@@ -239,7 +239,7 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
-        strDevelopmentRewardAddress = "TiNHWYdQxW3KXc7B7pE2wQZfSFaiHZiUPF";
+        strDevelopmentRewardAddress = "TfQHU3guGrMzvbCngYh6XXaQcHMth5fJrZ";
 
         // Burn Addresses
         strIssueAssetBurnAddress = "ToissueAssetXXXXXXXXXXXXXXXXZ9zEc4";
