@@ -127,7 +127,7 @@ public:
         consensus.kawpowLimit = uint256S("00fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // Estimated starting diff for first 180 kawpow blocks
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days 
         consensus.nPowTargetSpacing = 1 * 60;
-	    consensus.fPowAllowMinDifficultyBlocks = false;
+	      consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1613; // Approx 80% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
@@ -181,10 +181,10 @@ public:
         nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
 
-        uint32_t nGenesisTime = 1717934680;  // Tuesday, May 14 2024 02:31:50 (GMT +0)
-        uint32_t nGenesisNonce = 18024118; 
+        uint32_t nGenesisTime = 1721866235;  // Thursday, July 25 2024 02:31:50 (GMT +0)
+        uint32_t nGenesisNonce = 6353113; 
 
-        std::string nGenesisBlockHash = "0x000000e3323a157b5ce950eb2ebef7960c5325106253e65e8fc4edc500c2e506";
+        std::string nGenesisBlockHash = "0x00000056b9854abf830236d77443a8e3556f0244265e3eb12281a7bc43b7ff57";
         std::string nGenesisMerkleRoot = "457e7d4f5c3d388fbf90f9a5260ed627a43a0c13f4578d48bc2f983b6ce6e5f7";
 
         genesis = CreateGenesisBlock(nGenesisTime, nGenesisNonce, 0x1e00ffff, 1, 468 * COIN);
