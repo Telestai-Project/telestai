@@ -715,6 +715,9 @@ void TelestaiGUI::createToolBars()
         priceLayout->setContentsMargins(0,0,0,25);
         priceLayout->setDirection(QBoxLayout::LeftToRight);
         priceLayout->setAlignment(Qt::AlignVCenter);
+
+        // Removing price-related elements
+        /*
         labelCurrentMarket->setContentsMargins(50,0,0,0);
         labelCurrentMarket->setAlignment(Qt::AlignVCenter);
         labelCurrentMarket->setStyleSheet(STRING_LABEL_COLOR);
@@ -737,6 +740,7 @@ void TelestaiGUI::createToolBars()
         comboRvnUnit->setContentsMargins(5,0,0,0);
         comboRvnUnit->setStyleSheet(STRING_LABEL_COLOR);
         comboRvnUnit->setFont(currentMarketFont);
+        */
 
         labelVersionUpdate->setText("<a href=\"https://github.com/TelestaiProject/Telestai/releases\">New Wallet Version Available</a>");
         labelVersionUpdate->setTextFormat(Qt::RichText);
@@ -749,20 +753,24 @@ void TelestaiGUI::createToolBars()
         labelVersionUpdate->hide();
 
         priceLayout->setGeometry(headerWidget->rect());
+        // Commenting out the addition of price-related widgets
+        /*
         priceLayout->addWidget(labelCurrentMarket, 0, Qt::AlignVCenter | Qt::AlignLeft);
         priceLayout->addWidget(labelCurrentPrice, 0,  Qt::AlignVCenter | Qt::AlignLeft);
         priceLayout->addWidget(comboRvnUnit, 0 , Qt::AlignBottom| Qt::AlignLeft);
+        */
         priceLayout->addStretch();
         priceLayout->addWidget(labelVersionUpdate, 0 , Qt::AlignVCenter | Qt::AlignRight);
 
         // Create the layout for widget to the right of the tool bar
         QVBoxLayout* mainFrameLayout = new QVBoxLayout(mainWalletWidget);
         mainFrameLayout->addWidget(headerWidget);
-#ifdef ENABLE_WALLET
+        #ifdef ENABLE_WALLET
         mainFrameLayout->addWidget(walletFrame);
-#endif
+        #endif
         mainFrameLayout->setDirection(QBoxLayout::TopToBottom);
         mainFrameLayout->setContentsMargins(QMargins());
+
 
         QVBoxLayout* layout = new QVBoxLayout();
         layout->addWidget(toolbarWidget);
