@@ -755,6 +755,10 @@ void TelestaiGUI::createToolBars()
         priceLayout->addStretch();
         priceLayout->addWidget(labelVersionUpdate, 0 , Qt::AlignVCenter | Qt::AlignRight);
 
+        // Hide the "TLS Market Price" label and dropdown
+        labelCurrentMarket->hide();
+        comboRvnUnit->hide();
+
         // Create the layout for widget to the right of the tool bar
         QVBoxLayout* mainFrameLayout = new QVBoxLayout(mainWalletWidget);
         mainFrameLayout->addWidget(headerWidget);
@@ -827,8 +831,8 @@ void TelestaiGUI::createToolBars()
         connect(comboRvnUnit, SIGNAL(activated(int)), this, SLOT(currencySelectionChanged(int)));
         // Create the timer
         connect(pricingTimer, SIGNAL(timeout()), this, SLOT(getPriceInfo()));
-        pricingTimer->start(10000);
-        getPriceInfo();
+        // pricingTimer->start(10000);
+        // getPriceInfo();
         /** TLS END */
 
         // Get the latest Telestai release and let the user know if they are using the latest version
