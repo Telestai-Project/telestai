@@ -758,6 +758,7 @@ void TelestaiGUI::createToolBars()
         // Hide the "TLS Market Price" label and dropdown
         labelCurrentMarket->hide();
         comboRvnUnit->hide();
+        labelCurrentPrice->hide();
 
         // Create the layout for widget to the right of the tool bar
         QVBoxLayout* mainFrameLayout = new QVBoxLayout(mainWalletWidget);
