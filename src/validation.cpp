@@ -4026,7 +4026,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
         CAmount blockSubsidy = GetBlockSubsidy(block.nHeight, consensusParams);
 
-        if (subsidyAmount != blockSubsidy * 0.25)
+        if (subsidyAmount < blockSubsidy * 0.25)
             return state.DoS(100, false, REJECT_INVALID, "bad-cb-subsidy-value", false, "subsidy value is invalid");
 
         if (subsidyAddress != DecodeDestination(GetParams().DevelopmentRewardAddress()))
