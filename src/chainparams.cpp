@@ -205,6 +205,8 @@ public:
 
         vSeeds.clear();
         vFixedSeeds.clear();
+        vSeeds.emplace_back("dnsseed.telestainodes.xyz", false);
+
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
