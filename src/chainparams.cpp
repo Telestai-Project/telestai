@@ -127,7 +127,7 @@ public:
         consensus.kawpowLimit = uint256S("00fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // Estimated starting diff for first 180 kawpow blocks
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days 
         consensus.nPowTargetSpacing = 1 * 60;
-	      consensus.fPowAllowMinDifficultyBlocks = false;
+	    consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1613; // Approx 80% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
