@@ -203,8 +203,6 @@ public:
         // Telestai BIP44 cointype in mainnet is '10117'
         nExtCoinType = 10117;
 
-        vSeeds.clear();
-        vFixedSeeds.clear();
         vSeeds.emplace_back("dnsseed.telestainodes.xyz", false);
         vSeeds.emplace_back("telestai.seeds.multicoin.co", false);
 
