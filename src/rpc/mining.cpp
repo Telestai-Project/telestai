@@ -740,6 +740,19 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         }
     }
 
+
+    UniValue founderObj(UniValue::VOBJ);
+    std::string rewardAddress = GetParams().DevelopmentRewardAddress();
+    CScript rewardScriptPubKeyIn = GetParams().DevelopmentRewardScript(rewardAddress);
+
+    CTxDestination founder_addr;
+    ExtractDestination(rewardScriptPubKeyIn, founder_addr);
+    founderObj.pushKV("payee", EncodeDestination(founder_addr).c_str());
+    founderObj.pushKV("script", HexStr(rewardScriptPubKeyIn));
+    founderObj.pushKV("amount", coinbaseSubsidy * 0.25);
+    result.pushKV("founder", founderObj);
+    result.pushKV("founder_payments_started", true);
+
     return result;
 }
 
