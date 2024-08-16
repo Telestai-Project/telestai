@@ -749,7 +749,9 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     ExtractDestination(rewardScriptPubKeyIn, founder_addr);
     founderObj.pushKV("payee", EncodeDestination(founder_addr).c_str());
     founderObj.pushKV("script", HexStr(rewardScriptPubKeyIn));
-    founderObj.pushKV("amount", coinbaseSubsidy * 0.25);
+
+    CAmount founderSubsidy = GetBlockSubsidy(pindexPrev->nHeight +1, consensusParams) * 0.25;
+    founderObj.pushKV("amount", founderSubsidy);
     result.pushKV("founder", founderObj);
     result.pushKV("founder_payments_started", true);
 
