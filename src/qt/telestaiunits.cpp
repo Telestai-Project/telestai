@@ -19,8 +19,8 @@ QList<TelestaiUnits::Unit> TelestaiUnits::availableUnits()
 {
     QList<TelestaiUnits::Unit> unitlist;
     unitlist.append(TLS);
-    unitlist.append(mRVN);
-    unitlist.append(uRVN);
+    unitlist.append(mTLS);
+    unitlist.append(uTLS);
     return unitlist;
 }
 
@@ -29,8 +29,8 @@ bool TelestaiUnits::valid(int unit)
     switch(unit)
     {
     case TLS:
-    case mRVN:
-    case uRVN:
+    case mTLS:
+    case uTLS:
         return true;
     default:
         return false;
@@ -42,8 +42,8 @@ QString TelestaiUnits::name(int unit)
     switch(unit)
     {
     case TLS: return QString("TLS");
-    case mRVN: return QString("mRVN");
-    case uRVN: return QString::fromUtf8("μRVN");
+    case mTLS: return QString("mTLS");
+    case uTLS: return QString::fromUtf8("μTLS");
     default: return QString("???");
     }
 }
@@ -53,8 +53,8 @@ QString TelestaiUnits::description(int unit)
     switch(unit)
     {
     case TLS: return QString("Telestais");
-    case mRVN: return QString("Milli-Telestais (1 / 1" THIN_SP_UTF8 "000)");
-    case uRVN: return QString("Micro-Telestais (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case mTLS: return QString("Milli-Telestais (1 / 1" THIN_SP_UTF8 "000)");
+    case uTLS: return QString("Micro-Telestais (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
 }
@@ -64,8 +64,8 @@ qint64 TelestaiUnits::factor(int unit)
     switch(unit)
     {
     case TLS:  return 100000000;
-    case mRVN: return 100000;
-    case uRVN: return 100;
+    case mTLS: return 100000;
+    case uTLS: return 100;
     default:   return 100000000;
     }
 }
@@ -92,8 +92,8 @@ int TelestaiUnits::decimals(int unit)
     switch(unit)
     {
     case TLS: return 8;
-    case mRVN: return 5;
-    case uRVN: return 2;
+    case mTLS: return 5;
+    case uTLS: return 2;
     default: return 0;
     }
 }
