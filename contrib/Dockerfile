@@ -1,7 +1,7 @@
 FROM amd64/ubuntu:20.04 AS base
 
-#If you found this docker image helpful please donate TLS to the maintainer
-LABEL maintainer="RV9zdNeUTQUToZUcRp9uNF8gwH5LzDFtan"
+#TLS Wallet
+LABEL maintainer="TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe"
 
 EXPOSE 8766/tcp
 EXPOSE 8767/tcp
