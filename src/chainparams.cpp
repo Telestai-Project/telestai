@@ -127,7 +127,7 @@ public:
         consensus.kawpowLimit = uint256S("00fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // Estimated starting diff for first 180 kawpow blocks
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days 
         consensus.nPowTargetSpacing = 1 * 60;
-	      consensus.fPowAllowMinDifficultyBlocks = false;
+	    consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1613; // Approx 80% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
@@ -164,10 +164,10 @@ public:
 
 
         // The best chain should have at least this much work
-        consensus.nMinimumChainWork = uint256S("0"); // Block 2383567
+        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000026be418fdd92554"); // Block 16943
 
         // Assume that the signatures in ancestors of this block are valid. Block# 1040000
-        consensus.defaultAssumeValid = uint256S("0"); // Block 2383560
+        consensus.defaultAssumeValid = uint256S("0x0x00000056b9854abf830236d77443a8e3556f0244265e3eb12281a7bc43b7ff57"); // Block 0
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -203,10 +203,8 @@ public:
         // Telestai BIP44 cointype in mainnet is '10117'
         nExtCoinType = 10117;
 
-        vSeeds.clear();
-        vFixedSeeds.clear();
         vSeeds.emplace_back("dnsseed.telestainodes.xyz", false);
-
+        vSeeds.emplace_back("telestai.seeds.multicoin.co", false);
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -215,6 +213,8 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
+                {    0, uint256S("0x00000056b9854abf830236d77443a8e3556f0244265e3eb12281a7bc43b7ff57")},
+                { 16943,uint256S("0x000000000001249118c6f77c21f8c9657536918fd0590f0181764bfaacfdcfd6")},
             }
         };
 
@@ -223,10 +223,10 @@ public:
         chainTxData = ChainTxData{
             // Update as we know more about the contents of the Telestai chain
             // Stats as of 0x00000000000016ec03d8d93f9751323bcc42137b1b4df67e6a11c4394fd8e5ad window size 43200
-            0, // * UNIX timestamp of last known number of transactions
-            0,    // * total number of transactions between genesis and that timestamp
+            1723683041, // * UNIX timestamp of last known number of transactions
+            20823,    // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            0       // * estimated number of transactions per second after that timestamp
+            0.01865512171389507       // * estimated number of transactions per second after that timestamp
         };
 
         /** TLS Start **/

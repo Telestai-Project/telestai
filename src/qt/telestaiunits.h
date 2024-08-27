@@ -63,8 +63,8 @@ public:
     enum Unit
     {
         TLS,
-        mRVN,
-        uRVN
+        mTLS,
+        uTLS
     };
 
     enum SeparatorStyle
