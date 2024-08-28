@@ -753,7 +753,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     CAmount founderSubsidy = GetBlockSubsidy(pindexPrev->nHeight +1, consensusParams) * 0.25;
     founderObj.pushKV("amount", founderSubsidy);
     result.pushKV("founder", founderObj);
-    result.pushKV("founder_payments_started", true);
+    result.pushKV("founder_payments_started", UniValue(true));
 
     return result;
 }
