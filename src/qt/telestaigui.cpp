@@ -645,7 +645,7 @@ void TelestaiGUI::createToolBars()
         stringToUse = normalString;
 #endif
 
-            /** TLS START */
+            /** TLS START BRANDING */
             QString tbStyleSheet = ".QToolBar {background-color: transparent; border: none; }  "
                  ".QToolButton {background-color: transparent; border: none; width: 249px; color: white; padding-left: 0px; padding-right: 0px; border-radius: 10px; margin-bottom: 4px;} "
                  ".QToolButton:checked, .QToolButton:hover {background: #9c9876; color: #050708; border: none; border-radius: 10px;} "
