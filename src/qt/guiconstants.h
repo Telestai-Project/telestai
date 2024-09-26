@@ -39,7 +39,7 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 #define COLOR_WALLETFRAME_SHADOW QColor(0,0,0,71)
 
 /* Color of labels */
-#define COLOR_LABELS QColor("#b2cdd9")
+#define COLOR_LABELS QColor("#595959")
 
 /** LIGHT MODE */
 /* Background color, very light gray */
@@ -49,9 +49,9 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 /* Telestai light orange */
 #define COLOR_LIGHT_ORANGE QColor("#f79433")
 /* Telestai dark blue */
-#define COLOR_DARK_BLUE QColor("#384192")
+#define COLOR_DARK_BLUE QColor("#050708")
 /* Telestai light blue */
-#define COLOR_LIGHT_BLUE QColor("#b2cdd9")
+#define COLOR_LIGHT_BLUE QColor("#595959")
 /* Telestai asset text */
 #define COLOR_ASSET_TEXT QColor(255, 255, 255)
 /* Telestai shadow color - light mode */
@@ -90,7 +90,7 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 
 
 /* Telestai label color as a string */
-#define STRING_LABEL_COLOR "color: #b2cdd9"
+#define STRING_LABEL_COLOR "color: #595959"
 #define STRING_LABEL_COLOR_WARNING "color: #FF8080"
 
 
