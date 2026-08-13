@@ -1,10 +1,10 @@
 // Copyright (c) 2011-2014 The Bitcoin Core developers
-// Copyright (c) 2017-2019 The Telestai Core developers
+// Copyright (c) 2017-2019 The Meowcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef TELESTAI_QT_ASSETCONTROLTREEWIDGET_H
-#define TELESTAI_QT_ASSETCONTROLTREEWIDGET_H
+#ifndef AVIAN_QT_ASSETCONTROLTREEWIDGET_H
+#define AVIAN_QT_ASSETCONTROLTREEWIDGET_H
 
 #include <QKeyEvent>
 #include <QTreeWidget>
@@ -14,10 +14,10 @@ class AssetControlTreeWidget : public QTreeWidget
     Q_OBJECT
 
 public:
-    explicit AssetControlTreeWidget(QWidget *parent = 0);
+    explicit AssetControlTreeWidget(QWidget *parent = nullptr);
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
-#endif // TELESTAI_QT_ASSETCONTROLTREEWIDGET_H
+#endif // AVIAN_QT_ASSETCONTROLTREEWIDGET_H
