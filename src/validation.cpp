@@ -2381,6 +2381,50 @@ static int64_t nTimeCallbacks = 0;
 static int64_t nTimeTotal = 0;
 static int64_t nBlocksTotal = 0;
 
+/**
+ * KAWPOW headers commit to the block height, and that field alone selects the
+ * ethash epoch and the ProgPoW period used to verify the proof of work. An
+ * unbound height lets a peer choose an arbitrary epoch: a multi-GB light cache
+ * on the verifying node, and past the int overflow of the dataset size a
+ * degenerate dataset that makes the proof of work trivial to produce. Bind it to
+ * the chain, and do it BEFORE any proof of work is computed.
+ *
+ * See: https://github.com/2miners/Ravencoin/tree/rvn-nheight-fix
+ * Telestai activation is set above tip at the time of the fix (~1,057,395) so
+ * existing history is never rejected retroactively.
+ */
+// ethash epoch_length (7500) * 2000: absolute bound on the epoch a header can
+// select, keeping the light cache under ~270 MiB on every path (incl. reindex).
+static const uint32_t KAWPOW_HEADER_HEIGHT_LIMIT = 15000000;
+// Strict height==prev+1 is enforced from this height on.
+static const int KAWPOW_HEIGHT_CHECK_ACTIVATION = 1100000;
+
+static bool HasSerializedHeaderHeight(const CBlockHeader& block)
+{
+    return block.nTime >= nKAWPOWActivationTime;
+}
+
+// Cheap, context-free bound. Must be checked before the header is hashed.
+static bool CheckSerializedHeaderHeightRange(const CBlockHeader& block, CValidationState& state)
+{
+    if (HasSerializedHeaderHeight(block) && block.nHeight >= KAWPOW_HEADER_HEIGHT_LIMIT)
+        return state.DoS(100, false, REJECT_INVALID, "invalid-kawpow-epoch", false,
+                         strprintf("header height %u out of range", block.nHeight));
+    return true;
+}
+
+static bool CheckSerializedHeaderHeight(const CBlockHeader& block, CValidationState& state, int expected_height)
+{
+    if (!CheckSerializedHeaderHeightRange(block, state))
+        return false;
+    if (HasSerializedHeaderHeight(block) &&
+        expected_height >= KAWPOW_HEIGHT_CHECK_ACTIVATION &&
+        block.nHeight != (uint32_t)expected_height)
+        return state.DoS(100, false, REJECT_INVALID, "bad-blk-height", false,
+                         strprintf("block height field %u != expected %d", block.nHeight, expected_height));
+    return true;
+}
+
 /** Apply the effects of this block (with given index) on the UTXO set represented by coins.
  *  Validity checks that depend on the UTXO set are also done; ConnectBlock()
  *  can fail if those validity checks fail (among other reasons). */
@@ -2394,6 +2438,11 @@ static bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockInd
     assert((pindex->phashBlock == nullptr) ||
            (*pindex->phashBlock == block.GetHash()));
     int64_t nTimeStart = GetTimeMicros();
+
+    // Re-check this contextual header invariant for blocks loaded from disk:
+    // -reindex / -reindex-chainstate does not call ContextualCheckBlockHeader().
+    if (!CheckSerializedHeaderHeight(block, state, pindex->nHeight))
+        return false;
 
     // Check it again in case a previous version let a bad block in
     if (!CheckBlock(block, state, chainparams.GetConsensus(), !fJustCheck, !fJustCheck)) // Force the check of asset duplicates when connecting the block
@@ -3946,6 +3995,10 @@ static bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, 
 
 static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
+    // The declared height selects the ethash epoch, so bound it before hashing.
+    if (!CheckSerializedHeaderHeightRange(block, state))
+        return false;
+
     // If we are checking a KAWPOW block below a know checkpoint height. We can validate the proof of work using the mix_hash
     if (fCheckPOW && block.nTime >= nKAWPOWActivationTime) {
         CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(GetParams().Checkpoints());
@@ -4160,6 +4213,10 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationSta
                              REJECT_MAXREORGDEPTH, "bad-fork-prior-to-maxreorgdepth");
     }
 
+    // Bind the height committed to the KAWPOW header to the chain.
+    if (!CheckSerializedHeaderHeight(block, state, nHeight))
+        return false;
+
     // Check proof of work
     const Consensus::Params& consensusParams = params.GetConsensus();
     if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
@@ -4302,10 +4359,16 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
                 *ppindex = pindex;
             if (pindex->nStatus & BLOCK_FAILED_MASK)
                 return state.Invalid(error("%s: block %s is marked invalid", __func__, hash.ToString()), 0, "duplicate");
+            if (!CheckSerializedHeaderHeight(block, state, pindex->nHeight))
+                return false;
             return true;
         }
 
-        if (!CheckBlockHeader(block, state, chainparams.GetConsensus()))
+        // For height-carrying (KAWPOW) headers the proof of work is checked only
+        // after the height has been bound to the chain below - computing it here
+        // would build an epoch context for an attacker-chosen epoch.
+        const bool has_serialized_height = HasSerializedHeaderHeight(block);
+        if (!has_serialized_height && !CheckBlockHeader(block, state, chainparams.GetConsensus()))
             return error("%s: Consensus::CheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
 
         // Get prev block index
@@ -4316,6 +4379,10 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
         pindexPrev = (*mi).second;
         if (pindexPrev->nStatus & BLOCK_FAILED_MASK)
             return state.DoS(100, error("%s: prev block invalid", __func__), REJECT_INVALID, "bad-prevblk");
+        if (!CheckSerializedHeaderHeight(block, state, pindexPrev->nHeight + 1))
+            return false;
+        if (has_serialized_height && !CheckBlockHeader(block, state, chainparams.GetConsensus()))
+            return error("%s: Consensus::CheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
         if (!ContextualCheckBlockHeader(block, state, chainparams, pindexPrev, GetAdjustedTime()))
             return error("%s: Consensus::ContextualCheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
 
@@ -4939,7 +5006,8 @@ bool CVerifyDB::VerifyDB(const CChainParams& chainparams, CCoinsView *coinsview,
         const bool fCheckPoW = true;
         const bool fCheckMerkleRoot = true;
         const bool fDBCheck = true;
-        if (nCheckLevel >= 1 && !CheckBlock(block, state, chainparams.GetConsensus(), fCheckPoW, fCheckMerkleRoot, fDBCheck)) // fCheckAssetDuplicate set to false, because we don't want to fail because the asset exists in our database, when loading blocks from our asset databse
+        if (nCheckLevel >= 1 && (!CheckSerializedHeaderHeight(block, state, pindex->nHeight) ||
+                                 !CheckBlock(block, state, chainparams.GetConsensus(), fCheckPoW, fCheckMerkleRoot, fDBCheck))) // fCheckAssetDuplicate set to false, because we don't want to fail because the asset exists in our database, when loading blocks from our asset databse
             return error("%s: *** found bad block at %d, hash=%s (%s)\n", __func__,
                          pindex->nHeight, pindex->GetBlockHash().ToString(), FormatStateMessage(state));
         // check level 2: verify undo validity
