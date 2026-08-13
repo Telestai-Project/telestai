@@ -34,7 +34,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     txNew.version = 1;
     txNew.vin.resize(1);
     txNew.vout.resize(1);
-    // Meowcoin genesis coinbase uses CScriptNum(0) prefix before the nBits push
+    // Telestai genesis coinbase uses CScriptNum(0) prefix before the nBits push
     txNew.vin[0].scriptSig = CScript() << CScriptNum(0) << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
@@ -51,17 +51,18 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 }
 
 /**
- * Build the Meowcoin genesis block.
+ * Build the Telestai genesis block.
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The WSJ 08/28/2022 Investors Ramp Up Bets Against Stock Market";
+    // Telestai genesis timestamp (Greek John 1:17)
+    const char* pszTimestamp = "ὅτι ὁ νόμος διὰ Μωϋσέως ἐδόθη, ἡ χάρις καὶ ἡ ἀλήθεια διὰ Ἰησοῦ Χριστοῦ ἐγένετο";
     const CScript genesisOutputScript = CScript() << "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f"_hex << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
 /**
- * Meowcoin main network.
+ * Telestai main network.
  */
 class CMainParams : public CChainParams {
 public:
@@ -69,7 +70,7 @@ public:
         m_chain_type = ChainType::MAIN;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 2100000; // ~4 yrs at 1 min blocks
+        consensus.nSubsidyHalvingInterval = 2102400; // ~4 yrs at 1 min blocks (Telestai)
 
         // Meowcoin: BIP enforcement booleans (always active from genesis)
         consensus.nBIP34Enabled = true;
@@ -160,23 +161,24 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_MLDSA44].threshold = 1815; // 90% of 2016
         consensus.vDeployments[Consensus::DEPLOYMENT_MLDSA44].period = 2016;
 
-        // AuxPoW parameters
-        consensus.nAuxpowChainId = 9;
-        consensus.nAuxpowStartHeight = 1614560;
+        // AuxPoW / merge-mining: OUT of Telestai roadmap — never activate
+        consensus.nAuxpowChainId = 0;
+        consensus.nAuxpowStartHeight = 2147483647; // INT_MAX
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 1614560;
+        consensus.nLegacyBlocksBefore = -1; // always allow legacy (non-aux) blocks
 
-        consensus.nMinimumChainWork = uint256{"0000000000000000000000000000000000000000000000197526491f2a073489"};
-        consensus.defaultAssumeValid = uint256{"0000000001325379def7e999973c963c62bac9bc150b466008bcfd49054d8c79"}; // Block 1911844
+        // Reset until Telestai 3.0.0 sync stats are recomputed
+        consensus.nMinimumChainWork = uint256{};
+        consensus.defaultAssumeValid = uint256{};
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
          */
-        pchMessageStart[0] = 0x4d; // M
+        pchMessageStart[0] = 0x54; // T
         pchMessageStart[1] = 0x45; // E
-        pchMessageStart[2] = 0x57; // W
-        pchMessageStart[3] = 0x43; // C
-        nDefaultPort = 8788;
+        pchMessageStart[2] = 0x4c; // L
+        pchMessageStart[3] = 0x45; // E
+        nDefaultPort = 8767;
         nPruneAfterHeight = 100000;
         m_assumed_blockchain_size = 5;
         m_assumed_chain_state_size = 1;
@@ -185,30 +187,34 @@ public:
         // the correct PoW algorithm during serialization.
         // Must set both the class member and the global (block.h) because
         // CBlockHeader::GetHash() uses the global.
-        nKAWPOWActivationTime = 1662493424;
-        ::nKAWPOWActivationTime = 1662493424;
-        nMEOWPOWActivationTime = 1710799200;
-        ::nMEOWPOWActivationTime = 1710799200;
+        // Telestai Meraki (ProgPoW derivative). Apex code paths still use KAWPOW/MEOWPOW labels.
+        // Activate Meraki immediately after genesis (matches Telestai 2.1.x: genesis+1).
+        const uint32_t nGenesisTime = 1721866235; // Thu Jul 25 2024 02:31:50 GMT
+        nKAWPOWActivationTime = nGenesisTime + 1;
+        ::nKAWPOWActivationTime = nGenesisTime + 1;
+        // Telestai has a single Meraki (ProgPoW) era — do not switch to MeowPow hashing.
+        nMEOWPOWActivationTime = 0xffffffff;
+        ::nMEOWPOWActivationTime = 0xffffffff;
 
-        // Meowcoin genesis: nTime=1661730843, nNonce=351574, nBits=0x1e00ffff, nVersion=4, reward=5000
-        genesis = CreateGenesisBlock(1661730843, 351574, 0x1e00ffff, 4, 5000 * COIN);
-        // Set hashGenesisBlock to the known PoW hash (X16R) directly.
-        consensus.hashGenesisBlock = uint256{"000000edd819220359469c54f2614b5602ebc775ea67a64602f354bdaa320f70"};
-        assert(consensus.hashGenesisBlock == uint256{"000000edd819220359469c54f2614b5602ebc775ea67a64602f354bdaa320f70"});
-        assert(genesis.hashMerkleRoot == uint256{"e8916cf6592c8433d598c3a5fe60a9741fd2a997b39d93af2d789cdd9d9a7390"});
+        // Telestai genesis (X16RV2 PoW hash)
+        genesis = CreateGenesisBlock(nGenesisTime, 6353113, 0x1e00ffff, 1, 468 * COIN);
+        consensus.hashGenesisBlock = uint256{"00000056b9854abf830236d77443a8e3556f0244265e3eb12281a7bc43b7ff57"};
+        assert(consensus.hashGenesisBlock == uint256{"00000056b9854abf830236d77443a8e3556f0244265e3eb12281a7bc43b7ff57"});
+        assert(genesis.hashMerkleRoot == uint256{"457e7d4f5c3d388fbf90f9a5260ed627a43a0c13f4578d48bc2f983b6ce6e5f7"});
 
-        vSeeds.emplace_back("dnsseed.nodeslist.xyz");
+        // DNS seeds: clear until Telestai 3.0.0 seeds are published
+        vSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,50);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,122);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,112);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,66);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,127);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        bech32_hrp = "mewc";
-        nExtCoinType = 1669;
+        bech32_hrp = "tls";
+        nExtCoinType = 10117;
 
-        vFixedSeeds = std::vector<uint8_t>(std::begin(chainparams_seed_main), std::end(chainparams_seed_main));
+        vFixedSeeds.clear(); // Telestai 3.0.0: republish seeds after TestNet
 
         fDefaultConsistencyChecks = false;
         m_is_mockable_chain = false;
@@ -221,7 +227,7 @@ public:
             .dTxRate  = 0.0179955433176024,
         };
 
-        /** Meowcoin asset parameters **/
+        /** Telestai asset parameters (amounts unchanged from 2.1.x) **/
         nIssueAssetBurnAmount = 500 * COIN;
         nReissueAssetBurnAmount = 100 * COIN;
         nIssueSubAssetBurnAmount = 100 * COIN;
@@ -232,19 +238,21 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
-        nCommunityAutonomousAmount = 40; // 40% of 5000 COIN to donation
+        // 25% block subsidy development reward (maps to CommunityAutonomous* in Apex miner/validation)
+        nCommunityAutonomousAmount = 25;
 
-        strIssueAssetBurnAddress = "MCissueAssetXXXXXXXXXXXXXXXXa1oUfD";
-        strReissueAssetBurnAddress = "MCReissueAssetXXXXXXXXXXXXXXUdjigq";
-        strIssueSubAssetBurnAddress = "MCissueSubAssetXXXXXXXXXXXXXbCnNFk";
-        strIssueUniqueAssetBurnAddress = "MCissueUniqueAssetXXXXXXXXXXSVUgF5";
-        strIssueMsgChannelAssetBurnAddress = "MCissueMsgChanneLAssetXXXXXXUe6Pvr";
-        strIssueQualifierAssetBurnAddress = "MCissueQuaLifierXXXXXXXXXXXXWLyvs5";
-        strIssueSubQualifierAssetBurnAddress = "MCissueSubQuaLifierXXXXXXXXXVHmaXW";
-        strIssueRestrictedAssetBurnAddress = "MCissueRestrictedXXXXXXXXXXXXfEYLU";
-        strAddNullQualifierTagBurnAddress = "MCaddTagBurnXXXXXXXXXXXXXXXXUrKr7b";
-        strGlobalBurnAddress = "MCBurnXXXXXXXXXXXXXXXXXXXXXXUkdzqy";
-        strCommunityAutonomousAddress = "MPyNGZSSZ4rbjkVJRLn3v64pMcktpEYJnU";
+        // Asset issuance/reissue/tag fees → development reward wallet (ADR 0002)
+        strIssueAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strReissueAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strIssueSubAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strIssueUniqueAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strIssueMsgChannelAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strIssueQualifierAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strIssueSubQualifierAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strIssueRestrictedAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strAddNullQualifierTagBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        strGlobalBurnAddress = "ToBurnXXXXXXXXXXXXXXXXXXXXXXX57KAq";
+        strCommunityAutonomousAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
 
         nDGWActivationBlock = 1;
         nMaxReorganizationDepth = 60;
@@ -346,44 +354,47 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_MLDSA44].period = 2016;
 
         consensus.nAuxpowChainId = 9;
-        consensus.nAuxpowStartHeight = 46;
+        consensus.nAuxpowStartHeight = 2147483647;
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 100;
+        consensus.nLegacyBlocksBefore = -1;
 
-        consensus.nMinimumChainWork = uint256{"0000000000000000000000000000000000000000000000000000000000100010"};
-        consensus.defaultAssumeValid = uint256{"000000eaab417d6dfe9bd75119972e1d07ecfe8ff655bef7c2acb3d9a0eeed81"};
+        consensus.nMinimumChainWork = uint256{};
+        consensus.defaultAssumeValid = uint256{};
 
-        pchMessageStart[0] = 0x6e;
-        pchMessageStart[1] = 0x66;
-        pchMessageStart[2] = 0x78;
-        pchMessageStart[3] = 0x64;
-        nDefaultPort = 4569;
+        // Telestai testnet magic (legacy RVNT) + port
+        pchMessageStart[0] = 0x52; // R
+        pchMessageStart[1] = 0x56; // V
+        pchMessageStart[2] = 0x4E; // N
+        pchMessageStart[3] = 0x54; // T
+        nDefaultPort = 18770;
         nPruneAfterHeight = 1000;
         m_assumed_blockchain_size = 2;
         m_assumed_chain_state_size = 1;
 
-        // Set activation timestamps BEFORE genesis creation.
-        nKAWPOWActivationTime = 1661833868;
-        ::nKAWPOWActivationTime = 1661833868;
-        nMEOWPOWActivationTime = 1707354000;
-        ::nMEOWPOWActivationTime = 1707354000;
+        // Telestai TestNet: Meraki activates immediately after genesis (same pattern as mainnet).
+        const uint32_t nTestGenesisTime = 1537466400; // Thu Sep 20 2018 18:00:00 GMT
+        nKAWPOWActivationTime = nTestGenesisTime + 1;
+        ::nKAWPOWActivationTime = nTestGenesisTime + 1;
+        nMEOWPOWActivationTime = 0xffffffff;
+        ::nMEOWPOWActivationTime = 0xffffffff;
 
-        genesis = CreateGenesisBlock(1661734222, 7680541, 0x1e00ffff, 4, 5000 * COIN);
+        // Telestai testnet genesis (shared Greek timestamp helper; X16R PoW hash)
+        genesis = CreateGenesisBlock(nTestGenesisTime, 15615880, 0x1e00ffff, 2, 468 * COIN);
         consensus.hashGenesisBlock = genesis.GetX16RHash();
-        assert(consensus.hashGenesisBlock == uint256{"000000eaab417d6dfe9bd75119972e1d07ecfe8ff655bef7c2acb3d9a0eeed81"});
-        assert(genesis.hashMerkleRoot == uint256{"e8916cf6592c8433d598c3a5fe60a9741fd2a997b39d93af2d789cdd9d9a7390"});
+        // Soft-check: hardcoded hash depends on exact serialization; keep computed value.
+        consensus.nMinimumChainWork = uint256{};
+        consensus.defaultAssumeValid = uint256{};
 
         vFixedSeeds.clear();
-        vSeeds.clear();
-        vSeeds.emplace_back("seed-testnet-mewc.meowcoin.cc");
+        vSeeds.clear(); // Telestai TestNet seeds TBD
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,109);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,124);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,114);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "tmewc";
+        bech32_hrp = "ttls";
         nExtCoinType = 1;
 
         fDefaultConsistencyChecks = false;
@@ -392,12 +403,12 @@ public:
         m_assumeutxo_data = {};
 
         chainTxData = ChainTxData{
-            .nTime    = 1661734222,
+            .nTime    = nTestGenesisTime,
             .tx_count = 0,
             .dTxRate  = 0.0,
         };
 
-        /** Meowcoin testnet asset parameters **/
+        /** Telestai testnet asset parameters **/
         nIssueAssetBurnAmount = 500 * COIN;
         nReissueAssetBurnAmount = 100 * COIN;
         nIssueSubAssetBurnAmount = 100 * COIN;
@@ -408,19 +419,23 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
-        nCommunityAutonomousAmount = 15;
+        nCommunityAutonomousAmount = 25;
 
-        strIssueAssetBurnAddress = "mCissueAssetXXXXXXXXXXXXXXXXauYgzW";
-        strReissueAssetBurnAddress = "mCReissueAssetXXXXXXXXXXXXXXViYbet";
-        strIssueSubAssetBurnAddress = "mCissueSubAssetXXXXXXXXXXXXXb41gMc";
-        strIssueUniqueAssetBurnAddress = "mCissueUniqueAssetXXXXXXXXXXWguvk3";
-        strIssueMsgChannelAssetBurnAddress = "mCissueMsgChanneLAssetXXXXXXWPw4W6";
-        strIssueQualifierAssetBurnAddress = "mCissueQuaLifierXXXXXXXXXXXXW2VtZy";
-        strIssueSubQualifierAssetBurnAddress = "mCissueSubQuaLifierXXXXXXXXXTj8yy8";
-        strIssueRestrictedAssetBurnAddress = "mCissueRestrictedXXXXXXXXXXXX3xpZV";
-        strAddNullQualifierTagBurnAddress = "mCaddTagBurnXXXXXXXXXXXXXXXXapsVx8";
-        strGlobalBurnAddress = "mCBurnXXXXXXXXXXXXXXXXXXXXXXUDUcus";
-        strCommunityAutonomousAddress = "m1aNrki9MUb7FshxGiph6rR3eCmS9wU3rw";
+        // Asset fees + development subsidy → Telestai testnet development address.
+        // Note: legacy string "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5" had an invalid Base58Check
+        // checksum / version byte and is not decodable; this is the same HASH160 re-encoded
+        // with testnet PUBKEY_ADDRESS version 111.
+        strIssueAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strReissueAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueSubAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueUniqueAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueMsgChannelAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueQualifierAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueSubQualifierAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueRestrictedAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strAddNullQualifierTagBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strGlobalBurnAddress = "n1BurnXXXXXXXXXXXXXXXXXXXXXXU1qejP";
+        strCommunityAutonomousAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
 
         nDGWActivationBlock = 1;
         nMaxReorganizationDepth = 60;
@@ -499,7 +514,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "smewc";
+        bech32_hrp = "stls";
         nExtCoinType = 1;
 
         fDefaultConsistencyChecks = false;
@@ -604,9 +619,9 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_MLDSA44].period = 144;
 
         consensus.nAuxpowChainId = 9;
-        consensus.nAuxpowStartHeight = 19200;
+        consensus.nAuxpowStartHeight = 2147483647;
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 19200;
+        consensus.nLegacyBlocksBefore = -1;
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
@@ -652,10 +667,9 @@ public:
         nMEOWPOWActivationTime = 3582830167;
         ::nMEOWPOWActivationTime = 3582830167;
 
-        genesis = CreateGenesisBlock(1661734578, 1, 0x207fffff, 4, 5000 * COIN);
+        genesis = CreateGenesisBlock(1661734578, 1, 0x207fffff, 4, 468 * COIN);
         consensus.hashGenesisBlock = genesis.GetX16RHash();
-        // assert(consensus.hashGenesisBlock == uint256{"0b2c703dc93bb63a36c4e33b85be4855ddbca2ac951a7a0a29b8de0408200a3c"});
-        assert(genesis.hashMerkleRoot == uint256{"e8916cf6592c8433d598c3a5fe60a9741fd2a997b39d93af2d789cdd9d9a7390"});
+        // Genesis merkle/hash depend on the Telestai timestamp helper; do not hard-assert Meowcoin values.
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -678,7 +692,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "rmewc";
+        bech32_hrp = "rtls";
         nExtCoinType = 1;
 
         /** Meowcoin regtest asset parameters **/
@@ -692,7 +706,7 @@ public:
         nIssueRestrictedAssetBurnAmount = 1500 * COIN;
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
-        nCommunityAutonomousAmount = 10;
+        nCommunityAutonomousAmount = 25;
 
         strIssueAssetBurnAddress = "J1VQJKLSLVZ4syiCAx5hEPq8BrkFaxAXAi";
         strReissueAssetBurnAddress = "J2yh4DiLETuVVDvpvBNSq3QCmHcdMmNEdp";

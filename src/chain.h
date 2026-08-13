@@ -97,7 +97,7 @@ enum BlockStatus : uint32_t {
     BLOCK_VALID_TREE         =    2,
 
     /**
-     * Only first tx is coinbase, 2 <= coinbase input script length <= 100, transactions valid, no duplicate txids,
+     * Only first tx is coinbase, 2 <= coinbase input script length <= 175, transactions valid, no duplicate txids,
      * sigops, size, merkle root. Implies all parents are at least TREE but not necessarily TRANSACTIONS.
      *
      * If a block's validity is at least VALID_TRANSACTIONS, CBlockIndex::nTx will be set. If a block and all previous

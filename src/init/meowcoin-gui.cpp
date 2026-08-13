@@ -16,7 +16,7 @@
 
 namespace init {
 namespace {
-const char* EXE_NAME = "meowcoin-gui";
+const char* EXE_NAME = "telestai-gui";
 
 class BitcoinGuiInit : public interfaces::Init
 {

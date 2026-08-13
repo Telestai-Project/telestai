@@ -36,7 +36,7 @@
 #include <utility>
 #include <variant>
 
-const char * const BITCOIN_CONF_FILENAME = "meowcoin.conf";
+const char * const BITCOIN_CONF_FILENAME = "telestai.conf";
 const char * const BITCOIN_SETTINGS_FILENAME = "settings.json";
 
 ArgsManager gArgs;
@@ -192,7 +192,7 @@ bool ArgsManager::ParseParameters(int argc, const char* const argv[], std::strin
         if (key.starts_with("-psn_")) continue;
 #endif
 
-        if (key == "-") break; //meowcoin-tx using stdin
+        if (key == "-") break; //telestai-tx using stdin
         std::optional<std::string> val;
         size_t is_index = key.find('=');
         if (is_index != std::string::npos) {
@@ -738,18 +738,18 @@ bool HasTestOption(const ArgsManager& args, const std::string& test_option)
 fs::path GetDefaultDataDir()
 {
     // Windows:
-    //   old: C:\Users\Username\AppData\Roaming\Meowcoin
-    //   new: C:\Users\Username\AppData\Local\Meowcoin
-    // macOS: ~/Library/Application Support/Meowcoin
-    // Unix-like: ~/.meowcoin
+    //   old: C:\Users\Username\AppData\Roaming\Telestai
+    //   new: C:\Users\Username\AppData\Local\Telestai
+    // macOS: ~/Library/Application Support/Telestai
+    // Unix-like: ~/.telestai
 #ifdef WIN32
     // Windows
     // Check for existence of datadir in old location and keep it there
-    fs::path legacy_path = GetSpecialFolderPath(CSIDL_APPDATA) / "Meowcoin";
+    fs::path legacy_path = GetSpecialFolderPath(CSIDL_APPDATA) / "Telestai";
     if (fs::exists(legacy_path)) return legacy_path;
 
     // Otherwise, fresh installs can start in the new, "proper" location
-    return GetSpecialFolderPath(CSIDL_LOCAL_APPDATA) / "Meowcoin";
+    return GetSpecialFolderPath(CSIDL_LOCAL_APPDATA) / "Telestai";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -759,10 +759,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef __APPLE__
     // macOS
-    return pathRet / "Library/Application Support/Meowcoin";
+    return pathRet / "Library/Application Support/Telestai";
 #else
     // Unix-like
-    return pathRet / ".meowcoin";
+    return pathRet / ".telestai";
 #endif
 #endif
 }

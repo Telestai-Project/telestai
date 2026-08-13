@@ -121,20 +121,44 @@ const std::vector<std::string> CHECKLEVEL_DOC {
 static constexpr int PRUNE_LOCK_BUFFER{10};
 
 /**
- * Check the height committed to native KAWPOW/MEOWPOW headers.
+ * Meraki (ProgPoW) headers commit to nHeight, which selects the ethash epoch
+ * and ProgPoW period used to verify proof of work. An unbound height lets a
+ * peer choose an arbitrary epoch (OOM / trivial-PoW DoS). Bind it to the chain,
+ * and do the absolute bound BEFORE any proof of work / GetHash() work.
  *
- * AuxPoW and pre-KAWPOW headers do not serialize nHeight. This check is kept
- * separate from the expensive proof-of-work check so an untrusted height
- * cannot select an arbitrary Ethash epoch before the header is rejected.
+ * See Telestai 2.1.8 / https://github.com/2miners/Ravencoin/tree/rvn-nheight-fix
+ * Strict height==prev+1 activates at 1,100,000 so existing history is not
+ * rejected retroactively. Absolute epoch bound applies immediately.
+ *
+ * AuxPoW and pre-Meraki headers do not serialize nHeight.
  */
+// ethash epoch_length (7500) * 2000: keeps light cache bounded on every path.
+static const uint32_t MERAKI_HEADER_HEIGHT_LIMIT = 15000000;
+static const int MERAKI_HEIGHT_CHECK_ACTIVATION = 1100000;
+
 static bool HasSerializedHeaderHeight(const CBlockHeader& block)
 {
     return block.nTime >= nKAWPOWActivationTime && !block.nVersion.IsAuxpow();
 }
 
+/** Cheap, context-free bound. Must run before the header is hashed. */
+static bool CheckSerializedHeaderHeightRange(const CBlockHeader& block, BlockValidationState& state)
+{
+    if (HasSerializedHeaderHeight(block) && block.nHeight >= MERAKI_HEADER_HEIGHT_LIMIT) {
+        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER,
+                             "invalid-meraki-epoch",
+                             strprintf("header height %u out of range", block.nHeight));
+    }
+    return true;
+}
+
 static bool CheckSerializedHeaderHeight(const CBlockHeader& block, BlockValidationState& state, int expected_height)
 {
+    if (!CheckSerializedHeaderHeightRange(block, state)) {
+        return false;
+    }
     if (HasSerializedHeaderHeight(block) &&
+        expected_height >= MERAKI_HEIGHT_CHECK_ACTIVATION &&
         block.nHeight != static_cast<uint32_t>(expected_height)) {
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER,
                              "bad-blk-height",
@@ -2006,7 +2030,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     if (halvings >= 64)
         return 0;
 
-    CAmount nSubsidy = 5000 * COIN;
+    CAmount nSubsidy = 468 * COIN; // Telestai block subsidy
     // Subsidy is cut in half every 2,100,000 blocks which will occur approximately every 4 years.
     nSubsidy >>= halvings;
     return nSubsidy;
@@ -2494,7 +2518,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
     // re-enforce that rule here (at least until we make it impossible for
     // the clock to go backward).
 
-    // Meowcoin: skip PoW re-check for the genesis block.
+    // Telestai: skip PoW re-check for the genesis block.
     // Multi-algo PoW (X16R/X16RV2) genesis blocks were mined offline;
     // the genesis hash is already asserted in chainparams.
     const bool fGenesisBlock = (pindex->nHeight == 0);
@@ -2983,7 +3007,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                       strprintf("coinbase pays too much (actual=%d vs limit=%d)", block.vtx[0]->GetValueOut(), blockReward));
     }
 
-    // Meowcoin: Community Autonomous Fund enforcement
+    // Telestai: development reward enforcement
     // Check that coinbase has the correct community fund output (vout[1])
     if (state.IsValid()) {
         const CAmount nSubsidy = GetBlockSubsidy(pindex->nHeight, params.GetConsensus());
@@ -3006,7 +3030,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                     const std::string& strCommunityAutonomousAddress = params.CommunityAutonomousAddress();
                     CTxDestination destCommunityAutonomous = DecodeDestination(strCommunityAutonomousAddress);
                     if (!IsValidDestination(destCommunityAutonomous)) {
-                        LogError("ConnectBlock(): Invalid Meowcoin community autonomous address %s\n", strCommunityAutonomousAddress);
+                        LogError("ConnectBlock(): Invalid Telestai development reward address %s\n", strCommunityAutonomousAddress);
                     } else {
                         CScript scriptPubKeyCommunityAutonomous = GetScriptForDestination(destCommunityAutonomous);
                         if (block.vtx[0]->vout[1].scriptPubKey != scriptPubKeyCommunityAutonomous) {
@@ -4312,6 +4336,10 @@ void ChainstateManager::ReceivedBlockTransactions(const CBlock& block, CBlockInd
 
 static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
+    // Absolute Meraki epoch bound before any hashing / PoW work.
+    if (!CheckSerializedHeaderHeightRange(block, state))
+        return false;
+
     if (!fCheckPOW)
         return true;
 
@@ -4323,7 +4351,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& st
                                  "bad-chain-id", "incorrect chain ID in block header");
     }
 
-    // ---- AuxPoW path ----
+    // ---- AuxPoW path (Telestai: AuxPoW never activates; keep defensive) ----
     if (block.nVersion.IsAuxpow()) {
         if (!block.auxpow)
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER,
@@ -4342,7 +4370,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& st
         return true;
     }
 
-    // ---- KAWPOW / MEOWPOW path (post-activation) ----
+    // ---- Meraki / ProgPoW path (post-activation; Apex labels KAWPOW/MEOWPOW) ----
     if (block.nTime >= nKAWPOWActivationTime) {
         uint256 mix;
         uint256 hash = block.GetHashFull(mix);
@@ -4745,6 +4773,11 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
 {
     AssertLockHeld(cs_main);
 
+    // Bound Meraki epoch selection before GetHash() / PoW can allocate.
+    if (!CheckSerializedHeaderHeightRange(block, state)) {
+        return false;
+    }
+
     // Check for duplicate
     uint256 hash = block.GetHash();
     BlockMap::iterator miSelf{m_blockman.m_block_index.find(hash)};
@@ -4764,6 +4797,9 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
             return true;
         }
 
+        // For height-carrying Meraki headers, PoW is checked only after height
+        // is bound to the chain — computing it earlier would build an epoch
+        // context for an attacker-chosen height.
         const bool has_serialized_height{HasSerializedHeaderHeight(block)};
         if (!has_serialized_height && !CheckBlockHeader(block, state, GetConsensus())) {
             LogDebug(BCLog::VALIDATION, "%s: Consensus::CheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());

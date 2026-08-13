@@ -183,13 +183,15 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock()
         const std::string& strCommunityAutonomousAddress = chainparams.CommunityAutonomousAddress();
         CTxDestination destCommunityAutonomous = DecodeDestination(strCommunityAutonomousAddress);
         if (!IsValidDestination(destCommunityAutonomous)) {
-            LogError("CreateNewBlock(): Invalid Meowcoin community autonomous address %s\n", strCommunityAutonomousAddress);
-            coinbaseTx.vout.resize(1); // Fallback to single output
-            coinbaseTx.vout[0].nValue = nTotalReward;
-        } else {
-            coinbaseTx.vout[1].scriptPubKey = GetScriptForDestination(destCommunityAutonomous);
-            coinbaseTx.vout[1].nValue = nCommunityAutonomousValue;
+            // Do not silently fall back to a one-output coinbase: GenerateCoinbaseCommitment
+            // would then place the 0-value witness commitment at vout[1], and ConnectBlock
+            // would fail with a misleading bad-cb-community-autonomous-amount (Actual: 0).
+            LogError("CreateNewBlock(): Invalid Telestai development reward address %s — aborting template\n",
+                     strCommunityAutonomousAddress);
+            return nullptr;
         }
+        coinbaseTx.vout[1].scriptPubKey = GetScriptForDestination(destCommunityAutonomous);
+        coinbaseTx.vout[1].nValue = nCommunityAutonomousValue;
     } else {
         coinbaseTx.vout.resize(1);
         coinbaseTx.vout[0].scriptPubKey = m_options.coinbase_output_script;

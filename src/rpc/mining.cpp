@@ -17,6 +17,7 @@
 #include <consensus/params.h>
 #include <consensus/validation.h>
 #include <core_io.h>
+#include <crypto/ethash/include/ethash/ethash.hpp>
 #include <deploymentinfo.h>
 #include <deploymentstatus.h>
 #include <interfaces/mining.h>
@@ -28,6 +29,7 @@
 #include <node/warnings.h>
 #include <policy/ephemeral_policy.h>
 #include <pow.h>
+#include <primitives/block.h>
 #include <rpc/auxpow_miner.h>
 #include <rpc/blockchain.h>
 #include <rpc/mining.h>
@@ -48,8 +50,15 @@
 #include <validationinterface.h>
 
 #include <algorithm>
+#include <cerrno>
 #include <cstdint>
+#include <cstdlib>
+#include <map>
 #include <memory>
+#include <string>
+
+/** Cached Meraki block templates keyed by GetKAWPOWHeaderHash (telemerakiminer / pprpcsb). */
+static std::map<std::string, CBlock> mapRVNKAWBlockTemplates;
 
 using interfaces::BlockRef;
 using interfaces::BlockTemplate;
@@ -692,16 +701,16 @@ static RPCHelpMan getblocktemplate()
         "    https://github.com/meowcoin/bips/blob/master/bip-0009.mediawiki#getblocktemplate_changes\n"
         "    https://github.com/meowcoin/bips/blob/master/bip-0145.mediawiki\n",
         {
-            {"template_request", RPCArg::Type::OBJ, RPCArg::Optional::NO, "Format of the template",
+            {"template_request", RPCArg::Type::OBJ, RPCArg::Optional::OMITTED, "Format of the template",
             {
                 {"mode", RPCArg::Type::STR, /* treat as named arg */ RPCArg::Optional::OMITTED, "This must be set to \"template\", \"proposal\" (see BIP 23), or omitted"},
                 {"capabilities", RPCArg::Type::ARR, /* treat as named arg */ RPCArg::Optional::OMITTED, "A list of strings",
                 {
                     {"str", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "client side supported feature, 'longpoll', 'coinbasevalue', 'proposal', 'serverlist', 'workid'"},
                 }},
-                {"rules", RPCArg::Type::ARR, RPCArg::Optional::NO, "A list of strings",
+                {"rules", RPCArg::Type::ARR, RPCArg::Optional::OMITTED, "A list of strings (legacy Meraki miners may omit; segwit is assumed)",
                 {
-                    {"segwit", RPCArg::Type::STR, RPCArg::Optional::NO, "(literal) indicates client side segwit support"},
+                    {"segwit", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "(literal) indicates client side segwit support"},
                     {"str", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "other client side supported softfork deployment"},
                 }},
                 {"longpollid", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "delay processing request until the result would vary significantly from the \"longpollid\" of a prior template"},
@@ -921,9 +930,10 @@ static RPCHelpMan getblocktemplate()
         throw JSONRPCError(RPC_INVALID_PARAMETER, "getblocktemplate must be called with the signet rule set (call with {\"rules\": [\"segwit\", \"signet\"]})");
     }
 
-    // GBT must be called with 'segwit' set in the rules
+    // GBT must be called with 'segwit' set in the rules.
+    // Telestai: legacy Meraki miners (telemerakiminer) omit BIP9 rules; assume segwit.
     if (setClientRules.count("segwit") != 1) {
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "getblocktemplate must be called with the segwit rule set (call with {\"rules\": [\"segwit\"]})");
+        setClientRules.insert("segwit");
     }
 
     // Update block
@@ -941,8 +951,17 @@ static RPCHelpMan getblocktemplate()
         CBlockIndex* pindexPrevNew = chainman.m_blockman.LookupBlockIndex(tip);
         time_start = GetTime();
 
-        // Create new block
-        block_template = miner.createNewBlock();
+        // Create new block — use -miningaddress for Meraki solo templates when set.
+        node::BlockCreateOptions create_opts;
+        const std::string miningAddr = gArgs.GetArg("-miningaddress", "");
+        if (!miningAddr.empty()) {
+            const CTxDestination dest = DecodeDestination(miningAddr);
+            if (!IsValidDestination(dest)) {
+                throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Invalid -miningaddress: %s", miningAddr));
+            }
+            create_opts.coinbase_output_script = GetScriptForDestination(dest);
+        }
+        block_template = miner.createNewBlock(create_opts);
         CHECK_NONFATAL(block_template);
 
 
@@ -1098,6 +1117,35 @@ static RPCHelpMan getblocktemplate()
         result.pushKV("CommunityAutonomousValue", (int64_t)((nSubsidy * nCommunityAutonomousAmount) / 100));
     }
 
+    // Meraki solo-mining package for telemerakiminer (pprpcheader + pprpcsb).
+    if (block.nTime >= nKAWPOWActivationTime) {
+        const std::string miningAddr = gArgs.GetArg("-miningaddress", "");
+        if (IsValidDestination(DecodeDestination(miningAddr))) {
+            static std::string lastheader;
+            // Only reuse a cached header when it is still for *this* tip.
+            // Reusing across tip changes made telemerakiminer keep hashing a
+            // stale job; pprpcsb then returned "inconclusive" which the miner
+            // still printed as **Accepted.
+            if (mapRVNKAWBlockTemplates.count(lastheader)) {
+                const CBlock& cached = mapRVNKAWBlockTemplates.at(lastheader);
+                if (cached.hashPrevBlock == block.hashPrevBlock &&
+                    cached.nHeight == block.nHeight &&
+                    block.nTime - 30 < cached.nTime) {
+                    result.pushKV("pprpcheader", lastheader);
+                    result.pushKV("pprpcepoch", static_cast<uint64_t>(ethash::get_epoch_number(block.nHeight)));
+                    return result;
+                }
+            }
+
+            block.hashMerkleRoot = BlockMerkleRoot(block);
+            const std::string header_hash = block.GetKAWPOWHeaderHash().GetHex();
+            result.pushKV("pprpcheader", header_hash);
+            result.pushKV("pprpcepoch", static_cast<uint64_t>(ethash::get_epoch_number(block.nHeight)));
+            mapRVNKAWBlockTemplates[header_hash] = block;
+            lastheader = header_hash;
+        }
+    }
+
     return result;
 },
     };
@@ -1120,6 +1168,111 @@ protected:
         state = stateIn;
     }
 };
+
+static RPCHelpMan pprpcsb()
+{
+    return RPCHelpMan{
+        "pprpcsb",
+        "Attempts to submit a new Meraki (ProgPoW) block mined via GPU (telemerakiminer).\n",
+        {
+            {"header_hash", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "Meraki header hash previously returned as pprpcheader"},
+            {"mix_hash", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "mix hash from the miner"},
+            {"nonce", RPCArg::Type::STR, RPCArg::Optional::NO, "hex nonce (nNonce64)"},
+        },
+        {
+            RPCResult{"If the block was accepted", RPCResult::Type::BOOL, "result", "true"},
+            RPCResult{"Otherwise", RPCResult::Type::STR, "", "According to BIP22 / duplicate markers"},
+        },
+        RPCExamples{
+            HelpExampleCli("pprpcsb", "\"header_hash\" \"mix_hash\" \"0x100000\"")
+            + HelpExampleRpc("pprpcsb", "\"header_hash\", \"mix_hash\", \"0x100000\"")
+        },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
+{
+    const std::string header_hash = request.params[0].get_str();
+    const std::string mix_hash = request.params[1].get_str();
+    const std::string str_nonce = request.params[2].get_str();
+
+    uint64_t nonce = 0;
+    {
+        std::string hex = str_nonce;
+        if (hex.size() >= 2 && hex[0] == '0' && (hex[1] == 'x' || hex[1] == 'X')) {
+            hex = hex.substr(2);
+        }
+        // telemerakiminer sends a hex nonce string (with or without 0x).
+        char* end = nullptr;
+        errno = 0;
+        const unsigned long long parsed = std::strtoull(hex.c_str(), &end, 16);
+        if (errno != 0 || end == hex.c_str() || (end && *end != '\0')) {
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid hex nonce");
+        }
+        nonce = static_cast<uint64_t>(parsed);
+    }
+
+    if (!mapRVNKAWBlockTemplates.count(header_hash)) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Block header hash not found in block data");
+    }
+
+    std::shared_ptr<CBlock> blockptr = std::make_shared<CBlock>(mapRVNKAWBlockTemplates.at(header_hash));
+    blockptr->nNonce64 = nonce;
+    blockptr->mix_hash = ParseHashV(request.params[1], "mix_hash");
+
+    if (blockptr->vtx.empty() || !blockptr->vtx[0]->IsCoinBase()) {
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Block does not start with a coinbase");
+    }
+
+    uint256 computed_mix;
+    const uint256 pow_hash = blockptr->GetHashFull(computed_mix);
+    if (computed_mix != blockptr->mix_hash) {
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "mix_hash mismatch");
+    }
+
+    ChainstateManager& chainman = EnsureAnyChainman(request.context);
+    if (!CheckProofOfWork(pow_hash, blockptr->nBits, blockptr->nVersion.GetAlgo(), chainman.GetConsensus())) {
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Block does not solve the boundary");
+    }
+
+    {
+        LOCK(cs_main);
+        const CBlockIndex* tip = chainman.ActiveChain().Tip();
+        if (!tip || blockptr->hashPrevBlock != tip->GetBlockHash()) {
+            // Tip moved — drop stale template so GBT issues a fresh pprpcheader.
+            mapRVNKAWBlockTemplates.erase(header_hash);
+            throw JSONRPCError(RPC_VERIFY_ERROR, "stale-prevblock");
+        }
+        const CBlockIndex* pindex = chainman.m_blockman.LookupBlockIndex(blockptr->hashPrevBlock);
+        if (pindex) {
+            chainman.UpdateUncommittedBlockStructures(*blockptr, pindex);
+        }
+    }
+
+    bool new_block = false;
+    auto sc = std::make_shared<submitblock_StateCatcher>(blockptr->GetHash());
+    CHECK_NONFATAL(chainman.m_options.signals)->RegisterSharedValidationInterface(sc);
+    bool accepted = chainman.ProcessNewBlock(blockptr, /*force_processing=*/true, /*min_pow_checked=*/true, /*new_block=*/&new_block);
+    CHECK_NONFATAL(chainman.m_options.signals)->UnregisterSharedValidationInterface(sc);
+    if (!new_block && accepted) {
+        mapRVNKAWBlockTemplates.erase(header_hash);
+        throw JSONRPCError(RPC_VERIFY_ERROR, "duplicate");
+    }
+    if (!sc->found) {
+        mapRVNKAWBlockTemplates.erase(header_hash);
+        throw JSONRPCError(RPC_VERIFY_ERROR, "inconclusive");
+    }
+    UniValue ret = BIP22ValidationResult(sc->state);
+    if (ret.isNull()) {
+        // Successful seal: remove template so further nonces cannot false-Accept.
+        mapRVNKAWBlockTemplates.erase(header_hash);
+        return true;
+    }
+    mapRVNKAWBlockTemplates.erase(header_hash);
+    if (ret.isStr()) {
+        throw JSONRPCError(RPC_VERIFY_ERROR, ret.get_str());
+    }
+    return ret;
+},
+    };
+}
 
 static RPCHelpMan submitblock()
 {
@@ -1476,9 +1629,8 @@ void RegisterMiningRPCCommands(CRPCTable& t)
         {"mining", &getblocktemplate},
         {"mining", &submitblock},
         {"mining", &submitheader},
-        {"mining", &getauxblock},
-        {"mining", &createauxblock},
-        {"mining", &submitauxblock},
+        {"mining", &pprpcsb},
+        // AuxPoW / merge-mining RPCs intentionally omitted (out of Telestai roadmap).
 
         {"hidden", &generatetoaddress},
         {"hidden", &generatetodescriptor},

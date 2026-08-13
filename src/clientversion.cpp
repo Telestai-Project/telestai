@@ -17,10 +17,10 @@ using util::Join;
 
 /**
  * Name of client reported in the 'version' message. Report the same name
- * for both meowcoind and meowcoin-qt, to make it harder for attackers to
+ * for both telestaid and telestai-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string UA_NAME("Meowcoin");
+const std::string UA_NAME("Telestai");
 
 
 #include <meowcoin-build-info.h>
@@ -60,7 +60,7 @@ std::string FormatFullVersion()
 }
 
 /**
- * Format the subversion field according to BIP 14 spec (https://github.com/meowcoin/bips/blob/master/bip-0014.mediawiki)
+ * Format the subversion field according to BIP 14 spec (https://github.com/bitcoin/bips/blob/master/bip-0014.mediawiki)
  */
 std::string FormatSubVersion(const std::string& name, int nClientVersion, const std::vector<std::string>& comments)
 {
@@ -74,15 +74,15 @@ std::string CopyrightHolders(const std::string& strPrefix)
     std::string str;
 
     str += strPrefix + strprintf("The Bitcoin Core developers");
-    str += "\n" + strprintf("Copyright (C) 2017-%i The Ravencoin developers", COPYRIGHT_YEAR);
-    str += "\n" + strprintf("Copyright (C) 2021-%i The Meowcoin Core developers", COPYRIGHT_YEAR);
+    str += "\n" + strprintf("Copyright (C) 2017-%i The Ravencoin Core developers", COPYRIGHT_YEAR);
+    str += "\n" + strprintf("Copyright (C) 2024-%i The Telestai Core developers", COPYRIGHT_YEAR);
 
     return str;
 }
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/Meowcoin-Foundation/Meowcoin>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/Telestai-Project/telestai>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i"), 2009, COPYRIGHT_YEAR).translated + " ") + "\n" +
            "\n" +
