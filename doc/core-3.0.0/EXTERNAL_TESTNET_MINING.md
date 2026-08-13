@@ -1,25 +1,14 @@
-# Telestai 3.0.0 TestNet — easy mining guide (Optimus soak)
+# Telestai 3.0.0 TestNet — easy mining guide
 
-This is a **private TestNet** for Core 3.0.0. You are helping us check that Meraki mining works before any mainnet upgrade.
-
-You do **not** need to sync the whole mainnet. You only talk to the Optimus TestNet.
+Thanks for helping test. This is **TestNet only** (play chain), not real mainnet money.
 
 ---
 
-## What you need
+## Fast path (most people)
 
-1. A **NVIDIA GPU** PC (Windows or Linux).
-2. The **Tele Meraki miner** (download below).
-3. The **mining link** we send you (password included).  
-   Ask Andrew for the current link if you don’t have it — it can change when the tunnel restarts.
+### 1) Download the miner
 
-Optional: the **TestNet node** zip/tarball if you want to run your own peer. Most people only need the miner.
-
----
-
-## Step 1 — Download the miner
-
-Go to:
+Open:
 
 **https://github.com/Telestai-Project/tele-meraki-miner/releases/tag/1.5.0**
 
@@ -28,79 +17,67 @@ Download:
 - **Windows:** `WindowsRelease.zip`
 - **Linux:** `linuxRelease.tar.xz`
 
-Unpack it. You should see a program called `telemerakiminer` (or `telemerakiminer.exe`).
+Unpack the file. You should see `telemerakiminer` / `telemerakiminer.exe`.
 
-You also need **NVIDIA drivers** installed (normal Game Ready / Studio drivers are fine).  
-On Linux you may also need CUDA’s `libnvrtc` (CUDA 12). If the miner says it can’t find `libnvrtc.so.12`, ask Andrew for the small library pack.
+You need an **NVIDIA GPU** and normal NVIDIA drivers installed.
 
----
+### 2) Run the mining command Andrew sent you
 
-## Step 2 — Mine to Optimus TestNet
+Andrew will send you **one line** that looks like:
 
-Open a terminal (Command Prompt / PowerShell / Terminal) in the miner folder.
-
-**Windows example:**
-
-```bat
-telemerakiminer.exe -U -P PASTE_THE_MINING_LINK_HERE
+```text
+telemerakiminer.exe -U -P http://USER:PASSWORD@IP:18768/
 ```
 
-**Linux example:**
+or on Linux:
 
 ```bash
-./telemerakiminer -U -P 'PASTE_THE_MINING_LINK_HERE'
+./telemerakiminer -U -P 'http://USER:PASSWORD@IP:18768/'
 ```
 
-Replace `PASTE_THE_MINING_LINK_HERE` with the full `http://…` link Andrew gives you.
+1. Open a terminal in the miner folder.
+2. Paste that whole line.
+3. Press Enter.
+4. Leave it running.
 
-You should see the miner start, find a “job”, then show **Accepted** now and then. That means a TestNet block was found and the Optimus node took it.
+### 3) What success looks like
 
-Leave it running. You can stop anytime with Ctrl+C.
+- The miner stays connected.
+- You occasionally see **Accepted**.
 
----
+If it keeps saying **Rejected**, crashes, or can’t connect, screenshot the window and send it to Andrew.
 
-## Step 3 — What “good” looks like
+### Please don’t
 
-- Miner stays connected (no constant disconnect spam).
-- Occasional **Accepted** lines.
-- Not only **Rejected** forever.
-
-If it only rejects, or crashes, copy the last 20 lines of the miner window and send them to Andrew.
-
----
-
-## Important notes (please read)
-
-- This is **TestNet play money**, not real TLS mainnet coins.
-- Rewards on this soak go to the Optimus TestNet soak wallet (shared test address), not your personal mainnet wallet.
-- Do **not** put your mainnet wallet password or seed into anything here.
-- Do **not** share the mining link publicly (it’s like a temporary password).
+- Don’t share the mining link publicly (it’s a password).
+- Don’t use your mainnet wallet seed/password here.
+- Don’t expect these TestNet coins to be worth anything.
 
 ---
 
-## Optional — run your own TestNet node (advanced)
+## Optional: run your own TestNet node (advanced)
 
-Only if you want to connect as a peer and mine to your own TestNet address:
+Linux binaries for this soak:
 
-1. Get the **Core 3.0.0 TestNet binary pack** from the GitHub prerelease for this soak (or build `feature/core-3.0.0`).
-2. Use a **new empty folder** as the data directory (don’t reuse an old Telestai wallet folder).
-3. Point your node at Optimus with:
+See the GitHub prerelease **`testnet-3.0.0-soak`** on the Telestai Core repo (asset `telestai-3.0.0-testnet-linux-x86_64.tar.gz`).
 
-   `addnode=TESTNET_PEER_HOST:18770`
+Or build branch `feature/core-3.0.0`.
 
-   (Andrew will give you the peer host/IP once P2P is open.)
-4. Set `miningaddress=` to a TestNet address from your node.
-5. Mine to **your own** `http://USER:PASS@127.0.0.1:18766/` as usual.
+Then:
 
-If you can’t connect as a peer yet, just use Step 2 (mine through the Optimus mining link).
+1. Use a **brand-new empty folder** for data (don’t reuse old Telestai folders).
+2. Add peer: `addnode=114.73.210.115:18770`
+3. Create a TestNet address and set `miningaddress=...`
+4. Mine to your **local** node (`127.0.0.1:18766`), not the shared mining link.
+
+Most testers can skip this and just use the Fast path.
 
 ---
 
 ## Help
 
-Ping Andrew with:
+Send Andrew:
 
-- Your OS (Windows/Linux)
+- Windows or Linux
 - GPU model
-- Miner log snippet
-- Whether you saw any **Accepted** lines
+- Miner screenshot / last lines of output
