@@ -20,3 +20,9 @@
 
 ## Later session
 - Meraki nHeight bind: absolute epoch limit + soft activation at 1,100,000; range check before GetHash/PoW
+
+## Branding / AuxPoW (this session)
+- Version/license text: Telestai copyright + https://github.com/Telestai-Project/telestai
+- UA_NAME /Telestai:…/; EXE_NAME telestaid; help strings Telestai
+- AuxPoW mining RPCs unregistered; activation still INT_MAX
+- TestNet soak guide: doc/core-3.0.0/TESTNET_SOAK.md

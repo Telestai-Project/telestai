@@ -16,7 +16,7 @@
 
 namespace init {
 namespace {
-const char* EXE_NAME = "meowcoin-qt";
+const char* EXE_NAME = "telestai-qt";
 
 class BitcoinQtInit : public interfaces::Init
 {

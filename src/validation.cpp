@@ -2518,7 +2518,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
     // re-enforce that rule here (at least until we make it impossible for
     // the clock to go backward).
 
-    // Meowcoin: skip PoW re-check for the genesis block.
+    // Telestai: skip PoW re-check for the genesis block.
     // Multi-algo PoW (X16R/X16RV2) genesis blocks were mined offline;
     // the genesis hash is already asserted in chainparams.
     const bool fGenesisBlock = (pindex->nHeight == 0);
@@ -3007,7 +3007,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                       strprintf("coinbase pays too much (actual=%d vs limit=%d)", block.vtx[0]->GetValueOut(), blockReward));
     }
 
-    // Meowcoin: Community Autonomous Fund enforcement
+    // Telestai: development reward enforcement
     // Check that coinbase has the correct community fund output (vout[1])
     if (state.IsValid()) {
         const CAmount nSubsidy = GetBlockSubsidy(pindex->nHeight, params.GetConsensus());
@@ -3030,7 +3030,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                     const std::string& strCommunityAutonomousAddress = params.CommunityAutonomousAddress();
                     CTxDestination destCommunityAutonomous = DecodeDestination(strCommunityAutonomousAddress);
                     if (!IsValidDestination(destCommunityAutonomous)) {
-                        LogError("ConnectBlock(): Invalid Meowcoin community autonomous address %s\n", strCommunityAutonomousAddress);
+                        LogError("ConnectBlock(): Invalid Telestai development reward address %s\n", strCommunityAutonomousAddress);
                     } else {
                         CScript scriptPubKeyCommunityAutonomous = GetScriptForDestination(destCommunityAutonomous);
                         if (block.vtx[0]->vout[1].scriptPubKey != scriptPubKeyCommunityAutonomous) {

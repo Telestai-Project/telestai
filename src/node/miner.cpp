@@ -183,7 +183,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock()
         const std::string& strCommunityAutonomousAddress = chainparams.CommunityAutonomousAddress();
         CTxDestination destCommunityAutonomous = DecodeDestination(strCommunityAutonomousAddress);
         if (!IsValidDestination(destCommunityAutonomous)) {
-            LogError("CreateNewBlock(): Invalid Meowcoin community autonomous address %s\n", strCommunityAutonomousAddress);
+            LogError("CreateNewBlock(): Invalid Telestai development reward address %s\n", strCommunityAutonomousAddress);
             coinbaseTx.vout.resize(1); // Fallback to single output
             coinbaseTx.vout[0].nValue = nTotalReward;
         } else {

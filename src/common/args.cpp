@@ -741,7 +741,7 @@ fs::path GetDefaultDataDir()
     //   old: C:\Users\Username\AppData\Roaming\Telestai
     //   new: C:\Users\Username\AppData\Local\Telestai
     // macOS: ~/Library/Application Support/Telestai
-    // Unix-like: ~/.meowcoin
+    // Unix-like: ~/.telestai
 #ifdef WIN32
     // Windows
     // Check for existence of datadir in old location and keep it there

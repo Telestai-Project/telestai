@@ -16,7 +16,7 @@
 
 namespace init {
 namespace {
-const char* EXE_NAME = "meowcoin-node";
+const char* EXE_NAME = "telestai-node";
 
 class BitcoinNodeInit : public interfaces::Init
 {

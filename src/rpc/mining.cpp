@@ -1476,9 +1476,7 @@ void RegisterMiningRPCCommands(CRPCTable& t)
         {"mining", &getblocktemplate},
         {"mining", &submitblock},
         {"mining", &submitheader},
-        {"mining", &getauxblock},
-        {"mining", &createauxblock},
-        {"mining", &submitauxblock},
+        // AuxPoW / merge-mining RPCs intentionally omitted (out of Telestai roadmap).
 
         {"hidden", &generatetoaddress},
         {"hidden", &generatetodescriptor},
