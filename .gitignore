@@ -26,3 +26,4 @@ target/
 /guix-build-*
 
 /ci/scratch/
+build-3.0.0/
