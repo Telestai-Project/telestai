@@ -463,3 +463,13 @@ endif()
 if(BUILD_FUZZ_BINARY)
   add_subdirectory(test/fuzz)
 endif()
+
+
+# Telestai 3.0.0: keep Meowcoin Apex source filenames for now; ship Telestai binary names.
+foreach(_tls_tgt IN ITEMS meowcoin meowcoind meowcoin-cli meowcoin-tx meowcoin-util meowcoin-wallet meowcoin-qt meowcoin-node meowcoin-gui test_meowcoin bench_meowcoin)
+  if(TARGET ${_tls_tgt})
+    string(REPLACE "meowcoin" "telestai" _tls_out "${_tls_tgt}")
+    string(REPLACE "meowcoind" "telestaid" _tls_out "${_tls_out}")
+    set_target_properties(${_tls_tgt} PROPERTIES OUTPUT_NAME "${_tls_out}")
+  endif()
+endforeach()

@@ -15,7 +15,7 @@
 #include <string>
 #include <type_traits>
 
-const std::string CURRENCY_UNIT = "MEWC"; // One formatted unit
+const std::string CURRENCY_UNIT = "TLS"; // One formatted unit
 const std::string CURRENCY_ATOM = "mewc"; // One indivisible minimum value unit
 
 /* Used to determine type of fee estimation requested */
