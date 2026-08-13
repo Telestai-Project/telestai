@@ -1,6 +1,0 @@
-usr/local/bin/telestai-qt usr/bin
-share/pixmaps/telestai32.xpm usr/share/pixmaps
-share/pixmaps/telestai16.xpm usr/share/pixmaps
-share/pixmaps/telestai128.png usr/share/pixmaps
-debian/telestai-qt.desktop usr/share/applications
-debian/telestai-qt.protocol usr/share/kde4/services/
