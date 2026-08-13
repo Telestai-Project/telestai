@@ -17,3 +17,6 @@
 - Meraki nHeight bind from 2.1.8 into Apex validation
 - First cmake build + TestNet sync/mine
 - Do **not** merge to master until TestNet sign-off
+
+## Later session
+- Meraki nHeight bind: absolute epoch limit + soft activation at 1,100,000; range check before GetHash/PoW

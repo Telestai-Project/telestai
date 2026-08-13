@@ -383,7 +383,7 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.emplace_back("seed-testnet-mewc.meowcoin.cc");
+        vSeeds.clear(); // Telestai TestNet seeds TBD
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,109);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,124);
@@ -418,17 +418,18 @@ public:
 
         nCommunityAutonomousAmount = 25;
 
-        strIssueAssetBurnAddress = "mCissueAssetXXXXXXXXXXXXXXXXauYgzW";
-        strReissueAssetBurnAddress = "mCReissueAssetXXXXXXXXXXXXXXViYbet";
-        strIssueSubAssetBurnAddress = "mCissueSubAssetXXXXXXXXXXXXXb41gMc";
-        strIssueUniqueAssetBurnAddress = "mCissueUniqueAssetXXXXXXXXXXWguvk3";
-        strIssueMsgChannelAssetBurnAddress = "mCissueMsgChanneLAssetXXXXXXWPw4W6";
-        strIssueQualifierAssetBurnAddress = "mCissueQuaLifierXXXXXXXXXXXXW2VtZy";
-        strIssueSubQualifierAssetBurnAddress = "mCissueSubQuaLifierXXXXXXXXXTj8yy8";
-        strIssueRestrictedAssetBurnAddress = "mCissueRestrictedXXXXXXXXXXXX3xpZV";
-        strAddNullQualifierTagBurnAddress = "mCaddTagBurnXXXXXXXXXXXXXXXXapsVx8";
-        strGlobalBurnAddress = "mCBurnXXXXXXXXXXXXXXXXXXXXXXUDUcus";
-        strCommunityAutonomousAddress = "m1aNrki9MUb7FshxGiph6rR3eCmS9wU3rw";
+        // Asset fees + development subsidy → Telestai testnet development address
+        strIssueAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strReissueAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strIssueSubAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strIssueUniqueAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strIssueMsgChannelAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strIssueQualifierAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strIssueSubQualifierAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strIssueRestrictedAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strAddNullQualifierTagBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strGlobalBurnAddress = "n1BurnXXXXXXXXXXXXXXXXXXXXXXU1qejP";
+        strCommunityAutonomousAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
 
         nDGWActivationBlock = 1;
         nMaxReorganizationDepth = 60;
