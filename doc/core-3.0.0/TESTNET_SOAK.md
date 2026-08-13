@@ -72,12 +72,19 @@ Confirm development reward (25%) is configured:
 
 ## 4. Meraki mine soak (solo RPC)
 
-Point tele-meraki-miner at the node RPC (adjust path/binary for your OS):
+`telemerakiminer` uses Telestai’s Meraki GBT extensions (`pprpcheader` / `pprpcepoch`) and submits via `pprpcsb` (not BIP22 `submitblock`). Set `-miningaddress=` (legacy P2PKH) so templates include a coinbase the miner can seal.
 
 ```bash
 # Example — see tele-meraki-miner release notes for exact flags
+# Requires libnvrtc (CUDA 12) on PATH / LD_LIBRARY_PATH for the GPU build
 telemerakiminer -U -P http://telestai:CHANGE_ME_STRONG@127.0.0.1:18766/
 ```
+
+Optimus private soak paths (leave mainnet `:8766` alone):
+
+- Binaries: `/home/chief/telestai/build-out/3.0.0/bin/`
+- Conf/datadir: `/home/chief/telestai/testnet-3.0.0/`
+- Miner: `/home/chief/telestai/miner/telemerakiminer` with `LD_LIBRARY_PATH=.../miner/cuda-libs`
 
 Or generate locally (CPU, slow; fine for functional check on regtest more than TestNet):
 
@@ -89,7 +96,7 @@ Or generate locally (CPU, slow; fine for functional check on regtest more than T
 Soak checklist after N blocks (e.g. 10–100):
 
 - [ ] `getblockcount` increases
-- [ ] Coinbase has miner payout + **25%** to TestNet development address `nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5`
+- [ ] Coinbase has miner payout + **25%** to TestNet development address `mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26`
 - [ ] Asset issue fee (if tested) lands on that same development address (amounts unchanged)
 - [ ] `getauxblock` / `createauxblock` / `submitauxblock` are **not** registered (AuxPoW out)
 - [ ] Node stays stable; no Meraki epoch OOM from malformed headers

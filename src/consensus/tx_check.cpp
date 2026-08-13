@@ -46,7 +46,9 @@ bool CheckTransaction(const CTransaction& tx, TxValidationState& state)
 
     if (tx.IsCoinBase())
     {
-        if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 100)
+        // Telestai: allow up to 175 bytes (matches 2.1.x). Genesis coinbase carries a
+        // Greek John 1:17 timestamp (~163 bytes) that exceeds Bitcoin's 100-byte limit.
+        if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 175)
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-cb-length");
     }
     else

@@ -192,8 +192,9 @@ public:
         const uint32_t nGenesisTime = 1721866235; // Thu Jul 25 2024 02:31:50 GMT
         nKAWPOWActivationTime = nGenesisTime + 1;
         ::nKAWPOWActivationTime = nGenesisTime + 1;
-        nMEOWPOWActivationTime = nGenesisTime + 1;
-        ::nMEOWPOWActivationTime = nGenesisTime + 1;
+        // Telestai has a single Meraki (ProgPoW) era — do not switch to MeowPow hashing.
+        nMEOWPOWActivationTime = 0xffffffff;
+        ::nMEOWPOWActivationTime = 0xffffffff;
 
         // Telestai genesis (X16RV2 PoW hash)
         genesis = CreateGenesisBlock(nGenesisTime, 6353113, 0x1e00ffff, 1, 468 * COIN);
@@ -374,8 +375,8 @@ public:
         const uint32_t nTestGenesisTime = 1537466400; // Thu Sep 20 2018 18:00:00 GMT
         nKAWPOWActivationTime = nTestGenesisTime + 1;
         ::nKAWPOWActivationTime = nTestGenesisTime + 1;
-        nMEOWPOWActivationTime = nTestGenesisTime + 1;
-        ::nMEOWPOWActivationTime = nTestGenesisTime + 1;
+        nMEOWPOWActivationTime = 0xffffffff;
+        ::nMEOWPOWActivationTime = 0xffffffff;
 
         // Telestai testnet genesis (shared Greek timestamp helper; X16R PoW hash)
         genesis = CreateGenesisBlock(nTestGenesisTime, 15615880, 0x1e00ffff, 2, 468 * COIN);
@@ -420,18 +421,21 @@ public:
 
         nCommunityAutonomousAmount = 25;
 
-        // Asset fees + development subsidy → Telestai testnet development address
-        strIssueAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strReissueAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strIssueSubAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strIssueUniqueAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strIssueMsgChannelAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strIssueQualifierAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strIssueSubQualifierAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strIssueRestrictedAssetBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
-        strAddNullQualifierTagBurnAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        // Asset fees + development subsidy → Telestai testnet development address.
+        // Note: legacy string "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5" had an invalid Base58Check
+        // checksum / version byte and is not decodable; this is the same HASH160 re-encoded
+        // with testnet PUBKEY_ADDRESS version 111.
+        strIssueAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strReissueAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueSubAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueUniqueAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueMsgChannelAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueQualifierAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueSubQualifierAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strIssueRestrictedAssetBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
+        strAddNullQualifierTagBurnAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
         strGlobalBurnAddress = "n1BurnXXXXXXXXXXXXXXXXXXXXXXU1qejP";
-        strCommunityAutonomousAddress = "nVG96MbaKEDFzzj9NzbAuxkDt86KAm2Qj5";
+        strCommunityAutonomousAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
 
         nDGWActivationBlock = 1;
         nMaxReorganizationDepth = 60;
