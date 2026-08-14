@@ -12,11 +12,13 @@ Optimus seed (WAN): **`114.73.210.115`**
 
 ### Option A — release tarball (preferred)
 
-Download the soak package Andrew publishes, e.g.:
+Download the soak package from the prerelease:
 
-`telestai-3.0.0-testnet-linux-x86_64-20260814.tar.gz`
+https://github.com/Telestai-Project/telestai/releases/tag/v3.0.0-testnet-soak
 
-(Optimus: `/home/chief/telestai/releases/` — also attached to the Core 3.0.0 TestNet prerelease when published.)
+Asset: `telestai-3.0.0-testnet-linux-x86_64-20260814.tar.gz`
+
+(Also on Optimus: `/home/chief/telestai/releases/`.)
 
 Verify checksum:
 
