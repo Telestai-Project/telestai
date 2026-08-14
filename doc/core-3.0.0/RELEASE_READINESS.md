@@ -1,44 +1,64 @@
-# Core 3.0.0 — release readiness (minus external peer)
+# Core 3.0.0 — release readiness & gap plan
 
 **Branch:** `feature/core-3.0.0`  
 **Updated:** 2026-08-14  
-**Do not merge until this checklist is green.**
+**Live soak signal:** private TestNet tip 1000+, external Windows `telemerakiminer` Accepts, asset fee + 25% subsidy verified.
 
-## Mining / consensus (private TestNet)
+**Verdict:** TestNet soak functionally strong. Remaining work tracked below is **in progress / actionable**.
 
-| Item | Status |
-|------|--------|
-| Meraki blocks advance with `telemerakiminer` | Required live |
-| Coinbase 75% miner + 25% → `mgaw88zz…` (TestNet) / `TesBmcg…` (MainNet) | Required |
-| Asset issue fee 500 TLS → same development address | Required |
-| AuxPoW RPCs absent (`getauxblock` etc.) | Required |
-| CreateNewBlock aborts on bad community address (no silent fallback) | Required |
-| Stale `pprpcheader` reuse across tip changes fixed | Required |
-| `pprpcsb` rejects stale/duplicate/inconclusive as RPC errors | Required |
-| Watchdog restarts miner on tip advance + stale job | Required |
-| `COINBASE_MATURITY = 100` | Required |
-| Mainnet daemon on Optimus untouched during soak | Required |
+---
 
-## Explicitly deferred
+## Docs index
 
-| Item | Why |
-|------|-----|
-| External TestNet peer sync + mine | Out of scope for this pass (user) |
-| Mainnet activation / cutover | After TestNet sign-off |
-| MiniZ as supported miner | Use `telemerakiminer` only |
+| Doc | Purpose |
+|-----|---------|
+| [PEER_JOIN.md](PEER_JOIN.md) | Independent P2P peer + local mining |
+| [POOL_OPERATORS.md](POOL_OPERATORS.md) | Pool / miner operator notes |
+| [MAINNET_CUTOVER.md](MAINNET_CUTOVER.md) | Mainnet upgrade runbook |
+| [ECOSYSTEM_SMOKE.md](ECOSYSTEM_SMOKE.md) | Explorer / Zeroa / pool checklist |
+| [EXTERNAL_TESTNET_MINING.md](EXTERNAL_TESTNET_MINING.md) | Shared-proxy miner quickstart |
+| [TESTNET_SOAK.md](TESTNET_SOAK.md) | Soak procedure |
 
-## Before opening PR → `master`
+---
 
-1. Private soak tip **100+** without babysitting (watchdog-only)
-2. No new `errors.log` spam (`bad-cb`, mix_hash, Assert)
-3. Clean commit history on the branch (no `wip(3.0.0):` stack)
-4. External peer soak (when scheduled)
-5. Release notes: miners must use **tele-meraki-miner 1.5.0+**, not MiniZ for solo/GBT
-6. Datadir note: 3.0.0 TestNet genesis ≠ 2.1.x TestNet — fresh datadir
+## Already green (soak)
 
-## Mainnet cutover (later)
+| Item | Evidence |
+|------|----------|
+| Meraki blocks + tip 1000+ | Optimus private TestNet |
+| Coinbase 351 + 117 → `mgaw88zz…` | Tip coinbase |
+| Asset issue 500 → same address | tx `af508a40…` |
+| AuxPoW RPCs absent | confirmed |
+| CreateNewBlock abort + stale-job harden | live binary |
+| External GPU via shared proxy | Windows telemerakiminer |
+| Dual-miner race | Optimus + external |
+| Clean branch history | chore import + feat port |
+| Tip refresh daemon + proxy tip flag | contrib ops |
+| Peer / pool / cutover / ecosystem docs | this folder |
+| Linux TestNet tarball script | `package_testnet_tarball.sh` |
 
-- Publish Linux (then Windows) `telestaid` / `telestai-cli`
-- Pool operators: Meraki GBT + `pprpcsb`; point at telemerakiminer
-- Explorers / Electrum / Zeroa smoke on TestNet first
-- Mandatory node upgrade window; asset-fee destination already TestNet-proven
+---
+
+## Execution checklist (do now / next)
+
+| # | Item | Action | Status |
+|---|------|--------|--------|
+| 1 | Independent peer | Publish tarball; tester follows PEER_JOIN | **Tarball ready** (`releases/…-20260814.tar.gz`); needs external operator |
+| 2 | Stale Reject UX | `tip_refresh_daemon` + proxy tip flag + core pprpcsb harden | **Ops live** on Optimus + `@reboot` |
+| 3 | Release packaging | Run `package_testnet_tarball.sh` on Optimus; attach to GH prerelease | **Packaged** sha256 `84769d43…` |
+| 4 | PR | Push branch + `gh pr create` | **This PR** |
+| 5 | Mainnet cutover | Follow MAINNET_CUTOVER after peer soak | **Doc ready; execute later** |
+| 6 | Ecosystem smoke | ECOSYSTEM_SMOKE checklist | **Doc ready; needs humans** |
+
+**P2P note:** Optimus listens on `0.0.0.0:18770` (UPnP cron active). `localaddresses` may be empty behind NAT — peers must use `addnode=114.73.210.115:18770`.
+
+---
+
+## Suggested sequence
+
+```text
+1) Package tarball + open PR
+2) External peer join (PEER_JOIN) — blocking for merge sign-off
+3) Ecosystem smoke in parallel
+4) TestNet sign-off → MAINNET_CUTOVER
+```

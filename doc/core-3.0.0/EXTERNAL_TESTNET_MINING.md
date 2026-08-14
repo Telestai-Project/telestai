@@ -4,6 +4,10 @@ Thanks for helping test. This is **TestNet only** (play chain), not real mainnet
 
 ---
 
+> **Miner requirement:** [tele-meraki-miner 1.5.0+](https://github.com/Telestai-Project/tele-meraki-miner/releases/tag/1.5.0) only. **MiniZ is not supported** for this TestNet GBT / `pprpcsb` path.
+>
+> **Independent peer (preferred for soak sign-off):** see [PEER_JOIN.md](PEER_JOIN.md) — run your own `telestaid`, don’t only use the shared proxy.
+
 ## Fast path (most people)
 
 ### 1) Download the miner

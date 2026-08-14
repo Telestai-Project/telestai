@@ -78,10 +78,24 @@ class Handler(BaseHTTPRequestHandler):
         hdr = self.headers.get("Authorization", "")
         expect = "Basic " + AUTH
         if hdr != expect:
+            # telemerakiminer expects a JSON body; empty 401 → "invalid Json message".
+            body = json.dumps(
+                {
+                    "result": None,
+                    "error": {
+                        "code": -32001,
+                        "message": "unauthorized: use http://USER:PASSWORD@host:18768/ in -P",
+                    },
+                    "id": None,
+                }
+            ).encode()
             self.send_response(401)
             self.send_header("WWW-Authenticate", 'Basic realm="telestai-testnet"')
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
             self.send_header("Connection", "close")
             self.end_headers()
+            self.wfile.write(body)
             return
 
         req_id = None
@@ -133,6 +147,16 @@ class Handler(BaseHTTPRequestHandler):
                 result = parsed.get("result")
                 if result is True:
                     _debug(f"pprpcsb ok id={req_id}")
+                    # Signal ops watchers that tip likely advanced (fresh jobs needed).
+                    try:
+                        tip_flag = os.environ.get(
+                            "TLS_PROXY_TIP_FLAG",
+                            "/home/chief/telestai/testnet-3.0.0/watch/tip_advanced_at",
+                        )
+                        with open(tip_flag, "w", encoding="utf-8") as f:
+                            f.write(str(int(__import__("time").time())) + "\n")
+                    except OSError:
+                        pass
                 elif result is False or isinstance(result, str):
                     msg = result if isinstance(result, str) else "rejected"
                     parsed = {

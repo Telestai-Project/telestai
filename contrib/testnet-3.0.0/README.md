@@ -6,9 +6,12 @@ Scripts live on Optimus at `/home/chief/telestai/testnet-3.0.0/bin/` and are mir
 |--------|------|
 | `start_testnet_miner.sh` | Start miner + governor; filter `Sol:` spam; record tip |
 | `miner_watchdog.sh` | Restart on death / RSS>8GiB / tip advance / huge log |
+| `tip_refresh_daemon.sh` | Fast (~10s) tip-advance miner restart for fewer stale jobs |
+| `start_tip_refresh_daemon.sh` | Launch tip refresh daemon |
 | `mining_rpc_proxy.py` | Allowlist proxy with HTTP/1.1 + longpoll timeout |
 | `restart_mining_proxy.sh` | Bounce proxy with env from `telestai.conf` |
 | `watch_testnet.sh` | Status JSON + **new-only** debug error append |
+| `package_testnet_tarball.sh` | Pack Linux TestNet `telestaid` + libs tarball |
 | `gpu_thermal_governor.sh` | SIGSTOP/CONT heat safety net |
 | `apply_gpu_power.sh` | Power/clock caps |
 
