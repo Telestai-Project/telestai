@@ -38,4 +38,4 @@ Benchmark:
 Review
 ------
 
-Results of a formal review of the code can be found in http://telestai.sipa.be/ctaes/review.zip
+Results of a formal review of the code can be found in http://meowcoin.sipa.be/ctaes/review.zip

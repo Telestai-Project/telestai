@@ -1,42 +1,43 @@
-Telestai Core integration/staging tree
-=====================================
+<p align="center">
+  <img src="https://www.mewccrypto.com/meowcoin.png" alt="Meowcoin Logo" width="150"/>
+</p>
 
-https://telestai.io
+# Meowcoin Core (integration/staging)
 
-To see how to run Telestai, please read the respective files in [the doc folder](doc)
+[![Website](https://img.shields.io/badge/website-mewccrypto.com-blue.svg)](https://www.mewccrypto.com/)
+[![Stable Release](https://img.shields.io/github/v/release/Meowcoin-Foundation/Meowcoin?display_name=tag&sort=semver)](../../releases)
+[![Docker](https://img.shields.io/docker/pulls/zachprice105/meowcoin?logo=docker)](https://hub.docker.com/repository/docker/zachprice105/meowcoin/general)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](COPYING)
 
-What is Telestai?
-----------------
+## Overview
 
-Telestai is the basis for a network of decentralised information and media platforms. It will act as the core consensus
-layer and network that drives an ecosystem of media and information with privacy and censorship resistance at its heart. 
-Rather than 'big corporate' farming the data of users as they simply browse the internet, users will be granted the 
-opportunity to retain their data for their own privacy or be allowed to monetise their own meta data by selling it to willing 
-purchasers on a marketplace. 
+Meowcoin is a practical, community-run blockchain focused on animal-welfare initiatives while remaining approachable for home and small-scale miners. It also supports user-issued assets for NFTs, gift cards, and fractional ownership.
 
-Utillising an ecosystem of interconnected services, Telestai will further net neutrality for users, their content and 
-information published through it. Additionally, it will prioritise provenance of content. With the advent of AI, validating 
-whether content is true, original or accurate via a digital signature of creation will prevent 'deep fakes', false reporting and
-plagiarism in the digital sphere. 
+## Core traits
 
-Additionally, Telestai will foster an ecosystem of sufficiently decentralised services and platforms for its citizens to use. 
-In doing so, it will provide these members the freedom of expression and creativity that mainstream social media and platforms 
-do not, while couching that in a responsible framework of conduct. The 'Document of Agreement' will ensure appropriate action 
-can be taken against such content that broaches universally accepted standards of society whilst protecting the freedom of 
-speech and expression that has for centuries been the bedrock of human freedom. 
+* Dual-algorithm PoW: GPU-friendly **MeowPow** + **Scrypt via AuxPoW (merge mining at block 1614560)**
+* Assets/tokens on the Meowcoin network
+* Fair launch (no premine); transparent developer fee funds development, infrastructure, and donations
+* Open source, MIT-licensed
 
-To finish on the words of the Whitepaper:
+## Downloads
 
-_While Telestai as a project aims are to birth this ecosystem, it is the community that will breath life into the bold vision. 
-The digital foundations of the future are now laid._
+* Binaries, check **[Releases](../../releases)**
+* Docker images **[here](https://hub.docker.com/repository/docker/zachprice105/meowcoin/general)**
+* Build/run details: **[`doc/`](doc)**
 
-To read the Whitepaper, please visit [here](https://medium.com/@john-117/telestai-the-foundations-for-a-new-online-ecosystem-f1dde5645f93).
+## Contributing & branches
 
-To engage with development, please join the [Discord](https://discord.gg/hmv8nQZeUt). 
+Open PRs **against `develop`**. After review and testing, changes merge into `develop`; stable snapshots are promoted to `master` and tagged. Contributions are welcome.
 
-License
--------
+## Community
 
-Telestai Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
+Discord and socials are linked at **[https://www.mewccrypto.com/](https://www.mewccrypto.com/)**.
 
+## License
+
+MIT — see **[COPYING](COPYING)** or **[https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)**.
+
+## Acknowledgements
+
+Built on the work of **Ravencoin** and **Bitcoin**, and many open-source contributors.
