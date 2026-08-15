@@ -24,6 +24,8 @@ BDB_PREFIX="$(expand_path ${1})/db4"; shift;
 BDB_VERSION='db-4.8.30.NC'
 BDB_HASH='12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef'
 BDB_URL="https://download.oracle.com/berkeley-db/${BDB_VERSION}.tar.gz"
+# Oracle occasionally flakes; bitcoincore.org hosts the same tarball.
+BDB_URL_FALLBACK="https://bitcoincore.org/depends-sources/${BDB_VERSION}.tar.gz"
 
 check_exists() {
   command -v "$1" >/dev/null
@@ -46,7 +48,7 @@ sha256_check() {
 }
 
 http_get() {
-  # Args: <url> <filename> <sha256_hash>
+  # Args: <url> <filename> <sha256_hash> [<fallback_url>]
   #
   # It's acceptable that we don't require SSL here because we manually verify
   # content hashes below.
@@ -54,16 +56,30 @@ http_get() {
   if [ -f "${2}" ]; then
     echo "File ${2} already exists; not downloading again"
   elif check_exists curl; then
-    curl --insecure --retry 5 "${1}" -o "${2}"
+    if ! curl --fail --insecure --retry 5 "${1}" -o "${2}"; then
+      if [ -n "${4:-}" ]; then
+        echo "Primary download failed; trying fallback ${4}"
+        curl --fail --insecure --retry 5 "${4}" -o "${2}"
+      else
+        return 1
+      fi
+    fi
   else
-    wget --no-check-certificate "${1}" -O "${2}"
+    if ! wget --no-check-certificate "${1}" -O "${2}"; then
+      if [ -n "${4:-}" ]; then
+        echo "Primary download failed; trying fallback ${4}"
+        wget --no-check-certificate "${4}" -O "${2}"
+      else
+        return 1
+      fi
+    fi
   fi
 
   sha256_check "${3}" "${2}"
 }
 
 mkdir -p "${BDB_PREFIX}"
-http_get "${BDB_URL}" "${BDB_VERSION}.tar.gz" "${BDB_HASH}"
+http_get "${BDB_URL}" "${BDB_VERSION}.tar.gz" "${BDB_HASH}" "${BDB_URL_FALLBACK}"
 tar -xzvf ${BDB_VERSION}.tar.gz -C "$BDB_PREFIX"
 cd "${BDB_PREFIX}/${BDB_VERSION}/"
 
