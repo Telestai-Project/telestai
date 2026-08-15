@@ -235,7 +235,7 @@ index f3922e0..e40fcdf 100644
 EOF
 
 # The packaged config.guess and config.sub are ancient (2009) and can cause build issues.
-# Replace them with modern versions.
+# Replace them with modern versions when downloadable; otherwise use the host copies.
 # See https://github.com/bitcoin/bitcoin/issues/16064
 CONFIG_GUESS_URL='https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=55eaf3e779455c4e5cc9f82efb5278be8f8f900b'
 CONFIG_GUESS_HASH='2d1ff7bca773d2ec3c6217118129220fa72d8adda67c7d2bf79994b3129232c1'
@@ -245,8 +245,17 @@ CONFIG_SUB_HASH='3a4befde9bcdf0fdb2763fc1bfa74e8696df94e1ad7aac8042d133c8ff1d2e3
 rm -f "dist/config.guess"
 rm -f "dist/config.sub"
 
-http_get "${CONFIG_GUESS_URL}" dist/config.guess "${CONFIG_GUESS_HASH}"
-http_get "${CONFIG_SUB_URL}" dist/config.sub "${CONFIG_SUB_HASH}"
+if ! http_get "${CONFIG_GUESS_URL}" dist/config.guess "${CONFIG_GUESS_HASH}" 2>/dev/null; then
+  echo "WARNING: could not download config.guess; using host copy"
+  rm -f dist/config.guess
+  cp /usr/share/misc/config.guess dist/config.guess
+fi
+if ! http_get "${CONFIG_SUB_URL}" dist/config.sub "${CONFIG_SUB_HASH}" 2>/dev/null; then
+  echo "WARNING: could not download config.sub; using host copy"
+  rm -f dist/config.sub
+  cp /usr/share/misc/config.sub dist/config.sub
+fi
+chmod +x dist/config.guess dist/config.sub
 
 cd build_unix/
 
