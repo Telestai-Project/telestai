@@ -206,8 +206,13 @@ public:
         assert(consensus.hashGenesisBlock == uint256{"00000056b9854abf830236d77443a8e3556f0244265e3eb12281a7bc43b7ff57"});
         assert(genesis.hashMerkleRoot == uint256{"457e7d4f5c3d388fbf90f9a5260ed627a43a0c13f4578d48bc2f983b6ce6e5f7"});
 
-        // DNS seeds: clear until Telestai 3.0.0 seeds are published
+        // 2.1.9 seeders still answer TELE/8767 (usable until the 1,150,000 fork).
+        // seed.telestai.io / dnsseed.telestai.io should A-record to public 3.0.0 nodes (Optimus :8767).
         vSeeds.clear();
+        vSeeds.emplace_back("dnsseed.telestainodes.xyz.");
+        vSeeds.emplace_back("telestai.seeds.multicoin.co.");
+        vSeeds.emplace_back("seed.telestai.io.");
+        vSeeds.emplace_back("dnsseed.telestai.io.");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,66);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,127);

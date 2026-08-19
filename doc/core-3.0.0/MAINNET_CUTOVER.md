@@ -23,6 +23,8 @@
 | Meraki / ProgPoW constants | Telestai (not Meowcoin) — re-verify in tagged binary |
 | Mainnet 25% + asset fees | `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` |
 | AuxPoW | Absent |
+| DNS seeds | `dnsseed.telestainodes.xyz`, `telestai.seeds.multicoin.co`, `seed.telestai.io`, `dnsseed.telestai.io` |
+| TestNet seed | `testnet-seed.telestai.io` → A `114.73.210.115` (create in Cloudflare; DNS-only, not proxied) |
 | Activation | **Height 1,150,000** — mandatory Core 3.0.0 upgrade. Asset fees switch from 2.1.x vanity burns to `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe`. ~16 Oct 2026 at 1 min/block from Aug 2026 tip. |
 | Datadir | Do **not** reuse broken TestNet dirs; mainnet path separate |
 

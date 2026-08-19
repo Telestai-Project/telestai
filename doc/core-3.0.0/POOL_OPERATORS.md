@@ -66,6 +66,17 @@ Asset issue/reissue fees (fixed TLS amounts) go to the **same** development addr
 
 ---
 
+## Mainnet GBT switch (when `v3.0.0` node binaries are on GitHub)
+
+Do **not** point production stratum at 3.0.0 until signed `telestaid` for your OS is on https://github.com/Telestai-Project/telestai/releases/tag/v3.0.0
+
+Then:
+
+1. Run 3.0.0 **beside** 2.1.9 until it is synced (same P2P magic/port 8767; `addnode` a seed).
+2. Point GBT / `pprpcsb` at the 3.0.0 RPC only (telemerakiminer, not MiniZ).
+3. Before height **1,150,000**, all pool nodes must be 3.0.0. After that height 2.1.9 templates are the wrong chain.
+4. Confirm coinbase vout[1] is still `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` (25%). Asset fees follow that address from 1,150,000.
+
 ## Checklist before advertising a 3.0.0 pool
 
 - [ ] Node `/Telestai:3.0.0/`
@@ -73,3 +84,4 @@ Asset issue/reissue fees (fixed TLS amounts) go to the **same** development addr
 - [ ] telemerakiminer Accepts against your GBT
 - [ ] Coinbase split verified on a mined block
 - [ ] Stratum (if any) correctly maps to Meraki header/nonce/mix_hash
+- [ ] Mainnet switch done only from tagged `v3.0.0` binaries
