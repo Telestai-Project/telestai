@@ -18,8 +18,15 @@
 #include <wallet/receive.h>
 #include <wallet/spend.h>
 #include <wallet/wallet.h>
+#include <sync.h>
 
 namespace wallet {
+
+static int NextAssetFeeHeight(const CWallet& wallet)
+{
+    LOCK(wallet.cs_wallet);
+    return wallet.GetLastBlockHeight() + 1;
+}
 
 static constexpr const char* ASSET_LEGACY_ADDRESS_MSG =
     "Asset addresses must use legacy (P2PKH) format. SegWit and bech32 addresses are not supported.";
@@ -175,7 +182,7 @@ bool CreateAssetTransaction(
 
     // Burn amount and address depend on asset type
     CAmount burnAmount = GetBurnAmount(assetType) * assets.size();
-    CScript scriptPubKeyBurn = GetScriptForDestination(DecodeDestination(GetBurnAddress(assetType)));
+    CScript scriptPubKeyBurn = GetScriptForDestination(DecodeDestination(GetBurnAddress(assetType, NextAssetFeeHeight(wallet))));
 
     // Check wallet balance
     Balance bal = GetBalance(wallet);
@@ -467,7 +474,7 @@ bool CreateTransferAssetTransaction(
 
         // Burn for adding tags
         if (nAddTagCount) {
-            CScript addTagBurnScript = GetScriptForDestination(DecodeDestination(GetBurnAddress(AssetType::NULL_ADD_QUALIFIER)));
+            CScript addTagBurnScript = GetScriptForDestination(DecodeDestination(GetBurnAddress(AssetType::NULL_ADD_QUALIFIER, NextAssetFeeHeight(wallet))));
             CRecipient addTagRec;
             addTagRec.dest = CNoDestination();
             addTagRec.nAmount = GetBurnAmount(AssetType::NULL_ADD_QUALIFIER) * nAddTagCount;
@@ -734,7 +741,7 @@ bool CreateReissueAssetTransaction(
     }
 
     // Burn output
-    CScript scriptPubKeyBurn = GetScriptForDestination(DecodeDestination(GetBurnAddress(AssetType::REISSUE)));
+    CScript scriptPubKeyBurn = GetScriptForDestination(DecodeDestination(GetBurnAddress(AssetType::REISSUE, NextAssetFeeHeight(wallet))));
     CRecipient burnRec;
     burnRec.dest = CNoDestination();
     burnRec.nAmount = burnAmount;

@@ -407,9 +407,10 @@ CAmount GetAddNullQualifierTagBurnAmount();
 CAmount GetBurnAmount(const AssetType type);
 CAmount GetBurnAmount(const int nType);
 
-//! Functions to be used to get access to the burn address for a given asset type issuance
-std::string GetBurnAddress(const AssetType type);
-std::string GetBurnAddress(const int nType);
+//! Functions to be used to get access to the burn address for a given asset type issuance.
+//! nHeight selects 2.1.x vanity burns vs Core 3.0.0 development-reward destination.
+std::string GetBurnAddress(const AssetType type, int nHeight = 0);
+std::string GetBurnAddress(const int nType, int nHeight = 0);
 
 //! Check if an address is any of the known asset burn addresses
 bool IsBurnAddress(const std::string& address);
@@ -476,12 +477,11 @@ bool AssetNullVerifierDataFromScript(const CScript& scriptPubKey, CNullAssetTxVe
 bool GlobalAssetNullDataFromScript(const CScript& scriptPubKey, CNullAssetTxData& assetData);
 
 //! Check to make sure the script contains the burn transaction
-bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, const int numberIssued);
-bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type);
+bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, int nHeight = 0, const int numberIssued = 1);
 
 // TODO, maybe remove this function and input that check into the CheckIssueBurnTx.
 //! Check to make sure the script contains the reissue burn data
-bool CheckReissueBurnTx(const CTxOut& txOut);
+bool CheckReissueBurnTx(const CTxOut& txOut, int nHeight = 0);
 
 //! issue asset scripts to make sure script meets the standards
 bool CheckIssueDataTx(const CTxOut& txOut); // OP_MEWC_ASSET + rvnq (new asset payload)
@@ -576,19 +576,19 @@ bool ContextualCheckUniqueAsset(CAssetsCache* assetCache, const CNewAsset& uniqu
 //! Free functions for transaction asset type checking (converted from CTransaction member functions)
 bool IsNewAsset(const CTransaction& tx);
 bool IsNewUniqueAsset(const CTransaction& tx);
-bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError);
-bool VerifyNewAsset(const CTransaction& tx, std::string& strError);
+bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError, int nHeight = 0);
+bool VerifyNewAsset(const CTransaction& tx, std::string& strError, int nHeight = 0);
 bool IsNewMsgChannelAsset(const CTransaction& tx);
-bool VerifyNewMsgChannelAsset(const CTransaction& tx, std::string& strError);
+bool VerifyNewMsgChannelAsset(const CTransaction& tx, std::string& strError, int nHeight = 0);
 bool IsNewQualifierAsset(const CTransaction& tx);
-bool VerifyNewQualfierAsset(const CTransaction& tx, std::string& strError);
+bool VerifyNewQualfierAsset(const CTransaction& tx, std::string& strError, int nHeight = 0);
 bool IsNewRestrictedAsset(const CTransaction& tx);
-bool VerifyNewRestrictedAsset(const CTransaction& tx, std::string& strError);
+bool VerifyNewRestrictedAsset(const CTransaction& tx, std::string& strError, int nHeight = 0);
 bool GetVerifierStringFromTx(const CTransaction& tx, CNullAssetTxVerifierString& verifier, std::string& strError, bool& fNotFound);
 bool GetVerifierStringFromTx(const CTransaction& tx, CNullAssetTxVerifierString& verifier, std::string& strError);
 bool IsReissueAsset(const CTransaction& tx);
-bool VerifyReissueAsset(const CTransaction& tx, std::string& strError);
-bool CheckAddingTagBurnFee(const CTransaction& tx, const int& count);
+bool VerifyReissueAsset(const CTransaction& tx, std::string& strError, int nHeight = 0);
+bool CheckAddingTagBurnFee(const CTransaction& tx, const int& count, int nHeight = 0);
 
 //! Deployment check functions
 bool AreAssetsDeployed();

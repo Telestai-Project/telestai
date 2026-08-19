@@ -216,6 +216,7 @@ bool fMessaging = false;
 bool Consensus::CheckTxAssets(const CTransaction& tx, TxValidationState& state, const CCoinsViewCache& inputs,
                               CAssetsCache* assetCache, const CTxMemPool* mempool,
                               std::vector<std::pair<std::string, uint256>>& vPairReissueAssets,
+                              int nHeight,
                               const bool fRunningUnitTests, std::set<CMessage>* setMessages,
                               int64_t nBlocktime,
                               std::vector<std::pair<std::string, CNullAssetTxData>>* myNullAssetData)
@@ -357,6 +358,8 @@ bool Consensus::CheckTxAssets(const CTransaction& tx, TxValidationState& state, 
         if (IsNewAsset(tx)) {
             CNewAsset asset;
             std::string address;
+            if (!VerifyNewAsset(tx, strError, nHeight))
+                return state.Invalid(TxValidationResult::TX_CONSENSUS, strError);
             if (!AssetFromScript(tx.vout[tx.vout.size() - 1].scriptPubKey, asset, address)) {
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-issue-serialzation-failed");
             }
@@ -366,17 +369,23 @@ bool Consensus::CheckTxAssets(const CTransaction& tx, TxValidationState& state, 
         } else if (IsReissueAsset(tx)) {
             CReissueAsset reissue_asset;
             std::string address;
+            if (!VerifyReissueAsset(tx, strError, nHeight))
+                return state.Invalid(TxValidationResult::TX_CONSENSUS, strError);
             if (!ReissueAssetFromScript(tx.vout[tx.vout.size() - 1].scriptPubKey, reissue_asset, address)) {
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-reissue-serialzation-failed");
             }
             if (!ContextualCheckReissueAsset(assetCache, reissue_asset, strError, tx))
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-reissue-contextual-" + strError);
         } else if (IsNewUniqueAsset(tx)) {
+            if (!VerifyNewUniqueAsset(tx, strError, nHeight))
+                return state.Invalid(TxValidationResult::TX_CONSENSUS, strError);
             if (!ContextualCheckUniqueAssetTx(assetCache, strError, tx))
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-issue-unique-contextual-" + strError);
         } else if (IsNewMsgChannelAsset(tx)) {
             if (!AreMessagesDeployed())
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-issue-msgchannel-before-messaging-is-active");
+            if (!VerifyNewMsgChannelAsset(tx, strError, nHeight))
+                return state.Invalid(TxValidationResult::TX_CONSENSUS, strError);
             CNewAsset asset;
             std::string strAddress;
             if (!MsgChannelAssetFromTransaction(tx, asset, strAddress))
@@ -386,6 +395,8 @@ bool Consensus::CheckTxAssets(const CTransaction& tx, TxValidationState& state, 
         } else if (IsNewQualifierAsset(tx)) {
             if (!AreRestrictedAssetsDeployed())
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-issue-qualifier-before-it-is-active");
+            if (!VerifyNewQualfierAsset(tx, strError, nHeight))
+                return state.Invalid(TxValidationResult::TX_CONSENSUS, strError);
             CNewAsset asset;
             std::string strAddress;
             if (!QualifierAssetFromTransaction(tx, asset, strAddress))
@@ -395,6 +406,8 @@ bool Consensus::CheckTxAssets(const CTransaction& tx, TxValidationState& state, 
         } else if (IsNewRestrictedAsset(tx)) {
             if (!AreRestrictedAssetsDeployed())
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-issue-restricted-before-it-is-active");
+            if (!VerifyNewRestrictedAsset(tx, strError, nHeight))
+                return state.Invalid(TxValidationResult::TX_CONSENSUS, strError);
             // Restricted asset creation must NOT contain an explicit owner token creation output
             // (TX_NEW_ASSET, fIsOwner=true). The root TOKEN! is transferred, not newly created.
             for (const auto& vout : tx.vout) {

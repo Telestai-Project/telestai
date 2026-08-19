@@ -185,6 +185,19 @@ struct Params {
         return static_cast<int>(nHeight) < nLegacyBlocksBefore;
     }
 
+    /**
+     * Telestai Core 3.0.0 mandatory upgrade.
+     * At this height, asset issue/reissue/tag fees must be paid to the development
+     * reward address instead of the 2.1.x vanity burn addresses. Mainnet: 1,150,000.
+     * Height 0 means the rule is active from genesis (3.0.0 TestNet soak).
+     */
+    int nCore300ActivationHeight{0};
+
+    bool IsCore300Active(int nHeight) const
+    {
+        return nHeight >= nCore300ActivationHeight;
+    }
+
     int DeploymentHeight(BuriedDeployment dep) const
     {
         switch (dep) {

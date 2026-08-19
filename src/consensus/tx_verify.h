@@ -38,6 +38,7 @@ namespace Consensus {
 bool CheckTxAssets(const CTransaction& tx, TxValidationState& state, const CCoinsViewCache& inputs,
                    CAssetsCache* assetCache, const CTxMemPool* mempool,
                    std::vector<std::pair<std::string, uint256>>& vPairReissueAssets,
+                   int nHeight,
                    const bool fRunningUnitTests = false,
                    std::set<CMessage>* setMessages = nullptr,
                    int64_t nBlocktime = 0,

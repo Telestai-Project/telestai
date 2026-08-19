@@ -47,7 +47,7 @@
 | 2 | Stale Reject UX | `tip_refresh_daemon` + proxy tip flag + core pprpcsb harden | **Ops live** on Optimus + `@reboot` |
 | 3 | Release packaging | Run `package_testnet_tarball.sh` on Optimus; attach to GH prerelease | **Packaged** sha256 `84769d43…` |
 | 4 | PR | Push branch + `gh pr create` | **This PR** |
-| 5 | Mainnet cutover | Follow MAINNET_CUTOVER after peer soak | **Doc ready; execute later** |
+| 5 | Mainnet cutover | Follow MAINNET_CUTOVER; fork height **1,150,000** is compiled in | **Height locked; execute later** |
 | 6 | Ecosystem smoke | ECOSYSTEM_SMOKE checklist | **Doc ready; needs humans** |
 
 **P2P note:** Optimus listens on `0.0.0.0:18770` (UPnP cron active). `localaddresses` may be empty behind NAT — peers must use `addnode=114.73.210.115:18770`.

@@ -134,7 +134,7 @@ Phase 3 — TestNet soak / RC
 Phase 4 — Mainnet 3.0.0 (only after TestNet sign-off)
   • PR merge to master
   • Tag 3.0.0; publish binaries
-  • Mandatory upgrade window before mainnet fee-destination activation
+  • Mandatory upgrade **before height 1,150,000** (asset-fee destination fork)
 
 Phase 5 — Post-ship (optional)
   • Taproot UI, assets on non-P2PKH, PQ, USDT fees if revisited

@@ -60,7 +60,9 @@ Mainnet difficulty should make multi-sol-on-one-job far rarer.
 | TestNet | `mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26` |
 | Mainnet | `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` |
 
-Asset issue/reissue fees (fixed TLS amounts) go to the **same** development address on 3.0.0 (not burn vanity addresses).
+**Mainnet fork height: 1,150,000.** Run 3.0.0 before that block. After it, asset issue/reissue/tag fees must pay the development address, not 2.1.x vanity burns. Coinbase 25% is unchanged.
+
+Asset issue/reissue fees (fixed TLS amounts) go to the **same** development address on 3.0.0 after activation (not burn vanity addresses).
 
 ---
 

@@ -24,6 +24,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstring>
+#include <limits>
 #include <type_traits>
 
 using namespace util::hex_literals;
@@ -167,6 +168,9 @@ public:
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = -1; // always allow legacy (non-aux) blocks
 
+        // Core 3.0.0 hard fork: asset fees → TesBmcg… (everyone must be on 3.0.0)
+        consensus.nCore300ActivationHeight = 1150000;
+
         // Reset until Telestai 3.0.0 sync stats are recomputed
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
@@ -241,16 +245,17 @@ public:
         // 25% block subsidy development reward (maps to CommunityAutonomous* in Apex miner/validation)
         nCommunityAutonomousAmount = 25;
 
-        // Asset issuance/reissue/tag fees → development reward wallet (ADR 0002)
-        strIssueAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strReissueAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strIssueSubAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strIssueUniqueAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strIssueMsgChannelAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strIssueQualifierAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strIssueSubQualifierAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strIssueRestrictedAssetBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
-        strAddNullQualifierTagBurnAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
+        // Pre-3.0.0 (height < 1,150,000): 2.1.9 vanity burns. After activation, GetBurnAddress()
+        // pays the same TLS amounts to strCommunityAutonomousAddress (ADR 0002).
+        strIssueAssetBurnAddress = "ToissueAssetXXXXXXXXXXXXXXXXZ9zEc4";
+        strReissueAssetBurnAddress = "ToReissueSubAssetXXXXXXXXXXXZBR9o8";
+        strIssueSubAssetBurnAddress = "ToissueSubAssetXXXXXXXXXXXXXafMr3m";
+        strIssueUniqueAssetBurnAddress = "ToissueUniqueAssetXXXXXXXXXXSZ94He";
+        strIssueMsgChannelAssetBurnAddress = "ToissueMsgChanneLAssetXXXXXXS5xZte";
+        strIssueQualifierAssetBurnAddress = "ToissueQuaLifierXXXXXXXXXXXXUXG4wz";
+        strIssueSubQualifierAssetBurnAddress = "ToissueSubQuaLifierXXXXXXXXXY9SuNQ";
+        strIssueRestrictedAssetBurnAddress = "ToissueRestrictedXXXXXXXXXXXZDsDr5";
+        strAddNullQualifierTagBurnAddress = "ToaddBurnTagXXXXXXXXXXXXXXXXW4MmvP";
         strGlobalBurnAddress = "ToBurnXXXXXXXXXXXXXXXXXXXXXXX57KAq";
         strCommunityAutonomousAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
 
@@ -357,6 +362,8 @@ public:
         consensus.nAuxpowStartHeight = 2147483647;
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = -1;
+        // 3.0.0 TestNet soak: fee destination is already the development address from genesis.
+        consensus.nCore300ActivationHeight = 0;
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
@@ -386,7 +393,9 @@ public:
         consensus.defaultAssumeValid = uint256{};
 
         vFixedSeeds.clear();
-        vSeeds.clear(); // Telestai TestNet seeds TBD
+        vSeeds.clear();
+        // 3.0.0 TestNet: hostname must A-record to a public soak peer (Optimus :18770).
+        vSeeds.emplace_back("testnet-seed.telestai.io.");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
@@ -622,6 +631,8 @@ public:
         consensus.nAuxpowStartHeight = 2147483647;
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = -1;
+        // Keep distinct vanity burns on regtest so unit tests are not height-gated.
+        consensus.nCore300ActivationHeight = std::numeric_limits<int>::max();
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};

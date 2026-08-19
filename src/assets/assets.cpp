@@ -35,6 +35,7 @@
 #include <protocol.h>
 #include <util/chaintype.h>
 #include <univalue.h>
+#include <chainparams.h>
 
 // Compatibility: old error() function logged a message and returned false.
 // Removed in BTC 30.2. Define as macro wrapping LogError.
@@ -1065,7 +1066,7 @@ bool IsNewUniqueAsset(const CTransaction& tx)
 }
 
 //! Call this function after IsNewUniqueAsset
-bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError)
+bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError, int nHeight)
 {
     // Must contain at least 3 outpoints (MEWC burn, owner change and one or more new unique assets that share a root (should be in trailing position))
     if (tx.vout.size() < 3) {
@@ -1113,7 +1114,7 @@ bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError)
     // check for burn outpoint (must account for each new asset)
     bool fBurnOutpointFound = false;
     for (auto out : tx.vout) {
-        if (CheckIssueBurnTx(out, AssetType::UNIQUE, assetOutpointCount)) {
+        if (CheckIssueBurnTx(out, AssetType::UNIQUE, nHeight, assetOutpointCount)) {
             fBurnOutpointFound = true;
             break;
         }
@@ -1158,7 +1159,7 @@ bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError)
 }
 
 //! To be called on CTransactions where IsNewAsset returns true
-bool VerifyNewAsset(const CTransaction& tx, std::string& strError) {
+bool VerifyNewAsset(const CTransaction& tx, std::string& strError, int nHeight) {
     // Issuing an Asset must contain at least 3 CTxOut( Meowcoin Burn Tx, Any Number of other Outputs ..., Owner Asset Tx, New Asset Tx)
     if (tx.vout.size() < 3) {
         strError = "bad-txns-issue-vout-size-to-small";
@@ -1202,7 +1203,7 @@ bool VerifyNewAsset(const CTransaction& tx, std::string& strError) {
     // Check for the Burn CTxOut in one of the vouts ( This is needed because the change CTxOut is places in a random position in the CWalletTx
     bool fFoundIssueBurnTx = false;
     for (auto out : tx.vout) {
-        if (CheckIssueBurnTx(out, assetType)) {
+        if (CheckIssueBurnTx(out, assetType, nHeight)) {
             fFoundIssueBurnTx = true;
             break;
         }
@@ -1262,7 +1263,7 @@ bool IsNewMsgChannelAsset(const CTransaction& tx)
 }
 
 //! To be called on CTransactions where IsNewAsset returns true
-bool VerifyNewMsgChannelAsset(const CTransaction& tx, std::string &strError)
+bool VerifyNewMsgChannelAsset(const CTransaction& tx, std::string &strError, int nHeight)
 {
     // Issuing an Asset must contain at least 3 CTxOut( Meowcoin Burn Tx, Any Number of other Outputs ..., Owner Asset Tx, New Asset Tx)
     if (tx.vout.size() < 3) {
@@ -1290,7 +1291,7 @@ bool VerifyNewMsgChannelAsset(const CTransaction& tx, std::string &strError)
     // Check for the Burn CTxOut in one of the vouts ( This is needed because the change CTxOut is places in a random position in the CWalletTx
     bool fFoundIssueBurnTx = false;
     for (auto out : tx.vout) {
-        if (CheckIssueBurnTx(out, AssetType::MSGCHANNEL)) {
+        if (CheckIssueBurnTx(out, AssetType::MSGCHANNEL, nHeight)) {
             fFoundIssueBurnTx = true;
             break;
         }
@@ -1349,7 +1350,7 @@ bool IsNewQualifierAsset(const CTransaction& tx)
 }
 
 //! To be called on CTransactions where IsNewQualifierAsset returns true
-bool VerifyNewQualfierAsset(const CTransaction& tx, std::string &strError)
+bool VerifyNewQualfierAsset(const CTransaction& tx, std::string &strError, int nHeight)
 {
     // Issuing an Asset must contain at least 2 CTxOut( Meowcoin Burn Tx, New Asset Tx, Any Number of other Outputs...)
     if (tx.vout.size() < 2) {
@@ -1377,7 +1378,7 @@ bool VerifyNewQualfierAsset(const CTransaction& tx, std::string &strError)
     // Check for the Burn CTxOut in one of the vouts ( This is needed because the change CTxOut is places in a random position in the CWalletTx
     bool fFoundIssueBurnTx = false;
     for (auto out : tx.vout) {
-        if (CheckIssueBurnTx(out, assetType)) {
+        if (CheckIssueBurnTx(out, assetType, nHeight)) {
             fFoundIssueBurnTx = true;
             break;
         }
@@ -1438,7 +1439,7 @@ bool IsNewRestrictedAsset(const CTransaction& tx)
 }
 
 //! To be called on CTransactions where IsNewRestrictedAsset returns true
-bool VerifyNewRestrictedAsset(const CTransaction& tx, std::string& strError) {
+bool VerifyNewRestrictedAsset(const CTransaction& tx, std::string& strError, int nHeight) {
     // Issuing a restricted asset must cointain at least 4 CTxOut(Meowcoin Burn Tx, Asset Creation, Root Owner Token Transfer, and CNullAssetTxVerifierString)
     if (tx.vout.size() < 4) {
         strError = "bad-txns-issue-restricted-vout-size-to-small";
@@ -1465,7 +1466,7 @@ bool VerifyNewRestrictedAsset(const CTransaction& tx, std::string& strError) {
     // Check for the Burn CTxOut in one of the vouts ( This is needed because the change CTxOut is places in a random position in the CWalletTx
     bool fFoundIssueBurnTx = false;
     for (auto out : tx.vout) {
-        if (CheckIssueBurnTx(out, assetType)) {
+        if (CheckIssueBurnTx(out, assetType, nHeight)) {
             fFoundIssueBurnTx = true;
             break;
         }
@@ -1566,7 +1567,7 @@ bool IsReissueAsset(const CTransaction& tx)
 }
 
 //! To be called on CTransactions where IsReissueAsset returns true
-bool VerifyReissueAsset(const CTransaction& tx, std::string& strError)
+bool VerifyReissueAsset(const CTransaction& tx, std::string& strError, int nHeight)
 {
     // Reissuing an Asset must contain at least 3 CTxOut ( Meowcoin Burn Tx, Any Number of other Outputs ..., Reissue Asset Tx, Owner Asset Change Tx)
     if (tx.vout.size() < 3) {
@@ -1620,7 +1621,7 @@ bool VerifyReissueAsset(const CTransaction& tx, std::string& strError)
     // Check for the Burn CTxOut in one of the vouts ( This is needed because the change CTxOut is placed in a random position in the CWalletTx
     bool fFoundReissueBurnTx = false;
     for (auto out : tx.vout) {
-        if (CheckReissueBurnTx(out)) {
+        if (CheckReissueBurnTx(out, nHeight)) {
             fFoundReissueBurnTx = true;
             break;
         }
@@ -1646,12 +1647,12 @@ bool VerifyReissueAsset(const CTransaction& tx, std::string& strError)
     return true;
 }
 
-bool CheckAddingTagBurnFee(const CTransaction& tx, const int& count)
+bool CheckAddingTagBurnFee(const CTransaction& tx, const int& count, int nHeight)
 {
     // check for burn outpoint )
     bool fBurnOutpointFound = false;
     for (auto out : tx.vout) {
-        if (CheckIssueBurnTx(out, AssetType::NULL_ADD_QUALIFIER, count)) {
+        if (CheckIssueBurnTx(out, AssetType::NULL_ADD_QUALIFIER, nHeight, count)) {
             fBurnOutpointFound = true;
             break;
         }
@@ -3196,7 +3197,7 @@ size_t CAssetsCache::GetCacheSizeV2() const
     return size;
 }
 
-bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, const int numberIssued)
+bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, int nHeight, const int numberIssued)
 {
     if (type == AssetType::REISSUE || type == AssetType::VOTE || type == AssetType::OWNER || type == AssetType::INVALID)
         return false;
@@ -3206,7 +3207,7 @@ bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, const int numb
 
     // Get the burn address and amount for the type of asset
     burnAmount = GetBurnAmount(type);
-    burnAddress = GetBurnAddress(type);
+    burnAddress = GetBurnAddress(type, nHeight);
 
     // If issuing multiple (unique) assets need to burn for each
     burnAmount *= numberIssued;
@@ -3232,12 +3233,7 @@ bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, const int numb
     return true;
 }
 
-bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type)
-{
-    return CheckIssueBurnTx(txOut, type, 1);
-}
-
-bool CheckReissueBurnTx(const CTxOut& txOut)
+bool CheckReissueBurnTx(const CTxOut& txOut, int nHeight)
 {
     // Check the first transaction and verify that the correct native (MEWC) amount
     if (txOut.nValue != GetReissueAssetBurnAmount())
@@ -3253,7 +3249,7 @@ bool CheckReissueBurnTx(const CTxOut& txOut)
         return false;
 
     // Check destination address is the correct burn address
-    if (EncodeDestination(destination) != Params().ReissueAssetBurnAddress())
+    if (EncodeDestination(destination) != GetBurnAddress(AssetType::REISSUE, nHeight))
         return false;
 
     return true;
@@ -3786,36 +3782,54 @@ CAmount GetBurnAmount(const AssetType type)
     }
 }
 
-std::string GetBurnAddress(const int nType)
+std::string GetBurnAddress(const int nType, int nHeight)
 {
-    return GetBurnAddress((AssetType(nType)));
+    return GetBurnAddress((AssetType(nType)), nHeight);
 }
 
-std::string GetBurnAddress(const AssetType type)
+std::string GetBurnAddress(const AssetType type, int nHeight)
 {
+    const CChainParams& params = Params();
+    if (params.GetConsensus().IsCore300Active(nHeight)) {
+        switch (type) {
+            case AssetType::ROOT:
+            case AssetType::SUB:
+            case AssetType::MSGCHANNEL:
+            case AssetType::UNIQUE:
+            case AssetType::REISSUE:
+            case AssetType::QUALIFIER:
+            case AssetType::SUB_QUALIFIER:
+            case AssetType::RESTRICTED:
+            case AssetType::NULL_ADD_QUALIFIER:
+                return params.CommunityAutonomousAddress();
+            default:
+                return "";
+        }
+    }
+
     switch (type) {
         case AssetType::ROOT:
-            return Params().IssueAssetBurnAddress();
+            return params.IssueAssetBurnAddress();
         case AssetType::SUB:
-            return Params().IssueSubAssetBurnAddress();
+            return params.IssueSubAssetBurnAddress();
         case AssetType::MSGCHANNEL:
-            return Params().IssueMsgChannelAssetBurnAddress();
+            return params.IssueMsgChannelAssetBurnAddress();
         case AssetType::OWNER:
             return "";
         case AssetType::UNIQUE:
-            return Params().IssueUniqueAssetBurnAddress();
+            return params.IssueUniqueAssetBurnAddress();
         case AssetType::VOTE:
             return "";
         case AssetType::REISSUE:
-            return Params().ReissueAssetBurnAddress();
+            return params.ReissueAssetBurnAddress();
         case AssetType::QUALIFIER:
-            return Params().IssueQualifierAssetBurnAddress();
+            return params.IssueQualifierAssetBurnAddress();
         case AssetType::SUB_QUALIFIER:
-            return Params().IssueSubQualifierAssetBurnAddress();
+            return params.IssueSubQualifierAssetBurnAddress();
         case AssetType::RESTRICTED:
-            return Params().IssueRestrictedAssetBurnAddress();
+            return params.IssueRestrictedAssetBurnAddress();
         case AssetType::NULL_ADD_QUALIFIER:
-            return Params().AddNullQualifierTagBurnAddress();
+            return params.AddNullQualifierTagBurnAddress();
         default:
             return "";
     }
@@ -3829,8 +3843,13 @@ bool IsBurnAddress(const std::string& address)
     if (address == Params().GlobalBurnAddress())
         return true;
 
+    // Development reward / 3.0.0 fee destination (also the 25% coinbase address)
+    if (address == Params().CommunityAutonomousAddress())
+        return true;
+
+    // Legacy 2.1.x vanity burns remain recognized so historical UTXOs still classify.
     for (int i = 0; i <= static_cast<int>(AssetType::NULL_ADD_QUALIFIER); i++) {
-        std::string burnAddr = GetBurnAddress(static_cast<AssetType>(i));
+        std::string burnAddr = GetBurnAddress(static_cast<AssetType>(i), /*nHeight=*/0);
         if (!burnAddr.empty() && address == burnAddr)
             return true;
     }

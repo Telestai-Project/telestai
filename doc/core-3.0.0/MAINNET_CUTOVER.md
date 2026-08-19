@@ -23,7 +23,7 @@
 | Meraki / ProgPoW constants | Telestai (not Meowcoin) — re-verify in tagged binary |
 | Mainnet 25% + asset fees | `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` |
 | AuxPoW | Absent |
-| Activation | Mandatory node upgrade (generational); publish height/time window |
+| Activation | **Height 1,150,000** — mandatory Core 3.0.0 upgrade. Asset fees switch from 2.1.x vanity burns to `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe`. ~16 Oct 2026 at 1 min/block from Aug 2026 tip. |
 | Datadir | Do **not** reuse broken TestNet dirs; mainnet path separate |
 
 ---
@@ -42,7 +42,9 @@
 - [ ] Stage 3.0.0 mainnet binary on Optimus **without** switching yet
 - [ ] Backup `wallet` / conf / datadir snapshots
 
-## T0 — cutover window
+## T0 — cutover window (block **1,150,000**)
+
+Everyone must be on tagged `v3.0.0` **before** this height. 2.1.9 nodes will not follow 3.0.0 asset-fee blocks after activation.
 
 1. Announce start of mandatory upgrade window  
 2. Stop mining on old major if incompatible  
