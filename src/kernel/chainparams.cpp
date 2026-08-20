@@ -73,7 +73,7 @@ public:
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 2102400; // ~4 yrs at 1 min blocks (Telestai)
 
-        // Meowcoin: BIP enforcement booleans (always active from genesis)
+        // Telestai: BIP enforcement booleans (always active from genesis)
         consensus.nBIP34Enabled = true;
         consensus.nBIP65Enabled = true;
         consensus.nBIP66Enabled = true;
@@ -112,7 +112,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nOverrideRuleChangeActivationThreshold = 1814;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nOverrideMinerConfirmationWindow = 2016;
 
-        // Taproot: always active on Meowcoin (no historical Meowcoin taproot chain)
+        // Taproot: always active on Telestai (no historical taproot-off era)
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].bit = 2;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = Consensus::BIP9Deployment::ALWAYS_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
@@ -152,7 +152,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideRuleChangeActivationThreshold = 1411;
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideMinerConfirmationWindow = 2016;
 
-        // ML-DSA-44 post-quantum signatures - not deployed on Meowcoin mainnet yet.
+        // ML-DSA-44 post-quantum signatures - not deployed on Telestai mainnet yet.
         // period=2016 is the standard signalling window (2 weeks at 60s blocks).
         // threshold=1815 is 90% of 2016.
         consensus.vDeployments[Consensus::DEPLOYMENT_MLDSA44].bit = 11;
@@ -228,7 +228,7 @@ public:
         fDefaultConsistencyChecks = false;
         m_is_mockable_chain = false;
 
-        m_assumeutxo_data = {}; // No assumeutxo data for Meowcoin yet
+        m_assumeutxo_data = {}; // No assumeutxo snapshot published for Telestai yet
 
         chainTxData = ChainTxData{
             .nTime    = 1778698801,
@@ -277,7 +277,7 @@ public:
 };
 
 /**
- * Meowcoin testnet (v7).
+ * Telestai testnet.
  */
 class CTestNetParams : public CChainParams {
 public:
@@ -464,13 +464,13 @@ public:
 };
 
 /**
- * Meowcoin Signet stub — not used, but kept to satisfy ChainType enum.
+ * Signet stub — not used, but kept to satisfy ChainType enum.
  */
 class SigNetParams : public CChainParams {
 public:
     explicit SigNetParams(const SigNetOptions& options)
     {
-        // Meowcoin does not use signet; this is a minimal stub.
+        // Telestai does not use signet; this is a minimal stub.
         m_chain_type = ChainType::SIGNET;
         consensus.signet_blocks = true;
         consensus.signet_challenge.clear();
@@ -540,7 +540,7 @@ public:
 };
 
 /**
- * Meowcoin regression test.
+ * Telestai regression test.
  */
 class CRegTestParams : public CChainParams
 {
@@ -768,7 +768,7 @@ std::unique_ptr<const CChainParams> CChainParams::TestNet()
     return std::make_unique<const CTestNetParams>();
 }
 
-// Meowcoin does not use TestNet4; return TestNet as fallback.
+// Telestai does not use TestNet4; return TestNet as fallback.
 std::unique_ptr<const CChainParams> CChainParams::TestNet4()
 {
     return std::make_unique<const CTestNetParams>();

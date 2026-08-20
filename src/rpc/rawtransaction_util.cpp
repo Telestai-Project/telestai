@@ -129,7 +129,7 @@ std::vector<std::pair<CTxDestination, CAmount>> ParseOutputs(const UniValue& out
         } else {
             CTxDestination destination{DecodeDestination(name_)};
             if (!IsValidDestination(destination)) {
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Meowcoin address: ") + name_);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Telestai address: ") + name_);
             }
 
             if (val.isObject() && val.exists("transfer")) {

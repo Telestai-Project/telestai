@@ -516,7 +516,7 @@ void CreateAssetDialog::CheckFormState()
     if (!ui->addressText->text().isEmpty()) {
         if (!IsValidDestination(dest)) {
             ui->addressText->setStyleSheet(STYLE_INVALID);
-            showMessage(tr("Warning: Invalid Meowcoin address"));
+            showMessage(tr("Warning: Invalid Telestai address"));
             return;
         }
         if (std::get_if<PKHash>(&dest) == nullptr) {
@@ -544,7 +544,7 @@ void CreateAssetDialog::CheckFormState()
                 return;
             } else if (!IsValidDestination(dest)) {
                 ui->addressText->setStyleSheet(STYLE_INVALID);
-                showMessage(tr("Warning: Invalid Meowcoin address"));
+                showMessage(tr("Warning: Invalid Telestai address"));
                 return;
             } else if (std::get_if<PKHash>(&dest) == nullptr) {
                 ui->addressText->setStyleSheet(STYLE_INVALID);
@@ -1309,7 +1309,7 @@ void CreateAssetDialog::coinControlChangeEdited(const QString& text)
         }
         else if (!IsValidDestination(dest)) // Invalid address
         {
-            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Meowcoin address"));
+            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Telestai address"));
         }
         else if (std::get_if<PKHash>(&dest) == nullptr)
         {

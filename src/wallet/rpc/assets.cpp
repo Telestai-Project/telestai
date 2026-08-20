@@ -69,7 +69,7 @@ static std::string ResolveOrGenerateAddress(CWallet& wallet, const std::string& 
 {
     if (!input.empty()) {
         if (!IsValidDestinationString(input))
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Meowcoin address: " + input);
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address: " + input);
         return input;
     }
     auto op = wallet.GetNewDestination(wallet.m_default_address_type, "");
@@ -1077,7 +1077,7 @@ static UniValue DoUpdateAddressTag(const std::shared_ptr<CWallet>& pwallet,
 
     std::string address = request.params[1].get_str();
     if (!IsValidDestinationString(address))
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Meowcoin address: " + address);
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address: " + address);
 
     std::string chgAddr = request.params[2].isNull() ? "" : request.params[2].get_str();
     if (!chgAddr.empty() && !IsValidDestinationString(chgAddr))
@@ -1137,7 +1137,7 @@ static UniValue DoUpdateAddressRestriction(const std::shared_ptr<CWallet>& pwall
 
     std::string address = request.params[1].get_str();
     if (!IsValidDestinationString(address))
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Meowcoin address: " + address);
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address: " + address);
 
     std::string chgAddr = request.params[2].isNull() ? "" : request.params[2].get_str();
     if (!chgAddr.empty() && !IsValidDestinationString(chgAddr))

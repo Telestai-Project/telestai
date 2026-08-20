@@ -465,11 +465,23 @@ if(BUILD_FUZZ_BINARY)
 endif()
 
 
-# Telestai 3.0.0: keep Meowcoin Apex source filenames for now; ship Telestai binary names.
+# Apex source/target names remain meowcoin* internally; OUTPUT_NAME ships telestai*.
+# Also expose `telestaid` / `telestai-cli` CMake targets so CI does not build `meowcoind`.
 foreach(_tls_tgt IN ITEMS meowcoin meowcoind meowcoin-cli meowcoin-tx meowcoin-util meowcoin-wallet meowcoin-qt meowcoin-node meowcoin-gui test_meowcoin bench_meowcoin)
   if(TARGET ${_tls_tgt})
     string(REPLACE "meowcoin" "telestai" _tls_out "${_tls_tgt}")
-    string(REPLACE "meowcoind" "telestaid" _tls_out "${_tls_out}")
     set_target_properties(${_tls_tgt} PROPERTIES OUTPUT_NAME "${_tls_out}")
   endif()
 endforeach()
+if(TARGET meowcoind)
+  add_custom_target(telestaid DEPENDS meowcoind)
+endif()
+if(TARGET meowcoin-cli)
+  add_custom_target(telestai-cli DEPENDS meowcoin-cli)
+endif()
+if(TARGET meowcoin-tx)
+  add_custom_target(telestai-tx DEPENDS meowcoin-tx)
+endif()
+if(TARGET meowcoin-wallet)
+  add_custom_target(telestai-wallet DEPENDS meowcoin-wallet)
+endif()

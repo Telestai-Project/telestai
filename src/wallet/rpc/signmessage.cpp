@@ -18,7 +18,7 @@ RPCHelpMan signmessage()
         "Sign a message with the private key of an address" +
           HELP_REQUIRING_PASSPHRASE,
         {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The meowcoin address to use for the private key."},
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The Telestai address to use for the private key."},
             {"message", RPCArg::Type::STR, RPCArg::Optional::NO, "The message to create a signature of."},
         },
         RPCResult{

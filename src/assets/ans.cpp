@@ -96,7 +96,7 @@ std::string CMeowcoinNameSystemID::FormatTypeData(Type type, std::string typeDat
         CTxDestination destination = DecodeDestination(typeData);
         if (!IsValidDestination(destination)) {
             error = (typeData != "")
-            ? std::string("Invalid Meowcoin address: ") + typeData
+            ? std::string("Invalid Telestai address: ") + typeData
             : std::string("Empty Meowcoin address.");
         }
     } else if (type == IP) {

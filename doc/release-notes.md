@@ -1,8 +1,7 @@
-# Meowcoin Core Release Notes
+# Telestai Core Release Notes
 
-Release notes for each Meowcoin Core version are published on the GitHub Releases page:
-https://github.com/Meowcoin-Foundation/Meowcoin/releases
+- **3.0.1** (current): `doc/release-notes/release-notes-3.0.1.md`
+- GitHub Releases: https://github.com/Telestai-Project/telestai/releases
 
-Meowcoin Core tracks Bitcoin Core upstream. For changes inherited from upstream,
-refer to the corresponding Bitcoin Core release notes at:
-https://bitcoincore.org/en/releases/
+Telestai Core 3.0 is a CMake/Apex-based node. 2.1.x release notes remain on the
+`release/2.1.9` branch.

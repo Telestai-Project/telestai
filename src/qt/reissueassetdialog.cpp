@@ -444,7 +444,7 @@ void ReissueAssetDialog::CheckFormState()
     const CTxDestination dest = DecodeDestination(ui->addressText->text().toStdString());
     if (!ui->addressText->text().isEmpty()) {
         if (!IsValidDestination(dest)) {
-            showMessage(tr("Invalid Meowcoin Destination Address"));
+            showMessage(tr("Invalid Telestai Destination Address"));
             return;
         }
         if (std::get_if<PKHash>(&dest) == nullptr) {
@@ -518,7 +518,7 @@ void ReissueAssetDialog::CheckFormState()
 
             if (fHasQuantity && !IsValidDestination(dest)) {
                 ui->addressText->setStyleSheet(STYLE_INVALID);
-                showMessage(tr("Warning: Invalid Meowcoin address"));
+                showMessage(tr("Warning: Invalid Telestai address"));
                 return;
             }
 
@@ -1276,7 +1276,7 @@ void ReissueAssetDialog::coinControlChangeEdited(const QString& text)
             ui->labelCoinControlChangeLabel->setText("");
         } else if (!IsValidDestination(dest)) // Invalid address
         {
-            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Meowcoin address"));
+            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Telestai address"));
         } else if (std::get_if<PKHash>(&dest) == nullptr)
         {
             ui->labelCoinControlChangeLabel->setText(tr("Change address must use legacy (P2PKH) format for asset transactions."));

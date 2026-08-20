@@ -38,6 +38,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "generatetodescriptor", 2, "maxtries" },
     { "generateblock", 1, "transactions" },
     { "generateblock", 2, "submit" },
+    { "getkawpowhash", 3, "height" },
+    { "getmerakihash", 3, "height" },
     { "getnetworkhashps", 0, "nblocks" },
     { "getnetworkhashps", 1, "height" },
     { "sendtoaddress", 1, "amount" },

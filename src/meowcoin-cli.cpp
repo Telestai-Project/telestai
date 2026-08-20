@@ -86,7 +86,7 @@ static void SetupCliArgs(ArgsManager& argsman)
     argsman.AddArg("-generate",
                    strprintf("Generate blocks, equivalent to RPC getnewaddress followed by RPC generatetoaddress. Optional positional integer "
                              "arguments are number of blocks to generate (default: %s) and maximum iterations to try (default: %s), equivalent to "
-                             "RPC generatetoaddress nblocks and maxtries arguments. Example: meowcoin-cli -generate 4 1000",
+                             "RPC generatetoaddress nblocks and maxtries arguments. Example: telestai-cli -generate 4 1000",
                              DEFAULT_NBLOCKS, DEFAULT_MAX_TRIES),
                    ArgsManager::ALLOW_ANY, OptionsCategory::CLI_COMMANDS);
     argsman.AddArg("-addrinfo", "Get the number of addresses known to the node, per network and total, after filtering for quality and recency. The total number of addresses known to the node may be higher.", ArgsManager::ALLOW_ANY, OptionsCategory::CLI_COMMANDS);
@@ -155,15 +155,15 @@ static int AppInitRPC(int argc, char* argv[])
             strUsage += FormatParagraph(LicenseInfo());
         } else {
             strUsage += "\n"
-                "The meowcoin-cli utility provides a command line interface to interact with a " CLIENT_NAME " RPC server.\n"
+                "The telestai-cli utility provides a command line interface to interact with a " CLIENT_NAME " RPC server.\n"
                 "\nIt can be used to query network information, manage wallets, create or broadcast transactions, and control the " CLIENT_NAME " server.\n"
                 "\nUse the \"help\" command to list all commands. Use \"help <command>\" to show help for that command.\n"
                 "The -named option allows you to specify parameters using the key=value format, eliminating the need to pass unused positional parameters.\n"
                 "\n"
-                "Usage: meowcoin-cli [options] <command> [params]\n"
-                "or:    meowcoin-cli [options] -named <command> [name=value]...\n"
-                "or:    meowcoin-cli [options] help\n"
-                "or:    meowcoin-cli [options] help <command>\n"
+                "Usage: telestai-cli [options] <command> [params]\n"
+                "or:    telestai-cli [options] -named <command> [name=value]...\n"
+                "or:    telestai-cli [options] help\n"
+                "or:    telestai-cli [options] help <command>\n"
                 "\n";
             strUsage += "\n" + gArgs.GetHelpMessage();
         }
@@ -487,15 +487,15 @@ public:
                 n = *res;
                 m_details_level = std::min(n, NETINFO_MAX_LEVEL);
             } else {
-                throw std::runtime_error(strprintf("invalid -netinfo level argument: %s\nFor more information, run: meowcoin-cli -netinfo help", args.at(0)));
+                throw std::runtime_error(strprintf("invalid -netinfo level argument: %s\nFor more information, run: telestai-cli -netinfo help", args.at(0)));
             }
             if (args.size() > 1) {
                 if (std::string_view s{args.at(1)}; n && (s == "o" || s == "outonly")) {
                     m_outbound_only_selected = true;
                 } else if (n) {
-                    throw std::runtime_error(strprintf("invalid -netinfo outonly argument: %s\nFor more information, run: meowcoin-cli -netinfo help", s));
+                    throw std::runtime_error(strprintf("invalid -netinfo outonly argument: %s\nFor more information, run: telestai-cli -netinfo help", s));
                 } else {
-                    throw std::runtime_error(strprintf("invalid -netinfo outonly argument: %s\nThe outonly argument is only valid for a level greater than 0 (the first argument). For more information, run: meowcoin-cli -netinfo help", s));
+                    throw std::runtime_error(strprintf("invalid -netinfo outonly argument: %s\nThe outonly argument is only valid for a level greater than 0 (the first argument). For more information, run: telestai-cli -netinfo help", s));
                 }
             }
         }
@@ -737,17 +737,17 @@ public:
         "* The local addresses table lists each local address broadcast by the node, the port, and the score.\n\n"
         "Examples:\n\n"
         "Peer counts table of reachable networks and list of local addresses\n"
-        "> meowcoin-cli -netinfo\n\n"
+        "> telestai-cli -netinfo\n\n"
         "The same, preceded by a peers listing without address and version columns\n"
-        "> meowcoin-cli -netinfo 1\n\n"
+        "> telestai-cli -netinfo 1\n\n"
         "Full dashboard\n"
-        + strprintf("> meowcoin-cli -netinfo %d\n\n", NETINFO_MAX_LEVEL) +
+        + strprintf("> telestai-cli -netinfo %d\n\n", NETINFO_MAX_LEVEL) +
         "Full dashboard, but with outbound peers only\n"
-        + strprintf("> meowcoin-cli -netinfo %d outonly\n\n", NETINFO_MAX_LEVEL) +
+        + strprintf("> telestai-cli -netinfo %d outonly\n\n", NETINFO_MAX_LEVEL) +
         "Full live dashboard, adjust --interval or --no-title as needed (Linux)\n"
-        + strprintf("> watch --interval 1 --no-title meowcoin-cli -netinfo %d\n\n", NETINFO_MAX_LEVEL) +
+        + strprintf("> watch --interval 1 --no-title telestai-cli -netinfo %d\n\n", NETINFO_MAX_LEVEL) +
         "See this help\n"
-        "> meowcoin-cli -netinfo help\n"};
+        "> telestai-cli -netinfo help\n"};
 };
 
 /** Process RPC generatetoaddress request. */
@@ -914,7 +914,7 @@ static UniValue CallRPC(BaseRequestHandler* rh, const std::string& strMethod, co
         }
         throw CConnectionFailed(strprintf("Could not connect to the server %s:%d%s\n\n"
                     "Make sure the telestaid server is running and that you are connecting to the correct RPC port.\n"
-                    "Use \"meowcoin-cli -help\" for more info.",
+                    "Use \"telestai-cli -help\" for more info.",
                     host, port, responseErrorMessage));
     } else if (response.status == HTTP_UNAUTHORIZED) {
         if (failedToGetAuthCookie) {
@@ -1001,7 +1001,7 @@ static void ParseError(const UniValue& error, std::string& strPrint, int& nRet)
         }
         if (err_code.isNum() && err_code.getInt<int>() == RPC_WALLET_NOT_SPECIFIED) {
             strPrint += " Or for the CLI, specify the \"-rpcwallet=<walletname>\" option before the command";
-            strPrint += " (run \"meowcoin-cli -h\" for help or \"meowcoin-cli listwallets\" to see which wallets are currently loaded).";
+            strPrint += " (run \"telestai-cli -h\" for help or \"telestai-cli listwallets\" to see which wallets are currently loaded).";
         }
     } else {
         strPrint = "error: " + error.write();

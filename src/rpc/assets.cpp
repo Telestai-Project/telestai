@@ -256,7 +256,7 @@ static RPCHelpMan listassetbalancesbyaddress()
         "listassetbalancesbyaddress",
         "Returns a list of all asset balances for an address.\n",
         {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "a valid Meowcoin address"},
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "a valid Telestai address"},
             {"onlytotal", RPCArg::Type::BOOL, RPCArg::Default{false}, "when false result is just a list of assets balances -- when true only the number of assets is returned"},
             {"count", RPCArg::Type::NUM, RPCArg::DefaultHint{"all"}, "truncates results to include only the first count assets found"},
             {"start", RPCArg::Type::NUM, RPCArg::Default{0}, "results skip over the first start assets found"},
@@ -459,7 +459,7 @@ static RPCHelpMan checkaddressrestriction()
         "checkaddressrestriction",
         "Checks to see if an address has been frozen by a restricted asset.\n",
         {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Meowcoin address to search"},
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Telestai address to search"},
             {"restricted_name", RPCArg::Type::STR, RPCArg::Optional::NO, "the restricted asset name to search"},
         },
         RPCResult{
@@ -539,7 +539,7 @@ static RPCHelpMan getansdata()
                 {RPCResult::Type::STR, "id", "the ANS ID string"},
                 {RPCResult::Type::NUM, "type", "the ANS type number"},
                 {RPCResult::Type::STR, "type_name", "the ANS type description"},
-                {RPCResult::Type::STR, "address", /*optional=*/true, "the Meowcoin address (if type is ADDR)"},
+                {RPCResult::Type::STR, "address", /*optional=*/true, "the Telestai address (if type is ADDR)"},
                 {RPCResult::Type::STR, "ip", /*optional=*/true, "the IP address (if type is IP)"},
             }
         },
@@ -575,7 +575,7 @@ static RPCHelpMan checkaddresstag()
         "checkaddresstag",
         "Checks to see if an address has a qualifier tag assigned to it.\n",
         {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Meowcoin address to check"},
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Telestai address to check"},
             {"tag_name", RPCArg::Type::STR, RPCArg::Optional::NO, "the qualifier tag name to search (e.g. \"#TAG\")"},
         },
         RPCResult{
@@ -591,7 +591,7 @@ static RPCHelpMan checkaddresstag()
 
             CTxDestination destination = DecodeDestination(address);
             if (!IsValidDestination(destination))
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Meowcoin address: " + address);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address: " + address);
             if (!std::get_if<PKHash>(&destination))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Asset addresses must use legacy (P2PKH) format. SegWit and bech32 addresses are not supported.");
 
@@ -614,7 +614,7 @@ static RPCHelpMan listtagsforaddress()
         "listtagsforaddress",
         "Lists all qualifier tags assigned to an address.\n",
         {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Meowcoin address to search"},
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Telestai address to search"},
         },
         RPCResult{
             RPCResult::Type::ARR, "", "",
@@ -632,7 +632,7 @@ static RPCHelpMan listtagsforaddress()
 
             CTxDestination destination = DecodeDestination(address);
             if (!IsValidDestination(destination))
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Meowcoin address: " + address);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address: " + address);
             if (!std::get_if<PKHash>(&destination))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Asset addresses must use legacy (P2PKH) format. SegWit and bech32 addresses are not supported.");
 
@@ -663,7 +663,7 @@ static RPCHelpMan listaddressesfortag()
         RPCResult{
             RPCResult::Type::ARR, "", "",
             {
-                {RPCResult::Type::STR, "", "Meowcoin address"},
+                {RPCResult::Type::STR, "", "Telestai address"},
             }
         },
         RPCExamples{
@@ -699,7 +699,7 @@ static RPCHelpMan listaddressrestrictions()
         "listaddressrestrictions",
         "Lists all restricted assets that have frozen the given address.\n",
         {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Meowcoin address to search"},
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "the Telestai address to search"},
         },
         RPCResult{
             RPCResult::Type::ARR, "", "",
@@ -717,7 +717,7 @@ static RPCHelpMan listaddressrestrictions()
 
             CTxDestination destination = DecodeDestination(address);
             if (!IsValidDestination(destination))
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Meowcoin address: " + address);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Telestai address: " + address);
             if (!std::get_if<PKHash>(&destination))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Asset addresses must use legacy (P2PKH) format. SegWit and bech32 addresses are not supported.");
 
@@ -936,7 +936,7 @@ static RPCHelpMan ansencode()
         "Encodes type and data into an ANS (Meowcoin Name System) ID string.\n",
         {
             {"type", RPCArg::Type::STR, RPCArg::Optional::NO, "the ANS type: \"ADDR\" or \"IP\""},
-            {"data", RPCArg::Type::STR, RPCArg::Optional::NO, "the data for the ANS record (Meowcoin address or IP address)"},
+            {"data", RPCArg::Type::STR, RPCArg::Optional::NO, "the data for the ANS record (Telestai address or IP address)"},
         },
         RPCResult{
             RPCResult::Type::STR, "", "the encoded ANS ID string"
@@ -983,7 +983,7 @@ static RPCHelpMan ansdecode()
                 {RPCResult::Type::STR, "id", "the ANS ID string"},
                 {RPCResult::Type::NUM, "type", "the ANS type number"},
                 {RPCResult::Type::STR, "type_name", "the ANS type description"},
-                {RPCResult::Type::STR, "address", /*optional=*/true, "the Meowcoin address (if type is ADDR)"},
+                {RPCResult::Type::STR, "address", /*optional=*/true, "the Telestai address (if type is ADDR)"},
                 {RPCResult::Type::STR, "ip", /*optional=*/true, "the IP address (if type is IP)"},
             }
         },

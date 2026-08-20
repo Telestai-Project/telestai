@@ -36,7 +36,7 @@ static bool RequireAssetLegacyDestination(const std::string& address, std::pair<
 {
     CTxDestination dest = DecodeDestination(address);
     if (!IsValidDestination(dest)) {
-        error = std::make_pair(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Meowcoin address: ") + address);
+        error = std::make_pair(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Telestai address: ") + address);
         return false;
     }
     if (!std::get_if<PKHash>(&dest)) {

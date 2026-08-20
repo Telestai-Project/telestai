@@ -881,7 +881,7 @@ void AssetsDialog::assetControlChangeEdited(const QString& text)
         }
         else if (!IsValidDestination(dest)) // Invalid address
         {
-            ui->labelAssetControlChangeLabel->setText(tr("Warning: Invalid Meowcoin address"));
+            ui->labelAssetControlChangeLabel->setText(tr("Warning: Invalid Telestai address"));
         }
         else if (std::get_if<PKHash>(&dest) == nullptr)
         {

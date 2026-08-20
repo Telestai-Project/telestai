@@ -18,6 +18,8 @@
 #include <consensus/validation.h>
 #include <core_io.h>
 #include <crypto/ethash/include/ethash/ethash.hpp>
+#include <crypto/ethash/include/ethash/progpow.hpp>
+#include <crypto/ethash/helpers.hpp>
 #include <deploymentinfo.h>
 #include <deploymentstatus.h>
 #include <interfaces/mining.h>
@@ -40,6 +42,7 @@
 #include <script/script.h>
 #include <script/signingprovider.h>
 #include <txmempool.h>
+#include <uint256.h>
 #include <univalue.h>
 #include <util/signalinterrupt.h>
 #include <util/strencodings.h>
@@ -70,7 +73,7 @@ using node::RegenerateCommitments;
 using node::UpdateTime;
 using util::ToString;
 
-// ─── Meowcoin multi-algo helpers ───────────────────────────────────────────────
+// ─── Telestai multi-algo helpers (native PoW is Meraki; Apex enum remains MEOWPOW) ─
 
 /** Algorithm filter for RPCs that can return per-algo stats. */
 enum class AlgoFilter { Combined, MeowPOW, Scrypt };
@@ -85,28 +88,26 @@ static AlgoFilter ParseAlgoFilter(const UniValue& v)
         if (i == 0) return AlgoFilter::MeowPOW;
         if (i == 1) return AlgoFilter::Scrypt;
         throw JSONRPCError(RPC_INVALID_PARAMETER,
-            "algo (numeric) must be 0 (meowpow) or 1 (scrypt)");
+            "algo (numeric) must be 0 (meraki) or 1 (scrypt)");
     }
 
     if (v.isStr()) {
         std::string s = v.get_str();
-        // trim whitespace
         s.erase(0, s.find_first_not_of(" \t\r\n"));
         s.erase(s.find_last_not_of(" \t\r\n") + 1);
 
-        // numeric-looking strings
         if (s == "0") return AlgoFilter::MeowPOW;
         if (s == "1") return AlgoFilter::Scrypt;
 
-        // named aliases
         std::transform(s.begin(), s.end(), s.begin(),
                        [](unsigned char c){ return std::tolower(c); });
-        if (s == "meowpow" || s == "meow") return AlgoFilter::MeowPOW;
+        if (s == "meraki" || s == "kawpow" || s == "kaw" || s == "tls" ||
+            s == "meowpow" || s == "meow") return AlgoFilter::MeowPOW;
         if (s == "scrypt"  || s == "auxpow" || s == "mm") return AlgoFilter::Scrypt;
         if (s == "combined" || s == "all")  return AlgoFilter::Combined;
 
         throw JSONRPCError(RPC_INVALID_PARAMETER,
-            "algo must be \"combined\", \"meowpow\" (or 0), or \"scrypt\" (or 1)");
+            "algo must be \"combined\", \"meraki\"/\"kawpow\" (or 0), or \"scrypt\" (or 1)");
     }
 
     throw JSONRPCError(RPC_INVALID_PARAMETER,
@@ -181,14 +182,14 @@ static RPCHelpMan getnetworkhashps()
                 {
                     {"nblocks", RPCArg::Type::NUM, RPCArg::Default{120}, "The number of previous blocks to calculate estimate from, or -1 for blocks since last difficulty change."},
                     {"height", RPCArg::Type::NUM, RPCArg::Default{-1}, "To estimate at the time of the given height."},
-                    {"algo", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "Algorithm filter: \"combined\" (default), \"meowpow\" or 0, \"scrypt\" or 1. "
-                        "Defaults to Scrypt when auxpow=1 is set in config, otherwise MeowPOW."},
+                    {"algo", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "Algorithm filter: \"combined\" (default), \"meraki\"/\"kawpow\" or 0, \"scrypt\" or 1. "
+                        "Defaults to Scrypt when auxpow=1 is set in config, otherwise Meraki."},
                 },
                 RPCResult{
                     RPCResult::Type::NUM, "", "Hashes per second estimated"},
                 RPCExamples{
                     HelpExampleCli("getnetworkhashps", "")
-            + HelpExampleCli("getnetworkhashps", "120 -1 \"meowpow\"")
+            + HelpExampleCli("getnetworkhashps", "120 -1 \"meraki\"")
             + HelpExampleCli("getnetworkhashps", "120 -1 \"scrypt\"")
             + HelpExampleRpc("getnetworkhashps", "")
                 },
@@ -509,6 +510,7 @@ static RPCHelpMan getmininginfo()
                         {RPCResult::Type::NUM, "pooledtx", "The size of the mempool"},
                         {RPCResult::Type::STR_AMOUNT, "blockmintxfee", "Minimum feerate of packages selected for block inclusion in " + CURRENCY_UNIT + "/kvB"},
                         {RPCResult::Type::STR, "chain", "current network name (" LIST_CHAIN_NAMES ")"},
+                        {RPCResult::Type::STR, "algorithm", "Telestai proof-of-work algorithm (meraki)"},
                         {RPCResult::Type::STR_HEX, "signet_challenge", /*optional=*/true, "The block challenge (aka. block script), in hexadecimal (only present if the current network is a signet)"},
                         {RPCResult::Type::OBJ, "next", "The next block",
                         {
@@ -552,6 +554,7 @@ static RPCHelpMan getmininginfo()
     ApplyArgsManOptions(*node.args, assembler_options);
     obj.pushKV("blockmintxfee", ValueFromAmount(assembler_options.blockMinFeeRate.GetFeePerK()));
     obj.pushKV("chain", chainman.GetParams().GetChainTypeString());
+    obj.pushKV("algorithm", "meraki");
 
     UniValue next(UniValue::VOBJ);
     CBlockIndex next_index;
@@ -575,7 +578,7 @@ static RPCHelpMan getmininginfo()
 }
 
 
-// NOTE: Unlike wallet RPC (which use MEWC values), mining RPCs follow GBT (BIP 22) in using satoshi amounts
+// NOTE: Unlike wallet RPC (which use TLS values), mining RPCs follow GBT (BIP 22) in using satoshi amounts
 static RPCHelpMan prioritisetransaction()
 {
     return RPCHelpMan{"prioritisetransaction",
@@ -870,7 +873,7 @@ static RPCHelpMan getblocktemplate()
          * On mainnet the mempool changes frequently enough that in practice this RPC
          * returns after 60 seconds, or sooner if the best block changes.
          *
-         * getblocktemplate is unlikely to be called by meowcoin-cli, so
+         * getblocktemplate is unlikely to be called by telestai-cli, so
          * -rpcclienttimeout is not a concern. BIP22 recommends a long request timeout.
          *
          * The longpollid is assumed to be a tip hash if it has the right format.
@@ -1280,7 +1283,7 @@ static RPCHelpMan submitblock()
     return RPCHelpMan{
         "submitblock",
         "Attempts to submit new block to network.\n"
-        "See https://en.meowcoin.it/wiki/BIP_0022 for full specification.\n",
+        "See https://en.bitcoin.it/wiki/BIP_0022 for full specification.\n",
         {
             {"hexdata", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "the hex-encoded block data to submit"},
             {"dummy", RPCArg::Type::STR, RPCArg::DefaultHint{"ignored"}, "dummy value, for compatibility with BIP22. This value is ignored."},
@@ -1619,6 +1622,148 @@ static RPCHelpMan submitauxblock()
 
 // ────────────────────────────────────────────────────────────────────────────────
 
+static UniValue KawpowHashWork(const JSONRPCRequest& request)
+{
+    const std::string str_header_hash = request.params[0].get_str();
+    const std::string mix_hash = request.params[1].get_str();
+    const std::string hex_nonce = request.params[2].get_str();
+    const uint32_t nHeight = request.params[3].getInt<uint32_t>();
+
+    uint64_t nNonce = 0;
+    {
+        std::string hex = hex_nonce;
+        if (hex.size() >= 2 && hex[0] == '0' && (hex[1] == 'x' || hex[1] == 'X')) {
+            hex = hex.substr(2);
+        }
+        char* end = nullptr;
+        errno = 0;
+        const unsigned long long parsed = std::strtoull(hex.c_str(), &end, 16);
+        if (errno != 0 || end == hex.c_str() || (end && *end != '\0')) {
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid nonce hex string");
+        }
+        nNonce = static_cast<uint64_t>(parsed);
+    }
+
+    ChainstateManager& chainman = EnsureAnyChainman(request.context);
+    {
+        LOCK(cs_main);
+        const int tip = chainman.ActiveChain().Height();
+        if (static_cast<int>(nHeight) > tip + 10) {
+            throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Block height is to large");
+        }
+    }
+
+    uint256 target;
+    bool fCheckTarget = false;
+    if (request.params.size() >= 5 && !request.params[4].isNull() && !request.params[4].get_str().empty()) {
+        const auto parsed = uint256::FromUserHex(request.params[4].get_str());
+        if (!parsed) {
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid target hex string");
+        }
+        target = *parsed;
+        fCheckTarget = true;
+    }
+
+    static ethash::epoch_context_ptr context{nullptr, nullptr};
+    const auto epoch_number = ethash::get_epoch_number(nHeight);
+    if (!context || context->epoch_number != epoch_number) {
+        context = ethash::create_epoch_context(epoch_number);
+    }
+
+    const auto header_hash = to_hash256(str_header_hash);
+    const auto result = progpow::hash(*context, nHeight, header_hash, nNonce);
+
+    const uint256 mined_mix_hash = uint256::FromUserHex(to_hex(result.mix_hash)).value_or(uint256{});
+    const uint256 mined_final_hash = uint256::FromUserHex(to_hex(result.final_hash)).value_or(uint256{});
+
+    const auto given_mix = uint256::FromUserHex(mix_hash);
+    const bool mix_hash_match = given_mix && *given_mix == mined_mix_hash;
+
+    bool final_hash_meets_target = false;
+    if (fCheckTarget) {
+        const arith_uint256 boundary = UintToArith256(target);
+        if (UintToArith256(mined_final_hash) <= boundary) {
+            final_hash_meets_target = true;
+        }
+    }
+
+    UniValue ret(UniValue::VOBJ);
+    // String "true"/"false" matches Telestai 2.1.x pool parsers.
+    ret.pushKV("result", mix_hash_match ? "true" : "false");
+    ret.pushKV("digest", mined_final_hash.GetHex());
+    ret.pushKV("mix_hash", mined_mix_hash.GetHex());
+    ret.pushKV("info", "");
+    if (fCheckTarget) {
+        ret.pushKV("meets_target", final_hash_meets_target ? "true" : "false");
+    }
+    return ret;
+}
+
+static RPCHelpMan getkawpowhash()
+{
+    return RPCHelpMan{
+        "getkawpowhash",
+        "Compute the Meraki (ProgPoW / KawPoW-family) mix and final hashes for a header.\n"
+        "Same wire format as Telestai Core 2.1.x. Pools use this to check miner shares.\n"
+        "Alias: getmerakihash.\n",
+        {
+            {"header_hash", RPCArg::Type::STR, RPCArg::Optional::NO, "ProgPoW header hash given to the GPU miner"},
+            {"mix_hash", RPCArg::Type::STR, RPCArg::Optional::NO, "Mix hash claimed by the miner"},
+            {"nonce", RPCArg::Type::STR, RPCArg::Optional::NO, "Hex nonce (nNonce64)"},
+            {"height", RPCArg::Type::NUM, RPCArg::Optional::NO, "Block height used for the Meraki epoch"},
+            {"target", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "Optional compact target; if set, also returns meets_target"},
+        },
+        RPCResult{
+            RPCResult::Type::OBJ, "", "",
+            {
+                {RPCResult::Type::STR, "result", "\"true\" if mix_hash matches the computed mix"},
+                {RPCResult::Type::STR_HEX, "digest", "Final PoW hash"},
+                {RPCResult::Type::STR_HEX, "mix_hash", "Computed mix hash"},
+                {RPCResult::Type::STR, "info", "Unused; always empty"},
+                {RPCResult::Type::STR, "meets_target", /*optional=*/true, "\"true\" if digest <= target (only when target is passed)"},
+            },
+        },
+        RPCExamples{
+            HelpExampleCli("getkawpowhash", "\"header_hash\" \"mix_hash\" \"0x100000\" 2456")
+            + HelpExampleRpc("getkawpowhash", "\"header_hash\", \"mix_hash\", \"0x100000\", 2456")
+        },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue {
+            return KawpowHashWork(request);
+        },
+    };
+}
+
+static RPCHelpMan getmerakihash()
+{
+    return RPCHelpMan{
+        "getmerakihash",
+        "Alias of getkawpowhash. Telestai's proof of work is Meraki.\n",
+        {
+            {"header_hash", RPCArg::Type::STR, RPCArg::Optional::NO, "ProgPoW header hash given to the GPU miner"},
+            {"mix_hash", RPCArg::Type::STR, RPCArg::Optional::NO, "Mix hash claimed by the miner"},
+            {"nonce", RPCArg::Type::STR, RPCArg::Optional::NO, "Hex nonce (nNonce64)"},
+            {"height", RPCArg::Type::NUM, RPCArg::Optional::NO, "Block height used for the Meraki epoch"},
+            {"target", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "Optional compact target; if set, also returns meets_target"},
+        },
+        RPCResult{
+            RPCResult::Type::OBJ, "", "",
+            {
+                {RPCResult::Type::STR, "result", "\"true\" if mix_hash matches the computed mix"},
+                {RPCResult::Type::STR_HEX, "digest", "Final PoW hash"},
+                {RPCResult::Type::STR_HEX, "mix_hash", "Computed mix hash"},
+                {RPCResult::Type::STR, "info", "Unused; always empty"},
+                {RPCResult::Type::STR, "meets_target", /*optional=*/true, "\"true\" if digest <= target (only when target is passed)"},
+            },
+        },
+        RPCExamples{
+            HelpExampleCli("getmerakihash", "\"header_hash\" \"mix_hash\" \"0x100000\" 2456")
+        },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue {
+            return KawpowHashWork(request);
+        },
+    };
+}
+
 void RegisterMiningRPCCommands(CRPCTable& t)
 {
     static const CRPCCommand commands[]{
@@ -1630,6 +1775,8 @@ void RegisterMiningRPCCommands(CRPCTable& t)
         {"mining", &submitblock},
         {"mining", &submitheader},
         {"mining", &pprpcsb},
+        {"mining", &getkawpowhash},
+        {"mining", &getmerakihash},
         // AuxPoW / merge-mining RPCs intentionally omitted (out of Telestai roadmap).
 
         {"hidden", &generatetoaddress},
