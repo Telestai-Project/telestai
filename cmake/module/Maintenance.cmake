@@ -76,21 +76,23 @@ endfunction()
 
 function(add_macos_deploy_target)
   if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND TARGET meowcoin-qt)
-    set(macos_app "Meowcoin-Qt.app")
+    # Match Soft Launch (2.1.4) branding: Telestai-Qt.app + telestai.icns
+    set(macos_app "Telestai-Qt.app")
+    set(macos_qt_bin "Telestai-Qt")
     # Populate Contents subdirectory.
     configure_file(${PROJECT_SOURCE_DIR}/share/qt/Info.plist.in ${macos_app}/Contents/Info.plist NO_SOURCE_PERMISSIONS)
     file(CONFIGURE OUTPUT ${macos_app}/Contents/PkgInfo CONTENT "APPL????")
     # Populate Contents/Resources subdirectory.
     file(CONFIGURE OUTPUT ${macos_app}/Contents/Resources/empty.lproj CONTENT "")
-    configure_file(${PROJECT_SOURCE_DIR}/src/qt/res/icons/meowcoin.icns ${macos_app}/Contents/Resources/meowcoin.icns NO_SOURCE_PERMISSIONS COPYONLY)
+    configure_file(${PROJECT_SOURCE_DIR}/src/qt/res/icons/telestai.icns ${macos_app}/Contents/Resources/telestai.icns NO_SOURCE_PERMISSIONS COPYONLY)
     file(CONFIGURE OUTPUT ${macos_app}/Contents/Resources/Base.lproj/InfoPlist.strings
       CONTENT "{ CFBundleDisplayName = \"@CLIENT_NAME@\"; CFBundleName = \"@CLIENT_NAME@\"; }"
     )
 
     add_custom_command(
-      OUTPUT ${PROJECT_BINARY_DIR}/${macos_app}/Contents/MacOS/Meowcoin-Qt
+      OUTPUT ${PROJECT_BINARY_DIR}/${macos_app}/Contents/MacOS/${macos_qt_bin}
       COMMAND ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config $<CONFIG> --component meowcoin-qt --prefix ${macos_app}/Contents/MacOS --strip
-      COMMAND ${CMAKE_COMMAND} -E rename ${macos_app}/Contents/MacOS/bin/$<TARGET_FILE_NAME:meowcoin-qt> ${macos_app}/Contents/MacOS/Meowcoin-Qt
+      COMMAND ${CMAKE_COMMAND} -E rename ${macos_app}/Contents/MacOS/bin/$<TARGET_FILE_NAME:meowcoin-qt> ${macos_app}/Contents/MacOS/${macos_qt_bin}
       COMMAND ${CMAKE_COMMAND} -E rm -rf ${macos_app}/Contents/MacOS/bin
       COMMAND ${CMAKE_COMMAND} -E rm -rf ${macos_app}/Contents/MacOS/share
       VERBATIM
@@ -100,8 +102,11 @@ function(add_macos_deploy_target)
     if(CMAKE_HOST_APPLE)
       add_custom_command(
         OUTPUT ${PROJECT_BINARY_DIR}/${osx_volname}.zip
-        COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/contrib/macdeploy/macdeployqtplus ${macos_app} ${osx_volname} -translations-dir=${QT_TRANSLATIONS_DIR} -zip
-        DEPENDS ${PROJECT_BINARY_DIR}/${macos_app}/Contents/MacOS/Meowcoin-Qt
+        COMMAND ${CMAKE_COMMAND} -E env
+          QTDIR=$ENV{QTDIR}
+          OBJDUMP=${CMAKE_OBJDUMP}
+          $<TARGET_FILE:Python3::Interpreter> ${PROJECT_SOURCE_DIR}/contrib/macdeploy/macdeployqtplus ${macos_app} ${osx_volname} -translations-dir=${QT_TRANSLATIONS_DIR} -zip
+        DEPENDS ${PROJECT_BINARY_DIR}/${macos_app}/Contents/MacOS/${macos_qt_bin}
         VERBATIM
       )
       add_custom_target(deploydir
@@ -112,13 +117,13 @@ function(add_macos_deploy_target)
       )
     else()
       add_custom_command(
-        OUTPUT ${PROJECT_BINARY_DIR}/dist/${macos_app}/Contents/MacOS/Meowcoin-Qt
-        COMMAND ${CMAKE_COMMAND} -E env OBJDUMP=${CMAKE_OBJDUMP} $<TARGET_FILE:Python3::Interpreter> ${PROJECT_SOURCE_DIR}/contrib/macdeploy/macdeployqtplus ${macos_app} ${osx_volname} -translations-dir=${QT_TRANSLATIONS_DIR}
-        DEPENDS ${PROJECT_BINARY_DIR}/${macos_app}/Contents/MacOS/Meowcoin-Qt
+        OUTPUT ${PROJECT_BINARY_DIR}/dist/${macos_app}/Contents/MacOS/${macos_qt_bin}
+        COMMAND ${CMAKE_COMMAND} -E env QTDIR=$ENV{QTDIR} OBJDUMP=${CMAKE_OBJDUMP} $<TARGET_FILE:Python3::Interpreter> ${PROJECT_SOURCE_DIR}/contrib/macdeploy/macdeployqtplus ${macos_app} ${osx_volname} -translations-dir=${QT_TRANSLATIONS_DIR}
+        DEPENDS ${PROJECT_BINARY_DIR}/${macos_app}/Contents/MacOS/${macos_qt_bin}
         VERBATIM
       )
       add_custom_target(deploydir
-        DEPENDS ${PROJECT_BINARY_DIR}/dist/${macos_app}/Contents/MacOS/Meowcoin-Qt
+        DEPENDS ${PROJECT_BINARY_DIR}/dist/${macos_app}/Contents/MacOS/${macos_qt_bin}
       )
 
       find_program(ZIP_EXECUTABLE zip)

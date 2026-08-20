@@ -1,6 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource prefix="/icons">
-        <file alias="meowcoin">res/icons/meowcoin.png</file>
+        <!-- Telestai Soft Launch (2.1.4) branding; keep meowcoin alias for existing Qt paths -->
+        <file alias="meowcoin">res/icons/telestai.png</file>
+        <file alias="telestai">res/icons/telestai.png</file>
         <file alias="address-book">res/icons/address-book.png</file>
         <file alias="send">res/icons/send.png</file>
         <file alias="connect_0">res/icons/connect0.png</file>

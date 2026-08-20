@@ -3,7 +3,7 @@
 <plist version="0.9">
 <dict>
   <key>LSMinimumSystemVersion</key>
-  <string>13</string>
+  <string>10.8.0</string>
 
   <key>LSArchitecturePriority</key>
   <array>
@@ -17,29 +17,21 @@
   <key>CFBundlePackageType</key>
   <string>APPL</string>
 
-  <key>CFBundleSupportedPlatforms</key>
-  <array>
-	   <string>MacOSX</string>
-  </array>
-
-  <key>NSHumanReadableCopyright</key>
-  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_BUILD@, Copyright © 2009-@COPYRIGHT_YEAR@ @COPYRIGHT_HOLDERS_FINAL@</string>
-
   <key>CFBundleGetInfoString</key>
-  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_BUILD@, Copyright © 2009-@COPYRIGHT_YEAR@ @COPYRIGHT_HOLDERS_FINAL@</string>
+  <string>3.0.1, Copyright © 2009-2026 The Telestai Core developers</string>
 
   <key>CFBundleShortVersionString</key>
-  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_BUILD@</string>
+  <string>3.0.1</string>
 
   <key>CFBundleVersion</key>
-  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_BUILD@</string>
+  <string>3.0.1</string>
 
   <key>CFBundleSignature</key>
   <string>????</string>
 
   <key>CFBundleExecutable</key>
   <string>Telestai-Qt</string>
-
+  
   <key>CFBundleName</key>
   <string>Telestai-Qt</string>
 
@@ -111,7 +103,7 @@
 
   <key>LSAppNapIsDisabled</key>
     <string>True</string>
-
+  
   <key>LSApplicationCategoryType</key>
     <string>public.app-category.finance</string>
 </dict>
