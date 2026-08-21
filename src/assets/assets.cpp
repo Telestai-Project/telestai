@@ -1044,9 +1044,10 @@ bool IsNewAsset(const CTransaction& tx)
     if (!CheckOwnerDataTx(tx.vout[tx.vout.size() - 2]))
         return false;
 
-    // Don't overlap with IsNewUniqueAsset()
+    // Don't overlap with specialized issuance validators
     CScript script = tx.vout[tx.vout.size() - 1].scriptPubKey;
-    if (IsScriptNewUniqueAsset(script)|| IsScriptNewRestrictedAsset(script))
+    if (IsScriptNewUniqueAsset(script) || IsScriptNewRestrictedAsset(script) ||
+        IsScriptNewMsgChannelAsset(script) || IsScriptNewQualifierAsset(script))
         return false;
 
     return true;
