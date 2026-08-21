@@ -302,7 +302,7 @@ static RPCHelpMan generatetodescriptor()
         "Mine to a specified descriptor and return the block hashes.",
         {
             {"num_blocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated."},
-            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated meowcoin to."},
+            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated telestai to."},
             {"maxtries", RPCArg::Type::NUM, RPCArg::Default{DEFAULT_MAX_TRIES}, "How many iterations to try."},
         },
         RPCResult{
@@ -346,7 +346,7 @@ static RPCHelpMan generatetoaddress()
         "Mine to a specified address and return the block hashes.",
          {
              {"nblocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated."},
-             {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated meowcoin to."},
+             {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated telestai to."},
              {"maxtries", RPCArg::Type::NUM, RPCArg::Default{DEFAULT_MAX_TRIES}, "How many iterations to try."},
          },
          RPCResult{
@@ -357,7 +357,7 @@ static RPCHelpMan generatetoaddress()
          RPCExamples{
             "\nGenerate 11 blocks to myaddress\n"
             + HelpExampleCli("generatetoaddress", "11 \"myaddress\"")
-            + "If you are using the " CLIENT_NAME " wallet, you can get a new address to send the newly generated meowcoin to with:\n"
+            + "If you are using the " CLIENT_NAME " wallet, you can get a new address to send the newly generated telestai to with:\n"
             + HelpExampleCli("getnewaddress", "")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
@@ -386,7 +386,7 @@ static RPCHelpMan generateblock()
     return RPCHelpMan{"generateblock",
         "Mine a set of ordered transactions to a specified address or descriptor and return the block hash.",
         {
-            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated meowcoin to."},
+            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated telestai to."},
             {"transactions", RPCArg::Type::ARR, RPCArg::Optional::NO, "An array of hex strings which are either txids or raw transactions.\n"
                 "Txids must reference transactions currently in the mempool.\n"
                 "All transactions must be valid and in valid order, otherwise the block will be rejected.",
@@ -699,10 +699,10 @@ static RPCHelpMan getblocktemplate()
         "If the request parameters include a 'mode' key, that is used to explicitly select between the default 'template' request or a 'proposal'.\n"
         "It returns data needed to construct a block to work on.\n"
         "For full specification, see BIPs 22, 23, 9, and 145:\n"
-        "    https://github.com/meowcoin/bips/blob/master/bip-0022.mediawiki\n"
-        "    https://github.com/meowcoin/bips/blob/master/bip-0023.mediawiki\n"
-        "    https://github.com/meowcoin/bips/blob/master/bip-0009.mediawiki#getblocktemplate_changes\n"
-        "    https://github.com/meowcoin/bips/blob/master/bip-0145.mediawiki\n",
+        "    https://github.com/telestai/bips/blob/master/bip-0022.mediawiki\n"
+        "    https://github.com/telestai/bips/blob/master/bip-0023.mediawiki\n"
+        "    https://github.com/telestai/bips/blob/master/bip-0009.mediawiki#getblocktemplate_changes\n"
+        "    https://github.com/telestai/bips/blob/master/bip-0145.mediawiki\n",
         {
             {"template_request", RPCArg::Type::OBJ, RPCArg::Optional::OMITTED, "Format of the template",
             {
@@ -1379,7 +1379,7 @@ static RPCHelpMan getauxblock()
         "\nWithout arguments, create a new block and return information\n"
         "required to merge-mine it.  With arguments, submit a solved\n"
         "auxpow for a previously returned block.\n"
-        "\nRequires -miningaddress to be set in meowcoin.conf for the create path.\n",
+        "\nRequires -miningaddress to be set in telestai.conf for the create path.\n",
         {
             {"hash", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED,
              "Hash of the block to submit"},
@@ -1438,7 +1438,7 @@ static RPCHelpMan getauxblock()
     const std::string miningAddr = gArgs.GetArg("-miningaddress", "");
     if (miningAddr.empty()) {
         throw JSONRPCError(RPC_INVALID_PARAMETER,
-            "No mining address configured. Set -miningaddress=<addr> in meowcoin.conf");
+            "No mining address configured. Set -miningaddress=<addr> in telestai.conf");
     }
 
     CTxDestination dest = DecodeDestination(miningAddr);
@@ -1475,7 +1475,7 @@ static RPCHelpMan getauxblock()
     bool fNegative, fOverflow;
     target.SetCompact(pblock->nBits, &fNegative, &fOverflow);
 
-    // Legacy Meowcoin outputs the target as raw little-endian bytes
+    // Legacy Telestai outputs the target as raw little-endian bytes
     // (HexStr on the internal arith_uint256 representation), not the
     // big-endian numeric GetHex() form.
     const uint256 targetBytes = ArithToUint256(target);
@@ -1568,7 +1568,7 @@ static RPCHelpMan createauxblock()
     bool fNegative, fOverflow;
     target.SetCompact(pblock->nBits, &fNegative, &fOverflow);
 
-    // Legacy Meowcoin outputs the target as raw little-endian bytes.
+    // Legacy Telestai outputs the target as raw little-endian bytes.
     const uint256 targetBytes = ArithToUint256(target);
     const std::string targetHex = HexStr(std::span<const uint8_t>(targetBytes.data(), 32));
 

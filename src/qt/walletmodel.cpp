@@ -179,7 +179,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
     {
         if (rcp.fSubtractFeeFromAmount)
             fSubtractFeeFromAmount = true;
-        {   // User-entered meowcoin address / amount:
+        {   // User-entered telestai address / amount:
             if(!validateAddress(rcp.address))
             {
                 return InvalidAddress;
@@ -256,7 +256,7 @@ void WalletModel::sendCoins(WalletModelTransaction& transaction)
         std::vector<std::pair<std::string, std::string>> vOrderForm;
         for (const SendCoinsRecipient &rcp : transaction.getRecipients())
         {
-            if (!rcp.message.isEmpty()) // Message from normal meowcoin:URI (meowcoin:123...?message=example)
+            if (!rcp.message.isEmpty()) // Message from normal telestai:URI (telestai:123...?message=example)
                 vOrderForm.emplace_back("Message", rcp.message.toStdString());
         }
 

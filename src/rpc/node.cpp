@@ -324,15 +324,15 @@ static RPCHelpMan echoipc()
             interfaces::Init& local_init = *EnsureAnyNodeContext(request.context).init;
             std::unique_ptr<interfaces::Echo> echo;
             if (interfaces::Ipc* ipc = local_init.ipc()) {
-                // Spawn a new meowcoin-node process and call makeEcho to get a
+                // Spawn a new telestai-node process and call makeEcho to get a
                 // client pointer to a interfaces::Echo instance running in
                 // that process. This is just for testing. A slightly more
                 // realistic test spawning a different executable instead of
-                // the same executable would add a new meowcoin-echo executable,
-                // and spawn meowcoin-echo below instead of meowcoin-node. But
-                // using meowcoin-node avoids the need to build and install a
+                // the same executable would add a new telestai-echo executable,
+                // and spawn telestai-echo below instead of telestai-node. But
+                // using telestai-node avoids the need to build and install a
                 // new executable just for this one test.
-                auto init = ipc->spawnProcess("meowcoin-node");
+                auto init = ipc->spawnProcess("telestai-node");
                 echo = init->makeEcho();
                 ipc->addCleanup(*echo, [init = init.release()] { delete init; });
             } else {

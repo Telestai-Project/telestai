@@ -116,7 +116,7 @@ public:
         return {DECORATION_SIZE + 8 + minimum_text_width, DECORATION_SIZE};
     }
 
-    BitcoinUnit unit{BitcoinUnit::MEWC};
+    BitcoinUnit unit{BitcoinUnit::TLS};
 
 Q_SIGNALS:
     //! An intermediate signal for emitting from the `paint() const` member function.
@@ -239,7 +239,7 @@ void OverviewPage::setWalletModel(WalletModel *model)
         connect(model->getOptionsModel(), &OptionsModel::displayUnitChanged, this, &OverviewPage::updateDisplayUnit);
     }
 
-    // update the display unit, to not use the default ("MEWC")
+    // update the display unit, to not use the default ("TLS")
     updateDisplayUnit();
 }
 

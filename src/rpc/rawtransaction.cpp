@@ -60,10 +60,10 @@ static void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& 
                      TxVerbosity verbosity = TxVerbosity::SHOW_DETAILS)
 {
     CHECK_NONFATAL(verbosity >= TxVerbosity::SHOW_DETAILS);
-    // Call into TxToUniv() in meowcoin-common to decode the transaction hex.
+    // Call into TxToUniv() in telestai-common to decode the transaction hex.
     //
     // Blockchain contextual information (confirmations and blocktime) is not
-    // available to code in meowcoin-common, so we query them here and push the
+    // available to code in telestai-common, so we query them here and push the
     // data into the returned UniValue.
     TxToUniv(tx, /*block_hash=*/uint256(), entry, /*include_hex=*/true, txundo, verbosity);
 
@@ -1066,7 +1066,7 @@ static RPCHelpMan decodepsmt()
 {
     return RPCHelpMan{
         "decodepsmt",
-        "Return a JSON object representing the serialized, base64-encoded partially signed Meowcoin transaction.",
+        "Return a JSON object representing the serialized, base64-encoded partially signed Telestai transaction.",
                 {
                     {"psmt", RPCArg::Type::STR, RPCArg::Optional::NO, "The PSMT base64 string"},
                 },
@@ -1569,7 +1569,7 @@ static RPCHelpMan combinepsmt()
 {
     return RPCHelpMan{
         "combinepsmt",
-        "Combine multiple partially signed Meowcoin transactions into one transaction.\n"
+        "Combine multiple partially signed Telestai transactions into one transaction.\n"
                 "Implements the Combiner role.\n",
                 {
                     {"txs", RPCArg::Type::ARR, RPCArg::Optional::NO, "The base64 strings of partially signed transactions",

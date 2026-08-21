@@ -91,7 +91,7 @@ RPCHelpMan issue()
             {"asset_name",     RPCArg::Type::STR,  RPCArg::Optional::NO,   "unique asset name"},
             {"qty",            RPCArg::Type::NUM,  RPCArg::Default{1},      "number of units to issue"},
             {"to_address",     RPCArg::Type::STR,  RPCArg::Default{""}, "address to receive asset; generated if empty"},
-            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for MEWC change; generated if empty"},
+            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for TLS change; generated if empty"},
             {"units",          RPCArg::Type::NUM,  RPCArg::Default{0},      "decimal precision 0–8"},
             {"reissuable",     RPCArg::Type::BOOL, RPCArg::Default{true},   "allow future reissuance"},
             {"has_ipfs",       RPCArg::Type::BOOL, RPCArg::Default{false},  "attach IPFS/txid hash"},
@@ -182,7 +182,7 @@ RPCHelpMan issueunique()
     return RPCHelpMan{
         "issueunique",
         "Issue unique asset(s) under an existing root asset you own.\n"
-        "One asset is created per element of asset_tags. 5 MEWC is burned per asset.\n"
+        "One asset is created per element of asset_tags. 5 TLS is burned per asset.\n"
         "Requires wallet passphrase to be set with walletpassphrase if encrypted.\n",
         {
             {"root_name",      RPCArg::Type::STR,  RPCArg::Optional::NO,   "root asset name you own"},
@@ -191,7 +191,7 @@ RPCHelpMan issueunique()
             {"ipfs_hashes",    RPCArg::Type::ARR,  RPCArg::Default{UniValue::VARR}, "optional IPFS hashes, one per tag",
                 {{"ipfs_hash", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "IPFS hash"}}},
             {"to_address",     RPCArg::Type::STR,  RPCArg::Default{""}, "address to receive assets; generated if empty"},
-            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for MEWC change; generated if empty"},
+            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for TLS change; generated if empty"},
         },
         RPCResult{RPCResult::Type::ARR, "", "list of transaction IDs",
             {{RPCResult::Type::STR_HEX, "", "txid"}}},
@@ -278,7 +278,7 @@ RPCHelpMan issuequalifierasset()
             {"asset_name",     RPCArg::Type::STR,  RPCArg::Optional::NO,   "unique qualifier asset name"},
             {"qty",            RPCArg::Type::NUM,  RPCArg::Default{1},      "number of units to issue (1–10)"},
             {"to_address",     RPCArg::Type::STR,  RPCArg::Default{""}, "address to receive asset; generated if empty"},
-            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for MEWC change; generated if empty"},
+            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for TLS change; generated if empty"},
             {"has_ipfs",       RPCArg::Type::BOOL, RPCArg::Default{false},  "attach IPFS/txid hash"},
             {"ipfs_hash",      RPCArg::Type::STR,  RPCArg::Default{""}, "IPFS hash or txid"},
         },
@@ -360,7 +360,7 @@ RPCHelpMan issuerestrictedasset()
             {"qty",            RPCArg::Type::NUM,  RPCArg::Optional::NO,   "quantity to issue"},
             {"verifier",       RPCArg::Type::STR,  RPCArg::Optional::NO,   "verifier string evaluated on restricted transfers"},
             {"to_address",     RPCArg::Type::STR,  RPCArg::Optional::NO,   "address to receive asset; must satisfy verifier"},
-            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for MEWC change; generated if empty"},
+            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for TLS change; generated if empty"},
             {"units",          RPCArg::Type::NUM,  RPCArg::Default{0},      "decimal precision 0–8"},
             {"reissuable",     RPCArg::Type::BOOL, RPCArg::Default{true},   "allow future reissuance"},
             {"has_ipfs",       RPCArg::Type::BOOL, RPCArg::Default{false},  "attach IPFS/txid hash"},
@@ -451,7 +451,7 @@ RPCHelpMan transfer()
             {"to_address",          RPCArg::Type::STR,  RPCArg::Optional::NO,   "destination address"},
             {"message",             RPCArg::Type::STR,  RPCArg::Default{""}, "optional IPFS/txid message (RIP5)"},
             {"expire_time",         RPCArg::Type::NUM,  RPCArg::Default{0},      "UTC timestamp when message expires"},
-            {"change_address",      RPCArg::Type::STR,  RPCArg::Default{""}, "MEWC change address"},
+            {"change_address",      RPCArg::Type::STR,  RPCArg::Default{""}, "TLS change address"},
             {"asset_change_address",RPCArg::Type::STR,  RPCArg::Default{""}, "asset change address"},
         },
         RPCResult{RPCResult::Type::ARR, "", "list of transaction IDs",
@@ -483,7 +483,7 @@ RPCHelpMan transfer()
             if (!IsValidDestinationString(toAddr))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid to_address: " + toAddr);
             if (!chgAddr.empty() && !IsValidDestinationString(chgAddr))
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid MEWC change address: " + chgAddr);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid TLS change address: " + chgAddr);
             if (!assetChg.empty() && !IsValidDestinationString(assetChg))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid asset change address: " + assetChg);
 
@@ -533,7 +533,7 @@ RPCHelpMan transferfromaddresses()
             {"to_address",           RPCArg::Type::STR,  RPCArg::Optional::NO, "destination address"},
             {"message",              RPCArg::Type::STR,  RPCArg::Default{""},  "optional IPFS/txid message (RIP5)"},
             {"expire_time",          RPCArg::Type::NUM,  RPCArg::Default{0},   "UTC timestamp when message expires"},
-            {"mewc_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "MEWC change address"},
+            {"mewc_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "TLS change address"},
             {"asset_change_address", RPCArg::Type::STR,  RPCArg::Default{""},  "asset change address"},
         },
         RPCResult{RPCResult::Type::ARR, "", "list of transaction IDs",
@@ -574,7 +574,7 @@ RPCHelpMan transferfromaddresses()
             if (!IsValidDestinationString(toAddr))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid to_address: " + toAddr);
             if (!chgAddr.empty() && !IsValidDestinationString(chgAddr))
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid MEWC change address: " + chgAddr);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid TLS change address: " + chgAddr);
             if (!assetChg.empty() && !IsValidDestinationString(assetChg))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid asset change address: " + assetChg);
             if (!message.empty()) CheckIPFSOrTxidMessage(message, expireTime);
@@ -637,7 +637,7 @@ RPCHelpMan transferfromaddress()
             {"to_address",           RPCArg::Type::STR,  RPCArg::Optional::NO, "destination address"},
             {"message",              RPCArg::Type::STR,  RPCArg::Default{""},  "optional IPFS/txid message (RIP5)"},
             {"expire_time",          RPCArg::Type::NUM,  RPCArg::Default{0},   "UTC timestamp when message expires"},
-            {"mewc_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "MEWC change address"},
+            {"mewc_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "TLS change address"},
             {"asset_change_address", RPCArg::Type::STR,  RPCArg::Default{""},  "asset change address"},
         },
         RPCResult{RPCResult::Type::ARR, "", "list of transaction IDs",
@@ -669,7 +669,7 @@ RPCHelpMan transferfromaddress()
             if (!IsValidDestinationString(toAddr))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid to_address: " + toAddr);
             if (!chgAddr.empty() && !IsValidDestinationString(chgAddr))
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid MEWC change address: " + chgAddr);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid TLS change address: " + chgAddr);
             if (!assetChg.empty() && !IsValidDestinationString(assetChg))
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid asset change address: " + assetChg);
             if (!message.empty()) CheckIPFSOrTxidMessage(message, expireTime);
@@ -804,7 +804,7 @@ RPCHelpMan reissue()
             {"asset_name",     RPCArg::Type::STR,  RPCArg::Optional::NO,   "name of asset to reissue"},
             {"qty",            RPCArg::Type::NUM,  RPCArg::Optional::NO,   "additional units to issue"},
             {"to_address",     RPCArg::Type::STR,  RPCArg::Optional::NO,   "address to receive reissued units"},
-            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for MEWC change"},
+            {"change_address", RPCArg::Type::STR,  RPCArg::Default{""}, "address for TLS change"},
             {"reissuable",     RPCArg::Type::BOOL, RPCArg::Default{true},  "allow further reissuance after this"},
             {"new_units",      RPCArg::Type::NUM,  RPCArg::Default{-1},    "new unit precision (-1 = unchanged)"},
             {"new_ipfs",       RPCArg::Type::STR,  RPCArg::Default{""}, "update IPFS/txid hash (empty = unchanged)"},
@@ -876,7 +876,7 @@ RPCHelpMan reissuerestrictedasset()
             {"to_address",      RPCArg::Type::STR,  RPCArg::Optional::NO,   "address to receive reissued units"},
             {"change_verifier", RPCArg::Type::BOOL, RPCArg::Default{false}, "whether to update the verifier string"},
             {"new_verifier",    RPCArg::Type::STR,  RPCArg::Default{""}, "new verifier string (if change_verifier=true)"},
-            {"change_address",  RPCArg::Type::STR,  RPCArg::Default{""}, "address for MEWC change; generated if empty"},
+            {"change_address",  RPCArg::Type::STR,  RPCArg::Default{""}, "address for TLS change; generated if empty"},
             {"new_units",       RPCArg::Type::NUM,  RPCArg::Default{-1},    "new unit precision (-1 = unchanged)"},
             {"reissuable",      RPCArg::Type::BOOL, RPCArg::Default{true},  "allow further reissuance"},
             {"new_ipfs",        RPCArg::Type::STR,  RPCArg::Default{""}, "update IPFS/txid hash"},

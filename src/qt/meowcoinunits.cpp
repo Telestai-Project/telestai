@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2021 The Meowcoin Core developers
+// Copyright (c) 2024-2026 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,20 +22,20 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnit> unitlist;
-    unitlist.append(Unit::MEWC);
-    unitlist.append(Unit::mMEWC);
-    unitlist.append(Unit::uMEWC);
-    unitlist.append(Unit::MEW);
+    unitlist.append(Unit::TLS);
+    unitlist.append(Unit::mTLS);
+    unitlist.append(Unit::uTLS);
+    unitlist.append(Unit::sat);
     return unitlist;
 }
 
 QString BitcoinUnits::longName(Unit unit)
 {
     switch (unit) {
-    case Unit::MEWC: return QString("MEWC");
-    case Unit::mMEWC: return QString("mMEWC");
-    case Unit::uMEWC: return QString::fromUtf8("µMEWC (paw)");
-    case Unit::MEW: return QString("Mew (mewc)");
+    case Unit::TLS: return QString("TLS");
+    case Unit::mTLS: return QString("mTLS");
+    case Unit::uTLS: return QString::fromUtf8("µTLS");
+    case Unit::sat: return QString("sat");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -42,10 +43,10 @@ QString BitcoinUnits::longName(Unit unit)
 QString BitcoinUnits::shortName(Unit unit)
 {
     switch (unit) {
-    case Unit::MEWC: return longName(unit);
-    case Unit::mMEWC: return longName(unit);
-    case Unit::uMEWC: return QString("paw");
-    case Unit::MEW: return QString("mewc");
+    case Unit::TLS: return longName(unit);
+    case Unit::mTLS: return longName(unit);
+    case Unit::uTLS: return QString::fromUtf8("µTLS");
+    case Unit::sat: return QString("sat");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -53,10 +54,10 @@ QString BitcoinUnits::shortName(Unit unit)
 QString BitcoinUnits::description(Unit unit)
 {
     switch (unit) {
-    case Unit::MEWC: return QString("Mewcoins");
-    case Unit::mMEWC: return QString("Milli-Mewcoins (1 / 1" THIN_SP_UTF8 "000)");
-    case Unit::uMEWC: return QString("Micro-Mewcoins (paw) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-    case Unit::MEW: return QString("Mew (mewc) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case Unit::TLS: return QString("Telestais");
+    case Unit::mTLS: return QString("Milli-Telestais (1 / 1" THIN_SP_UTF8 "000)");
+    case Unit::uTLS: return QString("Micro-Telestais (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case Unit::sat: return QString("sat (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -64,10 +65,10 @@ QString BitcoinUnits::description(Unit unit)
 qint64 BitcoinUnits::factor(Unit unit)
 {
     switch (unit) {
-    case Unit::MEWC: return 100'000'000;
-    case Unit::mMEWC: return 100'000;
-    case Unit::uMEWC: return 100;
-    case Unit::MEW: return 1;
+    case Unit::TLS: return 100'000'000;
+    case Unit::mTLS: return 100'000;
+    case Unit::uTLS: return 100;
+    case Unit::sat: return 1;
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -75,10 +76,10 @@ qint64 BitcoinUnits::factor(Unit unit)
 int BitcoinUnits::decimals(Unit unit)
 {
     switch (unit) {
-    case Unit::MEWC: return 8;
-    case Unit::mMEWC: return 5;
-    case Unit::uMEWC: return 2;
-    case Unit::MEW: return 0;
+    case Unit::TLS: return 8;
+    case Unit::mTLS: return 5;
+    case Unit::uTLS: return 2;
+    case Unit::sat: return 0;
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -232,10 +233,10 @@ namespace {
 qint8 ToQint8(BitcoinUnit unit)
 {
     switch (unit) {
-    case BitcoinUnit::MEWC: return 0;
-    case BitcoinUnit::mMEWC: return 1;
-    case BitcoinUnit::uMEWC: return 2;
-    case BitcoinUnit::MEW: return 3;
+    case BitcoinUnit::TLS: return 0;
+    case BitcoinUnit::mTLS: return 1;
+    case BitcoinUnit::uTLS: return 2;
+    case BitcoinUnit::sat: return 3;
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }
@@ -243,10 +244,10 @@ qint8 ToQint8(BitcoinUnit unit)
 BitcoinUnit FromQint8(qint8 num)
 {
     switch (num) {
-    case 0: return BitcoinUnit::MEWC;
-    case 1: return BitcoinUnit::mMEWC;
-    case 2: return BitcoinUnit::uMEWC;
-    case 3: return BitcoinUnit::MEW;
+    case 0: return BitcoinUnit::TLS;
+    case 1: return BitcoinUnit::mTLS;
+    case 2: return BitcoinUnit::uTLS;
+    case 3: return BitcoinUnit::sat;
     }
     assert(false);
 }

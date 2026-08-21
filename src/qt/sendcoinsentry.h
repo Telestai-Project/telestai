@@ -21,7 +21,7 @@ namespace Ui {
 }
 
 /**
- * A single entry in the dialog for sending meowcoins.
+ * A single entry in the dialog for sending TLS.
  */
 class SendCoinsEntry : public QWidget
 {

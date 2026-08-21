@@ -26,7 +26,7 @@ QT_BEGIN_NAMESPACE
 class QModelIndex;
 QT_END_NAMESPACE
 
-/** Dialog for requesting payment of meowcoins */
+/** Dialog for requesting payment of TLS */
 class ReceiveCoinsDialog : public QDialog
 {
     Q_OBJECT

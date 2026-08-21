@@ -259,14 +259,14 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(overviewAction);
 
     sendCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/send"), tr("&Send"), this);
-    sendCoinsAction->setStatusTip(tr("Send coins to a Meowcoin address"));
+    sendCoinsAction->setStatusTip(tr("Send coins to a Telestai address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(QStringLiteral("Alt+2")));
     tabGroup->addAction(sendCoinsAction);
 
     receiveCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
-    receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and meowcoin: URIs)"));
+    receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and telestai: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
     receiveCoinsAction->setShortcut(QKeySequence(QStringLiteral("Alt+3")));
@@ -280,7 +280,7 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(historyAction);
 
     transferAssetAction = new QAction(platformStyle->SingleColorIcon(":/icons/asset_transfer"), tr("&Transfer Assets"), this);
-    transferAssetAction->setStatusTip(tr("Transfer assets to Meowcoin addresses"));
+    transferAssetAction->setStatusTip(tr("Transfer assets to Telestai addresses"));
     transferAssetAction->setShortcut(QKeySequence(QStringLiteral("Alt+5")));
 
     createAssetAction = new QAction(platformStyle->SingleColorIcon(":/icons/asset_create"), tr("&Create Assets"), this);
@@ -340,13 +340,13 @@ void BitcoinGUI::createActions()
     changePassphraseAction = new QAction(tr("&Change Passphrase…"), this);
     changePassphraseAction->setStatusTip(tr("Change the passphrase used for wallet encryption"));
     signMessageAction = new QAction(tr("Sign &message…"), this);
-    signMessageAction->setStatusTip(tr("Sign messages with your Meowcoin addresses to prove you own them"));
+    signMessageAction->setStatusTip(tr("Sign messages with your Telestai addresses to prove you own them"));
     verifyMessageAction = new QAction(tr("&Verify message…"), this);
-    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Meowcoin addresses"));
+    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Telestai addresses"));
     m_load_psmt_action = new QAction(tr("&Load PSMT from file…"), this);
-    m_load_psmt_action->setStatusTip(tr("Load Partially Signed Meowcoin Transaction"));
+    m_load_psmt_action->setStatusTip(tr("Load Partially Signed Telestai Transaction"));
     m_load_psmt_clipboard_action = new QAction(tr("Load PSMT from &clipboard…"), this);
-    m_load_psmt_clipboard_action->setStatusTip(tr("Load Partially Signed Meowcoin Transaction from clipboard"));
+    m_load_psmt_clipboard_action->setStatusTip(tr("Load Partially Signed Telestai Transaction from clipboard"));
 
     openRPCConsoleAction = new QAction(tr("Node window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open node debugging and diagnostic console"));
@@ -360,7 +360,7 @@ void BitcoinGUI::createActions()
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 
     openAction = new QAction(tr("Open &URI…"), this);
-    openAction->setStatusTip(tr("Open a meowcoin: URI"));
+    openAction->setStatusTip(tr("Open a telestai: URI"));
 
     m_open_wallet_action = new QAction(tr("Open Wallet"), this);
     m_open_wallet_action->setEnabled(false);
@@ -1107,7 +1107,7 @@ void BitcoinGUI::updateNetworkState()
 
     if (m_node.getNetworkActive()) {
         //: A substring of the tooltip.
-        tooltip = tr("%n active connection(s) to Meowcoin network.", "", count);
+        tooltip = tr("%n active connection(s) to Telestai network.", "", count);
     } else {
         //: A substring of the tooltip.
         tooltip = tr("Network activity disabled.");

@@ -59,7 +59,7 @@ SplashScreen::SplashScreen(const NetworkStyle* networkStyle)
 
     // --- Accent bar at the very top ---
     QLinearGradient accentGrad(0, 0, w, 0);
-    accentGrad.setColorAt(0.0, QColor(194, 154, 76));  // Meowcoin gold
+    accentGrad.setColorAt(0.0, QColor(194, 154, 76));  // Telestai gold
     accentGrad.setColorAt(1.0, QColor(168, 128, 56));
     pixPaint.fillRect(QRect(0, 0, w, 4), accentGrad);
 

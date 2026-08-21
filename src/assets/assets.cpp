@@ -165,7 +165,7 @@ static const std::regex QUALIFIER_INDICATOR("^[#][A-Z0-9._]{3,}$"); // Starts wi
 static const std::regex SUB_QUALIFIER_INDICATOR("^#[A-Z0-9._]+\\/#[A-Z0-9._]+$"); // Starts with #
 static const std::regex RESTRICTED_INDICATOR("^[\\$][A-Z0-9._]{3,}$"); // Starts with $
 
-static const std::regex MEOWCOIN_NAMES("^RVN$|^MEWC$|^MEOWCOIN$|^#MEWC$|^#MEOWCOIN$");
+static const std::regex MEOWCOIN_NAMES("^RVN$|^MEWC$|^MEOWCOIN$|^TLS$|^TELESTAI$|^#MEWC$|^#MEOWCOIN$|^#TLS$|^#TELESTAI$");
 
 bool IsRootNameValid(const std::string& name)
 {

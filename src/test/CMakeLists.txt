@@ -88,7 +88,7 @@ add_executable(test_meowcoin
   sanity_tests.cpp
   scheduler_tests.cpp
   script_assets_tests.cpp
-  script_p2sh_tests.cpp
+  script_P2SH_tests.cpp
   script_parse_tests.cpp
   script_segwit_tests.cpp
   script_standard_tests.cpp

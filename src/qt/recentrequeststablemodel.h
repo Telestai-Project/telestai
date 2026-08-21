@@ -46,7 +46,7 @@ private:
     Qt::SortOrder order;
 };
 
-/** Model for list of recently generated payment requests / meowcoin: URIs.
+/** Model for list of recently generated payment requests / telestai: URIs.
  * Part of wallet model.
  */
 class RecentRequestsTableModel: public QAbstractTableModel

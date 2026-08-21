@@ -1,4 +1,4 @@
-This directory contains the source code for the Meowcoin Core graphical user interface (GUI). It uses the [Qt](https://www1.qt.io/developers/) cross-platform framework.
+This directory contains the source code for the Telestai Core graphical user interface (GUI). It uses the [Qt](https://www1.qt.io/developers/) cross-platform framework.
 
 The current precise version for Qt is specified in [qt_details.mk](/depends/packages/qt_details.mk).
 
@@ -34,7 +34,7 @@ To run:
 
 #### meowcoingui.(h/cpp)
 
-- Represents the main window of the Meowcoin UI.
+- Represents the main window of the Telestai UI.
 
 #### \*model.(h/cpp)
 
@@ -51,7 +51,7 @@ To run:
 
 #### paymentserver.(h/cpp)
 
-- (Deprecated) Used to process BIP21 payment URI requests. Also handles URI-based application switching (e.g. when following a meowcoin:... link from a browser).
+- (Deprecated) Used to process BIP21 payment URI requests. Also handles URI-based application switching (e.g. when following a telestai:... link from a browser).
 
 #### walletview.(h/cpp)
 
@@ -61,7 +61,7 @@ To run:
 
 * UI elements like BitcoinAmountField, which inherit from QWidget.
 * `meowcoinstrings.cpp`: automatically generated
-* `meowcoinunits.(h/cpp)`: MEWC / mMEWC / etc. handling
+* `meowcoinunits.(h/cpp)`: TLS / mTLS / etc. handling
 * `callback.h`
 * `guiconstants.h`: UI colors, app name, etc.
 * `guiutil.h`: several helper functions
@@ -121,4 +121,4 @@ sudo apt-get install qtcreator
 
 8. While in the `Projects` tab, ensure that you have the `meowcoin-qt` executable specified under `Run`
  - If the executable is not specified: click `"Choose..."`, navigate to `build/bin`, and select `meowcoin-qt`
-9. You're all set! Start developing, building, and debugging the Meowcoin Core GUI
+9. You're all set! Start developing, building, and debugging the Telestai Core GUI

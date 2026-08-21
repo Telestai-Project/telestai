@@ -116,10 +116,10 @@ static std::string DummyAddress(const CChainParams &params)
     case ChainType::SIGNET:
     case ChainType::TESTNET:
     case ChainType::TESTNET4:
-        addr = "mMEWCtestXXXXXXXXXXXXXXXXXXXXXXXXX";
+        addr = "mTLStestXXXXXXXXXXXXXXXXXXXXXXXXX";
         break;
     case ChainType::REGTEST:
-        addr = "mMEWCregtXXXXXXXXXXXXXXXXXXXXXXXXX";
+        addr = "mTLSregtXXXXXXXXXXXXXXXXXXXXXXXXX";
         break;
     } // no default case, so the compiler can warn about missing cases
     assert(!addr.empty());
@@ -135,7 +135,7 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
     widget->setFont(fixedPitchFont());
     // We don't want translators to use own addresses in translations
     // and this is the only place, where this address is supplied.
-    widget->setPlaceholderText(QObject::tr("Enter a Meowcoin address (e.g. %1)").arg(
+    widget->setPlaceholderText(QObject::tr("Enter a Telestai address (e.g. %1)").arg(
         QString::fromStdString(DummyAddress(Params()))));
     widget->setValidator(new BitcoinAddressEntryValidator(parent));
     widget->setCheckValidator(new BitcoinAddressCheckValidator(parent));
@@ -148,8 +148,8 @@ void AddButtonShortcut(QAbstractButton* button, const QKeySequence& shortcut)
 
 bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
-    // return if URI is not valid or is no meowcoin: URI
-    if(!uri.isValid() || uri.scheme() != QString("meowcoin"))
+    // return if URI is not valid or is no telestai: URI
+    if(!uri.isValid() || uri.scheme() != QString("telestai"))
         return false;
 
     SendCoinsRecipient rv;
@@ -185,7 +185,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if (!BitcoinUnits::parse(BitcoinUnit::MEWC, i->second, &rv.amount)) {
+                if (!BitcoinUnits::parse(BitcoinUnit::TLS, i->second, &rv.amount)) {
                     return false;
                 }
             }
@@ -212,12 +212,12 @@ QString formatBitcoinURI(const SendCoinsRecipient &info)
 {
     bool bech_32 = info.address.startsWith(QString::fromStdString(Params().Bech32HRP() + "1"));
 
-    QString ret = QString("meowcoin:%1").arg(bech_32 ? info.address.toUpper() : info.address);
+    QString ret = QString("telestai:%1").arg(bech_32 ? info.address.toUpper() : info.address);
     int paramCount = 0;
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnit::MEWC, info.amount, false, BitcoinUnits::SeparatorStyle::NEVER));
+        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnit::TLS, info.amount, false, BitcoinUnits::SeparatorStyle::NEVER));
         paramCount++;
     }
 
@@ -454,7 +454,7 @@ bool openBitcoinConf()
 
     configFile.close();
 
-    /* Open meowcoin.conf with the associated application */
+    /* Open telestai.conf with the associated application */
     bool res = QDesktopServices::openUrl(QUrl::fromLocalFile(PathToQString(pathConfig)));
 #ifdef Q_OS_MACOS
     // Workaround for macOS-specific behavior; see #15409.
@@ -518,15 +518,15 @@ fs::path static StartupShortcutPath()
 {
     ChainType chain = gArgs.GetChainType();
     if (chain == ChainType::MAIN)
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Meowcoin.lnk";
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Telestai.lnk";
     if (chain == ChainType::TESTNET) // Remove this special case when testnet CBaseChainParams::DataDir() is incremented to "testnet4"
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Meowcoin (testnet).lnk";
-    return GetSpecialFolderPath(CSIDL_STARTUP) / fs::u8path(strprintf("Meowcoin (%s).lnk", ChainTypeToString(chain)));
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Telestai (testnet).lnk";
+    return GetSpecialFolderPath(CSIDL_STARTUP) / fs::u8path(strprintf("Telestai (%s).lnk", ChainTypeToString(chain)));
 }
 
 bool GetStartOnSystemStartup()
 {
-    // check for Meowcoin*.lnk
+    // check for Telestai*.lnk
     return fs::exists(StartupShortcutPath());
 }
 
@@ -601,8 +601,8 @@ fs::path static GetAutostartFilePath()
 {
     ChainType chain = gArgs.GetChainType();
     if (chain == ChainType::MAIN)
-        return GetAutostartDir() / "meowcoin.desktop";
-    return GetAutostartDir() / fs::u8path(strprintf("meowcoin-%s.desktop", ChainTypeToString(chain)));
+        return GetAutostartDir() / "telestai.desktop";
+    return GetAutostartDir() / fs::u8path(strprintf("telestai-%s.desktop", ChainTypeToString(chain)));
 }
 
 bool GetStartOnSystemStartup()
@@ -643,13 +643,13 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         if (!optionFile.good())
             return false;
         ChainType chain = gArgs.GetChainType();
-        // Write a meowcoin.desktop file to the autostart directory:
+        // Write a telestai.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
         if (chain == ChainType::MAIN)
-            optionFile << "Name=Meowcoin\n";
+            optionFile << "Name=Telestai\n";
         else
-            optionFile << strprintf("Name=Meowcoin (%s)\n", ChainTypeToString(chain));
+            optionFile << strprintf("Name=Telestai (%s)\n", ChainTypeToString(chain));
         optionFile << "Exec=" << pszExePath << strprintf(" -min -chain=%s\n", ChainTypeToString(chain));
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";

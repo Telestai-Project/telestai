@@ -16,7 +16,7 @@
 #include <type_traits>
 
 const std::string CURRENCY_UNIT = "TLS"; // One formatted unit
-const std::string CURRENCY_ATOM = "mewc"; // One indivisible minimum value unit
+const std::string CURRENCY_ATOM = "sat"; // One indivisible minimum value unit
 
 /* Used to determine type of fee estimation requested */
 enum class FeeEstimateMode {
@@ -24,7 +24,7 @@ enum class FeeEstimateMode {
     ECONOMICAL,   //!< Force estimateSmartFee to use non-conservative estimates
     CONSERVATIVE, //!< Force estimateSmartFee to use conservative estimates
     BTC_KVB,      //!< Use TLS/kvB fee rate unit
-    SAT_VB,       //!< Use mewc/vB fee rate unit
+    SAT_VB,       //!< Use sat/vB fee rate unit
 };
 
 /**

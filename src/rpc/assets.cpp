@@ -529,7 +529,7 @@ static RPCHelpMan getansdata()
 {
     return RPCHelpMan{
         "getansdata",
-        "Returns ANS (Meowcoin Name System) data for an asset if it has an ANS record.\n",
+        "Returns ANS (Telestai Name System) data for an asset if it has an ANS record.\n",
         {
             {"asset_name", RPCArg::Type::STR, RPCArg::Optional::NO, "the name of the asset"},
         },
@@ -933,7 +933,7 @@ static RPCHelpMan ansencode()
 {
     return RPCHelpMan{
         "ansencode",
-        "Encodes type and data into an ANS (Meowcoin Name System) ID string.\n",
+        "Encodes type and data into an ANS (Telestai Name System) ID string.\n",
         {
             {"type", RPCArg::Type::STR, RPCArg::Optional::NO, "the ANS type: \"ADDR\" or \"IP\""},
             {"data", RPCArg::Type::STR, RPCArg::Optional::NO, "the data for the ANS record (Telestai address or IP address)"},
@@ -973,7 +973,7 @@ static RPCHelpMan ansdecode()
 {
     return RPCHelpMan{
         "ansdecode",
-        "Decodes an ANS (Meowcoin Name System) ID string and returns its components.\n",
+        "Decodes an ANS (Telestai Name System) ID string and returns its components.\n",
         {
             {"ans_id", RPCArg::Type::STR, RPCArg::Optional::NO, "the ANS ID string to decode"},
         },

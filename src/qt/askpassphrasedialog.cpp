@@ -114,7 +114,7 @@ void AskPassphraseDialog::accept()
             if(newpass1 == newpass2)
             {
                 QString encryption_reminder = tr("Remember that encrypting your wallet cannot fully protect "
-                "your meowcoins from being stolen by malware infecting your computer.");
+                "your TLS from being stolen by malware infecting your computer.");
                 if (m_passphrase_out) {
                     m_passphrase_out->assign(newpass1);
                     QMessageBox msgBoxWarning(QMessageBox::Warning,

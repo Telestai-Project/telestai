@@ -1409,7 +1409,7 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
     const ArgsManager& args = *Assert(node.args);
     const CChainParams& chainparams = Params();
 
-    // Meowcoin: wire PoW activation timestamps into block-header globals
+    // Telestai: wire PoW activation timestamps into block-header globals
     nKAWPOWActivationTime  = chainparams.KAWPOWActivationTime();
     nMEOWPOWActivationTime = chainparams.MEOWPOWActivationTime();
 

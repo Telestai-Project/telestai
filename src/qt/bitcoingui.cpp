@@ -280,7 +280,7 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(historyAction);
 
     transferAssetAction = new QAction(platformStyle->SingleColorIcon(":/icons/asset_transfer"), tr("&Transfer Assets"), this);
-    transferAssetAction->setStatusTip(tr("Transfer assets to Meowcoin addresses"));
+    transferAssetAction->setStatusTip(tr("Transfer assets to Telestai addresses"));
     transferAssetAction->setToolTip(transferAssetAction->statusTip());
     transferAssetAction->setShortcut(QKeySequence(QStringLiteral("Alt+5")));
 

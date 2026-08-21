@@ -333,7 +333,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 MEWC</string>
+                  <string notr="true">0.00 TLS</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -413,7 +413,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 MEWC</string>
+                  <string notr="true">0.00 TLS</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -464,7 +464,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 MEWC</string>
+                  <string notr="true">0.00 TLS</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -493,7 +493,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 MEWC</string>
+                  <string notr="true">0.00 TLS</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -686,7 +686,7 @@
              <string/>
             </property>
             <property name="placeholderText">
-             <string>Legacy (P2PKH) Meowcoin address that will hold this asset (you must own it). SegWit/bech32 are not valid for assets. Leave blank to create a new address.</string>
+             <string>Legacy (P2PKH) Telestai address that will hold this asset (you must own it). SegWit/bech32 are not valid for assets. Leave blank to create a new address.</string>
             </property>
            </widget>
           </item>
@@ -841,10 +841,10 @@
           <item>
            <widget class="QCheckBox" name="ansBox">
             <property name="toolTip">
-             <string>Enable Meowcoin Name System for this asset</string>
+             <string>Enable Telestai Name System for this asset</string>
             </property>
             <property name="text">
-             <string>Attach Meowcoin Name System ID</string>
+             <string>Attach Telestai Name System ID</string>
             </property>
            </widget>
           </item>
@@ -1138,7 +1138,7 @@
                  <item>
                   <widget class="QCheckBox" name="checkBoxMinimumFee">
                    <property name="toolTip">
-                    <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for meowcoin transactions than the network can process.</string>
+                    <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for Telestai transactions than the network can process.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -1151,7 +1151,7 @@
                     <bool>true</bool>
                    </property>
                    <property name="toolTip">
-                    <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for meowcoin transactions than the network can process.</string>
+                    <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for Telestai transactions than the network can process.</string>
                    </property>
                    <property name="text">
                     <string>(read the tooltip)</string>
@@ -1467,7 +1467,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>123.456 MEWC</string>
+          <string>123.456 TLS</string>
          </property>
         </widget>
        </item>

@@ -90,7 +90,7 @@ void SendCoinsEntry::clear()
     ui->messageTextLabel->hide();
     ui->messageLabel->hide();
 
-    // update the display unit, to not use the default ("MEWC")
+    // update the display unit, to not use the default ("TLS")
     updateDisplayUnit();
 }
 

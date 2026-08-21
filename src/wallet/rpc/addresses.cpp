@@ -24,7 +24,7 @@ RPCHelpMan getnewaddress()
 {
     return RPCHelpMan{
         "getnewaddress",
-        "Returns a new Meowcoin address for receiving payments.\n"
+        "Returns a new Telestai address for receiving payments.\n"
                 "If 'label' is specified, it is added to the address book \n"
                 "so payments received with the address will be associated with 'label'.\n",
                 {
@@ -83,7 +83,7 @@ RPCHelpMan getrawchangeaddress()
 {
     return RPCHelpMan{
         "getrawchangeaddress",
-        "Returns a new Meowcoin address, for receiving change.\n"
+        "Returns a new Telestai address, for receiving change.\n"
                 "This is for use with raw transactions, NOT normal use.\n",
                 {
                     {"address_type", RPCArg::Type::STR, RPCArg::DefaultHint{"set by -changetype"}, "The address type to use. Options are " + FormatAllOutputTypes() + "."},

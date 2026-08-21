@@ -140,7 +140,7 @@ static RPCHelpMan getaddressmempool()
                 {RPCResult::Type::OBJ, "", "",
                     {
                         {RPCResult::Type::STR, "address", "The base58check encoded address"},
-                        {RPCResult::Type::STR, "assetName", "The asset name (MEWC for native coin)"},
+                        {RPCResult::Type::STR, "assetName", "The asset name (TLS for native coin)"},
                         {RPCResult::Type::STR_HEX, "txid", "The related txid"},
                         {RPCResult::Type::NUM, "index", "The related input or output index"},
                         {RPCResult::Type::NUM, "satoshis", "The difference of satoshis"},
@@ -174,7 +174,7 @@ static RPCHelpMan getaddressmempool()
             if (includeAssets) {
                 mempool.getAddressIndex(addresses, indexes);
             } else {
-                mempool.getAddressIndex(addresses, MEWC, indexes);
+                mempool.getAddressIndex(addresses, TLS, indexes);
             }
             std::sort(indexes.begin(), indexes.end(), timestampSort);
 
@@ -548,7 +548,7 @@ static RPCHelpMan getaddressbalance()
             } else {
                 std::vector<std::pair<CAddressIndexKey, CAmount>> addressIndex;
                 for (const auto& [addrHash, addrType] : addresses) {
-                    if (!g_addressindex->ReadAddressIndex(addrHash, addrType, MEWC, addressIndex))
+                    if (!g_addressindex->ReadAddressIndex(addrHash, addrType, TLS, addressIndex))
                         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
                 }
 
@@ -638,10 +638,10 @@ static RPCHelpMan getaddresstxids()
                     }
                 } else {
                     if (start > 0 && end > 0) {
-                        if (!g_addressindex->ReadAddressIndex(addrHash, addrType, MEWC, addressIndex, start, end))
+                        if (!g_addressindex->ReadAddressIndex(addrHash, addrType, TLS, addressIndex, start, end))
                             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
                     } else {
-                        if (!g_addressindex->ReadAddressIndex(addrHash, addrType, MEWC, addressIndex))
+                        if (!g_addressindex->ReadAddressIndex(addrHash, addrType, TLS, addressIndex))
                             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
                     }
                 }

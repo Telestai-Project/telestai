@@ -27,7 +27,7 @@ class UniValue;
 #define MEWC_O 111
 
 /** Native coin ticker for RPC, indexes, and rewards (not an issued asset name). */
-inline const std::string NATIVE_ASSET_TICKER{"MEWC"};
+inline const std::string NATIVE_ASSET_TICKER{"TLS"};
 
 #define DEFAULT_UNITS 0
 #define DEFAULT_REISSUABLE 1

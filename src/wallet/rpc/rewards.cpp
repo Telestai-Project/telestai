@@ -43,7 +43,7 @@ RPCHelpMan distributereward()
         {
             {"asset_name", RPCArg::Type::STR, RPCArg::Optional::NO, "the reward will be distributed to all owners of this asset"},
             {"snapshot_height", RPCArg::Type::NUM, RPCArg::Optional::NO, "the block height of the ownership snapshot"},
-            {"distribution_asset_name", RPCArg::Type::STR, RPCArg::Optional::NO, "the name of the asset that will be distributed, or MEWC"},
+            {"distribution_asset_name", RPCArg::Type::STR, RPCArg::Optional::NO, "the name of the asset that will be distributed, or TLS"},
             {"gross_distribution_amount", RPCArg::Type::NUM, RPCArg::Optional::NO, "the amount of the distribution asset that will be split amongst all owners"},
             {"exception_addresses", RPCArg::Type::STR, RPCArg::Default{""}, "comma-separated list of ownership addresses that should be excluded"},
             {"change_address", RPCArg::Type::STR, RPCArg::Default{""}, "if the rewards can't be fully distributed, the change will be sent to this address"},
@@ -55,7 +55,7 @@ RPCHelpMan distributereward()
             }
         },
         RPCExamples{
-            HelpExampleCli("distributereward", "\"ASSET_NAME\" 12345 \"MEWC\" 1000")
+            HelpExampleCli("distributereward", "\"ASSET_NAME\" 12345 \"TLS\" 1000")
           + HelpExampleCli("distributereward", "\"ASSET_NAME\" 12345 \"DIVIDENDS\" 1000 \"addr1,addr2\"")
           + HelpExampleRpc("distributereward", "\"ASSET_NAME\", 34987, \"DIVIDENDS\", 100000")
         },
@@ -79,7 +79,7 @@ RPCHelpMan distributereward()
             if (!request.params[5].isNull()) {
                 change_address = request.params[5].get_str();
                 if (!change_address.empty() && !IsValidDestinationString(change_address))
-                    throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid change address: Use a valid MEWC address"));
+                    throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid change address: Use a valid TLS address"));
             }
 
             AssetType ownershipAssetType;
@@ -157,7 +157,7 @@ RPCHelpMan distributereward()
                 size_t batchEnd = std::min(i + MAX_PAYMENTS_PER_TRANSACTION, vecDistributionList.size());
 
                 if (isMEWC) {
-                    // MEWC distribution: use standard SendMoney
+                    // TLS distribution: use standard SendMoney
                     std::vector<CRecipient> recipients;
                     for (size_t j = i; j < batchEnd; j++) {
                         CTxDestination dest = DecodeDestination(vecDistributionList[j].address);

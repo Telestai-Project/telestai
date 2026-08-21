@@ -125,7 +125,7 @@ public:
 
             const QFontMetrics fm(fontMetrics());
             int h = lineEdit()->minimumSizeHint().height();
-            int w = GUIUtil::TextWidth(fm, BitcoinUnits::format(BitcoinUnit::MEWC, BitcoinUnits::maxMoney(), false, BitcoinUnits::SeparatorStyle::ALWAYS));
+            int w = GUIUtil::TextWidth(fm, BitcoinUnits::format(BitcoinUnit::TLS, BitcoinUnits::maxMoney(), false, BitcoinUnits::SeparatorStyle::ALWAYS));
             w += 2; // cursor blinking space
 
             QStyleOptionSpinBox opt;
@@ -150,7 +150,7 @@ public:
     }
 
 private:
-    BitcoinUnit currentUnit{BitcoinUnit::MEWC};
+    BitcoinUnit currentUnit{BitcoinUnit::TLS};
     CAmount singleStep{CAmount(100000)}; // satoshis
     mutable QSize cachedMinimumSizeHint;
     bool m_allow_empty{true};
@@ -361,7 +361,7 @@ AssetAmountField::AssetAmountField(QWidget *parent)
     setFocusPolicy(Qt::TabFocus);
     setFocusProxy(amount);
 
-    amount->setDisplayUnit(BitcoinUnit::MEWC);
+    amount->setDisplayUnit(BitcoinUnit::TLS);
 
     connect(amount, &AmountSpinBox::valueChanged, this, &AssetAmountField::valueChanged);
 }
@@ -379,7 +379,7 @@ void AssetAmountField::setValue(const CAmount& value)
 void AssetAmountField::setUnit(int unit)
 {
     assetUnit = unit;
-    amount->setDisplayUnit(BitcoinUnit::MEWC);
+    amount->setDisplayUnit(BitcoinUnit::TLS);
 }
 
 void AssetAmountField::setMaxAmount(CAmount maxAmount)

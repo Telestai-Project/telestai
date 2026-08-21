@@ -13,7 +13,8 @@
 #include <serialize.h>
 #include <uint256.h>
 
-static const std::string MEWC = "MEWC";
+// Native coin ticker (matches NATIVE_ASSET_TICKER / CURRENCY_UNIT)
+static const std::string MEWC = "TLS";
 
 struct CAddressUnspentKey {
     unsigned int type;

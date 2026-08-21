@@ -955,7 +955,7 @@ void ReissueAssetDialog::onReissueAssetClicked()
         ansDecoded = ansID.to_string();
 
         // Warn user
-        QMessageBox::critical(this, "ANS Warning", tr("Storing data using the Meowcoin Name System will forever stay in the blockchain. You can edit the ANS ID only if the asset is reissueable.") + QString("\n\nANS ID: ") + QString::fromStdString(ansDecoded), QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::critical(this, "ANS Warning", tr("Storing data using the Telestai Name System will forever stay in the blockchain. You can edit the ANS ID only if the asset is reissueable.") + QString("\n\nANS ID: ") + QString::fromStdString(ansDecoded), QMessageBox::Ok, QMessageBox::Ok);
     }
 
     CReissueAsset reissueAsset(name.toStdString(), quantity, unit, reissuable ? 1 : 0, ipfsDecoded, ansDecoded);
@@ -996,7 +996,7 @@ void ReissueAssetDialog::onReissueAssetClicked()
     QStringList formatted;
 
     // generate bold amount string
-    QString burnAmt = "<b>" + QString::fromStdString(FormatMoney(GetReissueAssetBurnAmount())) + " MEWC";
+    QString burnAmt = "<b>" + QString::fromStdString(FormatMoney(GetReissueAssetBurnAmount())) + " TLS";
     burnAmt.append("</b>");
     // generate monospace address string
     QString addressburn = "<span style='font-family: monospace;'>" + QString::fromStdString(GetBurnAddress(AssetType::REISSUE));

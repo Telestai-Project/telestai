@@ -101,15 +101,15 @@ UniValue NormalizeOutputs(const UniValue& outputs_in)
 
 std::vector<std::pair<CTxDestination, CAmount>> ParseOutputs(const UniValue& outputs)
 {
-    // Track MEWC and asset-transfer destinations separately so the same address
-    // may appear once as a MEWC payment AND once as an asset transfer.
+    // Track TLS and asset-transfer destinations separately so the same address
+    // may appear once as a TLS payment AND once as an asset transfer.
     std::set<CTxDestination> mewc_destinations;
     std::set<CTxDestination> asset_destinations;
     std::vector<std::pair<CTxDestination, CAmount>> parsed_outputs;
     bool has_data{false};
 
     // Iterate positionally: outputs[name_] always returns the FIRST matching key,
-    // which breaks duplicate-key entries (e.g. one MEWC + one asset to the same
+    // which breaks duplicate-key entries (e.g. one TLS + one asset to the same
     // address).  Using getValues()[i] gives the correct value for each entry.
     const auto& keys = outputs.getKeys();
     const auto& values = outputs.getValues();

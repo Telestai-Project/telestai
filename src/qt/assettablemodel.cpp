@@ -52,7 +52,7 @@ AssetTableDecorationCache g_assetTableDecos;
 
 } // namespace
 
-/** Get all asset balances for a wallet (native MEWC + issued assets).
+/** Get all asset balances for a wallet (native TLS + issued assets).
  *
  * Light-weight scan that only iterates asset UTXOs (via GetTXOs()),
  * skipping the expensive AvailableCoins() regular-coin scan and the

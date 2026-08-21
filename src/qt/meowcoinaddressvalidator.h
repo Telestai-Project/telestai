@@ -20,7 +20,7 @@ public:
     State validate(QString &input, int &pos) const override;
 };
 
-/** Meowcoin address widget validator, checks for a valid meowcoin address.
+/** Telestai address widget validator, checks for a valid meowcoin address.
  */
 class BitcoinAddressCheckValidator : public QValidator
 {

@@ -35,7 +35,7 @@ public:
 
     enum ColumnIndex {
         Label = 0,   /**< User specified label */
-        Address = 1  /**< Meowcoin address */
+        Address = 1  /**< Telestai address */
     };
 
     enum RoleIndex {

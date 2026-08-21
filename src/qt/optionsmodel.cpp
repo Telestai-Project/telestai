@@ -188,13 +188,13 @@ bool OptionsModel::Init(bilingual_str& error)
 
     // Display
     if (!settings.contains("DisplayBitcoinUnit")) {
-        settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(BitcoinUnit::MEWC));
+        settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(BitcoinUnit::TLS));
     }
     QVariant unit = settings.value("DisplayBitcoinUnit");
     if (unit.canConvert<BitcoinUnit>()) {
         m_display_meowcoin_unit = unit.value<BitcoinUnit>();
     } else {
-        m_display_meowcoin_unit = BitcoinUnit::MEWC;
+        m_display_meowcoin_unit = BitcoinUnit::TLS;
         settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(m_display_meowcoin_unit));
     }
 
