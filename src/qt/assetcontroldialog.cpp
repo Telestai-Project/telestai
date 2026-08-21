@@ -507,7 +507,7 @@ void AssetControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     }
 
     // actually update labels
-    BitcoinUnits::Unit nDisplayUnit = BitcoinUnits::Unit::BTC;
+    BitcoinUnits::Unit nDisplayUnit = BitcoinUnits::Unit::TLS;
     if (model && model->getOptionsModel())
         nDisplayUnit = model->getOptionsModel()->getDisplayUnit();
 
@@ -636,7 +636,7 @@ void AssetControlDialog::updateView()
                 if (GetAssetData(out->txout.scriptPubKey, data))
                     nSum += data.nAmount;
             }
-            itemWalletAddress->setText(COLUMN_AMOUNT, BitcoinUnits::format(BitcoinUnits::Unit::BTC, nSum));
+            itemWalletAddress->setText(COLUMN_AMOUNT, BitcoinUnits::format(BitcoinUnits::Unit::TLS, nSum));
             itemWalletAddress->setData(COLUMN_AMOUNT, Qt::UserRole, QVariant((qlonglong)nSum));
             itemWalletAddress->setText(COLUMN_ASSET_NAME, QString::fromStdString(strSelectedAsset));
         }
@@ -659,7 +659,7 @@ void AssetControlDialog::updateView()
             itemOutput->setText(COLUMN_ASSET_NAME, QString::fromStdString(strSelectedAsset));
 
             // Amount
-            itemOutput->setText(COLUMN_AMOUNT, BitcoinUnits::format(BitcoinUnits::Unit::BTC, assetData.nAmount));
+            itemOutput->setText(COLUMN_AMOUNT, BitcoinUnits::format(BitcoinUnits::Unit::TLS, assetData.nAmount));
             itemOutput->setData(COLUMN_AMOUNT, Qt::UserRole, QVariant((qlonglong)assetData.nAmount));
 
             // Address
