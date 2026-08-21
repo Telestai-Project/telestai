@@ -2,7 +2,7 @@
 
 ## Done in this session
 - Mainnet chainparams → Telestai identity (TELE magic, port 8767, prefixes, genesis, BIP44 10117, HRP `tls`)
-- Meraki activation at genesis+1 (Apex KAWPOW/MEOWPOW labels; Meraki ethash constants preserved)
+- Meraki activation at genesis+1 (Apex KawPoW/Meraki labels; Meraki ethash constants preserved)
 - AuxPoW start height INT_MAX on all nets (merge-mining out)
 - Block subsidy 468 TLS; development share 25% → `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe`
 - Asset fee destinations → same TesBmcg address (amounts unchanged, ADR 0002)

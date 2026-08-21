@@ -73,14 +73,14 @@ if(HAVE_ARM_SHANI)
 endif()
 
 # ---------------------------------------------------------------------------
-# Ethash / ProgPow / MeowPow library
+# Ethash / ProgPow / AltProgPow library
 # ---------------------------------------------------------------------------
 add_library(ethash STATIC EXCLUDE_FROM_ALL
   ethash/lib/ethash/ethash.cpp
   ethash/lib/ethash/managed.cpp
   ethash/lib/ethash/primes.c
   ethash/lib/ethash/progpow.cpp
-  ethash/lib/ethash/meowpow.cpp
+  ethash/lib/ethash/alt_progpow.cpp
   ethash/lib/keccak/keccak.c
   ethash/lib/keccak/keccakf800.c
   ethash/lib/keccak/keccakf1600.c

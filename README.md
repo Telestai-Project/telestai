@@ -15,7 +15,7 @@ Telestai is a practical, community-run blockchain focused on animal-welfare init
 
 ## Core traits
 
-* Dual-algorithm PoW: GPU-friendly **MeowPow** + **Scrypt via AuxPoW (merge mining at block 1614560)**
+* Dual-algorithm PoW: GPU-friendly **AltProgPow** + **Scrypt via AuxPoW (merge mining at block 1614560)**
 * Assets/tokens on the Telestai network
 * Fair launch (no premine); transparent developer fee funds development, infrastructure, and donations
 * Open source, MIT-licensed

@@ -73,10 +73,10 @@ using node::RegenerateCommitments;
 using node::UpdateTime;
 using util::ToString;
 
-// ─── Telestai multi-algo helpers (native PoW is Meraki; Apex enum remains MEOWPOW) ─
+// ─── Telestai multi-algo helpers (native PoW is Meraki / ProgPoW) ─
 
 /** Algorithm filter for RPCs that can return per-algo stats. */
-enum class AlgoFilter { Combined, MeowPOW, Scrypt };
+enum class AlgoFilter { Combined, Meraki, Scrypt };
 
 /** Parse an optional algo RPC parameter (numeric or string). */
 static AlgoFilter ParseAlgoFilter(const UniValue& v)
@@ -85,7 +85,7 @@ static AlgoFilter ParseAlgoFilter(const UniValue& v)
 
     if (v.isNum()) {
         int i = v.getInt<int>();
-        if (i == 0) return AlgoFilter::MeowPOW;
+        if (i == 0) return AlgoFilter::Meraki;
         if (i == 1) return AlgoFilter::Scrypt;
         throw JSONRPCError(RPC_INVALID_PARAMETER,
             "algo (numeric) must be 0 (meraki) or 1 (scrypt)");
@@ -96,13 +96,13 @@ static AlgoFilter ParseAlgoFilter(const UniValue& v)
         s.erase(0, s.find_first_not_of(" \t\r\n"));
         s.erase(s.find_last_not_of(" \t\r\n") + 1);
 
-        if (s == "0") return AlgoFilter::MeowPOW;
+        if (s == "0") return AlgoFilter::Meraki;
         if (s == "1") return AlgoFilter::Scrypt;
 
         std::transform(s.begin(), s.end(), s.begin(),
                        [](unsigned char c){ return std::tolower(c); });
         if (s == "meraki" || s == "kawpow" || s == "kaw" || s == "tls" ||
-            s == "meowpow" || s == "meow") return AlgoFilter::MeowPOW;
+            s == "meowpow" || s == "meow") return AlgoFilter::Meraki;
         if (s == "scrypt"  || s == "auxpow" || s == "mm") return AlgoFilter::Scrypt;
         if (s == "combined" || s == "all")  return AlgoFilter::Combined;
 
@@ -204,8 +204,8 @@ static RPCHelpMan getnetworkhashps()
     if (!request.params[2].isNull()) {
         algo = ParseAlgoFilter(request.params[2]);
     } else {
-        // Default: Scrypt when auxpow=1, MeowPOW otherwise.
-        algo = gArgs.GetBoolArg("-auxpow", false) ? AlgoFilter::Scrypt : AlgoFilter::MeowPOW;
+        // Default: Scrypt when auxpow=1, Meraki otherwise.
+        algo = gArgs.GetBoolArg("-auxpow", false) ? AlgoFilter::Scrypt : AlgoFilter::Meraki;
     }
 
     return GetNetworkHashPS(nblocks, height, chainman.ActiveChain(), algo);

@@ -43,5 +43,5 @@ Miner: https://github.com/Telestai-Project/tele-meraki-miner
 ## Explicit non-goals in port
 
 - AuxPoW / merge-mining (do not bring from Telestai)
-- Telestai MeowPow constants
+- Telestai AltProgPow constants
 - PQ / ML-DSA in first 3.0.0

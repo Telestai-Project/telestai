@@ -119,7 +119,7 @@ bool BlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, s
         if (pcursor->GetKey(key) && key.first == DB_BLOCK_INDEX) {
             CDiskBlockIndex diskindex;
             if (pcursor->GetValue(diskindex)) {
-                // A pre-fix node could index a native KAWPOW/MEOWPOW header
+                // A pre-fix node could index a native KawPoW/Meraki header
                 // whose serialized height did not match its chain position.
                 // The disk index stores the contextual height, so reconstructing
                 // the header must reproduce the hash used as the database key.
@@ -1032,8 +1032,8 @@ bool BlockManager::ReadBlock(CBlock& block, const FlatFilePos& pos, const std::o
     const auto block_hash{block.GetHash()};
 
     // Telestai: PoW verification removed from read path.
-    // Multi-algo PoW (X16R/KAWPOW/MEOWPOW/Scrypt) cannot be efficiently
-    // re-verified on every disk read, and KAWPOW/MEOWPOW require epoch
+    // Multi-algo PoW (X16R/KawPoW/Meraki/Scrypt) cannot be efficiently
+    // re-verified on every disk read, and KawPoW/Meraki require epoch
     // context.  PoW is validated when blocks are first accepted.
 
     // Signet only: check block solution (not used by Telestai)

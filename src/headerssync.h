@@ -18,7 +18,7 @@
 #include <vector>
 
 // A compressed CBlockHeader, which leaves out the prevhash.
-// Telestai extension: also stores KAWPOW/MEOWPOW fields and AuxPoW data,
+// Telestai extension: also stores KawPoW/Meraki fields and AuxPoW data,
 // which are required for full header validation after the presync stage.
 struct CompressedHeader {
     // Pure header fields (shared with Telestai)
@@ -28,7 +28,7 @@ struct CompressedHeader {
     uint32_t nBits{0};
     uint32_t nNonce{0};
 
-    // KAWPOW / MEOWPOW fields (post-activation)
+    // KawPoW / Meraki fields (post-activation)
     uint32_t nHeight{0};
     uint64_t nNonce64{0};
     uint256 mix_hash;

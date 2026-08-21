@@ -10,7 +10,7 @@
 /** Proof-of-work algorithm identifiers for Telestai's multi-algo mining. */
 enum class PowAlgo : uint8_t
 {
-    MEOWPOW = 0,   //!< Native PoW (KAWPOW → MEOWPOW lineage)
+    MERAKI = 0,    //!< Native PoW (Meraki / ProgPoW; KawPoW-family)
     SCRYPT  = 1,    //!< AuxPoW / merge-mined algo
     NUM_ALGOS
 };

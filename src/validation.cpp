@@ -4370,7 +4370,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& st
         return true;
     }
 
-    // ---- Meraki / ProgPoW path (post-activation; Apex labels KAWPOW/MEOWPOW) ----
+    // ---- Meraki / ProgPoW path (post-activation; Apex labels KawPoW/Meraki) ----
     if (block.nTime >= nKAWPOWActivationTime) {
         uint256 mix;
         uint256 hash = block.GetHashFull(mix);
@@ -4388,7 +4388,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& st
     }
 
     // ---- Pre-KAWPOW path (X16R / X16RV2) ----
-    if (!CheckProofOfWork(block.GetHash(), block.nBits, PowAlgo::MEOWPOW, consensusParams))
+    if (!CheckProofOfWork(block.GetHash(), block.nBits, PowAlgo::MERAKI, consensusParams))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER,
                              "high-hash", "proof of work failed");
 
@@ -4593,7 +4593,7 @@ bool HasValidProofOfWork(const std::vector<CBlockHeader>& headers, const Consens
                     return CheckProofOfWork(header.auxpow->getParentBlockHash(),
                                            header.nBits, PowAlgo::SCRYPT, consensusParams);
                 }
-                // KAWPOW/MEOWPOW/X16R/X16RV2: check header hash
+                // KawPoW/Meraki/X16R/X16RV2: check header hash
                 PowAlgo algo = header.nVersion.GetAlgo();
                 return CheckProofOfWork(header.GetHash(), header.nBits, algo, consensusParams);
             });

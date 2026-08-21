@@ -190,7 +190,7 @@ public:
     uint32_t nBits{0};
     uint32_t nNonce{0};
 
-    //! Telestai: KAWPOW/MEOWPOW header fields (needed to reconstruct GetHash()).
+    //! Telestai: KawPoW/Meraki header fields (needed to reconstruct GetHash()).
     //! nHeight (inherited from CBlockIndex) serves as the KAWPOW header height —
     //! they are always the same value for valid blocks.
     uint64_t nNonce64{0};
@@ -245,7 +245,7 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        // Telestai: KAWPOW/MEOWPOW fields
+        // Telestai: KawPoW/Meraki fields
         block.nHeight = nHeight;
         block.nNonce64 = nNonce64;
         block.mix_hash = mix_hash;
@@ -427,7 +427,7 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        // Telestai: KAWPOW/MEOWPOW fields needed for correct hash dispatch
+        // Telestai: KawPoW/Meraki fields needed for correct hash dispatch
         block.nHeight = nHeight;
         block.nNonce64 = nNonce64;
         block.mix_hash = mix_hash;

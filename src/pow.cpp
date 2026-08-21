@@ -26,7 +26,7 @@ static unsigned int DarkGravityWave(const CBlockIndex* pindexLast,
 {
     assert(pindexLast != nullptr);
 
-    const arith_uint256 bnPowLimit = UintToArith256(params.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MEOWPOW)]);
+    const arith_uint256 bnPowLimit = UintToArith256(params.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)]);
     unsigned int nProofOfWorkLimit = bnPowLimit.GetCompact();
     const int64_t nPastBlocks = 180; // ~3 hr
 
@@ -48,7 +48,7 @@ static unsigned int DarkGravityWave(const CBlockIndex* pindexLast,
     arith_uint256 bnPastTargetAvg;
 
     int nKAWPOWBlocksFound = 0;
-    int nMEOWPOWBlocksFound = 0;
+    int nAltProgPowBlocksFound = 0;
     for (int64_t nCountBlocks = 1; nCountBlocks <= nPastBlocks; nCountBlocks++) {
         arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
         if (nCountBlocks == 1) {
@@ -57,10 +57,10 @@ static unsigned int DarkGravityWave(const CBlockIndex* pindexLast,
             bnPastTargetAvg = (bnPastTargetAvg * nCountBlocks + bnTarget) / (nCountBlocks + 1);
         }
 
-        if (pindex->nTime >= nKAWPOWActivationTime && pindex->nTime < nMEOWPOWActivationTime)
+        if (pindex->nTime >= nKAWPOWActivationTime && pindex->nTime < nALT_PROGPOW_ACTIVATION_TIME)
             nKAWPOWBlocksFound++;
-        if (pindex->nTime >= nMEOWPOWActivationTime)
-            nMEOWPOWBlocksFound++;
+        if (pindex->nTime >= nALT_PROGPOW_ACTIVATION_TIME)
+            nAltProgPowBlocksFound++;
 
         if (nCountBlocks != nPastBlocks) {
             assert(pindex->pprev);
@@ -68,13 +68,13 @@ static unsigned int DarkGravityWave(const CBlockIndex* pindexLast,
         }
     }
 
-    if (pblock->nTime >= nKAWPOWActivationTime && pblock->nTime < nMEOWPOWActivationTime) {
+    if (pblock->nTime >= nKAWPOWActivationTime && pblock->nTime < nALT_PROGPOW_ACTIVATION_TIME) {
         if (nKAWPOWBlocksFound != nPastBlocks) {
             return bnPowLimit.GetCompact();
         }
     }
-    if (pblock->nTime >= nMEOWPOWActivationTime) {
-        if (nMEOWPOWBlocksFound != nPastBlocks) {
+    if (pblock->nTime >= nALT_PROGPOW_ACTIVATION_TIME) {
+        if (nAltProgPowBlocksFound != nPastBlocks) {
             return bnPowLimit.GetCompact();
         }
     }
@@ -142,7 +142,7 @@ static unsigned int GetNextWorkRequired_LWMA_MultiAlgo(
     {
         const CBlockIndex* bi = pindexLast->GetAncestor(h);
         if (!bi) break;
-        PowAlgo bialgo = bi->nVersion.IsAuxpow() ? PowAlgo::SCRYPT : PowAlgo::MEOWPOW;
+        PowAlgo bialgo = bi->nVersion.IsAuxpow() ? PowAlgo::SCRYPT : PowAlgo::MERAKI;
         if (bialgo == algo) sameAlgo.push_back(bi);
     }
 
@@ -198,7 +198,7 @@ static unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast,
                                            const Consensus::Params& params)
 {
     assert(pindexLast != nullptr);
-    unsigned int nProofOfWorkLimit = UintToArith256(params.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MEOWPOW)]).GetCompact();
+    unsigned int nProofOfWorkLimit = UintToArith256(params.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)]).GetCompact();
 
     if ((pindexLast->nHeight + 1) % params.DifficultyAdjustmentInterval() != 0) {
         if (params.fPowAllowMinDifficultyBlocks) {
@@ -261,7 +261,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast,
     if (nActualTimespan > params.nPowTargetTimespan * 4)
         nActualTimespan = params.nPowTargetTimespan * 4;
 
-    const arith_uint256 bnPowLimit = UintToArith256(params.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MEOWPOW)]);
+    const arith_uint256 bnPowLimit = UintToArith256(params.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)]);
     arith_uint256 bnNew;
     bnNew.SetCompact(pindexLast->nBits);
     bnNew *= nActualTimespan;

@@ -15,7 +15,7 @@ static const int PROTOCOL_VERSION = 70031;
 static const int INIT_PROTO_VERSION = 209;
 
 //! disconnect from peers older than this proto version
-//! Telestai: require at least MEOWPOW_VERSION (70030)
+//! Telestai: require at least MIN_TELESTAI_PEER_PROTO_VERSION (70030)
 static const int MIN_PEER_PROTO_VERSION = 70030;
 
 //! BIP 0031, pong message, is enabled for all versions AFTER this one
@@ -42,8 +42,8 @@ static const int X16RV2_VERSION = 70025;
 //! Telestai: KAWPOW activation protocol version
 static const int KAWPOW_VERSION = 70027;
 
-//! Telestai: MEOWPOW activation protocol version
-static const int MEOWPOW_VERSION = 70030;
+//! Telestai: minimum peer protocol version (post-Meraki line)
+static const int MIN_TELESTAI_PEER_PROTO_VERSION = 70030;
 
 //! Telestai: asset data P2P version
 static const int ASSETDATA_VERSION = 70017;

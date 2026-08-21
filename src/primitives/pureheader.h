@@ -63,13 +63,13 @@ public:
     {
         if (IsAuxpow())
             return PowAlgo::SCRYPT;
-        return PowAlgo::MEOWPOW;
+        return PowAlgo::MERAKI;
     }
 
     std::string GetAlgoName() const
     {
         if (GetAlgo() == PowAlgo::SCRYPT) return "scrypt";
-        return "meowpow";
+        return "meraki";
     }
 
     void SetChainId(int32_t chainId)

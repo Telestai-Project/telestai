@@ -7,7 +7,7 @@
  *
  * X16R / X16RV2  — 16-round chained SPH-512 hash, order selected by prevhash.
  * KAWPOW         — ProgPow (ethash-based, GPU-targeted).
- * MEOWPOW        — MeowPow (custom ProgPow fork).
+ * AltProgPow     — unused second ProgPoW era (activation disabled on Telestai).
  */
 
 #include <pow_hash.h>
@@ -37,10 +37,10 @@
 #include <algo/sph_sha2.h>
 #include <algo/sph_tiger.h>
 
-// Ethash / ProgPow / MeowPow
+// Ethash / ProgPow / AltProgPow
 #include <crypto/ethash/include/ethash/ethash.hpp>
 #include <crypto/ethash/include/ethash/progpow.hpp>
-#include <crypto/ethash/include/ethash/meowpow.hpp>
+#include <crypto/ethash/include/ethash/alt_progpow.hpp>
 #include <crypto/ethash/helpers.hpp>
 
 // ---------------------------------------------------------------------------
@@ -360,10 +360,10 @@ uint256 KAWPOWHash_OnlyMix(const CBlockHeader& blockHeader)
 }
 
 // ---------------------------------------------------------------------------
-// MEOWPOW — Custom ProgPow fork
+// AltProgPow — second ProgPoW era (disabled on Telestai main/test)
 // ---------------------------------------------------------------------------
 
-uint256 MEOWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash)
+uint256 AltProgPowHash(const CBlockHeader& blockHeader, uint256& mix_hash)
 {
     static ethash::epoch_context_ptr context{nullptr, nullptr};
 
@@ -372,21 +372,21 @@ uint256 MEOWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash)
     if (!context || context->epoch_number != epoch_number)
         context = ethash::create_epoch_context(epoch_number);
 
-    uint256 nHeaderHash = blockHeader.GetMEOWPOWHeaderHash();
+    uint256 nHeaderHash = blockHeader.GetAltProgPowHeaderHash();
     const auto header_hash = to_hash256(nHeaderHash.GetHex());
 
-    const auto result = meowpow::hash(*context, blockHeader.nHeight, header_hash, blockHeader.nNonce64);
+    const auto result = alt_progpow::hash(*context, blockHeader.nHeight, header_hash, blockHeader.nNonce64);
 
     mix_hash = uint256::FromHex(to_hex(result.mix_hash)).value_or(uint256{});
     return uint256::FromHex(to_hex(result.final_hash)).value_or(uint256{});
 }
 
-uint256 MEOWPOWHash_OnlyMix(const CBlockHeader& blockHeader)
+uint256 AltProgPowHash_OnlyMix(const CBlockHeader& blockHeader)
 {
-    uint256 nHeaderHash = blockHeader.GetMEOWPOWHeaderHash();
+    uint256 nHeaderHash = blockHeader.GetAltProgPowHeaderHash();
     const auto header_hash = to_hash256(nHeaderHash.GetHex());
 
-    const auto result = meowpow::hash_no_verify(blockHeader.nHeight, header_hash,
+    const auto result = alt_progpow::hash_no_verify(blockHeader.nHeight, header_hash,
                                                   to_hash256(blockHeader.mix_hash.GetHex()),
                                                   blockHeader.nNonce64);
 

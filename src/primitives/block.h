@@ -18,7 +18,7 @@
 
 /** Global activation timestamps set from chainparams at init time. */
 extern uint32_t nKAWPOWActivationTime;
-extern uint32_t nMEOWPOWActivationTime;
+extern uint32_t nALT_PROGPOW_ACTIVATION_TIME;
 
 /** Nodes collect new transactions into a block, hash them into a hash tree,
  * and scan through nonce values to make the block's hash satisfy proof-of-work
@@ -30,7 +30,7 @@ extern uint32_t nMEOWPOWActivationTime;
 class CBlockHeader : public CPureBlockHeader
 {
 public:
-    // KAWPOW / MEOWPOW fields
+    // KawPoW / Meraki fields
     uint32_t nHeight;
     uint64_t nNonce64;
     uint256 mix_hash;
@@ -49,7 +49,7 @@ public:
         READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits);
 
         // Pre-KAWPOW or AuxPoW blocks use nNonce + optional auxpow.
-        // KAWPOW/MEOWPOW blocks use nHeight/nNonce64/mix_hash.
+        // KawPoW/Meraki blocks use nHeight/nNonce64/mix_hash.
         if (obj.nTime < nKAWPOWActivationTime || obj.nVersion.IsAuxpow()) {
             READWRITE(obj.nNonce);
             if (obj.nVersion.IsAuxpow()) {
@@ -85,7 +85,7 @@ public:
 
     uint256 GetHashFull(uint256& mix_hash) const;
     uint256 GetKAWPOWHeaderHash() const;
-    uint256 GetMEOWPOWHeaderHash() const;
+    uint256 GetAltProgPowHeaderHash() const;
 
     NodeSeconds Time() const
     {
@@ -184,18 +184,18 @@ public:
 
 /**
  * Custom serializer for CBlockHeader that omits the nNonce64 and mixHash,
- * for use as input to MEOWPOW ProgPow.
+ * for use as input to alt ProgPoW.
  */
-class CMEOWPOWInput : private CBlockHeader
+class CAltProgPowInput : private CBlockHeader
 {
 public:
-    CMEOWPOWInput(const CBlockHeader& header)
+    CAltProgPowInput(const CBlockHeader& header)
     {
         CBlockHeader::SetNull();
         *(static_cast<CBlockHeader*>(this)) = header;
     }
 
-    SERIALIZE_METHODS(CMEOWPOWInput, obj)
+    SERIALIZE_METHODS(CAltProgPowInput, obj)
     {
         READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nHeight);
     }

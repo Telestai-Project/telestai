@@ -175,7 +175,7 @@ public:
     int GetAssetActivationHeight() const { return nAssetActivationHeight; }
     int ExtCoinType() const { return nExtCoinType; }
     uint32_t KAWPOWActivationTime() const { return nKAWPOWActivationTime; }
-    uint32_t MEOWPOWActivationTime() const { return nMEOWPOWActivationTime; }
+    uint32_t AltProgPowActivationTime() const { return nALT_PROGPOW_ACTIVATION_TIME; }
 
     /**
      * SigNetOptions holds configurations for creating a signet CChainParams.
@@ -269,7 +269,7 @@ protected:
 
     /** Telestai: PoW algorithm transition timestamps */
     uint32_t nKAWPOWActivationTime{0};
-    uint32_t nMEOWPOWActivationTime{0};
+    uint32_t nALT_PROGPOW_ACTIVATION_TIME{0};
 };
 
 std::optional<ChainType> GetNetworkForMagic(const MessageStartChars& pchMessageStart);

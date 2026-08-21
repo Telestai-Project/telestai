@@ -91,7 +91,7 @@ public:
 
         // PoW limits per algorithm
         consensus.powLimit = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
-        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MEOWPOW)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::SCRYPT)]  = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
 
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days
@@ -191,14 +191,14 @@ public:
         // the correct PoW algorithm during serialization.
         // Must set both the class member and the global (block.h) because
         // CBlockHeader::GetHash() uses the global.
-        // Telestai Meraki (ProgPoW derivative). Apex code paths still use KAWPOW/MEOWPOW labels.
+        // Telestai Meraki (ProgPoW derivative). Apex code paths still use KawPoW/Meraki labels.
         // Activate Meraki immediately after genesis (matches Telestai 2.1.x: genesis+1).
         const uint32_t nGenesisTime = 1721866235; // Thu Jul 25 2024 02:31:50 GMT
         nKAWPOWActivationTime = nGenesisTime + 1;
         ::nKAWPOWActivationTime = nGenesisTime + 1;
-        // Telestai has a single Meraki (ProgPoW) era — do not switch to MeowPow hashing.
-        nMEOWPOWActivationTime = 0xffffffff;
-        ::nMEOWPOWActivationTime = 0xffffffff;
+        // Telestai has a single Meraki (ProgPoW) era — do not switch to AltProgPow hashing.
+        nALT_PROGPOW_ACTIVATION_TIME = 0xffffffff;
+        ::nALT_PROGPOW_ACTIVATION_TIME = 0xffffffff;
 
         // Telestai genesis (X16RV2 PoW hash)
         genesis = CreateGenesisBlock(nGenesisTime, 6353113, 0x1e00ffff, 1, 468 * COIN);
@@ -302,7 +302,7 @@ public:
         consensus.MinBIP9WarningHeight = 0;
 
         consensus.powLimit = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
-        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MEOWPOW)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::SCRYPT)]  = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
 
         consensus.nPowTargetTimespan = 2016 * 60;
@@ -387,8 +387,8 @@ public:
         const uint32_t nTestGenesisTime = 1537466400; // Thu Sep 20 2018 18:00:00 GMT
         nKAWPOWActivationTime = nTestGenesisTime + 1;
         ::nKAWPOWActivationTime = nTestGenesisTime + 1;
-        nMEOWPOWActivationTime = 0xffffffff;
-        ::nMEOWPOWActivationTime = 0xffffffff;
+        nALT_PROGPOW_ACTIVATION_TIME = 0xffffffff;
+        ::nALT_PROGPOW_ACTIVATION_TIME = 0xffffffff;
 
         // Telestai testnet genesis (shared Greek timestamp helper; X16R PoW hash)
         genesis = CreateGenesisBlock(nTestGenesisTime, 15615880, 0x1e00ffff, 2, 468 * COIN);
@@ -567,7 +567,7 @@ public:
         consensus.MinBIP9WarningHeight = 0;
 
         consensus.powLimit = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
-        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MEOWPOW)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::SCRYPT)]  = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
 
         consensus.nPowTargetTimespan = 2016 * 60;
@@ -680,8 +680,8 @@ public:
         // Set activation timestamps BEFORE genesis creation.
         nKAWPOWActivationTime = 3582830167;
         ::nKAWPOWActivationTime = 3582830167;
-        nMEOWPOWActivationTime = 3582830167;
-        ::nMEOWPOWActivationTime = 3582830167;
+        nALT_PROGPOW_ACTIVATION_TIME = 3582830167;
+        ::nALT_PROGPOW_ACTIVATION_TIME = 3582830167;
 
         genesis = CreateGenesisBlock(1661734578, 1, 0x207fffff, 4, 468 * COIN);
         consensus.hashGenesisBlock = genesis.GetX16RHash();

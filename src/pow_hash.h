@@ -56,20 +56,20 @@ uint256 KAWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash);
 uint256 KAWPOWHash_OnlyMix(const CBlockHeader& blockHeader);
 
 /**
- * Full MEOWPOW ProgPow hash.
+ * Full alt ProgPoW hash.
  * @param blockHeader The block header.
  * @param[out] mix_hash The mix hash output.
- * @return The final MEOWPOW hash.
+ * @return The final ALT_PROGPOW hash.
  *
- * TODO: Port ethash/meowpow from telestai/src/crypto/ethash/.
+ * TODO: Port ethash/alt_progpow from telestai/src/crypto/ethash/.
  */
-uint256 MEOWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash);
+uint256 AltProgPowHash(const CBlockHeader& blockHeader, uint256& mix_hash);
 
 /**
- * MEOWPOW hash that only verifies using the mix_hash already in the header.
+ * ALT_PROGPOW hash that only verifies using the mix_hash already in the header.
  * @param blockHeader The block header (must contain valid mix_hash).
  * @return The verification hash.
  */
-uint256 MEOWPOWHash_OnlyMix(const CBlockHeader& blockHeader);
+uint256 AltProgPowHash_OnlyMix(const CBlockHeader& blockHeader);
 
 #endif // BITCOIN_POW_HASH_H

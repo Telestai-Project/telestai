@@ -10,11 +10,12 @@
 
 #include <crypto/ethash/include/ethash/ethash.hpp>
 
-namespace meowpow
+namespace alt_progpow
 {
 using namespace ethash;  // Include ethash namespace.
 
-/// Telestai Meraki (ProgPoW derivative). Apex calls this as meowpow::; constants are Meraki.
+/// Second ProgPoW parameter set (legacy Apex alternate era). Unused on Telestai
+/// main/test — activation is disabled; live PoW is Meraki via progpow/KawPoW.
 constexpr auto revision = "0.9.4";
 
 constexpr int period_length = 3;
@@ -45,4 +46,4 @@ search_result search(const epoch_context_full& context, int block_number,
     const hash256& header_hash, const hash256& boundary, uint64_t start_nonce,
     size_t iterations) noexcept;
 
-}  // namespace meowpow
+}  // namespace alt_progpow

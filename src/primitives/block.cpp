@@ -11,7 +11,7 @@
 #include <tinyformat.h>
 
 uint32_t nKAWPOWActivationTime = 0;
-uint32_t nMEOWPOWActivationTime = 0;
+uint32_t nALT_PROGPOW_ACTIVATION_TIME = 0;
 
 uint256 CBlockHeader::GetHash() const
 {
@@ -29,13 +29,13 @@ uint256 CBlockHeader::GetHash() const
                           hashPrevBlock);
     }
 
-    // Post-KAWPOW, pre-MEOWPOW blocks use KAWPOW ProgPow.
-    if (nTime < nMEOWPOWActivationTime) {
+    // Post-KAWPOW, pre-alt-ProgPoW blocks use KAWPOW ProgPow.
+    if (nTime < nALT_PROGPOW_ACTIVATION_TIME) {
         return KAWPOWHash_OnlyMix(*this);
     }
 
-    // MEOWPOW blocks.
-    return MEOWPOWHash_OnlyMix(*this);
+    // alt-ProgPoW blocks.
+    return AltProgPowHash_OnlyMix(*this);
 }
 
 uint256 CBlockHeader::GetHashFull(uint256& mix_hash_out) const
@@ -46,11 +46,11 @@ uint256 CBlockHeader::GetHashFull(uint256& mix_hash_out) const
                           hashPrevBlock);
     }
 
-    if (nTime < nMEOWPOWActivationTime) {
+    if (nTime < nALT_PROGPOW_ACTIVATION_TIME) {
         return KAWPOWHash(*this, mix_hash_out);
     }
 
-    return MEOWPOWHash(*this, mix_hash_out);
+    return AltProgPowHash(*this, mix_hash_out);
 }
 
 uint256 CBlockHeader::GetX16RHash() const
@@ -73,9 +73,9 @@ uint256 CBlockHeader::GetKAWPOWHeaderHash() const
     return (HashWriter{} << input).GetHash();
 }
 
-uint256 CBlockHeader::GetMEOWPOWHeaderHash() const
+uint256 CBlockHeader::GetAltProgPowHeaderHash() const
 {
-    CMEOWPOWInput input{*this};
+    CAltProgPowInput input{*this};
     return (HashWriter{} << input).GetHash();
 }
 

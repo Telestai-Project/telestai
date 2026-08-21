@@ -522,7 +522,7 @@ static RPCHelpMan getdifficulty()
     const UniValue& v = request.params[0];
     if (v.isNum()) {
         int i = v.getInt<int>();
-        if (i == 0) algo = PowAlgo::MEOWPOW;
+        if (i == 0) algo = PowAlgo::MERAKI;
         else if (i == 1) algo = PowAlgo::SCRYPT;
         else throw JSONRPCError(RPC_INVALID_PARAMETER, "algo must be 0 (meraki) or 1 (scrypt)");
     } else {
@@ -530,7 +530,7 @@ static RPCHelpMan getdifficulty()
         std::transform(s.begin(), s.end(), s.begin(),
                        [](unsigned char c){ return std::tolower(c); });
         if (s == "0" || s == "meraki" || s == "kawpow" || s == "kaw" || s == "tls" ||
-            s == "meowpow" || s == "meow") algo = PowAlgo::MEOWPOW;
+            s == "meowpow" || s == "meow") algo = PowAlgo::MERAKI;
         else if (s == "1" || s == "scrypt" || s == "auxpow") algo = PowAlgo::SCRYPT;
         else throw JSONRPCError(RPC_INVALID_PARAMETER, "algo must be \"meraki\"/\"kawpow\" (0) or \"scrypt\" (1)");
     }
