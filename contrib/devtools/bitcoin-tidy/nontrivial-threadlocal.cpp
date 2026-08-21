@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Meowcoin Developers
+// Copyright (c) 2023 Telestai Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,7 +16,7 @@ AST_MATCHER(clang::CXXRecordDecl, hasNonTrivialDestructor) {
 }
 } // namespace
 
-namespace meowcoin {
+namespace telestai {
 
 void NonTrivialThreadLocal::registerMatchers(clang::ast_matchers::MatchFinder* finder)
 {
@@ -41,4 +41,4 @@ void NonTrivialThreadLocal::check(const clang::ast_matchers::MatchFinder::MatchR
     }
 }
 
-} // namespace meowcoin
+} // namespace telestai

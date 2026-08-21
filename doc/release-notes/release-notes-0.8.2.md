@@ -1,11 +1,11 @@
-Meowcoin-Qt version 0.8.2 is now available from:
-  http://sourceforge.net/projects/meowcoin/files/Meowcoin/meowcoin-0.8.2/
+Telestai-Qt version 0.8.2 is now available from:
+  http://sourceforge.net/projects/telestai/files/Telestai/telestai-0.8.2/
 
 This is a maintenance release that fixes many bugs and includes
 a few small new features.
 
 Please report bugs using the issue tracker at github:
-  https://github.com/meowcoin/meowcoin/issues
+  https://github.com/Telestai-Project/telestai/issues
 
 
 How to Upgrade
@@ -13,7 +13,7 @@ How to Upgrade
 If you are running an older version, shut it down. Wait
 until it has completely shut down (which might take a few minutes for older
 versions), then run the installer (on Windows) or just copy over
-/Applications/Meowcoin-Qt (on Mac) or meowcoind/meowcoin-qt (on Linux).
+/Applications/Telestai-Qt (on Mac) or telestaid/telestai-qt (on Linux).
 
 If you are upgrading from version 0.7.2 or earlier, the first time you
 run 0.8.2 your blockchain files will be re-indexed, which will take
@@ -24,12 +24,12 @@ your machine.
 
 Fee Policy changes
 
-The default fee for low-priority transactions is lowered from 0.0005 MEWC 
+The default fee for low-priority transactions is lowered from 0.0005 TLS 
 (for each 1,000 bytes in the transaction; an average transaction is
-about 500 bytes) to 0.0001 MEWC.
+about 500 bytes) to 0.0001 TLS.
 
 Payments (transaction outputs) of 0.543 times the minimum relay fee
-(0.00005430 MEWC) are now considered 'non-standard', because storing them
+(0.00005430 TLS) are now considered 'non-standard', because storing them
 costs the network more than they are worth and spending them will usually
 cost their owner more in transaction fees than they are worth.
 
@@ -43,7 +43,7 @@ with code that automatically calculates and suggests appropriate fees in the
 0.9 release and note that if you set a fee policy significantly different from
 the rest of the network your transactions may never confirm.
 
-Meowcoin-Qt changes
+Telestai-Qt changes
 
 * New icon and splash screen
 * Improve reporting of synchronization process
@@ -58,7 +58,7 @@ Meowcoin-Qt changes
   to current translations
 
 MacOSX:
-* OSX support for click-to-pay (meowcoin:) links
+* OSX support for click-to-pay (telestai:) links
 * Fix GUI disappearing problem on MacOSX (issue #1522)
 
 Linux/Unix:
@@ -97,8 +97,8 @@ Wallet compatibility/rescuing
 
 Known Bugs
 
-* Entering the 'getblocktemplate' or 'getwork' RPC commands into the Meowcoin-Qt debug
-console will cause Meowcoin-Qt to crash. Run Meowcoin-Qt with the -server command-line
+* Entering the 'getblocktemplate' or 'getwork' RPC commands into the Telestai-Qt debug
+console will cause Telestai-Qt to crash. Run Telestai-Qt with the -server command-line
 option to workaround.
 
 Thanks to everybody who contributed to the 0.8.2 release!

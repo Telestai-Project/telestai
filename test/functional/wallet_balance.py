@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018-2022 The Meowcoin Core developers
+# Copyright (c) 2018-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the wallet balance RPC methods."""
@@ -87,7 +87,7 @@ class WalletTest(BitcoinTestFramework):
         assert_equal(self.nodes[0].getbalance("*", 1, True), 50)
         assert_equal(self.nodes[1].getbalance(minconf=0), 50)
 
-        # Send 40 MEWC from 0 to 1 and 60 MEWC from 1 to 0.
+        # Send 40 TLS from 0 to 1 and 60 TLS from 1 to 0.
         txs = create_transactions(self.nodes[0], self.nodes[1].getnewaddress(), 40, [Decimal('0.01')])
         self.nodes[0].sendrawtransaction(txs[0]['hex'])
         self.nodes[1].sendrawtransaction(txs[0]['hex'])  # sending on both nodes is faster than waiting for propagation
@@ -137,7 +137,7 @@ class WalletTest(BitcoinTestFramework):
         # 2) Sent 10 from node B to node A with fee 0.01
         #
         # Then our node would report a confirmed balance of 40 + 50 - 10 = 80
-        # MEWC, which is more than would be available if transaction 1 were
+        # TLS, which is more than would be available if transaction 1 were
         # replaced.
 
 

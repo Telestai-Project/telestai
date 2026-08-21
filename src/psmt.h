@@ -1,4 +1,4 @@
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1131,7 +1131,7 @@ struct PartiallySignedTransaction
     uint32_t GetVersion() const;
 
     /** Merge psmt into this. The two psmts must have the same underlying CTransaction (i.e. the
-      * same actual Meowcoin transaction.) Returns true if the merge succeeded, false otherwise. */
+      * same actual Telestai transaction.) Returns true if the merge succeeded, false otherwise. */
     [[nodiscard]] bool Merge(const PartiallySignedTransaction& psmt);
     bool AddInput(const CTxIn& txin, PSMTInput& psmtin);
     bool AddOutput(const CTxOut& txout, const PSMTOutput& psmtout);

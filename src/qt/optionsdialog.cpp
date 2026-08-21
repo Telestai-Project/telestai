@@ -1,13 +1,13 @@
-// Copyright (c) 2011-2022 The Meowcoin Core developers
+// Copyright (c) 2011-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #include <qt/optionsdialog.h>
 #include <qt/forms/ui_optionsdialog.h>
 
-#include <qt/meowcoinunits.h>
+#include <qt/telestaiunits.h>
 #include <qt/clientmodel.h>
 #include <qt/guiconstants.h>
 #include <qt/guiutil.h>
@@ -126,8 +126,8 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet)
     /* remove Window tab on Mac */
     ui->tabWidget->removeTab(ui->tabWidget->indexOf(ui->tabWindow));
     /* hide launch at startup option on macOS */
-    ui->meowcoinAtStartup->setVisible(false);
-    ui->verticalLayout_Main->removeWidget(ui->meowcoinAtStartup);
+    ui->telestaiAtStartup->setVisible(false);
+    ui->verticalLayout_Main->removeWidget(ui->telestaiAtStartup);
     ui->verticalLayout_Main->removeItem(ui->horizontalSpacer_0_Main);
 #endif
 
@@ -148,8 +148,8 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet)
     /* Display elements init */
     QDir translations(":translations");
 
-    ui->meowcoinAtStartup->setToolTip(ui->meowcoinAtStartup->toolTip().arg(CLIENT_NAME));
-    ui->meowcoinAtStartup->setText(ui->meowcoinAtStartup->text().arg(CLIENT_NAME));
+    ui->telestaiAtStartup->setToolTip(ui->telestaiAtStartup->toolTip().arg(CLIENT_NAME));
+    ui->telestaiAtStartup->setText(ui->telestaiAtStartup->text().arg(CLIENT_NAME));
 
     ui->openBitcoinConfButton->setToolTip(ui->openBitcoinConfButton->toolTip().arg(CLIENT_NAME));
 
@@ -278,7 +278,7 @@ void OptionsDialog::setCurrentTab(OptionsDialog::Tab tab)
 void OptionsDialog::setMapper()
 {
     /* Main */
-    mapper->addMapping(ui->meowcoinAtStartup, OptionsModel::StartAtStartup);
+    mapper->addMapping(ui->telestaiAtStartup, OptionsModel::StartAtStartup);
     mapper->addMapping(ui->threadsScriptVerif, OptionsModel::ThreadsScriptVerif);
     mapper->addMapping(ui->databaseCache, OptionsModel::DatabaseCache);
     mapper->addMapping(ui->prune, OptionsModel::Prune);

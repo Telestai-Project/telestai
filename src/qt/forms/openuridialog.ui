@@ -39,7 +39,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../meowcoin.qrc">
+        <iconset resource="../telestai.qrc">
          <normaloff>:/icons/editpaste</normaloff>:/icons/editpaste
         </iconset>
        </property>

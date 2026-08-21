@@ -1,11 +1,11 @@
-// Copyright (c) 2011-present The Meowcoin Core developers
+// Copyright (c) 2011-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/guiutil.h>
 
-#include <qt/meowcoinaddressvalidator.h>
-#include <qt/meowcoinunits.h>
+#include <qt/telestaiaddressvalidator.h>
+#include <qt/telestaiunits.h>
 #include <qt/platformstyle.h>
 #include <qt/qvalidatedlineedit.h>
 #include <qt/sendcoinsrecipient.h>
@@ -111,7 +111,7 @@ static std::string DummyAddress(const CChainParams &params)
     std::string addr;
     switch (params.GetChainType()) {
     case ChainType::MAIN:
-        addr = "MMeowCoinXXXXXXXXXXXXXXXXXXXXXXXXX";
+        addr = "mTLStestXXXXXXXXXXXXXXXXXXXXXXXXX";
         break;
     case ChainType::SIGNET:
     case ChainType::TESTNET:

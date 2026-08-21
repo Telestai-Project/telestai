@@ -145,7 +145,7 @@ class FrameworkInfo(object):
 class ApplicationBundleInfo(object):
     def __init__(self, path: str):
         self.path = path
-        # Soft Launch / Telestai branding (was Meowcoin-Qt in upstream Apex)
+        # Soft Launch / Telestai branding (was Telestai-Qt in upstream Apex)
         self.binaryPath = os.path.join(path, "Contents", "MacOS", "Telestai-Qt")
         if not os.path.exists(self.binaryPath):
             raise RuntimeError(f"Could not find bundle binary for {path}")

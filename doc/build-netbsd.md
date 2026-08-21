@@ -2,7 +2,7 @@
 
 **Updated for NetBSD [10.1](https://netbsd.org/releases/formal-10/NetBSD-10.1.html)**
 
-This guide describes how to build meowcoind, command-line utilities, and GUI on NetBSD.
+This guide describes how to build telestaid, command-line utilities, and GUI on NetBSD.
 
 ## Preparation
 
@@ -37,7 +37,7 @@ SQLite is required for the wallet:
 pkgin install sqlite3
 ```
 
-To build Meowcoin Core without the wallet, use `-DENABLE_WALLET=OFF`.
+To build Telestai Core without the wallet, use `-DENABLE_WALLET=OFF`.
 
 Cap'n Proto is needed for IPC functionality (see [multiprocess.md](multiprocess.md)):
 
@@ -49,12 +49,12 @@ Compile with `-DENABLE_IPC=OFF` if you do not need IPC functionality.
 
 See [dependencies.md](dependencies.md) for a complete overview.
 
-### 2. Clone Meowcoin Repo
+### 2. Clone Telestai Repo
 
-Clone the Meowcoin Core repository to a directory. All build scripts and commands will run from this directory.
+Clone the Telestai Core repository to a directory. All build scripts and commands will run from this directory.
 
 ```bash
-git clone https://github.com/meowcoin/meowcoin.git
+git clone https://github.com/telestai/telestai.git
 ```
 
 ### 3. Install Optional Dependencies
@@ -62,7 +62,7 @@ git clone https://github.com/meowcoin/meowcoin.git
 #### GUI Dependencies
 ###### Qt6
 
-Meowcoin Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install
+Telestai Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install
 the necessary parts of Qt, the libqrencode and pass `-DBUILD_GUI=ON`. Skip if you don't intend to use the GUI.
 
 ```bash
@@ -82,7 +82,7 @@ Otherwise, if you don't need QR encoding support, use the `-DWITH_QRENCODE=OFF` 
 #### Notifications
 ###### ZeroMQ
 
-Meowcoin Core can provide notifications via ZeroMQ. If the package is installed, support will be compiled in.
+Telestai Core can provide notifications via ZeroMQ. If the package is installed, support will be compiled in.
 ```bash
 pkgin install zeromq
 ```
@@ -96,11 +96,11 @@ To run the test suite (recommended), you will need to have Python 3 installed:
 pkgin install python310 py310-zmq
 ```
 
-## Building Meowcoin Core
+## Building Telestai Core
 
 ### 1. Configuration
 
-There are many ways to configure Meowcoin Core. Here is an example that
+There are many ways to configure Telestai Core. Here is an example that
 explicitly disables the wallet and GUI:
 
 ```bash

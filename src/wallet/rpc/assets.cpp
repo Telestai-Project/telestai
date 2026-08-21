@@ -1,5 +1,5 @@
 // Copyright (c) 2019-2020 The Raven Core developers
-// Copyright (c) 2024-present The Meowcoin Core developers
+// Copyright (c) 2024-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -533,7 +533,7 @@ RPCHelpMan transferfromaddresses()
             {"to_address",           RPCArg::Type::STR,  RPCArg::Optional::NO, "destination address"},
             {"message",              RPCArg::Type::STR,  RPCArg::Default{""},  "optional IPFS/txid message (RIP5)"},
             {"expire_time",          RPCArg::Type::NUM,  RPCArg::Default{0},   "UTC timestamp when message expires"},
-            {"mewc_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "TLS change address"},
+            {"tls_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "TLS change address"},
             {"asset_change_address", RPCArg::Type::STR,  RPCArg::Default{""},  "asset change address"},
         },
         RPCResult{RPCResult::Type::ARR, "", "list of transaction IDs",
@@ -637,7 +637,7 @@ RPCHelpMan transferfromaddress()
             {"to_address",           RPCArg::Type::STR,  RPCArg::Optional::NO, "destination address"},
             {"message",              RPCArg::Type::STR,  RPCArg::Default{""},  "optional IPFS/txid message (RIP5)"},
             {"expire_time",          RPCArg::Type::NUM,  RPCArg::Default{0},   "UTC timestamp when message expires"},
-            {"mewc_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "TLS change address"},
+            {"tls_change_address",  RPCArg::Type::STR,  RPCArg::Default{""},  "TLS change address"},
             {"asset_change_address", RPCArg::Type::STR,  RPCArg::Default{""},  "asset change address"},
         },
         RPCResult{RPCResult::Type::ARR, "", "list of transaction IDs",

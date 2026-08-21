@@ -1,9 +1,9 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
-add_executable(bench_meowcoin
-  bench_meowcoin.cpp
+add_executable(bench_telestai
+  bench_telestai.cpp
   bench.cpp
   nanobench.cpp
 # Benchmarks:
@@ -57,19 +57,19 @@ add_executable(bench_meowcoin
 )
 
 include(TargetDataSources)
-target_raw_data_sources(bench_meowcoin NAMESPACE benchmark::data
+target_raw_data_sources(bench_telestai NAMESPACE benchmark::data
   data/block413567.raw
 )
 
-target_link_libraries(bench_meowcoin
+target_link_libraries(bench_telestai
   core_interface
   test_util
-  meowcoin_node
+  telestai_node
   Boost::headers
 )
 
 if(ENABLE_WALLET)
-  target_sources(bench_meowcoin
+  target_sources(bench_telestai
     PRIVATE
       coin_selection.cpp
       wallet_balance.cpp
@@ -79,13 +79,13 @@ if(ENABLE_WALLET)
       wallet_ismine.cpp
       wallet_migration.cpp
   )
-  target_link_libraries(bench_meowcoin meowcoin_wallet)
-  # bitcoin_assets (via wallet) needs CDBWrapper from meowcoin_node; repeat node after assets.
-  target_link_libraries(bench_meowcoin bitcoin_assets meowcoin_node)
+  target_link_libraries(bench_telestai telestai_wallet)
+  # bitcoin_assets (via wallet) needs CDBWrapper from telestai_node; repeat node after assets.
+  target_link_libraries(bench_telestai bitcoin_assets telestai_node)
 endif()
 
 add_test(NAME bench_sanity_check
-  COMMAND bench_meowcoin -sanity-check
+  COMMAND bench_telestai -sanity-check
 )
 
-install_binary_component(bench_meowcoin INTERNAL)
+install_binary_component(bench_telestai INTERNAL)

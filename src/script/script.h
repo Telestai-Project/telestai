@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -209,15 +209,15 @@ enum opcodetype
     // Opcode added by BIP 342 (Tapscript)
     OP_CHECKSIGADD = 0xba,
 
-    // Meowcoin asset opcode (inherited from Ravencoin).
+    // Telestai asset opcode (inherited from Ravencoin).
     // Marks the boundary between standard script and asset payload data.
-    OP_MEWC_ASSET = 0xc0,
+    OP_TLS_ASSET = 0xc0,
 
     OP_INVALIDOPCODE = 0xff,
 };
 
 // Maximum value that an opcode can be
-static const unsigned int MAX_OPCODE = OP_MEWC_ASSET;
+static const unsigned int MAX_OPCODE = OP_TLS_ASSET;
 
 std::string GetOpName(opcodetype opcode);
 
@@ -532,7 +532,7 @@ public:
     }
 
     /**
-     * Pre-version-0.6, Meowcoin always counted CHECKMULTISIGs
+     * Pre-version-0.6, Telestai always counted CHECKMULTISIGs
      * as 20 sigops. With pay-to-script-hash, that changed:
      * CHECKMULTISIGs serialized in scriptSigs are
      * counted more accurately, assuming they are of the form
@@ -560,7 +560,7 @@ public:
 
     bool IsPayToTaproot() const;
 
-    /** Meowcoin asset script detection */
+    /** Telestai asset script detection */
     bool IsAssetScript(int& nType, bool& fIsOwner, int& nStartingIndex) const;
     bool IsAssetScript(int& nType, bool& fIsOwner) const;
     bool IsAssetScript() const;

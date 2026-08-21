@@ -1,39 +1,39 @@
-Meowcoin Core version 0.9.4 is now available from:
+Telestai Core version 0.9.4 is now available from:
 
-  https://meowcoin.org/bin/0.9.4/
+  https://telestai.org/bin/0.9.4/
 
 This is a new minor version release, bringing only bug fixes and updated
 translations. Upgrading to this release is recommended.
 
 Please report bugs using the issue tracker at github:
 
-  https://github.com/meowcoin/meowcoin/issues
+  https://github.com/Telestai-Project/telestai/issues
 
 How to Upgrade
 ===============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes for older versions), then run the
-installer (on Windows) or just copy over /Applications/Meowcoin-Qt (on Mac) or
-meowcoind/meowcoin-qt (on Linux).
+installer (on Windows) or just copy over /Applications/Telestai-Qt (on Mac) or
+telestaid/telestai-qt (on Linux).
 
 OpenSSL Warning
 ================
 
 OpenSSL 1.0.0p / 1.0.1k was recently released and is being pushed out by
 various operating system maintainers. Review by Gregory Maxwell determined that
-this update is incompatible with the Meowcoin system and could lead to consensus
+this update is incompatible with the Telestai system and could lead to consensus
 forks.
 
-Meowcoin Core released binaries from https://meowcoin.org are unaffected,
+Telestai Core released binaries from https://telestai.org are unaffected,
 as are any built with the gitian deterministic build system.
 
 However, if you are running either
 
-- The Ubuntu PPA from https://launchpad.net/~meowcoin/+archive/ubuntu/meowcoin
-- A third-party or self-compiled Meowcoin Core
+- The Ubuntu PPA from https://launchpad.net/~telestai/+archive/ubuntu/telestai
+- A third-party or self-compiled Telestai Core
 
-upgrade to Meowcoin Core 0.9.4, which includes a workaround, **before** updating
+upgrade to Telestai Core 0.9.4, which includes a workaround, **before** updating
 OpenSSL.
 
 The incompatibility is due to the OpenSSL update changing the
@@ -92,4 +92,4 @@ Thanks to who contributed to this release, at least:
 - Sergio Demian Lerner
 - Wladimir J. van der Laan
 
-As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/meowcoin/).
+As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/telestai/).

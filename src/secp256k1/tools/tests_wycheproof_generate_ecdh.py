@@ -14,14 +14,14 @@ from wycheproof_utils import to_c_array
 
 def should_skip_flags(test_vector_flags):
     # skip these vectors because they are for ASN.1 encoding issues and other curves.
-    # for more details, see https://github.com/meowcoin-core/secp256k1/pull/1492#discussion_r1572491546
+    # for more details, see https://github.com/telestai-core/secp256k1/pull/1492#discussion_r1572491546
     flags_to_skip = {"InvalidAsn", "WrongCurve"}
     return any(flag in test_vector_flags for flag in flags_to_skip)
 
 def should_skip_tcid(test_vector_tcid):
     # We skip some test case IDs that have a public key whose custom ASN.1 representation explicitly
     # encodes some curve parameters that are invalid. libsecp256k1 never parses this part so we do
-    # not care testing those. See https://github.com/meowcoin-core/secp256k1/pull/1492#discussion_r1572491546
+    # not care testing those. See https://github.com/telestai-core/secp256k1/pull/1492#discussion_r1572491546
     tcids_to_skip = [496, 497, 502, 503, 504, 505, 507]
     return test_vector_tcid in tcids_to_skip
 

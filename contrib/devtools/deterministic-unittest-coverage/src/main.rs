@@ -1,4 +1,4 @@
-// Copyright (c) The Meowcoin Core developers
+// Copyright (c) The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or https://opensource.org/license/mit/.
 
@@ -61,7 +61,7 @@ fn app() -> AppResult {
     }
 
     let build_dir = Path::new(build_dir);
-    let test_exe = build_dir.join("bin/test_meowcoin");
+    let test_exe = build_dir.join("bin/test_telestai");
 
     sanity_check(&test_exe)?;
 

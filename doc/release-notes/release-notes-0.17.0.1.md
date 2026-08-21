@@ -1,16 +1,16 @@
-Meowcoin Core version 0.17.0.1 is now available from:
+Telestai Core version 0.17.0.1 is now available from:
 
-  <https://meowcoincore.org/bin/meowcoin-core-0.17.0.1/>
+  <https://telestaicore.org/bin/telestai-core-0.17.0.1/>
 
 This release provides a minor bug fix for 0.17.0.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/meowcoin/meowcoin/issues>
+  <https://github.com/Telestai-Project/telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://meowcoincore.org/en/list/announcements/join/>
+  <https://telestaicore.org/en/list/announcements/join/>
 
 Notable changes
 ===============

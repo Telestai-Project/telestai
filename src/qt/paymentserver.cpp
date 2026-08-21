@@ -1,10 +1,10 @@
-// Copyright (c) 2011-2022 The Meowcoin Core developers
+// Copyright (c) 2011-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/paymentserver.h>
 
-#include <qt/meowcoinunits.h>
+#include <qt/telestaiunits.h>
 #include <qt/guiutil.h>
 #include <qt/optionsmodel.h>
 
@@ -33,7 +33,7 @@
 #include <QUrlQuery>
 
 const int BITCOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString BITCOIN_IPC_PREFIX("telestai:");
+const QString TELESTAI_IPC_PREFIX("telestai:");
 
 //
 // Create a name that is unique for:
@@ -76,7 +76,7 @@ void PaymentServer::ipcParseCommandLine(int argc, char* argv[])
         QString arg(argv[i]);
         if (arg.startsWith("-")) continue;
 
-        if (arg.startsWith(BITCOIN_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
+        if (arg.startsWith(TELESTAI_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
         {
             savedPaymentRequests.insert(arg);
         }
@@ -194,7 +194,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
         Q_EMIT message(tr("URI handling"), tr("'telestai://' is not a valid URI. Use 'telestai:' instead."),
             CClientUIInterface::MSG_ERROR);
     }
-    else if (s.startsWith(BITCOIN_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
+    else if (s.startsWith(TELESTAI_IPC_PREFIX, Qt::CaseInsensitive)) // telestai: URI
     {
         QUrlQuery uri((QUrl(s)));
         // normal URI

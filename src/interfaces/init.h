@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 The Meowcoin Core developers
+// Copyright (c) 2021-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -24,7 +24,7 @@ class Ipc;
 //! and get access to other interfaces (Node, Chain, Wallet, etc).
 //!
 //! There is a different Init interface implementation for each process
-//! (meowcoin-gui, meowcoin-node, meowcoin-wallet, meowcoind, meowcoin-qt) and each
+//! (telestai-gui, telestai-node, telestai-wallet, telestaid, telestai-qt) and each
 //! implementation can implement the make methods for interfaces it supports.
 //! The default make methods all return null.
 class Init

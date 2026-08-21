@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2022 The Meowcoin Core developers
+# Copyright (c) 2019-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 # Test Taproot softfork (BIPs 340-342)
@@ -1209,7 +1209,7 @@ def spenders_taproot_active():
         tap = taproot_construct(pubs[0], scripts)
         add_spender(spenders, "alwaysvalid/notsuccessx", tap=tap, leaf="op_success", inputs=[], standard=False, failure={"leaf": "normal"}) # err_msg differs based on opcode
 
-    # == Test case for https://github.com/meowcoin/meowcoin/issues/24765 ==
+    # == Test case for https://github.com/Telestai-Project/telestai/issues/24765 ==
 
     zero_fn = lambda h: bytes([0 for _ in range(32)])
     tap = taproot_construct(pubs[0], [("leaf", CScript([pubs[1], OP_CHECKSIG, pubs[1], OP_CHECKSIGADD, OP_2, OP_EQUAL])), zero_fn])
@@ -1572,7 +1572,7 @@ class TaprootTest(BitcoinTestFramework):
 
             # Decide fee, and add CTxIns to tx.
             amount = sum(utxo.output.nValue for utxo in input_utxos)
-            fee = min(random.randrange(MIN_FEE * 2, MIN_FEE * 4), amount - DUST_LIMIT)  # 10000-20000 mewc fee
+            fee = min(random.randrange(MIN_FEE * 2, MIN_FEE * 4), amount - DUST_LIMIT)  # 10000-20000 tls fee
             in_value = amount - fee
             tx.vin = [CTxIn(outpoint=utxo.outpoint, nSequence=random.randint(min_sequence, 0xffffffff)) for utxo in input_utxos]
             tx.wit.vtxinwit = [CTxInWitness() for _ in range(len(input_utxos))]

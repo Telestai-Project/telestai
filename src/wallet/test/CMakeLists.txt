@@ -1,10 +1,10 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
 # Do not use generator expressions in test sources because the
 # SOURCES property is processed to gather test suite macros.
-target_sources(test_meowcoin
+target_sources(test_telestai
   PRIVATE
     init_test_fixture.cpp
     wallet_test_fixture.cpp
@@ -25,4 +25,4 @@ target_sources(test_meowcoin
     walletdb_tests.cpp
     walletload_tests.cpp
 )
-target_link_libraries(test_meowcoin meowcoin_wallet)
+target_link_libraries(test_telestai telestai_wallet)

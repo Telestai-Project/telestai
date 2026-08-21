@@ -1,13 +1,13 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Meowcoin
+Upstream-Name: Telestai
 Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
- irc://#meowcoin-core-dev@libera.chat
-Source: https://github.com/meowcoin/meowcoin
+ irc://#telestai-core-dev@libera.chat
+Source: https://github.com/Telestai-Project/telestai
 
 Files: *
-Copyright: 2009-2026, Meowcoin Core Developers
+Copyright: 2009-2026, Telestai Core Developers
 License: Expat
-Comment: The Meowcoin Core Developers encompasses all contributors to the
+Comment: The Telestai Core Developers encompasses all contributors to the
          project, listed in the release notes or the git log.
 
 Files: debian/*
@@ -67,12 +67,12 @@ Copyright: Stephen Hutchings, Jonas Schnelli
 License: Expat
 Comment: Modifications of Stephen Hutchings' Typicons
 
-Files: src/qt/res/icons/meowcoin.*
-       share/pixmaps/meowcoin*
-       src/qt/res/src/meowcoin.svg
+Files: src/qt/res/icons/telestai.*
+       share/pixmaps/telestai*
+       src/qt/res/src/telestai.svg
 Copyright: Bitboy, Jonas Schnelli
 License: public-domain
-Comment: Site: https://meowcointalk.org/?topic=1756.0
+Comment: Site: https://telestaitalk.org/?topic=1756.0
 
 Files: src/qt/res/icons/proxy.png
        src/qt/res/src/proxy.svg

@@ -1,6 +1,6 @@
 ### TestGen ###
 
-Utilities to generate test vectors for the data-driven Meowcoin tests.
+Utilities to generate test vectors for the data-driven Telestai tests.
 
 To use inside a scripted-diff (or just execute directly):
 

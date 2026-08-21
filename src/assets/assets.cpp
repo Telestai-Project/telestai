@@ -1,5 +1,5 @@
-// Copyright (c) 2017-2020 The Meowcoin Core developers
-// Copyright (c) 2022 The Meowcoin Core developers
+// Copyright (c) 2017-2020 The Telestai Core developers
+// Copyright (c) 2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -41,7 +41,7 @@
 // Removed in BTC 30.2. Define as macro wrapping LogError.
 #define error(...) ([&]() -> bool { LogError(__VA_ARGS__); return false; }())
 
-/** Serialized asset data lives in the push immediately after OP_MEWC_ASSET: four marker
+/** Serialized asset data lives in the push immediately after OP_TLS_ASSET: four marker
  *  bytes (e.g. rvnq) then the payload. Using scriptPubKey.begin()+nStartingIndex through
  *  scriptPubKey.end() incorrectly included trailing opcodes (notably OP_DROP 0x75),
  *  which was read as nHasANS and failed validation. */
@@ -54,7 +54,7 @@ static bool ExtractMewcAssetSerializedPayload(const CScript& scriptPubKey, std::
         if (!scriptPubKey.GetOp(pc, opcode, vch)) {
             return false;
         }
-        if (opcode == OP_MEWC_ASSET) {
+        if (opcode == OP_TLS_ASSET) {
             if (!scriptPubKey.GetOp(pc, opcode, vch)) {
                 return false;
             }
@@ -103,7 +103,7 @@ bool fAssetIndex = false;
 
 bool AreAssetsDeployed()
 {
-    // Meowcoin assets activate at nAssetActivationHeight (1 on mainnet/testnet, 0 on regtest).
+    // Telestai assets activate at nAssetActivationHeight (1 on mainnet/testnet, 0 on regtest).
     // Since the chain is well past that height, this is effectively always true.
     return true;
 }
@@ -123,9 +123,9 @@ bool AreEnforcedValuesDeployed()
     return true;
 }
 
-bool IsMeowcoinNameSystemDeployed()
+bool IsTelestaiNameSystemDeployed()
 {
-    // MNS (Meowcoin Name System) is not yet deployed
+    // MNS (Telestai Name System) is not yet deployed
     return false;
 }
 
@@ -165,7 +165,7 @@ static const std::regex QUALIFIER_INDICATOR("^[#][A-Z0-9._]{3,}$"); // Starts wi
 static const std::regex SUB_QUALIFIER_INDICATOR("^#[A-Z0-9._]+\\/#[A-Z0-9._]+$"); // Starts with #
 static const std::regex RESTRICTED_INDICATOR("^[\\$][A-Z0-9._]{3,}$"); // Starts with $
 
-static const std::regex MEOWCOIN_NAMES("^RVN$|^MEWC$|^MEOWCOIN$|^TLS$|^TELESTAI$|^#MEWC$|^#MEOWCOIN$|^#TLS$|^#TELESTAI$");
+static const std::regex TELESTAI_RESERVED_NAMES("^RVN$|^MEWC$|^MEOWCOIN$|^TLS$|^TELESTAI$|^#MEWC$|^#MEOWCOIN$|^#TLS$|^#TELESTAI$");
 
 bool IsRootNameValid(const std::string& name)
 {
@@ -173,7 +173,7 @@ bool IsRootNameValid(const std::string& name)
         && !std::regex_match(name, DOUBLE_PUNCTUATION)
         && !std::regex_match(name, LEADING_PUNCTUATION)
         && !std::regex_match(name, TRAILING_PUNCTUATION)
-        && !std::regex_match(name, MEOWCOIN_NAMES);
+        && !std::regex_match(name, TELESTAI_RESERVED_NAMES);
 }
 
 bool IsQualifierNameValid(const std::string& name)
@@ -182,7 +182,7 @@ bool IsQualifierNameValid(const std::string& name)
            && !std::regex_match(name, DOUBLE_PUNCTUATION)
            && !std::regex_match(name, QUALIFIER_LEADING_PUNCTUATION)
            && !std::regex_match(name, TRAILING_PUNCTUATION)
-           && !std::regex_match(name, MEOWCOIN_NAMES);
+           && !std::regex_match(name, TELESTAI_RESERVED_NAMES);
 }
 
 bool IsRestrictedNameValid(const std::string& name)
@@ -191,7 +191,7 @@ bool IsRestrictedNameValid(const std::string& name)
            && !std::regex_match(name, DOUBLE_PUNCTUATION)
            && !std::regex_match(name, LEADING_PUNCTUATION)
            && !std::regex_match(name, TRAILING_PUNCTUATION)
-           && !std::regex_match(name, MEOWCOIN_NAMES);
+           && !std::regex_match(name, TELESTAI_RESERVED_NAMES);
 }
 
 bool IsSubQualifierNameValid(const std::string& name)
@@ -639,13 +639,13 @@ void CNewAsset::ConstructTransaction(CScript& script) const
     ssAsset << *this;
 
     std::vector<unsigned char> vchMessage;
-    vchMessage.push_back(MEWC_R); // r
-    vchMessage.push_back(MEWC_V); // v
-    vchMessage.push_back(MEWC_N); // n
-    vchMessage.push_back(MEWC_Q); // q
+    vchMessage.push_back(TLS_ASSET_R); // r
+    vchMessage.push_back(TLS_ASSET_V); // v
+    vchMessage.push_back(TLS_ASSET_N); // n
+    vchMessage.push_back(TLS_ASSET_Q); // q
 
     vchMessage.insert(vchMessage.end(), UCharCast(ssAsset.data()), UCharCast(ssAsset.data() + ssAsset.size()));
-    script << OP_MEWC_ASSET << ToByteVector(vchMessage) << OP_DROP;
+    script << OP_TLS_ASSET << ToByteVector(vchMessage) << OP_DROP;
 }
 
 void CNewAsset::ConstructOwnerTransaction(CScript& script) const
@@ -654,13 +654,13 @@ void CNewAsset::ConstructOwnerTransaction(CScript& script) const
     ssOwner << std::string(this->strName + OWNER_TAG);
 
     std::vector<unsigned char> vchMessage;
-    vchMessage.push_back(MEWC_R); // r
-    vchMessage.push_back(MEWC_V); // v
-    vchMessage.push_back(MEWC_N); // n
-    vchMessage.push_back(MEWC_O); // o
+    vchMessage.push_back(TLS_ASSET_R); // r
+    vchMessage.push_back(TLS_ASSET_V); // v
+    vchMessage.push_back(TLS_ASSET_N); // n
+    vchMessage.push_back(TLS_ASSET_O); // o
 
     vchMessage.insert(vchMessage.end(), UCharCast(ssOwner.data()), UCharCast(ssOwner.data() + ssOwner.size()));
-    script << OP_MEWC_ASSET << ToByteVector(vchMessage) << OP_DROP;
+    script << OP_TLS_ASSET << ToByteVector(vchMessage) << OP_DROP;
 }
 
 bool AssetFromTransaction(const CTransaction& tx, CNewAsset& asset, std::string& strAddress)
@@ -1031,7 +1031,7 @@ bool IsNewAsset(const CTransaction& tx)
     // New Asset transaction will always have at least three outputs.
     // 1. Owner Token output
     // 2. Issue Asset output
-    // 3. Native (MEWC) burn fee
+    // 3. Native (TLS) burn fee
     if (tx.vout.size() < 3) {
         return false;
     }
@@ -1068,7 +1068,7 @@ bool IsNewUniqueAsset(const CTransaction& tx)
 //! Call this function after IsNewUniqueAsset
 bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError, int nHeight)
 {
-    // Must contain at least 3 outpoints (MEWC burn, owner change and one or more new unique assets that share a root (should be in trailing position))
+    // Must contain at least 3 outpoints (TLS burn, owner change and one or more new unique assets that share a root (should be in trailing position))
     if (tx.vout.size() < 3) {
         strError  = "bad-txns-unique-vout-size-to-small";
         return false;
@@ -1160,7 +1160,7 @@ bool VerifyNewUniqueAsset(const CTransaction& tx, std::string& strError, int nHe
 
 //! To be called on CTransactions where IsNewAsset returns true
 bool VerifyNewAsset(const CTransaction& tx, std::string& strError, int nHeight) {
-    // Issuing an Asset must contain at least 3 CTxOut( Meowcoin Burn Tx, Any Number of other Outputs ..., Owner Asset Tx, New Asset Tx)
+    // Issuing an Asset must contain at least 3 CTxOut( Telestai Burn Tx, Any Number of other Outputs ..., Owner Asset Tx, New Asset Tx)
     if (tx.vout.size() < 3) {
         strError = "bad-txns-issue-vout-size-to-small";
         return false;
@@ -1265,7 +1265,7 @@ bool IsNewMsgChannelAsset(const CTransaction& tx)
 //! To be called on CTransactions where IsNewAsset returns true
 bool VerifyNewMsgChannelAsset(const CTransaction& tx, std::string &strError, int nHeight)
 {
-    // Issuing an Asset must contain at least 3 CTxOut( Meowcoin Burn Tx, Any Number of other Outputs ..., Owner Asset Tx, New Asset Tx)
+    // Issuing an Asset must contain at least 3 CTxOut( Telestai Burn Tx, Any Number of other Outputs ..., Owner Asset Tx, New Asset Tx)
     if (tx.vout.size() < 3) {
         strError  = "bad-txns-issue-msgchannel-vout-size-to-small";
         return false;
@@ -1352,7 +1352,7 @@ bool IsNewQualifierAsset(const CTransaction& tx)
 //! To be called on CTransactions where IsNewQualifierAsset returns true
 bool VerifyNewQualfierAsset(const CTransaction& tx, std::string &strError, int nHeight)
 {
-    // Issuing an Asset must contain at least 2 CTxOut( Meowcoin Burn Tx, New Asset Tx, Any Number of other Outputs...)
+    // Issuing an Asset must contain at least 2 CTxOut( Telestai Burn Tx, New Asset Tx, Any Number of other Outputs...)
     if (tx.vout.size() < 2) {
         strError  = "bad-txns-issue-qualifier-vout-size-to-small";
         return false;
@@ -1440,7 +1440,7 @@ bool IsNewRestrictedAsset(const CTransaction& tx)
 
 //! To be called on CTransactions where IsNewRestrictedAsset returns true
 bool VerifyNewRestrictedAsset(const CTransaction& tx, std::string& strError, int nHeight) {
-    // Issuing a restricted asset must cointain at least 4 CTxOut(Meowcoin Burn Tx, Asset Creation, Root Owner Token Transfer, and CNullAssetTxVerifierString)
+    // Issuing a restricted asset must cointain at least 4 CTxOut(Telestai Burn Tx, Asset Creation, Root Owner Token Transfer, and CNullAssetTxVerifierString)
     if (tx.vout.size() < 4) {
         strError = "bad-txns-issue-restricted-vout-size-to-small";
         return false;
@@ -1569,7 +1569,7 @@ bool IsReissueAsset(const CTransaction& tx)
 //! To be called on CTransactions where IsReissueAsset returns true
 bool VerifyReissueAsset(const CTransaction& tx, std::string& strError, int nHeight)
 {
-    // Reissuing an Asset must contain at least 3 CTxOut ( Meowcoin Burn Tx, Any Number of other Outputs ..., Reissue Asset Tx, Owner Asset Change Tx)
+    // Reissuing an Asset must contain at least 3 CTxOut ( Telestai Burn Tx, Any Number of other Outputs ..., Reissue Asset Tx, Owner Asset Change Tx)
     if (tx.vout.size() < 3) {
         strError  = "bad-txns-vout-size-to-small";
         return false;
@@ -1734,13 +1734,13 @@ void CAssetTransfer::ConstructTransaction(CScript& script) const
     ssTransfer << *this;
 
     std::vector<unsigned char> vchMessage;
-    vchMessage.push_back(MEWC_R); // r
-    vchMessage.push_back(MEWC_V); // v
-    vchMessage.push_back(MEWC_N); // n
-    vchMessage.push_back(MEWC_T); // t
+    vchMessage.push_back(TLS_ASSET_R); // r
+    vchMessage.push_back(TLS_ASSET_V); // v
+    vchMessage.push_back(TLS_ASSET_N); // n
+    vchMessage.push_back(TLS_ASSET_T); // t
 
     vchMessage.insert(vchMessage.end(), UCharCast(ssTransfer.data()), UCharCast(ssTransfer.data() + ssTransfer.size()));
-    script << OP_MEWC_ASSET << ToByteVector(vchMessage) << OP_DROP;
+    script << OP_TLS_ASSET << ToByteVector(vchMessage) << OP_DROP;
 }
 
 CReissueAsset::CReissueAsset(const std::string &strAssetName, const CAmount &nAmount, const int &nUnits, const int &nReissuable,
@@ -1761,13 +1761,13 @@ void CReissueAsset::ConstructTransaction(CScript& script) const
     ssReissue << *this;
 
     std::vector<unsigned char> vchMessage;
-    vchMessage.push_back(MEWC_R); // r
-    vchMessage.push_back(MEWC_V); // v
-    vchMessage.push_back(MEWC_N); // n
-    vchMessage.push_back(MEWC_R); // r
+    vchMessage.push_back(TLS_ASSET_R); // r
+    vchMessage.push_back(TLS_ASSET_V); // v
+    vchMessage.push_back(TLS_ASSET_N); // n
+    vchMessage.push_back(TLS_ASSET_R); // r
 
     vchMessage.insert(vchMessage.end(), UCharCast(ssReissue.data()), UCharCast(ssReissue.data() + ssReissue.size()));
-    script << OP_MEWC_ASSET << ToByteVector(vchMessage) << OP_DROP;
+    script << OP_TLS_ASSET << ToByteVector(vchMessage) << OP_DROP;
 }
 
 bool CReissueAsset::IsNull() const
@@ -3235,7 +3235,7 @@ bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, int nHeight, c
 
 bool CheckReissueBurnTx(const CTxOut& txOut, int nHeight)
 {
-    // Check the first transaction and verify that the correct native (MEWC) amount
+    // Check the first transaction and verify that the correct native (TLS) amount
     if (txOut.nValue != GetReissueAssetBurnAmount())
         return false;
 
@@ -3888,7 +3888,7 @@ bool GetBestAssetAddressAmount(CAssetsCache& cache, const std::string& assetName
 std::string DecodeAssetData(std::string encoded)
 {
     // ANS
-    if (CMeowcoinNameSystemID::IsValidID(encoded)) {
+    if (CTelestaiNameSystemID::IsValidID(encoded)) {
         return encoded;
     }
 
@@ -3912,7 +3912,7 @@ std::string DecodeAssetData(std::string encoded)
 std::string EncodeAssetData(std::string decoded)
 {
     // ANS
-    if (CMeowcoinNameSystemID::IsValidID(decoded)) {
+    if (CTelestaiNameSystemID::IsValidID(decoded)) {
         return decoded;
     }
 
@@ -3957,7 +3957,7 @@ bool CheckEncoded(const std::string& hash, std::string& strError) {
     std::string encodedStr = EncodeAssetData(hash);
 
     // ANS
-    if (IsMeowcoinNameSystemDeployed() && CMeowcoinNameSystemID::IsValidID(encodedStr)) {
+    if (IsTelestaiNameSystemDeployed() && CTelestaiNameSystemID::IsValidID(encodedStr)) {
         return true;
     }
 
@@ -4106,7 +4106,7 @@ void CNullAssetTxData::ConstructGlobalRestrictionTransaction(CScript &script) co
     std::vector<unsigned char> vchMessage;
     auto data = UCharCast(ssAssetTxData.data());
     vchMessage.insert(vchMessage.end(), data, data + ssAssetTxData.size());
-    script << OP_MEWC_ASSET << OP_RESERVED << OP_RESERVED << ToByteVector(vchMessage);
+    script << OP_TLS_ASSET << OP_RESERVED << OP_RESERVED << ToByteVector(vchMessage);
 }
 
 CNullAssetTxVerifierString::CNullAssetTxVerifierString(const std::string &verifier)
@@ -4123,7 +4123,7 @@ void CNullAssetTxVerifierString::ConstructTransaction(CScript &script) const
     std::vector<unsigned char> vchMessage;
     auto data = UCharCast(ssAssetTxData.data());
     vchMessage.insert(vchMessage.end(), data, data + ssAssetTxData.size());
-    script << OP_MEWC_ASSET << OP_RESERVED << ToByteVector(vchMessage);
+    script << OP_TLS_ASSET << OP_RESERVED << ToByteVector(vchMessage);
 }
 
 bool CAssetsCache::GetAssetVerifierStringIfExists(const std::string &name, CNullAssetTxVerifierString& verifierString, bool fSkipTempCache)
@@ -4963,16 +4963,16 @@ bool ContextualCheckNewAsset(CAssetsCache* assetCache, const CNewAsset& asset, s
     }
 
     // ANS not allowed when they are not deployed
-    if (asset.nHasANS && !IsMeowcoinNameSystemDeployed()) {
+    if (asset.nHasANS && !IsTelestaiNameSystemDeployed()) {
         strError = _("Invalid parameter: ANS IDs not allowed when they are not deployed.");
         return false;
     }
 
     // Check asset name for ANS
     if (IsAssetNameARoot(asset.strName) && asset.nHasANS) {
-        bool shortLength = asset.strName.length() <= CMeowcoinNameSystemID::domain.length();
-        if (shortLength || asset.strName.substr(asset.strName.length() - CMeowcoinNameSystemID::domain.length()) != CMeowcoinNameSystemID::domain) {
-            strError = std::string(_("Invalid parameter: asset name needs to end in '")) + CMeowcoinNameSystemID::domain + std::string(_("' since ANS data is attached."));
+        bool shortLength = asset.strName.length() <= CTelestaiNameSystemID::domain.length();
+        if (shortLength || asset.strName.substr(asset.strName.length() - CTelestaiNameSystemID::domain.length()) != CTelestaiNameSystemID::domain) {
+            strError = std::string(_("Invalid parameter: asset name needs to end in '")) + CTelestaiNameSystemID::domain + std::string(_("' since ANS data is attached."));
             return false;
         }
     }
@@ -5086,16 +5086,16 @@ bool ContextualCheckReissueAsset(CAssetsCache* assetCache, const CReissueAsset& 
     }
 
     // ANS not allowed when they are not deployed
-    if (reissue_asset.strANSID != "" && !IsMeowcoinNameSystemDeployed()) {
+    if (reissue_asset.strANSID != "" && !IsTelestaiNameSystemDeployed()) {
         strError = _("Invalid parameter: ANS IDs not allowed when they are not deployed.");
         return false;
     }
 
     // Check asset name for ANS
     if (IsAssetNameARoot(reissue_asset.strName) && reissue_asset.strANSID != "") {
-        bool shortLength = reissue_asset.strName.length() <= CMeowcoinNameSystemID::domain.length();
-        if (shortLength || reissue_asset.strName.substr(reissue_asset.strName.length() - CMeowcoinNameSystemID::domain.length()) != CMeowcoinNameSystemID::domain) {
-            strError = std::string(_("Invalid parameter: asset name needs to end in '")) + CMeowcoinNameSystemID::domain + std::string(_("' since ANS data is attached."));
+        bool shortLength = reissue_asset.strName.length() <= CTelestaiNameSystemID::domain.length();
+        if (shortLength || reissue_asset.strName.substr(reissue_asset.strName.length() - CTelestaiNameSystemID::domain.length()) != CTelestaiNameSystemID::domain) {
+            strError = std::string(_("Invalid parameter: asset name needs to end in '")) + CTelestaiNameSystemID::domain + std::string(_("' since ANS data is attached."));
             return false;
         }
     }
@@ -5192,16 +5192,16 @@ bool ContextualCheckReissueAsset(CAssetsCache* assetCache, const CReissueAsset& 
     }
 
     // ANS not allowed when they are not deployed
-    if (reissue_asset.strANSID != "" && !IsMeowcoinNameSystemDeployed()) {
+    if (reissue_asset.strANSID != "" && !IsTelestaiNameSystemDeployed()) {
         strError = _("Invalid parameter: ANS IDs not allowed when they are not deployed.");
         return false;
     }
 
     // Check asset name for ANS
     if (IsAssetNameARoot(reissue_asset.strName) && reissue_asset.strANSID != "") {
-        bool shortLength = reissue_asset.strName.length() <= CMeowcoinNameSystemID::domain.length();
-        if (shortLength || reissue_asset.strName.substr(reissue_asset.strName.length() - CMeowcoinNameSystemID::domain.length()) != CMeowcoinNameSystemID::domain) {
-            strError = std::string(_("Invalid parameter: asset name needs to end in '")) + CMeowcoinNameSystemID::domain + std::string(_("' since ANS data is attached."));
+        bool shortLength = reissue_asset.strName.length() <= CTelestaiNameSystemID::domain.length();
+        if (shortLength || reissue_asset.strName.substr(reissue_asset.strName.length() - CTelestaiNameSystemID::domain.length()) != CTelestaiNameSystemID::domain) {
+            strError = std::string(_("Invalid parameter: asset name needs to end in '")) + CTelestaiNameSystemID::domain + std::string(_("' since ANS data is attached."));
             return false;
         }
     }
@@ -5265,7 +5265,7 @@ std::string GetUserErrorString(const ErrorReport& report)
 
 UniValue UnitValueFromAmount(const CAmount& amount, int8_t units)
 {
-    // Asset amounts are stored as CAmount in 1e-8 base units (like MEWC).
+    // Asset amounts are stored as CAmount in 1e-8 base units (like TLS).
     // The asset's `units` field restricts the displayed/allowed decimal places.
     // For example, an asset issued with amount 10 and units=0 is stored as
     // 10 * COIN internally, but should be displayed as "10".

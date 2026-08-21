@@ -1,14 +1,14 @@
-Meowcoin version 0.5.4 is now available for download at:
-http://sourceforge.net/projects/meowcoin/files/Meowcoin/meowcoin-0.5.4/
+Telestai version 0.5.4 is now available for download at:
+http://sourceforge.net/projects/telestai/files/Telestai/telestai-0.5.4/
 NOTE: 0.5.4rc3 is being renamed to 0.5.4 final with no changes.
 
 This is a bugfix-only release in the 0.5.x series, plus a few protocol updates.
 
 Please report bugs using the issue tracker at github:
-https://github.com/meowcoin/meowcoin/issues
+https://github.com/Telestai-Project/telestai/issues
 
 Stable source code is hosted at Gitorious:
-http://gitorious.org/meowcoin/meowcoind-stable/archive-tarball/v0.5.4#.tar.gz
+http://gitorious.org/telestai/telestaid-stable/archive-tarball/v0.5.4#.tar.gz
 
 PROTOCOL UPDATES
 
@@ -22,8 +22,8 @@ Fix broken testnet mining.
 Stop excess inventory relay during initial block download.
 When disconnecting a node, clear the received buffer so that we do not process any already received messages.
 Yet another attempt at implementing "minimize to tray" that works on all operating systems.
-Fix Meowcoin-Qt notifications under Growl 1.3.
-Increase required age of Meowcoin-Qt's "not up to date" status from 30 to 90 minutes.
+Fix Telestai-Qt notifications under Growl 1.3.
+Increase required age of Telestai-Qt's "not up to date" status from 30 to 90 minutes.
 Implemented missing verifications that led to crash on entering some wrong passphrases for encrypted wallets.
 Fix default filename suffixes in GNOME save dialog.
 Make the "Send coins" tab use the configured unit type, even on the first attempt.
@@ -31,7 +31,7 @@ Print detailed wallet loading errors to debug.log when it is corrupt.
 Allocate exactly the amount of space needed for signing transactions, instead of a fixed 10k buffer.
 Workaround for improbable memory access violation.
 Check wallet's minimum version before trying to load it.
-Remove wxBitcoin properly when installing Meowcoin-Qt over it. (Windows)
+Remove wxBitcoin properly when installing Telestai-Qt over it. (Windows)
 Detail reorganization information better in debug log.
 Use a messagebox to display the error when -server is provided without configuring a RPC password.
 Testing suite build now honours provided CXXFLAGS.

@@ -1,6 +1,6 @@
-# Bootstrappable Meowcoin Core Builds
+# Bootstrappable Telestai Core Builds
 
-This directory contains the files necessary to perform bootstrappable Meowcoin
+This directory contains the files necessary to perform bootstrappable Telestai
 Core builds.
 
 [Bootstrappability][b17e] furthers our binary security guarantees by allowing us
@@ -57,7 +57,7 @@ and examples](#common-guix-build-invocation-patterns-and-examples) section below
 before starting a build. For a full list of customization options, see the
 [recognized environment variables][env-vars-list] section.*
 
-To build Meowcoin Core reproducibly with all default options, invoke the
+To build Telestai Core reproducibly with all default options, invoke the
 following from the top of a clean repository:
 
 ```sh
@@ -80,14 +80,14 @@ crucial differences:
     * _**DETACHED_SIGS_REPO**_
 
       Set the directory where detached codesignatures can be found for the current
-      Meowcoin Core version being built.
+      Telestai Core version being built.
 
       _REQUIRED environment variable_
 
 An invocation with all default options would look like:
 
 ```
-env DETACHED_SIGS_REPO=<path/to/meowcoin-detached-sigs> ./contrib/guix/guix-codesign
+env DETACHED_SIGS_REPO=<path/to/telestai-detached-sigs> ./contrib/guix/guix-codesign
 ```
 
 ## Cleaning intermediate work directories
@@ -108,7 +108,7 @@ worktree to save disk space:
 
 Much like how Gitian build outputs are attested to in a `gitian.sigs`
 repository, Guix build outputs are attested to in the [`guix.sigs`
-repository](https://github.com/meowcoin-core/guix.sigs).
+repository](https://github.com/telestai-core/guix.sigs).
 
 After you've cloned the `guix.sigs` repository, to attest to the current
 worktree's commit/tag:

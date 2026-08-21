@@ -1,5 +1,5 @@
-// Copyright (c) 2019-2020 The Meowcoin Core developers
-// Copyright (c) 2020-2024 The Meowcoin developers
+// Copyright (c) 2019-2020 The Telestai Core developers
+// Copyright (c) 2020-2024 The Telestai developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

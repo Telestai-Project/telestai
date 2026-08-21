@@ -1,5 +1,5 @@
-// Copyright (c) 2019 The Meowcoin Core developers
-// Copyright (c) 2022 The Meowcoin Core developers
+// Copyright (c) 2019 The Telestai Core developers
+// Copyright (c) 2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -163,7 +163,7 @@ public:
     void ConstructOwnerTransaction(CScript& script) const;
 
     // Explicit Serialize/Unserialize for custom IPFS hash handling.
-    // Binary format must match Meowcoin exactly for consensus compatibility.
+    // Binary format must match Telestai exactly for consensus compatibility.
     template <typename Stream>
     void Serialize(Stream& s) const
     {

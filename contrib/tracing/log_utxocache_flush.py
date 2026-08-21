@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021-2022 The Meowcoin Core developers
+# Copyright (c) 2021-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,10 +7,10 @@ import sys
 import ctypes
 from bcc import BPF, USDT
 
-"""Example logging Meowcoin Core utxo set cache flushes utilizing
+"""Example logging Telestai Core utxo set cache flushes utilizing
     the utxocache:flush tracepoint."""
 
-# USAGE:  ./contrib/tracing/log_utxocache_flush.py path/to/meowcoind
+# USAGE:  ./contrib/tracing/log_utxocache_flush.py path/to/telestaid
 
 # BCC: The C program to be compiled to an eBPF program (by BCC) and loaded into
 # a sandboxed Linux kernel VM.
@@ -71,14 +71,14 @@ def print_event(event):
 
 
 def main(pid):
-    print(f"Hooking into meowcoind with pid {pid}")
-    meowcoind_with_usdts = USDT(pid=int(pid))
+    print(f"Hooking into telestaid with pid {pid}")
+    telestaid_with_usdts = USDT(pid=int(pid))
 
     # attaching the trace functions defined in the BPF program
     # to the tracepoints
-    meowcoind_with_usdts.enable_probe(
+    telestaid_with_usdts.enable_probe(
         probe="flush", fn_name="trace_flush")
-    b = BPF(text=program, usdt_contexts=[meowcoind_with_usdts])
+    b = BPF(text=program, usdt_contexts=[telestaid_with_usdts])
 
     def handle_flush(_, data, size):
         """ Coins Flush handler.
@@ -101,7 +101,7 @@ def main(pid):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("USAGE: ", sys.argv[0], "<pid of meowcoind>")
+        print("USAGE: ", sys.argv[0], "<pid of telestaid>")
         exit(1)
 
     pid = sys.argv[1]

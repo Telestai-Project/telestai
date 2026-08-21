@@ -1,4 +1,4 @@
-// Copyright (c) 2025 The Meowcoin Core developers
+// Copyright (c) 2025 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -66,7 +66,7 @@ CBlock CreateTestBlock(
  * Creates key pairs and corresponding outputs for the benchmark transactions.
  * - For Schnorr signatures: Creates simple key path spendable outputs
  * - For Ecdsa signatures: Creates P2WPKH (native SegWit v0) outputs
- * - All outputs have value of 1 MEWC
+ * - All outputs have value of 1 TLS
  */
 std::pair<std::vector<CKey>, std::vector<CTxOut>> CreateKeysAndOutputs(const CKey& coinbaseKey, size_t num_schnorr, size_t num_ecdsa)
 {

@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 The Meowcoin Core developers
+// Copyright (c) 2021-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -35,7 +35,7 @@ static constexpr int ADDRMAN_BUCKET_SIZE{1 << ADDRMAN_BUCKET_SIZE_LOG2};
 /**
  * User-defined type for the internally used nIds
  * This used to be int, making it feasible for attackers to cause an overflow,
- * see https://meowcoincore.org/en/2024/07/31/disclose-addrman-int-overflow/
+ * see https://telestaicore.org/en/2024/07/31/disclose-addrman-int-overflow/
  */
 using nid_type = int64_t;
 

@@ -1,22 +1,22 @@
-Meowcoin Core version 0.14.1 is now available from:
+Telestai Core version 0.14.1 is now available from:
 
-  <https://meowcoin.org/bin/meowcoin-core-0.14.1/>
+  <https://telestai.org/bin/telestai-core-0.14.1/>
 
 This is a new minor version release, including various bugfixes and
 performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/meowcoin/meowcoin/issues>
+  <https://github.com/Telestai-Project/telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://meowcoincore.org/en/list/announcements/join/>
+  <https://telestaicore.org/en/list/announcements/join/>
 
 Compatibility
 ==============
 
-Meowcoin Core is extensively tested on multiple operating systems using
+Telestai Core is extensively tested on multiple operating systems using
 the Linux kernel, macOS 10.8+, and Windows Vista and later.
 
 Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
@@ -24,7 +24,7 @@ No attempt is made to prevent installing or running the software on Windows XP, 
 can still do so at your own risk but be aware that there are known instabilities and issues.
 Please do not report issues about Windows XP to the issue tracker.
 
-Meowcoin Core should also work on most other Unix-like systems but is not
+Telestai Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 Notable changes
@@ -75,7 +75,7 @@ this parameter.
 
 Additional information relating to running on low-memory systems can be found
 here:
-[reducing-meowcoind-memory-usage.md](https://gist.github.com/laanwj/efe29c7661ce9b6620a7).
+[reducing-telestaid-memory-usage.md](https://gist.github.com/laanwj/efe29c7661ce9b6620a7).
 
 0.14.1 Change log
 =================
@@ -117,7 +117,7 @@ git merge commit are mentioned.
 ### Miscellaneous
 - #10037 `4d8e660` Trivial: Fix typo in help getrawtransaction RPC (keystrike)
 - #10120 `e4c9a90` util: Work around (virtual) memory exhaustion on 32-bit w/ glibc (laanwj)
-- #10130 `ecc5232` meowcoin-tx input verification (awemany, jnewbery)
+- #10130 `ecc5232` telestai-tx input verification (awemany, jnewbery)
 
 Credits
 =======
@@ -139,5 +139,5 @@ Thanks to everyone who directly contributed to this release:
 - Suhas Daftuar
 - Wladimir J. van der Laan
 
-As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/meowcoin/).
+As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/telestai/).
 

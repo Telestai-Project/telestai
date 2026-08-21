@@ -1,4 +1,4 @@
-// Copyright (c) 2012-present The Meowcoin Core developers
+// Copyright (c) 2012-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,7 +15,7 @@ static const int PROTOCOL_VERSION = 70031;
 static const int INIT_PROTO_VERSION = 209;
 
 //! disconnect from peers older than this proto version
-//! Meowcoin: require at least MEOWPOW_VERSION (70030)
+//! Telestai: require at least MEOWPOW_VERSION (70030)
 static const int MIN_PEER_PROTO_VERSION = 70030;
 
 //! BIP 0031, pong message, is enabled for all versions AFTER this one
@@ -36,25 +36,25 @@ static const int INVALID_CB_NO_BAN_VERSION = 70015;
 //! "wtxidrelay" command for wtxid-based relay starts with this version
 static const int WTXID_RELAY_VERSION = 70016;
 
-//! Meowcoin: X16RV2 activation protocol version
+//! Telestai: X16RV2 activation protocol version
 static const int X16RV2_VERSION = 70025;
 
-//! Meowcoin: KAWPOW activation protocol version
+//! Telestai: KAWPOW activation protocol version
 static const int KAWPOW_VERSION = 70027;
 
-//! Meowcoin: MEOWPOW activation protocol version
+//! Telestai: MEOWPOW activation protocol version
 static const int MEOWPOW_VERSION = 70030;
 
-//! Meowcoin: asset data P2P version
+//! Telestai: asset data P2P version
 static const int ASSETDATA_VERSION = 70017;
 
-//! Meowcoin: updated asset data P2P version
+//! Telestai: updated asset data P2P version
 static const int ASSETDATA_VERSION_UPDATED = 70020;
 
-//! Meowcoin: messaging & restricted assets protocol version
+//! Telestai: messaging & restricted assets protocol version
 static const int MESSAGING_RESTRICTED_ASSETS_VERSION = 70026;
 
-//! Meowcoin: AuxPoW activation protocol version
+//! Telestai: AuxPoW activation protocol version
 static const int AUXPOW_VERSION = 70031;
 
 #endif // BITCOIN_NODE_PROTOCOL_VERSION_H

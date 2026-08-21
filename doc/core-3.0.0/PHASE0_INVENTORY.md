@@ -9,8 +9,8 @@ Critical constants (`src/crypto/ethash/include/ethash/progpow.hpp`):
 - `period_length = 3`
 - `num_regs = 32`
 - `num_lanes = 16`
-- `num_cache_accesses = 12`  ← must not take Meowcoin’s 11
-- `num_math_operations = 5` ← must not take Meowcoin’s 18
+- `num_cache_accesses = 12`  ← must not take Telestai’s 11
+- `num_math_operations = 5` ← must not take Telestai’s 18
 - `l1_cache_size = 16 * 1024`
 
 Related:
@@ -42,6 +42,6 @@ Miner: https://github.com/Telestai-Project/tele-meraki-miner
 
 ## Explicit non-goals in port
 
-- AuxPoW / merge-mining (do not bring from Meowcoin)
-- Meowcoin MeowPow constants
+- AuxPoW / merge-mining (do not bring from Telestai)
+- Telestai MeowPow constants
 - PQ / ML-DSA in first 3.0.0

@@ -1,40 +1,40 @@
 25.0 Release Notes
 ==================
 
-Meowcoin Core version 25.0 is now available from:
+Telestai Core version 25.0 is now available from:
 
-  <https://meowcoincore.org/bin/meowcoin-core-25.0/>
+  <https://telestaicore.org/bin/telestai-core-25.0/>
 
 This release includes new features, various bug fixes and performance
 improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/meowcoin/meowcoin/issues>
+  <https://github.com/Telestai-Project/telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://meowcoincore.org/en/list/announcements/join/>
+  <https://telestaicore.org/en/list/announcements/join/>
 
 How to Upgrade
 ==============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes in some cases), then run the
-installer (on Windows) or just copy over `/Applications/Meowcoin-Qt` (on macOS)
-or `meowcoind`/`meowcoin-qt` (on Linux).
+installer (on Windows) or just copy over `/Applications/Telestai-Qt` (on macOS)
+or `telestaid`/`telestai-qt` (on Linux).
 
-Upgrading directly from a version of Meowcoin Core that has reached its EOL is
+Upgrading directly from a version of Telestai Core that has reached its EOL is
 possible, but it might take some time if the data directory needs to be migrated. Old
-wallet versions of Meowcoin Core are generally supported.
+wallet versions of Telestai Core are generally supported.
 
 Compatibility
 ==============
 
-Meowcoin Core is supported and extensively tested on operating systems
-using the Linux kernel, macOS 10.15+, and Windows 7 and newer.  Meowcoin
+Telestai Core is supported and extensively tested on operating systems
+using the Linux kernel, macOS 10.15+, and Windows 7 and newer.  Telestai
 Core should also work on most other Unix-like systems but is not as
-frequently tested on them.  It is not recommended to use Meowcoin Core on
+frequently tested on them.  It is not recommended to use Telestai Core on
 unsupported systems.
 
 Notable changes
@@ -60,20 +60,20 @@ Updated RPCs
 ------------
 
 - All JSON-RPC methods accept a new [named
-  parameter](https://github.com/meowcoin/meowcoin/blob/master/doc/JSON-RPC-interface.md#parameter-passing) called `args` that can
+  parameter](https://github.com/Telestai-Project/telestai/blob/master/doc/JSON-RPC-interface.md#parameter-passing) called `args` that can
   contain positional parameter values. This is a convenience to allow some
   parameter values to be passed by name without having to name every value. The
-  python test framework and `meowcoin-cli` tool both take advantage of this, so
+  python test framework and `telestai-cli` tool both take advantage of this, so
   for example:
 
 ```sh
-meowcoin-cli -named createwallet wallet_name=mywallet load_on_startup=1
+telestai-cli -named createwallet wallet_name=mywallet load_on_startup=1
 ```
 
 Can now be shortened to:
 
 ```sh
-meowcoin-cli -named createwallet mywallet load_on_startup=1
+telestai-cli -named createwallet mywallet load_on_startup=1
 ```
 
 - The `verifychain` RPC will now return `false` if the checks didn't fail,
@@ -114,7 +114,7 @@ Updated settings
 
 - If the `-checkblocks` or `-checklevel` options are explicitly provided by the
 user, but the verification checks cannot be completed due to an insufficient
-dbcache, Meowcoin Core will now return an error at startup. (#25574)
+dbcache, Telestai Core will now return an error at startup. (#25574)
 
 - Ports specified in `-port` and `-rpcport` options are now validated at startup.
   Values that previously worked and were considered valid can now result in errors. (#22087)
@@ -137,7 +137,7 @@ New settings
 ------------
 
 - The `shutdownnotify` option is used to specify a command to execute synchronously
-before Meowcoin Core has begun its shutdown sequence. (#23395)
+before Telestai Core has begun its shutdown sequence. (#23395)
 
 
 Wallet
@@ -182,7 +182,7 @@ added to the following RPCs in #25375:
   returns a JSON array of strings to better handle multiple warning messages and
   for consistency with other wallet RPCs. The "warning" field will be fully
   removed from these RPCs in v26. It can be temporarily re-enabled during the
-  deprecation period by launching meowcoind with the configuration option
+  deprecation period by launching telestaid with the configuration option
   `-deprecatedrpc=walletwarningfield`. (#27279)
 
 - Descriptor wallets can now spend coins sent to P2WSH Miniscript descriptors. (#24149)
@@ -208,7 +208,7 @@ Binary verification
   In this release and moving forward it will verify that the binaries are
   signed by a _threshold of trusted keys_. For more details and
   examples, see:
-  https://github.com/meowcoin/meowcoin/blob/master/contrib/verify-binaries/README.md
+  https://github.com/Telestai-Project/telestai/blob/master/contrib/verify-binaries/README.md
   (#27358)
 
 Low-level changes
@@ -244,7 +244,7 @@ Thanks to everyone who directly contributed to this release:
 - Antoine Poinsot
 - Aurèle Oulès
 - Ben Woosley
-- Meowcoin Hodler
+- Telestai Hodler
 - brunoerg
 - Bushstar
 - Carl Dong
@@ -337,4 +337,4 @@ Thanks to everyone who directly contributed to this release:
 - Yusuf Sahin HAMZA
 
 As well as to everyone that helped with translations on
-[Transifex](https://www.transifex.com/meowcoin/meowcoin/).
+[Transifex](https://www.transifex.com/telestai/telestai/).

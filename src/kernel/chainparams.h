@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2021 The Meowcoin Core developers
+// Copyright (c) 2009-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -64,7 +64,7 @@ struct ChainTxData {
 
 /**
  * CChainParams defines various tweakable parameters of a given instance of the
- * Meowcoin system.
+ * Telestai system.
  */
 class CChainParams
 {
@@ -119,12 +119,12 @@ public:
 
     const ChainTxData& TxData() const { return chainTxData; }
 
-    /** Meowcoin: Check if AuxPoW is active at the given height. */
+    /** Telestai: Check if AuxPoW is active at the given height. */
     bool IsAuxpowActive(int height) const {
         return consensus.IsAuxpowActive(height);
     }
 
-    /** Meowcoin: asset burn amounts */
+    /** Telestai: asset burn amounts */
     const CAmount& IssueAssetBurnAmount() const { return nIssueAssetBurnAmount; }
     const CAmount& ReissueAssetBurnAmount() const { return nReissueAssetBurnAmount; }
     const CAmount& IssueSubAssetBurnAmount() const { return nIssueSubAssetBurnAmount; }
@@ -135,10 +135,10 @@ public:
     const CAmount& IssueRestrictedAssetBurnAmount() const { return nIssueRestrictedAssetBurnAmount; }
     const CAmount& AddNullQualifierTagBurnAmount() const { return nAddNullQualifierTagBurnAmount; }
 
-    /** Meowcoin: community autonomous (donation) */
+    /** Telestai: community autonomous (donation) */
     const CAmount& CommunityAutonomousAmount() const { return nCommunityAutonomousAmount; }
 
-    /** Meowcoin: asset burn addresses */
+    /** Telestai: asset burn addresses */
     const std::string& IssueAssetBurnAddress() const { return strIssueAssetBurnAddress; }
     const std::string& ReissueAssetBurnAddress() const { return strReissueAssetBurnAddress; }
     const std::string& IssueSubAssetBurnAddress() const { return strIssueSubAssetBurnAddress; }
@@ -165,7 +165,7 @@ public:
             || p_address == strCommunityAutonomousAddress;
     }
 
-    /** Meowcoin: activation helpers */
+    /** Telestai: activation helpers */
     unsigned int DGWActivationBlock() const { return nDGWActivationBlock; }
     unsigned int MessagingActivationBlock() const { return nMessagingActivationBlock; }
     unsigned int RestrictedActivationBlock() const { return nRestrictedActivationBlock; }
@@ -230,10 +230,10 @@ protected:
     std::vector<AssumeutxoData> m_assumeutxo_data;
     ChainTxData chainTxData;
 
-    /** Meowcoin: BIP44 coin type */
+    /** Telestai: BIP44 coin type */
     int nExtCoinType{0};
 
-    /** Meowcoin: asset burn amounts */
+    /** Telestai: asset burn amounts */
     CAmount nIssueAssetBurnAmount{0};
     CAmount nReissueAssetBurnAmount{0};
     CAmount nIssueSubAssetBurnAmount{0};
@@ -245,7 +245,7 @@ protected:
     CAmount nAddNullQualifierTagBurnAmount{0};
     CAmount nCommunityAutonomousAmount{0};
 
-    /** Meowcoin: burn addresses */
+    /** Telestai: burn addresses */
     std::string strIssueAssetBurnAddress;
     std::string strReissueAssetBurnAddress;
     std::string strIssueSubAssetBurnAddress;
@@ -258,7 +258,7 @@ protected:
     std::string strGlobalBurnAddress;
     std::string strCommunityAutonomousAddress;
 
-    /** Meowcoin: activation blocks / heights */
+    /** Telestai: activation blocks / heights */
     unsigned int nDGWActivationBlock{1};
     unsigned int nMessagingActivationBlock{1};
     unsigned int nRestrictedActivationBlock{1};
@@ -267,7 +267,7 @@ protected:
     int nMinReorganizationAge{43200}; // 12 hours in seconds
     int nAssetActivationHeight{1};
 
-    /** Meowcoin: PoW algorithm transition timestamps */
+    /** Telestai: PoW algorithm transition timestamps */
     uint32_t nKAWPOWActivationTime{0};
     uint32_t nMEOWPOWActivationTime{0};
 };

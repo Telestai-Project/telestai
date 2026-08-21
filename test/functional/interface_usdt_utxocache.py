@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2022-present The Meowcoin Core developers
+# Copyright (c) 2022-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 """ Tests the utxocache:* tracepoint API interface.
-    See https://github.com/meowcoin/meowcoin/blob/master/doc/tracing.md#context-utxocache
+    See https://github.com/Telestai-Project/telestai/blob/master/doc/tracing.md#context-utxocache
 """
 
 import ctypes
@@ -123,7 +123,7 @@ class UTXOCacheChange(ctypes.Structure):
     ]
 
     def __repr__(self):
-        return f"UTXOCacheChange(outpoint={bytes(self.txid[::-1]).hex()}:{self.index}, height={self.height}, value={self.value}mewc, is_coinbase={self.is_coinbase})"
+        return f"UTXOCacheChange(outpoint={bytes(self.txid[::-1]).hex()}:{self.index}, height={self.height}, value={self.value}tls, is_coinbase={self.is_coinbase})"
 
 
 class UTXOCacheFlush(ctypes.Structure):
@@ -147,7 +147,7 @@ class UTXOCacheTracepointTest(BitcoinTestFramework):
 
     def skip_test_if_missing_module(self):
         self.skip_if_platform_not_linux()
-        self.skip_if_no_meowcoind_tracepoints()
+        self.skip_if_no_telestaid_tracepoints()
         self.skip_if_no_python_bcc()
         self.skip_if_no_bpf_permissions()
         self.skip_if_running_under_valgrind()
@@ -161,7 +161,7 @@ class UTXOCacheTracepointTest(BitcoinTestFramework):
 
     def test_uncache(self):
         """ Tests the utxocache:uncache tracepoint API.
-        https://github.com/meowcoin/meowcoin/blob/master/doc/tracing.md#tracepoint-utxocacheuncache
+        https://github.com/Telestai-Project/telestai/blob/master/doc/tracing.md#tracepoint-utxocacheuncache
         """
         # To trigger an UTXO uncache from the cache, we create an invalid transaction
         # spending a not-cached, but existing UTXO. During transaction validation, this
@@ -226,8 +226,8 @@ class UTXOCacheTracepointTest(BitcoinTestFramework):
 
     def test_add_spent(self):
         """ Tests the utxocache:add utxocache:spent tracepoint API
-            See https://github.com/meowcoin/meowcoin/blob/master/doc/tracing.md#tracepoint-utxocacheadd
-            and https://github.com/meowcoin/meowcoin/blob/master/doc/tracing.md#tracepoint-utxocachespent
+            See https://github.com/Telestai-Project/telestai/blob/master/doc/tracing.md#tracepoint-utxocacheadd
+            and https://github.com/Telestai-Project/telestai/blob/master/doc/tracing.md#tracepoint-utxocachespent
         """
 
         self.log.info(
@@ -347,7 +347,7 @@ class UTXOCacheTracepointTest(BitcoinTestFramework):
 
     def test_flush(self):
         """ Tests the utxocache:flush tracepoint API.
-            See https://github.com/meowcoin/meowcoin/blob/master/doc/tracing.md#tracepoint-utxocacheflush"""
+            See https://github.com/Telestai-Project/telestai/blob/master/doc/tracing.md#tracepoint-utxocacheflush"""
 
         self.log.info("test the utxocache:flush tracepoint API")
         self.log.info("hook into the utxocache:flush tracepoint")

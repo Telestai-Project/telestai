@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,10 +6,10 @@
 #define BITCOIN_ASSETS_ASSETS_H
 
 /**
- * Meowcoin asset layer — type definitions and feature gates.
+ * Telestai asset layer — type definitions and feature gates.
  *
  * The full implementation (cache, database, validation integration) from the
- * original Meowcoin source is preserved as reference in the sibling *db.cpp/h
+ * original Telestai source is preserved as reference in the sibling *db.cpp/h
  * files.  This header provides the types that the rest of the codebase needs
  * (P2P, RPC, script) and stub feature gates that return false/empty to keep
  * the node functional without the asset subsystem fully wired.
@@ -31,12 +31,12 @@
 // Constants
 // ---------------------------------------------------------------------------
 
-#define MEWC_R 114
-#define MEWC_V 118
-#define MEWC_N 110
-#define MEWC_Q 113
-#define MEWC_T 116
-#define MEWC_O 111
+#define TLS_ASSET_R 114
+#define TLS_ASSET_V 118
+#define TLS_ASSET_N 110
+#define TLS_ASSET_Q 113
+#define TLS_ASSET_T 116
+#define TLS_ASSET_O 111
 
 #define DEFAULT_UNITS 0
 #define DEFAULT_REISSUABLE 1

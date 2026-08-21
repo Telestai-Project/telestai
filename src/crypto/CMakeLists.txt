@@ -1,8 +1,8 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
-add_library(meowcoin_crypto STATIC EXCLUDE_FROM_ALL
+add_library(telestai_crypto STATIC EXCLUDE_FROM_ALL
   aes.cpp
   chacha20.cpp
   chacha20poly1305.cpp
@@ -23,7 +23,7 @@ add_library(meowcoin_crypto STATIC EXCLUDE_FROM_ALL
   ../support/cleanse.cpp
 )
 
-target_link_libraries(meowcoin_crypto
+target_link_libraries(telestai_crypto
   PRIVATE
     core_interface
 )
@@ -32,41 +32,41 @@ target_link_libraries(meowcoin_crypto
 # HAVE_LIBOQS is defined, and stub implementations (returning false) otherwise.
 # This ensures the mldsa:: symbols are always present at link time even on
 # systems that do not have liboqs installed.
-target_sources(meowcoin_crypto PRIVATE mldsa.cpp)
+target_sources(telestai_crypto PRIVATE mldsa.cpp)
 if(WITH_LIBOQS AND LIBOQS_FOUND)
-  target_link_libraries(meowcoin_crypto PUBLIC ${LIBOQS_TARGET})
+  target_link_libraries(telestai_crypto PUBLIC ${LIBOQS_TARGET})
   if(LIBOQS_INCLUDE_DIRS)
-    target_include_directories(meowcoin_crypto PRIVATE ${LIBOQS_INCLUDE_DIRS})
+    target_include_directories(telestai_crypto PRIVATE ${LIBOQS_INCLUDE_DIRS})
   endif()
 endif()
 
 if(HAVE_SSE41)
-  target_compile_definitions(meowcoin_crypto PRIVATE ENABLE_SSE41)
-  target_sources(meowcoin_crypto PRIVATE sha256_sse41.cpp)
+  target_compile_definitions(telestai_crypto PRIVATE ENABLE_SSE41)
+  target_sources(telestai_crypto PRIVATE sha256_sse41.cpp)
   set_property(SOURCE sha256_sse41.cpp PROPERTY
     COMPILE_OPTIONS ${SSE41_CXXFLAGS}
   )
 endif()
 
 if(HAVE_AVX2)
-  target_compile_definitions(meowcoin_crypto PRIVATE ENABLE_AVX2)
-  target_sources(meowcoin_crypto PRIVATE sha256_avx2.cpp)
+  target_compile_definitions(telestai_crypto PRIVATE ENABLE_AVX2)
+  target_sources(telestai_crypto PRIVATE sha256_avx2.cpp)
   set_property(SOURCE sha256_avx2.cpp PROPERTY
     COMPILE_OPTIONS ${AVX2_CXXFLAGS}
   )
 endif()
 
 if(HAVE_SSE41 AND HAVE_X86_SHANI)
-  target_compile_definitions(meowcoin_crypto PRIVATE ENABLE_SSE41 ENABLE_X86_SHANI)
-  target_sources(meowcoin_crypto PRIVATE sha256_x86_shani.cpp)
+  target_compile_definitions(telestai_crypto PRIVATE ENABLE_SSE41 ENABLE_X86_SHANI)
+  target_sources(telestai_crypto PRIVATE sha256_x86_shani.cpp)
   set_property(SOURCE sha256_x86_shani.cpp PROPERTY
     COMPILE_OPTIONS ${SSE41_CXXFLAGS} ${X86_SHANI_CXXFLAGS}
   )
 endif()
 
 if(HAVE_ARM_SHANI)
-  target_compile_definitions(meowcoin_crypto PRIVATE ENABLE_ARM_SHANI)
-  target_sources(meowcoin_crypto PRIVATE sha256_arm_shani.cpp)
+  target_compile_definitions(telestai_crypto PRIVATE ENABLE_ARM_SHANI)
+  target_sources(telestai_crypto PRIVATE sha256_arm_shani.cpp)
   set_property(SOURCE sha256_arm_shani.cpp PROPERTY
     COMPILE_OPTIONS ${ARM_SHANI_CXXFLAGS}
   )

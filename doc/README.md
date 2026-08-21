@@ -1,45 +1,45 @@
-Meowcoin Core
+Telestai Core
 =============
 
 Setup
 ---------------------
-Meowcoin Core is the original Meowcoin client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Meowcoin transactions, which requires several hundred gigabytes or more of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to several days or more.
+Telestai Core is the original Telestai client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Telestai transactions, which requires several hundred gigabytes or more of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to several days or more.
 
-To download Meowcoin Core, visit [meowcoincore.org](https://www.mewccrypto.com/en/download/).
+To download Telestai Core, visit [telestaicore.org](https://www.mewccrypto.com/en/download/).
 
 Running
 ---------------------
-The following are some helpful notes on how to run Meowcoin Core on your native platform.
+The following are some helpful notes on how to run Telestai Core on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/meowcoin-qt` (GUI) or
-- `bin/meowcoind` (headless)
-- `bin/meowcoin` (wrapper command)
+- `bin/telestai-qt` (GUI) or
+- `bin/telestaid` (headless)
+- `bin/telestai` (wrapper command)
 
-The `meowcoin` command supports subcommands like `meowcoin gui`, `meowcoin node`, and `meowcoin rpc` exposing different functionality. Subcommands can be listed with `meowcoin help`.
+The `telestai` command supports subcommands like `telestai gui`, `telestai node`, and `telestai rpc` exposing different functionality. Subcommands can be listed with `telestai help`.
 
 ### Windows
 
-Unpack the files into a directory, and then run meowcoin-qt.exe.
+Unpack the files into a directory, and then run telestai-qt.exe.
 
 ### macOS
 
-Drag Meowcoin Core to your applications folder, and then run Meowcoin Core.
+Drag Telestai Core to your applications folder, and then run Telestai Core.
 
 ### Need Help?
 
-* See the documentation at the [Meowcoin Wiki](https://en.meowcoin.it/wiki/Main_Page)
+* See the documentation at the [Telestai Wiki](https://en.bitcoin.it/wiki/Main_Page)
 for help and more information.
-* Ask for help on [Meowcoin StackExchange](https://meowcoin.stackexchange.com).
-* Ask for help on #meowcoin on Libera Chat. If you don't have an IRC client, you can use [web.libera.chat](https://web.libera.chat/#meowcoin).
-* Ask for help on the [BitcoinTalk](https://meowcointalk.org/) forums, in the [Technical Support board](https://meowcointalk.org/index.php?board=4.0).
+* Ask for help on [Telestai StackExchange](https://telestai.stackexchange.com).
+* Ask for help on #telestai on Libera Chat. If you don't have an IRC client, you can use [web.libera.chat](https://web.libera.chat/#telestai).
+* Ask for help on the [BitcoinTalk](https://telestaitalk.org/) forums, in the [Technical Support board](https://telestaitalk.org/index.php?board=4.0).
 
 Building
 ---------------------
-The following are developer notes on how to build Meowcoin Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Telestai Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [Dependencies](dependencies.md)
 - [macOS Build Notes](build-osx.md)
@@ -51,12 +51,12 @@ The following are developer notes on how to build Meowcoin Core on your native p
 
 Development
 ---------------------
-The Meowcoin repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The Telestai repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Productivity Notes](productivity.md)
 - [Release Process](release-process.md)
-- [Source Code Documentation (External Link)](https://doxygen.meowcoincore.org/)
+- [Source Code Documentation (External Link)](https://doxygen.telestaicore.org/)
 - [Translation Process](translation_process.md)
 - [Translation Strings Policy](translation_strings_policy.md)
 - [JSON-RPC Interface](JSON-RPC-interface.md)
@@ -67,12 +67,12 @@ The Meowcoin repo's [root README](/README.md) contains relevant information on t
 - [Internal Design Docs](design/)
 
 ### Resources
-* Discuss on the [BitcoinTalk](https://meowcointalk.org/) forums, in the [Development & Technical Discussion board](https://meowcointalk.org/index.php?board=6.0).
-* Discuss project-specific development on #meowcoin-core-dev on Libera Chat. If you don't have an IRC client, you can use [web.libera.chat](https://web.libera.chat/#meowcoin-core-dev).
+* Discuss on the [BitcoinTalk](https://telestaitalk.org/) forums, in the [Development & Technical Discussion board](https://telestaitalk.org/index.php?board=6.0).
+* Discuss project-specific development on #telestai-core-dev on Libera Chat. If you don't have an IRC client, you can use [web.libera.chat](https://web.libera.chat/#telestai-core-dev).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
-- [meowcoin.conf Configuration File](meowcoin-conf.md)
+- [telestai.conf Configuration File](telestai-conf.md)
 - [CJDNS Support](cjdns.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -216,7 +216,7 @@ TxoutType Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned c
         return TxoutType::MULTISIG;
     }
 
-    // Meowcoin asset scripts (P2PKH + OP_MEWC_ASSET payload)
+    // Telestai asset scripts (P2PKH + OP_TLS_ASSET payload)
     {
         int nType = 0;
         bool fIsOwner = false;
@@ -231,8 +231,8 @@ TxoutType Solver(const CScript& scriptPubKey, std::vector<std::vector<unsigned c
         }
     }
 
-    // OP_MEWC_ASSET null data (restricted asset data, qualifier tags, verifier strings)
-    if (scriptPubKey.size() >= 1 && scriptPubKey[0] == OP_MEWC_ASSET) {
+    // OP_TLS_ASSET null data (restricted asset data, qualifier tags, verifier strings)
+    if (scriptPubKey.size() >= 1 && scriptPubKey[0] == OP_TLS_ASSET) {
         return TxoutType::RESTRICTED_ASSET_DATA;
     }
 

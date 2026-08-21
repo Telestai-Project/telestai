@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) The Meowcoin Core developers
+# Copyright (c) The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 

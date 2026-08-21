@@ -1,4 +1,4 @@
-// Copyright (c) 2012-present The Meowcoin Core developers
+// Copyright (c) 2012-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -79,7 +79,7 @@ public:
                 if (p < limit) {
                     va_list backup_ap;
                     va_copy(backup_ap, ap);
-                    // Do not use vsnprintf elsewhere in meowcoin source code, see above.
+                    // Do not use vsnprintf elsewhere in telestai source code, see above.
                     p += vsnprintf(p, limit - p, format, backup_ap);
                     va_end(backup_ap);
                 }

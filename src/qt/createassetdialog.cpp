@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2017-2019 The Meowcoin Core developers
-// Copyright (c) 2022 The Meowcoin Core developers
+// Copyright (c) 2017-2019 The Telestai Core developers
+// Copyright (c) 2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -76,7 +76,7 @@ CreateAssetDialog::CreateAssetDialog(const PlatformStyle *_platformStyle, QWidge
     ui->setupUi(this);
     setWindowTitle("Create Assets");
 
-    if (!IsMeowcoinNameSystemDeployed()) {
+    if (!IsTelestaiNameSystemDeployed()) {
         ui->ansBox->hide();
         ui->ansType->hide();
         ui->ansText->hide();
@@ -298,7 +298,7 @@ void CreateAssetDialog::setUpValues()
     ui->ipfsText->hide();
     ui->ansText->hide();
     ui->ansType->hide();
-    if (!IsMeowcoinNameSystemDeployed()) {
+    if (!IsTelestaiNameSystemDeployed()) {
         ui->ansBox->hide();
     }
     ui->openIpfsButton->hide();
@@ -335,7 +335,7 @@ void CreateAssetDialog::setUpValues()
     // Setup ANS types
     QStringList listTypes;
     for (const auto type : ANSTypes)
-        listTypes.append(QString::fromStdString(CMeowcoinNameSystemID::enum_to_string(type).first));
+        listTypes.append(QString::fromStdString(CTelestaiNameSystemID::enum_to_string(type).first));
 
     ui->ansType->addItems(listTypes);
 }
@@ -456,7 +456,7 @@ bool CreateAssetDialog::checkIPFSHash(QString hash)
     if (!hash.isEmpty()) {
         std::string error;
         // Do not allow ANS in IPFS
-        bool isANS = (hash.toStdString().substr(0, CMeowcoinNameSystemID::prefix.length()) == CMeowcoinNameSystemID::prefix);
+        bool isANS = (hash.toStdString().substr(0, CTelestaiNameSystemID::prefix.length()) == CTelestaiNameSystemID::prefix);
         if (!CheckEncoded(DecodeAssetData(hash.toStdString()), error) && !isANS) {
             ui->ipfsText->setStyleSheet("border: 2px solid red");
             showMessage(tr("IPFS must start with 'Qm' and be 46 characters or Txid must be 64 hex characters"));
@@ -571,13 +571,13 @@ void CreateAssetDialog::CheckFormState()
             return;
 
     if (ui->ansBox->isChecked() && !ui->ansText->text().isEmpty()) {
-        CMeowcoinNameSystemID::Type type = static_cast<CMeowcoinNameSystemID::Type>(ui->ansType->currentIndex());
+        CTelestaiNameSystemID::Type type = static_cast<CTelestaiNameSystemID::Type>(ui->ansType->currentIndex());
 
         std::string error;
         std::string formattedTypeData;
         std::string typeData = ui->ansText->text().toStdString();
         
-        formattedTypeData = CMeowcoinNameSystemID::FormatTypeData(type, typeData, error);
+        formattedTypeData = CTelestaiNameSystemID::FormatTypeData(type, typeData, error);
 
         if (error != "") {
             ui->ansText->setStyleSheet("border: 2px solid red");
@@ -586,16 +586,16 @@ void CreateAssetDialog::CheckFormState()
             return;
         }
 
-        CMeowcoinNameSystemID ans(type, formattedTypeData);
+        CTelestaiNameSystemID ans(type, formattedTypeData);
 
-        if (!IsMeowcoinNameSystemDeployed()) {
+        if (!IsTelestaiNameSystemDeployed()) {
             ui->ansText->setStyleSheet("border: 2px solid red");
             showMessage(tr("ANS not deployed yet."));
             disableCreateButton();
             return;
         }
 
-        if (!CMeowcoinNameSystemID::IsValidID(ans.to_string())) {
+        if (!CTelestaiNameSystemID::IsValidID(ans.to_string())) {
             ui->ansText->setStyleSheet("border: 2px solid red");
             showMessage(tr("Invalid ANS data."));
             disableCreateButton();
@@ -783,8 +783,8 @@ void CreateAssetDialog::onIPFSHashChanged(QString hash)
 }
 
 void CreateAssetDialog::onANSTypeChanged(int index) {
-    CMeowcoinNameSystemID::Type type = static_cast<CMeowcoinNameSystemID::Type>(index);
-    ui->ansText->setPlaceholderText(QString::fromStdString(CMeowcoinNameSystemID::enum_to_string(type).second));
+    CTelestaiNameSystemID::Type type = static_cast<CTelestaiNameSystemID::Type>(index);
+    ui->ansText->setPlaceholderText(QString::fromStdString(CTelestaiNameSystemID::enum_to_string(type).second));
     ui->ansText->clear();
 }
 
@@ -818,10 +818,10 @@ void CreateAssetDialog::onCreateAssetClicked()
     if (hasANS) {
         std::string error;
         std::string formattedTypeData;
-        CMeowcoinNameSystemID::Type type = static_cast<CMeowcoinNameSystemID::Type>(ui->ansType->currentIndex());
-        formattedTypeData = CMeowcoinNameSystemID::FormatTypeData(type, ui->ansText->text().toStdString(), error);
+        CTelestaiNameSystemID::Type type = static_cast<CTelestaiNameSystemID::Type>(ui->ansType->currentIndex());
+        formattedTypeData = CTelestaiNameSystemID::FormatTypeData(type, ui->ansText->text().toStdString(), error);
 
-        CMeowcoinNameSystemID ansID(type, formattedTypeData);
+        CTelestaiNameSystemID ansID(type, formattedTypeData);
         ansDecoded = ansID.to_string();
 
         // Warn user

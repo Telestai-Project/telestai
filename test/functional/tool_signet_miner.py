@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2022 The Meowcoin Core developers
+# Copyright (c) 2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test signet miner tool"""
@@ -58,7 +58,7 @@ class SignetMinerTest(BitcoinTestFramework):
     def skip_test_if_missing_module(self):
         self.skip_if_no_cli()
         self.skip_if_no_wallet()
-        self.skip_if_no_meowcoin_util()
+        self.skip_if_no_telestai_util()
 
     def setup_network(self):
         self.setup_nodes()

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 The Meowcoin Core developers
+// Copyright (c) 2014-2020 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,8 +14,8 @@
 class ArgsManager;
 
 /**
- * CBaseChainParams defines the base parameters (shared between meowcoin-cli and meowcoind)
- * of a given instance of the Meowcoin system.
+ * CBaseChainParams defines the base parameters (shared between telestai-cli and telestaid)
+ * of a given instance of the Telestai system.
  */
 class CBaseChainParams
 {

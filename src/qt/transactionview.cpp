@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2022 The Meowcoin Core developers
+// Copyright (c) 2011-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/transactionview.h>
 
 #include <qt/addresstablemodel.h>
-#include <qt/meowcoinunits.h>
+#include <qt/telestaiunits.h>
 #include <qt/csvmodelwriter.h>
 #include <qt/editaddressdialog.h>
 #include <qt/guiutil.h>

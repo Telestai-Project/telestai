@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2021 The Meowcoin Core developers
+// Copyright (c) 2009-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,7 +20,7 @@ namespace wallet {
 /**
  * Address purpose field that has been been stored with wallet sending and
  * receiving addresses since BIP70 payment protocol support was added in
- * https://github.com/meowcoin/meowcoin/pull/2539. This field is not currently
+ * https://github.com/Telestai-Project/telestai/pull/2539. This field is not currently
  * used for any logic inside the wallet, but it is still shown in RPC and GUI
  * interfaces and saved for new addresses. It is basically redundant with an
  * address's IsMine() result.

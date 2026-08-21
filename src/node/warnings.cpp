@@ -1,9 +1,9 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Meowcoin Core developers
+// Copyright (c) 2009-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #include <node/warnings.h>
 

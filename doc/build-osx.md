@@ -2,7 +2,7 @@
 
 **Updated for MacOS [15](https://www.apple.com/macos/macos-sequoia/)**
 
-This guide describes how to build meowcoind, command-line utilities, and GUI on macOS.
+This guide describes how to build telestaid, command-line utilities, and GUI on macOS.
 
 ## Preparation
 
@@ -16,7 +16,7 @@ macOS comes with a built-in Terminal located in:
 ### 1. Xcode Command Line Tools
 
 The Xcode Command Line Tools are a collection of build tools for macOS.
-These tools must be installed in order to build Meowcoin Core from source.
+These tools must be installed in order to build Telestai Core from source.
 
 To install, run the following command from your terminal:
 
@@ -64,14 +64,14 @@ install anything.
 If you do not need IPC functionality (see [multiprocess.md](multiprocess.md))
 you can omit `capnp` and use `-DENABLE_IPC=OFF` in the `cmake -B` step below.
 
-### 4. Clone Meowcoin repository
+### 4. Clone Telestai repository
 
 `git` should already be installed by default on your system.
-Now that all the required dependencies are installed, let's clone the Meowcoin Core repository to a directory.
+Now that all the required dependencies are installed, let's clone the Telestai Core repository to a directory.
 All build scripts and commands will run from this directory.
 
 ``` bash
-git clone https://github.com/meowcoin/meowcoin.git
+git clone https://github.com/telestai/telestai.git
 ```
 
 ### 5. Install Optional Dependencies
@@ -80,7 +80,7 @@ git clone https://github.com/meowcoin/meowcoin.git
 
 ###### Qt
 
-Meowcoin Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install
+Telestai Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install
 Qt, libqrencode and pass `-DBUILD_GUI=ON`. Skip if you don't intend to use the GUI.
 
 ``` bash
@@ -88,7 +88,7 @@ brew install qt@6
 ```
 
 Note: Building with Qt binaries downloaded from the Qt website is not officially supported.
-See the notes in [#7714](https://github.com/meowcoin/meowcoin/issues/7714).
+See the notes in [#7714](https://github.com/telestai/telestai/issues/7714).
 
 ###### libqrencode
 
@@ -130,14 +130,14 @@ brew install python
 
 #### Deploy Dependencies
 
-You can [deploy](#3-deploy-optional) a `.zip` containing the Meowcoin Core application.
+You can [deploy](#3-deploy-optional) a `.zip` containing the Telestai Core application.
 It is required that you have `python` and `zip` installed.
 
-## Building Meowcoin Core
+## Building Telestai Core
 
 ### 1. Configuration
 
-There are many ways to configure Meowcoin Core, here are a few common examples:
+There are many ways to configure Telestai Core, here are a few common examples:
 
 ##### Wallet (only SQlite) and GUI Support:
 
@@ -166,7 +166,7 @@ cmake -B build -LH
 ### 2. Compile
 
 After configuration, you are ready to compile.
-Run the following in your terminal to compile Meowcoin Core:
+Run the following in your terminal to compile Telestai Core:
 
 ``` bash
 cmake --build build     # Append "-j N" here for N parallel jobs.
@@ -181,45 +181,45 @@ You can also create a  `.zip` containing the `.app` bundle by running the follow
 cmake --build build --target deploy
 ```
 
-## Running Meowcoin Core
+## Running Telestai Core
 
-Meowcoin Core should now be available at `./build/bin/meowcoind`.
-If you compiled support for the GUI, it should be available at `./build/bin/meowcoin-qt`.
+Telestai Core should now be available at `./build/bin/telestaid`.
+If you compiled support for the GUI, it should be available at `./build/bin/telestai-qt`.
 
-There is also a multifunction command line interface at `./build/bin/meowcoin`
-supporting subcommands like `meowcoin node`, `meowcoin gui`, `meowcoin rpc`, and
-others that can be listed with `meowcoin help`.
+There is also a multifunction command line interface at `./build/bin/telestai`
+supporting subcommands like `telestai node`, `telestai gui`, `telestai rpc`, and
+others that can be listed with `telestai help`.
 
-The first time you run `meowcoind` or `meowcoin-qt`, it will start downloading the blockchain.
+The first time you run `telestaid` or `telestai-qt`, it will start downloading the blockchain.
 This process could take many hours, or even days on slower than average systems.
 
 By default, blockchain and wallet data files will be stored in:
 
 ``` bash
-/Users/${USER}/Library/Application Support/Meowcoin/
+/Users/${USER}/Library/Application Support/Telestai/
 ```
 
 Before running, you may create an empty configuration file:
 
 ```shell
-mkdir -p "/Users/${USER}/Library/Application Support/Meowcoin"
+mkdir -p "/Users/${USER}/Library/Application Support/Telestai"
 
-touch "/Users/${USER}/Library/Application Support/Meowcoin/meowcoin.conf"
+touch "/Users/${USER}/Library/Application Support/Telestai/telestai.conf"
 
-chmod 600 "/Users/${USER}/Library/Application Support/Meowcoin/meowcoin.conf"
+chmod 600 "/Users/${USER}/Library/Application Support/Telestai/telestai.conf"
 ```
 
 You can monitor the download process by looking at the debug.log file:
 
 ```shell
-tail -f $HOME/Library/Application\ Support/Meowcoin/debug.log
+tail -f $HOME/Library/Application\ Support/Telestai/debug.log
 ```
 
 ## Other commands:
 
 ```shell
-./build/bin/meowcoind -daemon      # Starts the meowcoin daemon.
-./build/bin/meowcoin-cli --help    # Outputs a list of command-line options.
-./build/bin/meowcoin-cli help      # Outputs a list of RPC commands when the daemon is running.
-./build/bin/meowcoin-qt -server # Starts the meowcoin-qt server mode, allows meowcoin-cli control
+./build/bin/telestaid -daemon      # Starts the telestai daemon.
+./build/bin/telestai-cli --help    # Outputs a list of command-line options.
+./build/bin/telestai-cli help      # Outputs a list of RPC commands when the daemon is running.
+./build/bin/telestai-qt -server # Starts the telestai-qt server mode, allows telestai-cli control
 ```

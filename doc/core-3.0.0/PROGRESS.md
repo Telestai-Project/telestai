@@ -10,8 +10,8 @@
 - CMake user-facing binary names → `telestaid` / `telestai-*`
 
 ## Still open
-- Full source/file rename (`meowcoind.cpp` → `telestaid.cpp`, qt units, etc.)
-- `src/CMakeLists.txt` target wiring may still reference `meowcoin*` sources
+- Full source/file rename (`telestaid.cpp` → `telestaid.cpp`, qt units, etc.)
+- `src/CMakeLists.txt` target wiring may still reference `telestai*` sources
 - Strip AuxPoW code paths (currently gated off, not deleted)
 - Testnet genesis/params fully Telestai-accurate for soak
 - Meraki nHeight bind from 2.1.8 into Apex validation

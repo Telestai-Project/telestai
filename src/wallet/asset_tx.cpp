@@ -1,5 +1,5 @@
-// Copyright (c) 2017-2019 The Meowcoin Core developers
-// Copyright (c) 2020-2024 The Meowcoin Core developers
+// Copyright (c) 2017-2019 The Telestai Core developers
+// Copyright (c) 2020-2024 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,14 +46,14 @@ static bool RequireAssetLegacyDestination(const std::string& address, std::pair<
     return true;
 }
 
-//! Legacy nodes require standard P2PKH (25 bytes) with OP_MEWC_ASSET at index 25 (see CScript::IsAssetScript).
+//! Legacy nodes require standard P2PKH (25 bytes) with OP_TLS_ASSET at index 25 (see CScript::IsAssetScript).
 static bool RequireLegacyAssetScriptLayout(const CScript& script, std::pair<int, std::string>& error)
 {
     if (script.size() < 26) {
         error = std::make_pair(RPC_WALLET_ERROR, "Asset output script too short (internal error)");
         return false;
     }
-    if (script[25] != OP_MEWC_ASSET) {
+    if (script[25] != OP_TLS_ASSET) {
         error = std::make_pair(RPC_WALLET_ERROR, "Asset opcode not at legacy-expected position (internal error)");
         return false;
     }
@@ -67,14 +67,14 @@ static bool RequireLegacyAssetScriptLayout(const CScript& script, std::pair<int,
     return true;
 }
 
-//! Generate an OP_MEWC_ASSET <hash> script for null asset data (qualifier tags, restrictions)
+//! Generate an OP_TLS_ASSET <hash> script for null asset data (qualifier tags, restrictions)
 static CScript GetScriptForNullAssetDataDestination(const CTxDestination& dest)
 {
     CScript script;
     if (auto* pkh = std::get_if<PKHash>(&dest)) {
-        script << OP_MEWC_ASSET << ToByteVector(*pkh);
+        script << OP_TLS_ASSET << ToByteVector(*pkh);
     } else if (auto* sh = std::get_if<ScriptHash>(&dest)) {
-        script << OP_MEWC_ASSET << ToByteVector(*sh);
+        script << OP_TLS_ASSET << ToByteVector(*sh);
     }
     return script;
 }
@@ -344,7 +344,7 @@ bool CreateAssetTransaction(
         }
     }
 
-    // Allow the wallet to select additional native (MEWC) inputs for fees
+    // Allow the wallet to select additional native (TLS) inputs for fees
     coinControl.m_allow_other_inputs = true;
 
     // Force change immediately after the burn output (index 1) so the owner+issue pair stays last;
@@ -379,7 +379,7 @@ bool CreateTransferAssetTransaction(
     // Check for a balance before processing
     Balance bal = GetBalance(wallet);
     if (bal.m_mine_trusted == 0) {
-        error = std::make_pair(RPC_WALLET_INSUFFICIENT_FUNDS, std::string("This wallet doesn't contain any MEWC; transferring an asset requires a network fee"));
+        error = std::make_pair(RPC_WALLET_INSUFFICIENT_FUNDS, std::string("This wallet doesn't contain any TLS; transferring an asset requires a network fee"));
         return false;
     }
 

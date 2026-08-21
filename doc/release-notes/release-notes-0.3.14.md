@@ -1,5 +1,5 @@
 Version 0.3.14 is now available
-http://sourceforge.net/projects/meowcoin/files/Meowcoin/meowcoin-0.3.14/
+http://sourceforge.net/projects/telestai/files/Telestai/telestai-0.3.14/
 
 Changes:
 * Key pool feature for safer wallet backup

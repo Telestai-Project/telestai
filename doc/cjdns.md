@@ -1,6 +1,6 @@
-# CJDNS support in Meowcoin Core
+# CJDNS support in Telestai Core
 
-It is possible to run Meowcoin Core over CJDNS, an encrypted IPv6 network that
+It is possible to run Telestai Core over CJDNS, an encrypted IPv6 network that
 uses public-key cryptography for address allocation and a distributed hash table
 for routing.
 
@@ -9,7 +9,7 @@ for routing.
 CJDNS is like a distributed, shared VPN with multiple entry points where every
 participant can reach any other participant. All participants use addresses from
 the `fc00::/8` network (reserved IPv6 range). Installation and configuration is
-done outside of Meowcoin Core, similarly to a VPN (either in the host/OS or on
+done outside of Telestai Core, similarly to a VPN (either in the host/OS or on
 the network router). See https://github.com/cjdelisle/cjdns#readme and
 https://github.com/hyperboria/docs#hyperboriadocs for more information.
 
@@ -17,7 +17,7 @@ Compared to IPv4/IPv6, CJDNS provides end-to-end encryption and protects nodes
 from traffic analysis and filtering.
 
 Used with Tor and I2P, CJDNS is a complementary option that can enhance network
-redundancy and robustness for both the Meowcoin network and individual nodes.
+redundancy and robustness for both the Telestai network and individual nodes.
 
 Each network has different characteristics. For instance, Tor is widely used but
 somewhat centralized. I2P connections have a source address and I2P is slow.
@@ -30,7 +30,7 @@ To install and set up CJDNS, follow the instructions at
 https://github.com/cjdelisle/cjdns#how-to-install-cjdns.
 
 You need to initiate an outbound connection to a peer on the CJDNS network
-before it will work with your Meowcoin Core node. This is described in steps
+before it will work with your Telestai Core node. This is described in steps
 ["2. Find a friend"](https://github.com/cjdelisle/cjdns#2-find-a-friend) and
 ["3. Connect your node to your friend's
 node"](https://github.com/cjdelisle/cjdns#3-connect-your-node-to-your-friends-node)
@@ -65,19 +65,19 @@ with some additional setup.
 The network connection can be checked by running `./tools/peerStats` from the
 CJDNS directory.
 
-## Run Meowcoin Core with CJDNS
+## Run Telestai Core with CJDNS
 
-Once you are connected to the CJDNS network, the following Meowcoin Core
+Once you are connected to the CJDNS network, the following Telestai Core
 configuration option makes CJDNS peers automatically reachable:
 
 ```
 -cjdnsreachable
 ```
 
-When enabled, this option tells Meowcoin Core that it is running in an
+When enabled, this option tells Telestai Core that it is running in an
 environment where a connection to an `fc00::/8` address will be to the CJDNS
 network instead of to an [RFC4193](https://datatracker.ietf.org/doc/html/rfc4193)
-IPv6 local network. This helps Meowcoin Core perform better address management:
+IPv6 local network. This helps Telestai Core perform better address management:
   - Your node can consider incoming `fc00::/8` connections to be from the CJDNS
     network rather than from an IPv6 private one.
   - If one of your node's local addresses is `fc00::/8`, then it can choose to
@@ -93,25 +93,25 @@ Make automatic outbound connections only to CJDNS addresses. Inbound and manual
 connections are not affected by this option. It can be specified multiple times
 to allow multiple networks, e.g. onlynet=cjdns, onlynet=i2p, onlynet=onion.
 
-CJDNS support was added to Meowcoin Core in version 23.0 and there may be fewer
-CJDNS peers than Tor or IP ones. You can use `meowcoin-cli -addrinfo` to see the
+CJDNS support was added to Telestai Core in version 23.0 and there may be fewer
+CJDNS peers than Tor or IP ones. You can use `telestai-cli -addrinfo` to see the
 number of CJDNS addresses known to your node.
 
 In general, a node can be run with both an onion service and CJDNS (or any/all
 of IPv4/IPv6/onion/I2P/CJDNS), which can provide a potential fallback if one of
 the networks has issues. There are a number of ways to configure this; see
-[doc/tor.md](https://github.com/meowcoin/meowcoin/blob/master/doc/tor.md) for
+[doc/tor.md](https://github.com/Telestai-Project/telestai/blob/master/doc/tor.md) for
 details.
 
-## CJDNS-related information in Meowcoin Core
+## CJDNS-related information in Telestai Core
 
-There are several ways to see your CJDNS address in Meowcoin Core:
+There are several ways to see your CJDNS address in Telestai Core:
 - in the "Local addresses" output of CLI `-netinfo`
 - in the "localaddresses" output of RPC `getnetworkinfo`
 
-To see which CJDNS peers your node is connected to, use `meowcoin-cli -netinfo 4`
-or the `getpeerinfo` RPC (i.e. `meowcoin-cli getpeerinfo`).
+To see which CJDNS peers your node is connected to, use `telestai-cli -netinfo 4`
+or the `getpeerinfo` RPC (i.e. `telestai-cli getpeerinfo`).
 
-You can use the `getnodeaddresses` RPC to fetch a number of CJDNS peers known to your node; run `meowcoin-cli help getnodeaddresses` for details.
+You can use the `getnodeaddresses` RPC to fetch a number of CJDNS peers known to your node; run `telestai-cli help getnodeaddresses` for details.
 
-`meowcoin rpc` can also be substituted for `meowcoin-cli`.
+`telestai rpc` can also be substituted for `telestai-cli`.

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -101,7 +101,7 @@ bool static IsCompressedPubKey(const valtype &vchPubKey) {
  * excessively padded (do not start with a 0 byte, unless an otherwise negative number follows,
  * in which case a single 0 byte is necessary and even required).
  *
- * See https://meowcointalk.org/index.php?topic=8392.msg127623#msg127623
+ * See https://telestaitalk.org/index.php?topic=8392.msg127623#msg127623
  *
  * This function is consensus-critical since BIP66.
  */
@@ -174,7 +174,7 @@ bool static IsLowDERSignature(const valtype &vchSig, ScriptError* serror) {
     if (!IsValidSignatureEncoding(vchSig)) {
         return set_error(serror, SCRIPT_ERR_SIG_DER);
     }
-    // https://meowcoin.stackexchange.com/a/12556:
+    // https://telestai.stackexchange.com/a/12556:
     //     Also note that inside transaction signatures, an extra hashtype byte
     //     follows the actual signature data.
     std::vector<unsigned char> vchSigCopy(vchSig.begin(), vchSig.begin() + vchSig.size() - 1);
@@ -1218,9 +1218,9 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                 }
                 break;
 
-                case OP_MEWC_ASSET:
+                case OP_TLS_ASSET:
                 {
-                    // Meowcoin asset opcode: everything after this byte is
+                    // Telestai asset opcode: everything after this byte is
                     // asset payload data (transfer, issue, reissue, etc.).
                     // The standard script (P2PKH) preceding it has already
                     // completed and left true on the stack.  Skip to end.
@@ -1755,7 +1755,7 @@ template <class T>
 uint256 GenericTransactionSignatureChecker<T>::GetMLDsa44SigHash(const CScript& scriptCode) const
 {
     // Compute a BIP143-style sighash for ML-DSA-44 witness v2 inputs.
-    // Uses SIGHASH_ALL (0x01) — no fork-id in Meowcoin.
+    // Uses SIGHASH_ALL (0x01) — no fork-id in Telestai.
     constexpr int32_t nHashType = SIGHASH_ALL;
     return SignatureHash(scriptCode, *txTo, nIn, nHashType, amount, SigVersion::WITNESS_V0, txdata);
 }

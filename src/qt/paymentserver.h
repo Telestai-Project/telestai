@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2020 The Meowcoin Core developers
+// Copyright (c) 2011-2020 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -50,7 +50,7 @@ class QLocalServer;
 class QUrl;
 QT_END_NAMESPACE
 
-extern const QString BITCOIN_IPC_PREFIX;
+extern const QString TELESTAI_IPC_PREFIX;
 
 class PaymentServer : public QObject
 {

@@ -1,8 +1,8 @@
-// Copyright (c) 2011-present The Meowcoin Core developers
+// Copyright (c) 2011-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #include <chainparams.h>
 #include <qt/intro.h>
@@ -177,7 +177,7 @@ bool Intro::showIfNeeded(bool& did_show_intro, int64_t& prune_MiB)
     }
     /* Only override -datadir if different from the default, to make it possible to
      * override -datadir in the telestai.conf file in the default data directory
-     * (to be consistent with meowcoind behavior)
+     * (to be consistent with telestaid behavior)
      */
     if(dataDir != GUIUtil::getDefaultDataDirectory()) {
         gArgs.SoftSetArg("-datadir", fs::PathToString(GUIUtil::QStringToPath(dataDir))); // use OS locale for path setting

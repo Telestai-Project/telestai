@@ -1,24 +1,24 @@
-Meowcoin Core version 0.16.3 is now available from:
+Telestai Core version 0.16.3 is now available from:
 
-  <https://meowcoincore.org/bin/meowcoin-core-0.16.3/>
+  <https://telestaicore.org/bin/telestai-core-0.16.3/>
 
 This is a new minor version release, with various bugfixes.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/meowcoin/meowcoin/issues>
+  <https://github.com/Telestai-Project/telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://meowcoincore.org/en/list/announcements/join/>
+  <https://telestaicore.org/en/list/announcements/join/>
 
 How to Upgrade
 ==============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes for older versions), then run the
-installer (on Windows) or just copy over `/Applications/Meowcoin-Qt` (on Mac)
-or `meowcoind`/`meowcoin-qt` (on Linux).
+installer (on Windows) or just copy over `/Applications/Telestai-Qt` (on Mac)
+or `telestaid`/`telestai-qt` (on Linux).
 
 The first time you run version 0.15.0 or newer, your chainstate database will be converted to a
 new format, which will take anywhere from a few minutes to half an hour,
@@ -39,10 +39,10 @@ wallets that were created with older versions are not affected by this.
 Compatibility
 ==============
 
-Meowcoin Core is extensively tested on multiple operating systems using
+Telestai Core is extensively tested on multiple operating systems using
 the Linux kernel, macOS 10.8+, and Windows Vista and later. Windows XP is not supported.
 
-Meowcoin Core should also work on most other Unix-like systems but is not
+Telestai Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 Notable changes
@@ -52,7 +52,7 @@ Denial-of-Service vulnerability
 -------------------------------
 
 A denial-of-service vulnerability (CVE-2018-17144) exploitable by miners has
-been discovered in Meowcoin Core versions 0.14.0 up to 0.16.2. It is recommended
+been discovered in Telestai Core versions 0.14.0 up to 0.16.2. It is recommended
 to upgrade any of the vulnerable versions to 0.16.3 as soon as possible.
 
 0.16.3 change log
@@ -65,7 +65,7 @@ to upgrade any of the vulnerable versions to 0.16.3 as soon as possible.
 - #13547 `212ef1f` Make `signrawtransaction*` give an error when amount is needed but missing (ajtowns)
 
 ### Miscellaneous
-- #13655 `1cdbea7` meowcoinconsensus: invalid flags error should be set to `meowcoinconsensus_err` (afk11)
+- #13655 `1cdbea7` telestaiconsensus: invalid flags error should be set to `telestaiconsensus_err` (afk11)
 
 ### Documentation
 - #13844 `11b9dbb` correct the help output for -prune (hebasto)

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Copyright (c) 2022 The Meowcoin Core developers
+# Copyright (c) 2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-""" Example logging Meowcoin Core mempool events using the mempool:added,
+""" Example logging Telestai Core mempool events using the mempool:added,
     mempool:removed, mempool:replaced, and mempool:rejected tracepoints. """
 
 import curses
@@ -121,16 +121,16 @@ int trace_replaced(struct pt_regs *ctx) {
 
 
 def main(pid):
-    print(f"Hooking into meowcoind with pid {pid}")
-    meowcoind_with_usdts = USDT(pid=int(pid))
+    print(f"Hooking into telestaid with pid {pid}")
+    telestaid_with_usdts = USDT(pid=int(pid))
 
     # attaching the trace functions defined in the BPF program
     # to the tracepoints
-    meowcoind_with_usdts.enable_probe(probe="mempool:added", fn_name="trace_added")
-    meowcoind_with_usdts.enable_probe(probe="mempool:removed", fn_name="trace_removed")
-    meowcoind_with_usdts.enable_probe(probe="mempool:replaced", fn_name="trace_replaced")
-    meowcoind_with_usdts.enable_probe(probe="mempool:rejected", fn_name="trace_rejected")
-    bpf = BPF(text=PROGRAM, usdt_contexts=[meowcoind_with_usdts])
+    telestaid_with_usdts.enable_probe(probe="mempool:added", fn_name="trace_added")
+    telestaid_with_usdts.enable_probe(probe="mempool:removed", fn_name="trace_removed")
+    telestaid_with_usdts.enable_probe(probe="mempool:replaced", fn_name="trace_replaced")
+    telestaid_with_usdts.enable_probe(probe="mempool:rejected", fn_name="trace_rejected")
+    bpf = BPF(text=PROGRAM, usdt_contexts=[telestaid_with_usdts])
 
     events = []
 
@@ -332,15 +332,15 @@ class Dashboard:
         if type_ == "added":
             return (
                 f"{ts} added {bytes(data.hash)[::-1].hex()}"
-                f" with feerate {data.fee/data.vsize:.2f} mewc/vB"
-                f" ({data.fee} mewc, {data.vsize} vbytes)"
+                f" with feerate {data.fee/data.vsize:.2f} tls/vB"
+                f" ({data.fee} tls, {data.vsize} vbytes)"
             )
 
         if type_ == "removed":
             return (
                 f"{ts} removed {bytes(data.hash)[::-1].hex()}"
-                f" with feerate {data.fee/data.vsize:.2f} mewc/vB"
-                f" ({data.fee} mewc, {data.vsize} vbytes)"
+                f" with feerate {data.fee/data.vsize:.2f} tls/vB"
+                f" ({data.fee} tls, {data.vsize} vbytes)"
                 f" received {ts_dt.timestamp()-data.entry_time:.1f} seconds ago"
                 f": {data.reason.decode('UTF-8')}"
             )
@@ -354,12 +354,12 @@ class Dashboard:
         if type_ == "replaced":
             return (
                 f"{ts} replaced {bytes(data.replaced_hash)[::-1].hex()}"
-                f" with feerate {data.replaced_fee/data.replaced_vsize:.2f} mewc/vB"
+                f" with feerate {data.replaced_fee/data.replaced_vsize:.2f} tls/vB"
                 f" received {ts_dt.timestamp()-data.replaced_entry_time:.1f} seconds ago"
-                f" ({data.replaced_fee} mewc, {data.replaced_vsize} vbytes)"
+                f" ({data.replaced_fee} tls, {data.replaced_vsize} vbytes)"
                 f" with {bytes(data.replacement_hash)[::-1].hex()}"
-                f" with feerate {data.replacement_fee/data.replacement_vsize:.2f} mewc/vB"
-                f" ({data.replacement_fee} mewc, {data.replacement_vsize} vbytes)"
+                f" with feerate {data.replacement_fee/data.replacement_vsize:.2f} tls/vB"
+                f" ({data.replacement_fee} tls, {data.replacement_vsize} vbytes)"
             )
 
         raise NotImplementedError("Unsupported event type: {type_}")
@@ -372,7 +372,7 @@ class Dashboard:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("USAGE: ", sys.argv[0], "<pid of meowcoind>")
+        print("USAGE: ", sys.argv[0], "<pid of telestaid>")
         exit(1)
 
     pid = sys.argv[1]

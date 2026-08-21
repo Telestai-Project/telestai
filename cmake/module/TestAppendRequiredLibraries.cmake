@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
@@ -7,7 +7,7 @@ include_guard(GLOBAL)
 # Illumos/SmartOS requires linking with -lsocket if
 # using getifaddrs & freeifaddrs.
 # See:
-# - https://github.com/meowcoin/meowcoin/pull/21486
+# - https://github.com/Telestai-Project/telestai/pull/21486
 # - https://smartos.org/man/3socket/getifaddrs
 function(test_append_socket_library target)
   if (NOT TARGET ${target})

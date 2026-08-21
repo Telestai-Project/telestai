@@ -1,5 +1,5 @@
 // Copyright (c) 2024-present The Avian Core developers
-// Copyright (c) 2024-present The Meowcoin Core developers
+// Copyright (c) 2024-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

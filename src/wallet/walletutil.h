@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -45,7 +45,7 @@ enum WalletFlags : uint64_t {
     //! imported.
     //!
     //! This flag is also a mandatory flag to prevent previous versions of
-    //! meowcoin from opening the wallet, thinking it was newly created, and
+    //! telestai from opening the wallet, thinking it was newly created, and
     //! then improperly reinitializing it.
     WALLET_FLAG_BLANK_WALLET = (1ULL << 33),
 

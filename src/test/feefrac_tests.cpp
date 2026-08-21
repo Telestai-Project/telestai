@@ -1,4 +1,4 @@
-// Copyright (c) 2024-present The Meowcoin Core developers
+// Copyright (c) 2024-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_CASE(feefrac_operators)
     FeeFrac max_fee2{1, 1};
     BOOST_CHECK(max_fee >= max_fee2);
 
-    // Test for integer overflow issue (https://github.com/meowcoin/meowcoin/issues/32294)
+    // Test for integer overflow issue (https://github.com/Telestai-Project/telestai/issues/32294)
     BOOST_CHECK_EQUAL((FeeFrac{0x7ffffffdfffffffb, 0x7ffffffd}.EvaluateFeeDown(0x7fffffff)), 0x7fffffffffffffff);
 }
 

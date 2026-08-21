@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -446,16 +446,16 @@ bool Consensus::CheckTxAssets(const CTransaction& tx, TxValidationState& state, 
                     while (pc < out.scriptPubKey.end()) {
                         if (!out.scriptPubKey.GetOp(pc, opcode))
                             break;
-                        if (opcode == OP_MEWC_ASSET) {
+                        if (opcode == OP_TLS_ASSET) {
                             hasMewcAssetOp = true;
                             break;
                         }
                     }
                     if (hasMewcAssetOp) {
                         if (AreRestrictedAssetsDeployed()) {
-                            if (out.scriptPubKey[0] != OP_MEWC_ASSET) {
+                            if (out.scriptPubKey[0] != OP_TLS_ASSET) {
                                 return state.Invalid(TxValidationResult::TX_CONSENSUS,
-                                                     "bad-txns-op-mewc-asset-not-in-right-script-location");
+                                                     "bad-txns-op-tls-asset-not-in-right-script-location");
                             }
                         } else {
                             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-bad-asset-script");

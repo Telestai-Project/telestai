@@ -1,7 +1,7 @@
 [main]
 host = https://www.transifex.com
 
-[o:meowcoin:p:meowcoin:r:qt-translation-030x]
-file_filter = src/qt/locale/meowcoin_<lang>.xlf
-source_file = src/qt/locale/meowcoin_en.xlf
+[o:telestai:p:telestai:r:qt-translation-030x]
+file_filter = src/qt/locale/telestai_<lang>.xlf
+source_file = src/qt/locale/telestai_en.xlf
 source_lang = en

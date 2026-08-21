@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2025-present The Meowcoin Core developers
+# Copyright (c) 2025-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """
@@ -50,7 +50,7 @@ class FeatureFrameworkStartupFailures(BitcoinTestFramework):
         except subprocess.TimeoutExpired as e:
             print("Unexpected child process timeout!\n"
                   "WARNING: Timeouts like this halt execution of TestNode logic, "
-                  "meaning dangling meowcoind processes are to be expected.\n"
+                  "meaning dangling telestaid processes are to be expected.\n"
                   f"<CHILD OUTPUT BEGIN>\n{e.output.decode('utf-8')}\n<CHILD OUTPUT END>",
                   file=sys.stderr)
             raise
@@ -86,16 +86,16 @@ class FeatureFrameworkStartupFailures(BitcoinTestFramework):
         self.nodes[0].stop_node()
         self.log.info(f"...measured {node_start_duration:.1f}s.")
 
-        self.log.info("Verifying inability to connect to meowcoind's RPC interface due to wrong port results in one exception containing at least one OSError.")
+        self.log.info("Verifying inability to connect to telestaid's RPC interface due to wrong port results in one exception containing at least one OSError.")
         self._verify_startup_failure(
             TestWrongRpcPortStartupFailure, [f"--internal_node_start_duration={node_start_duration}"],
-            r"AssertionError: \[node 0\] Unable to connect to meowcoind after \d+s \(ignored errors: {[^}]*'OSError \w+'?: \d+[^}]*}, latest: '[\w ]+'/\w+\([^)]+\)\)"
+            r"AssertionError: \[node 0\] Unable to connect to telestaid after \d+s \(ignored errors: {[^}]*'OSError \w+'?: \d+[^}]*}, latest: '[\w ]+'/\w+\([^)]+\)\)"
         )
 
         self.log.info("Verifying startup failure due to invalid arg results in only one exception.")
         self._verify_startup_failure(
             TestInitErrorStartupFailure, [],
-            r"FailedToStartError: \[node 0\] meowcoind exited with status 1 during initialization\. Error: Error parsing command line arguments: Invalid parameter -nonexistentarg"
+            r"FailedToStartError: \[node 0\] telestaid exited with status 1 during initialization\. Error: Error parsing command line arguments: Invalid parameter -nonexistentarg"
         )
 
         self.log.info("Verifying start() then stop_node() on a node without wait_for_rpc_connection() in between raises an assert.")

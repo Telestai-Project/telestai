@@ -1303,7 +1303,7 @@
   <customwidget>
    <class>AssetAmountField</class>
    <extends>QLineEdit</extends>
-   <header location="global">qt/meowcoinamountfield.h</header>
+   <header location="global">qt/telestaiamountfield.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1318,7 +1318,7 @@
   <tabstop>deleteButton_s</tabstop>
  </tabstops>
  <resources>
-  <include location="../meowcoin.qrc"/>
+  <include location="../telestai.qrc"/>
  </resources>
  <connections/>
 </ui>

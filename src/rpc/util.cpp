@@ -1,8 +1,8 @@
-// Copyright (c) 2017-present The Meowcoin Core developers
+// Copyright (c) 2017-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #include <chain.h>
 #include <clientversion.h>

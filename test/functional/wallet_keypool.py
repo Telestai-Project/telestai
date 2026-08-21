@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the wallet keypool and interaction with wallet encryption/locking."""
@@ -160,15 +160,15 @@ class KeyPoolTest(BitcoinTestFramework):
         self.generate(nodes[0], 1)
         destination = addr.pop()
 
-        # Using a fee rate (10 mewc / byte) well above the minimum relay rate
-        # creating a 5,000 mewc transaction with change should not be possible
+        # Using a fee rate (10 tls / byte) well above the minimum relay rate
+        # creating a 5,000 tls transaction with change should not be possible
         assert_raises_rpc_error(-4, "Transaction needs a change address, but we can't generate it.", w2.walletcreatefundedpsmt, inputs=[], outputs=[{addr.pop(): 0.00005000}], subtractFeeFromOutputs=[0], feeRate=0.00010)
 
-        # creating a 10,000 mewc transaction without change, with a manual input, should still be possible
+        # creating a 10,000 tls transaction without change, with a manual input, should still be possible
         res = w2.walletcreatefundedpsmt(inputs=w2.listunspent(), outputs=[{destination: 0.00010000}], subtractFeeFromOutputs=[0], feeRate=0.00010)
         assert_equal("psmt" in res, True)
 
-        # creating a 10,000 mewc transaction without change should still be possible
+        # creating a 10,000 tls transaction without change should still be possible
         res = w2.walletcreatefundedpsmt(inputs=[], outputs=[{destination: 0.00010000}], subtractFeeFromOutputs=[0], feeRate=0.00010)
         assert_equal("psmt" in res, True)
         # should work without subtractFeeFromOutputs if the exact fee is subtracted from the amount
@@ -184,7 +184,7 @@ class KeyPoolTest(BitcoinTestFramework):
         assert_equal("psmt" in res, True)
         assert_equal(res["fee"], Decimal("0.00009706"))
 
-        # creating a 10,000 mewc transaction with a manual change address should be possible
+        # creating a 10,000 tls transaction with a manual change address should be possible
         res = w2.walletcreatefundedpsmt(inputs=[], outputs=[{destination: 0.00010000}], subtractFeeFromOutputs=[0], feeRate=0.00010, changeAddress=addr.pop())
         assert_equal("psmt" in res, True)
 

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,10 +18,10 @@ void CBlockVersion::SetBaseVersion(int32_t nBaseVersion, int32_t nChainId)
 
 uint256 CPureBlockHeader::GetHash() const
 {
-    // Meowcoin: CPureBlockHeader is used for AuxPoW parent blocks
+    // Telestai: CPureBlockHeader is used for AuxPoW parent blocks
     // (merge-mined Scrypt chains like Litecoin).  The hash must be
     // Scrypt-1024-1-1-256 over the serialized 80-byte header, matching
-    // the reference Meowcoin implementation.
+    // the reference Telestai implementation.
     DataStream ss{};
     ss << *this;
     uint256 thash;

@@ -7,7 +7,7 @@ To run linters locally with the same versions as the CI environment, use the inc
 Dockerfile:
 
 ```sh
-DOCKER_BUILDKIT=1 docker build -t meowcoin-linter --file "./ci/lint_imagefile" ./ && docker run --rm -v $(pwd):/meowcoin -it meowcoin-linter
+DOCKER_BUILDKIT=1 docker build -t telestai-linter --file "./ci/lint_imagefile" ./ && docker run --rm -v $(pwd):/telestai -it telestai-linter
 ```
 
 Building the container can be done every time, because it is fast when the
@@ -92,19 +92,19 @@ Usage: test/lint/git-subtree-check.sh [-r] DIR [COMMIT]
 
 To do a full check with `-r`, make sure that you have fetched the upstream repository branch in which the subtree is
 maintained:
-* for `src/crc32c`: https://github.com/meowcoin-core/crc32c-subtree.git (branch meowcoin-fork)
-* for `src/crypto/ctaes`: https://github.com/meowcoin-core/ctaes.git (branch master)
-* for `src/ipc/libmultiprocess`: https://github.com/meowcoin-core/libmultiprocess (branch master)
-* for `src/leveldb`: https://github.com/meowcoin-core/leveldb-subtree.git (branch meowcoin-fork)
-* for `src/minisketch`: https://github.com/meowcoin-core/minisketch.git (branch master)
-* for `src/secp256k1`: https://github.com/meowcoin-core/secp256k1.git (branch master)
+* for `src/crc32c`: https://github.com/telestai-core/crc32c-subtree.git (branch telestai-fork)
+* for `src/crypto/ctaes`: https://github.com/telestai-core/ctaes.git (branch master)
+* for `src/ipc/libmultiprocess`: https://github.com/telestai-core/libmultiprocess (branch master)
+* for `src/leveldb`: https://github.com/telestai-core/leveldb-subtree.git (branch telestai-fork)
+* for `src/minisketch`: https://github.com/telestai-core/minisketch.git (branch master)
+* for `src/secp256k1`: https://github.com/telestai-core/secp256k1.git (branch master)
 
 Keep this list in sync with `fn get_subtrees()` in the lint runner.
 
 To do so, add the upstream repository as remote:
 
 ```
-git remote add --fetch secp256k1 https://github.com/meowcoin-core/secp256k1.git
+git remote add --fetch secp256k1 https://github.com/telestai-core/secp256k1.git
 ```
 
 lint_ignore_dirs.py

@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Meowcoin Core developers
+// Copyright (c) 2011-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -238,7 +238,7 @@ void MinerTestingSetup::TestPackageSelection(const CScript& scriptPubKey, const 
     hashLowFeeTx = tx.GetHash();
     AddToMempool(tx_mempool, entry.Fee(feeToUse + 2).FromTx(tx));
 
-    // waitNext() should return if fees for the new template are at least 1 mewc up
+    // waitNext() should return if fees for the new template are at least 1 tls up
     block_template = block_template->waitNext({.fee_threshold = 1});
     BOOST_REQUIRE(block_template);
     block = block_template->getBlock();

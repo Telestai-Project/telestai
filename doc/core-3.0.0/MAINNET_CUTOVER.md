@@ -20,7 +20,7 @@
 
 | Item | Value |
 |------|--------|
-| Meraki / ProgPoW constants | Telestai (not Meowcoin) — re-verify in tagged binary |
+| Meraki / ProgPoW constants | Telestai (not Telestai) — re-verify in tagged binary |
 | Mainnet 25% + asset fees | `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` |
 | AuxPoW | Absent |
 | DNS seeds | `dnsseed.telestainodes.xyz`, `telestai.seeds.multicoin.co`, `seed.telestai.io`, `dnsseed.telestai.io` |

@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Meowcoin Core developers
+// Copyright (c) 2022 The Telestai Core developers
 // Copyright (c) 2022 Shafil Alam
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -28,10 +28,10 @@ static bool IsHexNumber(const std::string& str) {
 }
 
 /* Static prefix */
-const std::string CMeowcoinNameSystemID::prefix = "ANS";
+const std::string CTelestaiNameSystemID::prefix = "ANS";
 
 /* Static domain */
-const std::string CMeowcoinNameSystemID::domain = ".MEWC";
+const std::string CTelestaiNameSystemID::domain = ".TLS";
 
 static std::string IPToHex(std::string strIP)
 {
@@ -60,7 +60,7 @@ static std::string HexToIP(std::string hexIP)
     return std::to_string(a) + "." + std::to_string(b) + "." + std::to_string(c) + "." + std::to_string(d);
 }
 
-bool CMeowcoinNameSystemID::CheckIP(std::string rawip, bool isHex) {
+bool CTelestaiNameSystemID::CheckIP(std::string rawip, bool isHex) {
     std::string ip = rawip;
     if (isHex) ip = HexToIP(rawip.c_str());
 
@@ -74,7 +74,7 @@ bool CMeowcoinNameSystemID::CheckIP(std::string rawip, bool isHex) {
 }
 
 // TODO: Add error result?
-bool CMeowcoinNameSystemID::CheckTypeData(Type type, std::string typeData) {
+bool CTelestaiNameSystemID::CheckTypeData(Type type, std::string typeData) {
     if (type == Type::ADDR) {
         CTxDestination destination = DecodeDestination(typeData);
         if (!IsValidDestination(destination)) return false;
@@ -87,7 +87,7 @@ bool CMeowcoinNameSystemID::CheckTypeData(Type type, std::string typeData) {
     return true;
 }
 
-std::string CMeowcoinNameSystemID::FormatTypeData(Type type, std::string typeData, std::string& error)
+std::string CTelestaiNameSystemID::FormatTypeData(Type type, std::string typeData, std::string& error)
 {
     std::string returnStr = typeData;
 
@@ -97,7 +97,7 @@ std::string CMeowcoinNameSystemID::FormatTypeData(Type type, std::string typeDat
         if (!IsValidDestination(destination)) {
             error = (typeData != "")
             ? std::string("Invalid Telestai address: ") + typeData
-            : std::string("Empty Meowcoin address.");
+            : std::string("Empty Telestai address.");
         }
     } else if (type == IP) {
         if (!CheckIP(typeData, false)) {
@@ -111,12 +111,12 @@ std::string CMeowcoinNameSystemID::FormatTypeData(Type type, std::string typeDat
     return returnStr;
 }
 
-bool CMeowcoinNameSystemID::IsValidID(std::string ansID) {
+bool CTelestaiNameSystemID::IsValidID(std::string ansID) {
     // Check for min length
     if(ansID.length() <= prefix.size() + 1) return false;
 
     // Check for prefix
-    bool hasPrefix = (ansID.substr(0, CMeowcoinNameSystemID::prefix.length()) == CMeowcoinNameSystemID::prefix) && (ansID.size() <= 64);
+    bool hasPrefix = (ansID.substr(0, CTelestaiNameSystemID::prefix.length()) == CTelestaiNameSystemID::prefix) && (ansID.size() <= 64);
     if (!hasPrefix) return false;
 
     // Must be valid hex char
@@ -136,7 +136,7 @@ bool CMeowcoinNameSystemID::IsValidID(std::string ansID) {
     return true;
 }
 
-CMeowcoinNameSystemID::CMeowcoinNameSystemID(Type type, std::string rawData) :
+CTelestaiNameSystemID::CTelestaiNameSystemID(Type type, std::string rawData) :
     m_addr(""),
     m_ip("")
 {
@@ -145,7 +145,7 @@ CMeowcoinNameSystemID::CMeowcoinNameSystemID(Type type, std::string rawData) :
     if (!CheckTypeData(this->m_type, rawData)) return;
 
     if (this->m_type == Type::ADDR) {
-        // Meowcoin address
+        // Telestai address
         this->m_addr = rawData;
     }
     else if (this->m_type == Type::IP) {
@@ -154,7 +154,7 @@ CMeowcoinNameSystemID::CMeowcoinNameSystemID(Type type, std::string rawData) :
     }
 }
 
-CMeowcoinNameSystemID::CMeowcoinNameSystemID(std::string ansID) :
+CTelestaiNameSystemID::CTelestaiNameSystemID(std::string ansID) :
     m_addr(""),
     m_ip("")
 {
@@ -175,7 +175,7 @@ CMeowcoinNameSystemID::CMeowcoinNameSystemID(std::string ansID) :
     }
 }
 
-std::string CMeowcoinNameSystemID::to_string() {
+std::string CTelestaiNameSystemID::to_string() {
     std::string id = "";
 
     // 1. Add prefix

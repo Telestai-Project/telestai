@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2021 The Meowcoin Core developers
+// Copyright (c) 2009-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,7 +20,7 @@ enum HTTPStatusCode
     HTTP_SERVICE_UNAVAILABLE   = 503,
 };
 
-//! Meowcoin RPC error codes
+//! Telestai RPC error codes
 enum RPCErrorCode
 {
     //! Standard JSON-RPC 2.0 errors
@@ -55,7 +55,7 @@ enum RPCErrorCode
     RPC_TRANSACTION_REJECTED        = RPC_VERIFY_REJECTED,
 
     //! P2P client errors
-    RPC_CLIENT_NOT_CONNECTED        = -9,  //!< Meowcoin is not connected
+    RPC_CLIENT_NOT_CONNECTED        = -9,  //!< Telestai is not connected
     RPC_CLIENT_IN_INITIAL_DOWNLOAD  = -10, //!< Still downloading initial blocks
     RPC_CLIENT_NODE_ALREADY_ADDED   = -23, //!< Node is already added
     RPC_CLIENT_NODE_NOT_ADDED       = -24, //!< Node has not been added before

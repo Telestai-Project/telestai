@@ -1,24 +1,24 @@
 Benchmarking
 ============
 
-Meowcoin Core has an internal benchmarking framework, with benchmarks
+Telestai Core has an internal benchmarking framework, with benchmarks
 for cryptographic algorithms (e.g. SHA1, SHA256, SHA512, RIPEMD160, Poly1305, ChaCha20), rolling bloom filter, coins selection,
 thread queue, wallet balance.
 
 Running
 ---------------------
 
-For benchmarking, you only need to compile `bench_meowcoin`.  The bench runner
+For benchmarking, you only need to compile `bench_telestai`.  The bench runner
 warns if you configure with `-DCMAKE_BUILD_TYPE=Debug`, but consider if building without
 it will impact the benchmark(s) you are interested in by unlatching log printers
 and lock analysis.
 
     cmake -B build -DBUILD_BENCH=ON
-    cmake --build build -t bench_meowcoin
+    cmake --build build -t bench_telestai
 
-After compiling meowcoin-core, the benchmarks can be run with:
+After compiling telestai-core, the benchmarks can be run with:
 
-    build/bin/bench_meowcoin
+    build/bin/bench_telestai
 
 The output will look similar to:
 ```
@@ -40,7 +40,7 @@ The output will look similar to:
 Help
 ---------------------
 
-    build/bin/bench_meowcoin -h
+    build/bin/bench_telestai -h
 
 To print the various options, like listing the benchmarks without running them
 or using a regex filter to only run certain benchmarks.
@@ -74,4 +74,4 @@ specifically aimed at exploring the possible input space.
 Going Further
 --------------------
 
-To monitor Meowcoin Core performance more in depth (like reindex or IBD): https://github.com/meowcoin-dev-tools/benchcoin
+To monitor Telestai Core performance more in depth (like reindex or IBD): https://github.com/telestai-dev-tools/benchcoin

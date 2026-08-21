@@ -1,11 +1,11 @@
-// Copyright (c) 2020-2021 The Meowcoin Core developers
+// Copyright (c) 2020-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_UTIL_TRACE_H
 #define BITCOIN_UTIL_TRACE_H
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #ifdef ENABLE_TRACING
 

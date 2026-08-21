@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2020-2024 The Avian developers
-// Copyright (c) 2024-present The Meowcoin Core developers
+// Copyright (c) 2024-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,7 +14,7 @@
 #include <uint256.h>
 
 // Native coin ticker (matches NATIVE_ASSET_TICKER / CURRENCY_UNIT)
-static const std::string MEWC = "TLS";
+static const std::string TLS = "TLS";
 
 struct CAddressUnspentKey {
     unsigned int type;
@@ -46,7 +46,7 @@ struct CAddressUnspentKey {
     CAddressUnspentKey(unsigned int addressType, uint256 addressHash, uint256 txid, size_t indexValue) {
         type = addressType;
         hashBytes = addressHash;
-        asset = MEWC;
+        asset = TLS;
         txhash = txid;
         index = indexValue;
     }
@@ -144,7 +144,7 @@ struct CAddressIndexKey {
                      uint256 txid, size_t indexValue, bool isSpending) {
         type = addressType;
         hashBytes = addressHash;
-        asset = MEWC;
+        asset = TLS;
         blockHeight = height;
         txindex = blockindex;
         txhash = txid;
@@ -237,7 +237,7 @@ struct CAddressIndexIteratorAssetKey {
     CAddressIndexIteratorAssetKey(unsigned int addressType, uint256 addressHash) {
         type = addressType;
         hashBytes = addressHash;
-        asset = MEWC;
+        asset = TLS;
     }
 
     CAddressIndexIteratorAssetKey(unsigned int addressType, uint256 addressHash, std::string assetName) {
@@ -284,7 +284,7 @@ struct CAddressIndexIteratorHeightKey {
     CAddressIndexIteratorHeightKey(unsigned int addressType, uint256 addressHash, int height) {
         type = addressType;
         hashBytes = addressHash;
-        asset = MEWC;
+        asset = TLS;
         blockHeight = height;
     }
 

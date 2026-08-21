@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -61,7 +61,7 @@ static constexpr auto FEELER_INTERVAL = 2min;
 /** Run the extra block-relay-only connection loop once every 5 minutes. **/
 static constexpr auto EXTRA_BLOCK_RELAY_ONLY_PEER_INTERVAL = 5min;
 /** Maximum length of incoming protocol messages.
- *  Meowcoin: raised to 32 MB to accommodate AuxPoW headers. */
+ *  Telestai: raised to 32 MB to accommodate AuxPoW headers. */
 static const unsigned int MAX_PROTOCOL_MESSAGE_LENGTH = 32 * 1000 * 1000;
 /** Maximum length of the user agent string in `version` message */
 static const unsigned int MAX_SUBVERSION_LENGTH = 256;
@@ -687,7 +687,7 @@ public:
      * `shared_ptr` (instead of `unique_ptr`) is used to avoid premature close of
      * the underlying file descriptor by one thread while another thread is
      * poll(2)-ing it for activity.
-     * @see https://github.com/meowcoin/meowcoin/issues/21744 for details.
+     * @see https://github.com/Telestai-Project/telestai/issues/21744 for details.
      */
     std::shared_ptr<Sock> m_sock GUARDED_BY(m_sock_mutex);
 

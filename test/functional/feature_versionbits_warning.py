@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016-2022 The Meowcoin Core developers
+# Copyright (c) 2016-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test version bits warning system.
@@ -85,7 +85,7 @@ class VersionBitsWarningTest(BitcoinTestFramework):
         # is cleared. This will move the versionbit state to ACTIVE.
         self.generatetoaddress(node, VB_PERIOD, node_deterministic_address)
 
-        # Stop-start the node. This is required because meowcoind will only warn once about unknown versions or unknown rules activating.
+        # Stop-start the node. This is required because telestaid will only warn once about unknown versions or unknown rules activating.
         self.restart_node(0)
 
         # Generating one block guarantees that we'll get out of IBD

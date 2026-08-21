@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2021 The Meowcoin Core developers
+// Copyright (c) 2015-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -99,7 +99,7 @@ private:
     static void eventcb(struct bufferevent *bev, short what, void *ctx);
 };
 
-/****** Meowcoin specific TorController implementation ********/
+/****** Telestai specific TorController implementation ********/
 
 /** Controller that connects to Tor control socket, authenticate, then create
  * and maintain an ephemeral onion service.

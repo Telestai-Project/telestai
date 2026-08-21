@@ -1,4 +1,4 @@
-// Copyright (c) The Meowcoin Core developers
+// Copyright (c) The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -31,7 +31,7 @@ static constexpr unsigned MAX_CLUSTER_COUNT_LIMIT{64};
  * be close to the optimal order those transactions should be mined in if the goal is fee
  * maximization, though this is a best effort only, not a strong guarantee.
  *
- * For more explanation, see https://delvingmeowcoin.org/t/introduction-to-cluster-linearization/1032
+ * For more explanation, see https://delvingtelestai.org/t/introduction-to-cluster-linearization/1032
  *
  * This linearization is partitioned into chunks: groups of transactions that according to this
  * order would be mined together. Each chunk consists of the highest-feerate prefix of what remains

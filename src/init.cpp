@@ -1,9 +1,9 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #include <init.h>
 
@@ -1350,7 +1350,7 @@ static ChainstateLoadResult InitAndLoadChainstate(
 
     // This is defined and set here instead of inline in validation.h to avoid a hard
     // dependency between validation and index/base, since the latter is not in
-    // libmeowcoinkernel.
+    // libtelestaikernel.
     chainman.snapshot_download_completed = [&node]() {
         if (!node.chainman->m_blockman.IsPruneMode()) {
             LogInfo("[snapshot] re-enabling NODE_NETWORK services");

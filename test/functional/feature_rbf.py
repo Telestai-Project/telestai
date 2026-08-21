@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the RBF code."""
@@ -114,14 +114,14 @@ class ReplaceByFeeTest(BitcoinTestFramework):
 
         # This will raise an exception due to insufficient fee
         reject_reason = "insufficient fee"
-        reject_details = f"{reject_reason}, rejecting replacement {tx.txid_hex}; new feerate 0.00300000 MEWC/kvB <= old feerate 0.00300000 MEWC/kvB"
+        reject_details = f"{reject_reason}, rejecting replacement {tx.txid_hex}; new feerate 0.00300000 TLS/kvB <= old feerate 0.00300000 TLS/kvB"
         res = self.nodes[0].testmempoolaccept(rawtxs=[tx_hex])[0]
         assert_equal(res["reject-reason"], reject_reason)
         assert_equal(res["reject-details"], reject_details)
         assert_raises_rpc_error(-26, f"{reject_details}", self.nodes[0].sendrawtransaction, tx_hex, 0)
 
 
-        # Extra 0.1 MEWC fee
+        # Extra 0.1 TLS fee
         tx.vout[0].nValue -= int(0.1 * COIN)
         tx1b_hex = tx.serialize().hex()
         # Works when enabled
@@ -154,7 +154,7 @@ class ReplaceByFeeTest(BitcoinTestFramework):
             chain_txids.append(prevout["txid"])
 
         # Whether the double-spend is allowed is evaluated by including all
-        # child fees - 4 MEWC - so this attempt is rejected.
+        # child fees - 4 TLS - so this attempt is rejected.
         dbl_tx = self.wallet.create_self_transfer(
             utxo_to_spend=tx0_outpoint,
             sequence=0,
@@ -229,7 +229,7 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         # This will raise an exception due to insufficient fee
         assert_raises_rpc_error(-26, "insufficient fee", self.nodes[0].sendrawtransaction, dbl_tx_hex, 0)
 
-        # 0.1 MEWC fee is enough
+        # 0.1 TLS fee is enough
         dbl_tx_hex = self.wallet.create_self_transfer(
             utxo_to_spend=tx0_outpoint,
             sequence=0,
@@ -583,7 +583,7 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         tx = self.wallet.send_self_transfer(from_node=self.nodes[0])['tx']
 
         # Higher fee, higher feerate, different txid, but the replacement does not provide a relay
-        # fee conforming to node's `incrementalrelayfee` policy of 100 mewc per KB.
+        # fee conforming to node's `incrementalrelayfee` policy of 100 tls per KB.
         assert_equal(self.nodes[0].getmempoolinfo()["incrementalrelayfee"], Decimal("0.000001"))
         tx.vout[0].nValue -= 1
         assert_raises_rpc_error(-26, "insufficient fee", self.nodes[0].sendrawtransaction, tx.serialize().hex())
@@ -593,7 +593,7 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         node = self.nodes[0]
         for incremental_setting in (0, 5, 10, 50, 100, 234, 1000, 5000, 21000):
             incremental_setting_decimal = incremental_setting / Decimal(COIN)
-            self.log.info(f"-> Test -incrementalrelayfee={incremental_setting:.8f}mewc/kvB...")
+            self.log.info(f"-> Test -incrementalrelayfee={incremental_setting:.8f}tls/kvB...")
             self.restart_node(0, extra_args=[f"-incrementalrelayfee={incremental_setting_decimal:.8f}", "-persistmempool=0"])
 
             # When incremental relay feerate is higher than min relay feerate, min relay feerate is automatically increased.

@@ -5,9 +5,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## This issue tracker is only for technical issues related to Meowcoin Core.
+        ## This issue tracker is only for technical issues related to Telestai Core.
 
-        * General meowcoin questions and/or support requests should use Meowcoin StackExchange at https://meowcoin.stackexchange.com.
+        * General telestai questions and/or support requests should use Telestai StackExchange at https://telestai.stackexchange.com.
         * For reporting security issues, please read instructions at https://www.mewccrypto.com/en/contact/.
         * If the node is "stuck" during sync or giving "block checksum mismatch" errors, please ensure your hardware is stable by running `memtest` and observe CPU temperature with a load-test tool such as `linpack` before creating an issue.
 
@@ -50,14 +50,14 @@ body:
       description: |
         Please copy and paste any relevant log output or attach a debug log file.
 
-        You can find the debug.log in your [data dir.](https://github.com/Meowcoin-Foundation/Meowcoin/blob/master/doc/files.md#data-directory-location)
+        You can find the debug.log in your [data dir.](https://github.com/Telestai-Foundation/Telestai/blob/master/doc/files.md#data-directory-location)
 
         Please be aware that the debug log might contain personally identifying information.
     validations:
       required: false
   - type: dropdown
     attributes:
-      label: How did you obtain Meowcoin Core
+      label: How did you obtain Telestai Core
       multiple: false
       options:
         - Compiled from source
@@ -69,8 +69,8 @@ body:
   - type: input
     id: core-version
     attributes:
-      label: What version of Meowcoin Core are you using?
-      description: Run `meowcoind --version` or in Meowcoin-QT use `Help > About Meowcoin Core`
+      label: What version of Telestai Core are you using?
+      description: Run `telestaid --version` or in Telestai-QT use `Help > About Telestai Core`
       placeholder: e.g. v24.0.1 or master@e1bf547
     validations:
       required: true

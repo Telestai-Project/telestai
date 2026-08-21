@@ -1,10 +1,10 @@
-// Copyright (c) 2019 The Meowcoin Core developers
+// Copyright (c) 2019 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef MEOWCOINCOIN_RESTRICTEDDB_H
-#define MEOWCOINCOIN_RESTRICTEDDB_H
+#ifndef TELESTAICOIN_RESTRICTEDDB_H
+#define TELESTAICOIN_RESTRICTEDDB_H
 
 #include <dbwrapper.h>
 
@@ -56,4 +56,4 @@ public:
 };
 
 
-#endif //MEOWCOINCOIN_RESTRICTEDDB_H
+#endif //TELESTAICOIN_RESTRICTEDDB_H

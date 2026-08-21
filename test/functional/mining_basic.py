@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test mining RPCs
@@ -55,7 +55,7 @@ MAX_FUTURE_BLOCK_TIME = 2 * 3600
 MAX_TIMEWARP = 600
 VERSIONBITS_TOP_BITS = 0x20000000
 VERSIONBITS_DEPLOYMENT_TESTDUMMY_BIT = 28
-DEFAULT_BLOCK_MIN_TX_FEE = 1 # default `-blockmintxfee` setting [mewc/kvB]
+DEFAULT_BLOCK_MIN_TX_FEE = 1 # default `-blockmintxfee` setting [tls/kvB]
 
 class MiningTest(BitcoinTestFramework):
     def set_test_params(self):
@@ -100,13 +100,13 @@ class MiningTest(BitcoinTestFramework):
 
         # Generate three transactions that must be mined in sequence
         #
-        #      tx_a (1 mewc/vbyte)
+        #      tx_a (1 tls/vbyte)
         #        |
         #        |
-        #      tx_b (2 mewc/vbyte)
+        #      tx_b (2 tls/vbyte)
         #        |
         #        |
-        #      tx_c (3 mewc/vbyte)
+        #      tx_c (3 tls/vbyte)
         #
         tx_a = wallet_sigops.send_self_transfer(from_node=node,
                                                 fee_rate=Decimal("0.00001"))
@@ -118,7 +118,7 @@ class MiningTest(BitcoinTestFramework):
                                                 utxo_to_spend=tx_b["new_utxo"])
 
         # Generate transaction without sigops. It will go first because it pays
-        # higher fees (100 mewc/vbyte) and descends from a different coinbase.
+        # higher fees (100 tls/vbyte) and descends from a different coinbase.
         tx_d = self.wallet.send_self_transfer(from_node=node,
                                               fee_rate=Decimal("0.00100"))
 
@@ -143,14 +143,14 @@ class MiningTest(BitcoinTestFramework):
         self.restart_node(0, extra_args=['-minrelaytxfee=0', '-persistmempool=0'])
         node = self.nodes[0]
 
-        # test default (no parameter), zero and a bunch of arbitrary blockmintxfee rates [mewc/kvB]
+        # test default (no parameter), zero and a bunch of arbitrary blockmintxfee rates [tls/kvB]
         for blockmintxfee_sat_kvb in (DEFAULT_BLOCK_MIN_TX_FEE, 0, 5, 10, 50, 100, 500, 1000, 2500, 5000, 21000, 333333, 2500000):
             blockmintxfee_btc_kvb = blockmintxfee_sat_kvb / Decimal(COIN)
             if blockmintxfee_sat_kvb == DEFAULT_BLOCK_MIN_TX_FEE:
-                self.log.info(f"-> Default -blockmintxfee setting ({blockmintxfee_sat_kvb} mewc/kvB)...")
+                self.log.info(f"-> Default -blockmintxfee setting ({blockmintxfee_sat_kvb} tls/kvB)...")
             else:
                 blockmintxfee_parameter = f"-blockmintxfee={blockmintxfee_btc_kvb:.8f}"
-                self.log.info(f"-> Test {blockmintxfee_parameter} ({blockmintxfee_sat_kvb} mewc/kvB)...")
+                self.log.info(f"-> Test {blockmintxfee_parameter} ({blockmintxfee_sat_kvb} tls/kvB)...")
                 self.restart_node(0, extra_args=[blockmintxfee_parameter, '-minrelaytxfee=0', '-persistmempool=0'])
             assert_equal(node.getmininginfo()['blockmintxfee'], blockmintxfee_btc_kvb)
 
@@ -158,7 +158,7 @@ class MiningTest(BitcoinTestFramework):
             tx_with_min_feerate = self.wallet.send_self_transfer(from_node=node, fee_rate=blockmintxfee_btc_kvb, confirmed_only=True)
             assert_equal(tx_with_min_feerate["fee"], get_fee(tx_with_min_feerate["tx"].get_vsize(), blockmintxfee_btc_kvb))
             if blockmintxfee_sat_kvb >= 10:
-                lowerfee_btc_kvb = blockmintxfee_btc_kvb - Decimal(10)/COIN  # 0.01 mewc/vbyte lower
+                lowerfee_btc_kvb = blockmintxfee_btc_kvb - Decimal(10)/COIN  # 0.01 tls/vbyte lower
                 assert_greater_than(blockmintxfee_btc_kvb, lowerfee_btc_kvb)
                 assert_greater_than_or_equal(lowerfee_btc_kvb, 0)
                 tx_below_min_feerate = self.wallet.send_self_transfer(from_node=node, fee_rate=lowerfee_btc_kvb, confirmed_only=True)

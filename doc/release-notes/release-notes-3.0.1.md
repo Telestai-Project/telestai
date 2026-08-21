@@ -8,7 +8,7 @@ mainnet activation remains **block 1,150,000**. Proof of work remains **Meraki**
 
 3.0.0 shipped as a GitHub pre-release (so watchers did not get the usual
 email), and pool operators reported missing `getkawpowhash` plus leftover
-Meowcoin binary/RPC names in help text.
+Telestai binary/RPC names in help text.
 
 3.0.1 is the build pools should run **before** treating 3.0 as mandatory.
 
@@ -27,7 +27,7 @@ GBT / `pprpcsb` behaviour is unchanged from 3.0.0.
 ## Binaries
 
 Shipped names are `telestaid`, `telestai-cli`, `telestai-qt`. CMake still uses
-internal Apex target names (`meowcoind`, …) with `OUTPUT_NAME` remapped.
+internal Apex target names (`telestaid`, …) with `OUTPUT_NAME` remapped.
 
 ## Upgrade
 

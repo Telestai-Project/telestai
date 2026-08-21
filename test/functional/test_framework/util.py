@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Helpful routines for regression testing."""
@@ -49,11 +49,11 @@ def assert_fee_amount(fee, tx_size, feerate_BTC_kvB):
     assert isinstance(tx_size, int)
     target_fee = get_fee(tx_size, feerate_BTC_kvB)
     if fee < target_fee:
-        raise AssertionError("Fee of %s MEWC too low! (Should be %s MEWC)" % (str(fee), str(target_fee)))
+        raise AssertionError("Fee of %s TLS too low! (Should be %s TLS)" % (str(fee), str(target_fee)))
     # allow the wallet's estimation to be at most 2 bytes off
     high_fee = get_fee(tx_size + 2, feerate_BTC_kvB)
     if fee > high_fee:
-        raise AssertionError("Fee of %s MEWC too high! (Should be %s MEWC)" % (str(fee), str(target_fee)))
+        raise AssertionError("Fee of %s TLS too high! (Should be %s TLS)" % (str(fee), str(target_fee)))
 
 
 def summarise_dict_differences(thing1, thing2):
@@ -228,7 +228,7 @@ def assert_array_result(object_array, to_match, expected, should_not_find=False)
 
 
 def check_json_precision():
-    """Make sure json library being used does not lose precision converting MEWC values"""
+    """Make sure json library being used does not lose precision converting TLS values"""
     n = Decimal("20000000.00000003")
     satoshis = int(json.loads(json.dumps(float(n))) * 1.0e8)
     if satoshis != 2000000000000003:
@@ -261,10 +261,10 @@ def random_bitflip(data):
 
 
 def get_fee(tx_size, feerate_btc_kvb):
-    """Calculate the fee in MEWC given a feerate is MEWC/kvB. Reflects CFeeRate::GetFee"""
-    feerate_sat_kvb = int(feerate_btc_kvb * Decimal(1e8)) # Fee in mewc/kvb as an int to avoid float precision errors
-    target_fee_sat = ceildiv(feerate_sat_kvb * tx_size, 1000) # Round calculated fee up to nearest mewc
-    return target_fee_sat / Decimal(1e8) # Return result in  MEWC
+    """Calculate the fee in TLS given a feerate is TLS/kvB. Reflects CFeeRate::GetFee"""
+    feerate_sat_kvb = int(feerate_btc_kvb * Decimal(1e8)) # Fee in tls/kvb as an int to avoid float precision errors
+    target_fee_sat = ceildiv(feerate_sat_kvb * tx_size, 1000) # Round calculated fee up to nearest tls
+    return target_fee_sat / Decimal(1e8) # Return result in  TLS
 
 
 def satoshi_round(amount: Union[int, float, str], *, rounding: str) -> Decimal:
@@ -324,7 +324,7 @@ def wait_until_helper_internal(predicate, *, timeout=60, lock=None, timeout_fact
 def bpf_cflags():
     return [
         "-Wno-error=implicit-function-declaration",
-        "-Wno-duplicate-decl-specifier",  # https://github.com/meowcoin/meowcoin/issues/32322
+        "-Wno-duplicate-decl-specifier",  # https://github.com/Telestai-Project/telestai/issues/32322
     ]
 
 
@@ -420,7 +420,7 @@ def initialize_datadir(dirname, n, chain, disable_autoconnect=True):
     datadir = get_datadir_path(dirname, n)
     if not os.path.isdir(datadir):
         os.makedirs(datadir)
-    write_config(os.path.join(datadir, "meowcoin.conf"), n=n, chain=chain, disable_autoconnect=disable_autoconnect)
+    write_config(os.path.join(datadir, "telestai.conf"), n=n, chain=chain, disable_autoconnect=disable_autoconnect)
     os.makedirs(os.path.join(datadir, 'stderr'), exist_ok=True)
     os.makedirs(os.path.join(datadir, 'stdout'), exist_ok=True)
     return datadir
@@ -487,18 +487,18 @@ def get_temp_default_datadir(temp_dir: pathlib.Path) -> tuple[dict, pathlib.Path
     temp_dir, as well as the complete path it would return."""
     if platform.system() == "Windows":
         env = dict(APPDATA=str(temp_dir))
-        datadir = temp_dir / "Meowcoin"
+        datadir = temp_dir / "Telestai"
     else:
         env = dict(HOME=str(temp_dir))
         if platform.system() == "Darwin":
-            datadir = temp_dir / "Library/Application Support/Meowcoin"
+            datadir = temp_dir / "Library/Application Support/Telestai"
         else:
-            datadir = temp_dir / ".meowcoin"
+            datadir = temp_dir / ".telestai"
     return env, datadir
 
 
 def append_config(datadir, options):
-    with open(os.path.join(datadir, "meowcoin.conf"), 'a', encoding='utf8') as f:
+    with open(os.path.join(datadir, "telestai.conf"), 'a', encoding='utf8') as f:
         for option in options:
             f.write(option + "\n")
 
@@ -506,8 +506,8 @@ def append_config(datadir, options):
 def get_auth_cookie(datadir, chain):
     user = None
     password = None
-    if os.path.isfile(os.path.join(datadir, "meowcoin.conf")):
-        with open(os.path.join(datadir, "meowcoin.conf"), 'r', encoding='utf8') as f:
+    if os.path.isfile(os.path.join(datadir, "telestai.conf")):
+        with open(os.path.join(datadir, "telestai.conf"), 'r', encoding='utf8') as f:
             for line in f:
                 if line.startswith("rpcuser="):
                     assert user is None  # Ensure that there is only one rpcuser line

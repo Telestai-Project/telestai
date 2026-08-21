@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2021 The Meowcoin Core developers
+// Copyright (c) 2011-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +6,7 @@
 #define BITCOIN_QT_WALLETVIEW_H
 
 #include <consensus/amount.h>
-#include <qt/meowcoinunits.h>
+#include <qt/telestaiunits.h>
 
 #include <QStackedWidget>
 
@@ -57,7 +57,7 @@ private:
     ClientModel* clientModel{nullptr};
 
     //!
-    //! The wallet model represents a meowcoin wallet, and offers access to
+    //! The wallet model represents a telestai wallet, and offers access to
     //! the list of transactions, address book and sending functionality.
     //!
     WalletModel* const walletModel;

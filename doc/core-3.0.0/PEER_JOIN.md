@@ -39,7 +39,7 @@ cd telestai-3.0.0-testnet-linux-x86_64
 git clone https://github.com/Telestai-Project/telestai.git
 cd telestai
 git checkout feature/core-3.0.0
-# follow CMake build for meowcoind / meowcoin-cli targets → telestaid / telestai-cli
+# follow CMake build for telestaid / telestai-cli targets → telestaid / telestai-cli
 ```
 
 ---

@@ -44,9 +44,9 @@ When rebuilding during development, note that running `cmake --build build`, wit
 Obviously, it is important to build and run the tests at appropriate times -- but when you just want a quick compile to check your work, consider picking one or a set of build targets relevant to what you're working on, e.g.:
 
 ```sh
-cmake --build build --target meowcoind meowcoin-cli
-cmake --build build --target meowcoin-qt
-cmake --build build --target bench_meowcoin
+cmake --build build --target telestaid telestai-cli
+cmake --build build --target telestai-qt
+cmake --build build --target bench_telestai
 ```
 
 (You can and should combine this with `-j`, as above, for a parallel build.)
@@ -153,7 +153,7 @@ As an alternative to fetching commits directly, when looking at pull requests by
 ```
 [remote "upstream-pull"]
         fetch = +refs/pull/*/head:refs/remotes/upstream-pull/*
-        url = git@github.com:meowcoin/meowcoin.git
+        url = git@github.com:telestai/telestai.git
 ```
 
 This will add an `upstream-pull` remote to your git repository, which can be fetched using `git fetch --all` or `git fetch upstream-pull`. It will download and store on disk quite a lot of data (all PRs, including merged and closed ones). Afterwards, you can use `upstream-pull/NUMBER/head` in arguments to `git show`, `git checkout` and anywhere a commit id would be acceptable to see the changes from pull request NUMBER.
@@ -174,7 +174,7 @@ git fetch upstream pull/<number>/head:pr-<number> && git switch pr-<number>
 
 > [!NOTE]
 > The remote named "upstream" here must be the one that the pull request was opened against.
-> e.g. github.com/meowcoin/meowcoin.git or for the GUI github.com/meowcoin-core/gui
+> e.g. github.com/Telestai-Project/telestai.git or for the GUI github.com/telestai-core/gui
 
 Make these easier to use by adding aliases to your git config:
 

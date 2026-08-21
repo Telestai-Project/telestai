@@ -1,5 +1,5 @@
-// Copyright (c) 2017-2019 The Meowcoin Core developers
-// Copyright (c) 2022 The Meowcoin Core developers
+// Copyright (c) 2017-2019 The Telestai Core developers
+// Copyright (c) 2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,12 +19,12 @@ class UniValue;
 #include <list>
 #include <vector>
 
-#define MEWC_R 114
-#define MEWC_V 118
-#define MEWC_N 110
-#define MEWC_Q 113
-#define MEWC_T 116
-#define MEWC_O 111
+#define TLS_ASSET_R 114
+#define TLS_ASSET_V 118
+#define TLS_ASSET_N 110
+#define TLS_ASSET_Q 113
+#define TLS_ASSET_T 116
+#define TLS_ASSET_O 111
 
 /** Native coin ticker for RPC, indexes, and rewards (not an issued asset name). */
 inline const std::string NATIVE_ASSET_TICKER{"TLS"};
@@ -484,10 +484,10 @@ bool CheckIssueBurnTx(const CTxOut& txOut, const AssetType& type, int nHeight = 
 bool CheckReissueBurnTx(const CTxOut& txOut, int nHeight = 0);
 
 //! issue asset scripts to make sure script meets the standards
-bool CheckIssueDataTx(const CTxOut& txOut); // OP_MEWC_ASSET + rvnq (new asset payload)
-bool CheckOwnerDataTx(const CTxOut& txOut); // OP_MEWC_ASSET + rvno (owner payload)
-bool CheckReissueDataTx(const CTxOut& txOut); // OP_MEWC_ASSET + rvnr (reissue payload)
-bool CheckTransferOwnerTx(const CTxOut& txOut); // OP_MEWC_ASSET + rvnt (transfer payload)
+bool CheckIssueDataTx(const CTxOut& txOut); // OP_TLS_ASSET + rvnq (new asset payload)
+bool CheckOwnerDataTx(const CTxOut& txOut); // OP_TLS_ASSET + rvno (owner payload)
+bool CheckReissueDataTx(const CTxOut& txOut); // OP_TLS_ASSET + rvnr (reissue payload)
+bool CheckTransferOwnerTx(const CTxOut& txOut); // OP_TLS_ASSET + rvnt (transfer payload)
 
 //! Check the Encoded hash and make sure it is either an IPFS hash or a OIP hash
 bool CheckEncoded(const std::string& hash, std::string& strError);
@@ -594,7 +594,7 @@ bool CheckAddingTagBurnFee(const CTransaction& tx, const int& count, int nHeight
 bool AreAssetsDeployed();
 bool AreMessagesDeployed();
 bool AreRestrictedAssetsDeployed();
-bool IsMeowcoinNameSystemDeployed();
+bool IsTelestaiNameSystemDeployed();
 
 //! Format a raw asset amount using the asset's unit precision
 UniValue UnitValueFromAmount(const CAmount& amount, int8_t units);

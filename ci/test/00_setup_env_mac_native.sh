@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (c) 2019-present The Meowcoin Core developers
+# Copyright (c) 2019-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,4 +16,4 @@ export BITCOIN_CONFIG="-DBUILD_GUI=ON -DWITH_ZMQ=ON -DREDUCE_EXPORTS=ON -DCMAKE_
 export CI_OS_NAME="macos"
 export NO_DEPENDS=1
 export OSX_SDK=""
-export BITCOIN_CMD="meowcoin -m" # Used in functional tests
+export BITCOIN_CMD="telestai -m" # Used in functional tests

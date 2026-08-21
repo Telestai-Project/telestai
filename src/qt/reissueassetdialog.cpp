@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2017-2019 The Meowcoin Core developers
+// Copyright (c) 2017-2019 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -78,7 +78,7 @@ ReissueAssetDialog::ReissueAssetDialog(const PlatformStyle* _platformStyle, QWid
     ui->setupUi(this);
     setWindowTitle("Reissue Assets");
 
-    if (!IsMeowcoinNameSystemDeployed()) {
+    if (!IsTelestaiNameSystemDeployed()) {
         ui->ansBox->hide();
         ui->ansType->hide();
         ui->ansText->hide();
@@ -300,7 +300,7 @@ void ReissueAssetDialog::setUpValues()
     ui->ipfsText->setDisabled(true);
     ui->ansText->setDisabled(true);
     ui->ansType->setDisabled(true);
-    if (!IsMeowcoinNameSystemDeployed()) {
+    if (!IsTelestaiNameSystemDeployed()) {
         ui->ansBox->hide();
         ui->ansText->hide();
         ui->ansType->hide();
@@ -328,7 +328,7 @@ void ReissueAssetDialog::setUpValues()
     // Setup ANS types
     QStringList listTypes;
     for (const auto type : ANSTypes)
-        listTypes.append(QString::fromStdString(CMeowcoinNameSystemID::enum_to_string(type).first));
+        listTypes.append(QString::fromStdString(CTelestaiNameSystemID::enum_to_string(type).first));
 
     ui->ansType->addItems(listTypes);
 
@@ -462,13 +462,13 @@ void ReissueAssetDialog::CheckFormState()
     }
 
     if (ui->ansBox->isChecked() && !ui->ansText->text().isEmpty()) {
-        CMeowcoinNameSystemID::Type type = static_cast<CMeowcoinNameSystemID::Type>(ui->ansType->currentIndex());
+        CTelestaiNameSystemID::Type type = static_cast<CTelestaiNameSystemID::Type>(ui->ansType->currentIndex());
 
         std::string error;
         std::string formattedTypeData;
         std::string typeData = ui->ansText->text().toStdString();
 
-        formattedTypeData = CMeowcoinNameSystemID::FormatTypeData(type, typeData, error);
+        formattedTypeData = CTelestaiNameSystemID::FormatTypeData(type, typeData, error);
 
         if (error != "") {
             ui->ansText->setStyleSheet("border: 2px solid red");
@@ -477,16 +477,16 @@ void ReissueAssetDialog::CheckFormState()
             return;
         }
 
-        CMeowcoinNameSystemID ans(type, formattedTypeData);
+        CTelestaiNameSystemID ans(type, formattedTypeData);
 
-        if (!IsMeowcoinNameSystemDeployed()) {
+        if (!IsTelestaiNameSystemDeployed()) {
             ui->ansText->setStyleSheet("border: 2px solid red");
             showMessage(tr("ANS not deployed yet."));
             disableReissueButton();
             return;
         }
 
-        if (!CMeowcoinNameSystemID::IsValidID(ans.to_string())) {
+        if (!CTelestaiNameSystemID::IsValidID(ans.to_string())) {
             ui->ansText->setStyleSheet("border: 2px solid red");
             showMessage(tr("Invalid ANS data."));
             disableReissueButton();
@@ -631,10 +631,10 @@ void ReissueAssetDialog::buildUpdatedData()
     } else if (ui->ansBox->isChecked() && !ui->ansBox->text().isEmpty()) {
         std::string error;
         std::string formattedTypeData;
-        CMeowcoinNameSystemID::Type type = static_cast<CMeowcoinNameSystemID::Type>(ui->ansType->currentIndex());
-        formattedTypeData = CMeowcoinNameSystemID::FormatTypeData(type, ui->ansText->text().toStdString(), error);
+        CTelestaiNameSystemID::Type type = static_cast<CTelestaiNameSystemID::Type>(ui->ansType->currentIndex());
+        formattedTypeData = CTelestaiNameSystemID::FormatTypeData(type, ui->ansText->text().toStdString(), error);
 
-        CMeowcoinNameSystemID ansData(type, formattedTypeData);
+        CTelestaiNameSystemID ansData(type, formattedTypeData);
         QString qstr = QString::fromStdString(ansData.to_string());
         ansID = formatGreen.arg(tr("ANS ID"), ":", qstr) + "\n";
     }
@@ -854,8 +854,8 @@ void ReissueAssetDialog::onANSDataChanged(QString data)
 
 void ReissueAssetDialog::onANSTypeChanged(int index)
 {
-    CMeowcoinNameSystemID::Type type = static_cast<CMeowcoinNameSystemID::Type>(index);
-    ui->ansText->setPlaceholderText(QString::fromStdString(CMeowcoinNameSystemID::enum_to_string(type).second));
+    CTelestaiNameSystemID::Type type = static_cast<CTelestaiNameSystemID::Type>(index);
+    ui->ansText->setPlaceholderText(QString::fromStdString(CTelestaiNameSystemID::enum_to_string(type).second));
     ui->ansText->clear();
 
     buildUpdatedData();
@@ -948,10 +948,10 @@ void ReissueAssetDialog::onReissueAssetClicked()
     if (hasANS) {
         std::string error;
         std::string formattedTypeData;
-        CMeowcoinNameSystemID::Type type = static_cast<CMeowcoinNameSystemID::Type>(ui->ansType->currentIndex());
-        formattedTypeData = CMeowcoinNameSystemID::FormatTypeData(type, ui->ansText->text().toStdString(), error);
+        CTelestaiNameSystemID::Type type = static_cast<CTelestaiNameSystemID::Type>(ui->ansType->currentIndex());
+        formattedTypeData = CTelestaiNameSystemID::FormatTypeData(type, ui->ansText->text().toStdString(), error);
 
-        CMeowcoinNameSystemID ansID(type, formattedTypeData);
+        CTelestaiNameSystemID ansID(type, formattedTypeData);
         ansDecoded = ansID.to_string();
 
         // Warn user

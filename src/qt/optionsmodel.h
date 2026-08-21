@@ -1,4 +1,4 @@
-// Copyright (c) 2011-present The Meowcoin Core developers
+// Copyright (c) 2011-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +6,7 @@
 #define BITCOIN_QT_OPTIONSMODEL_H
 
 #include <cstdint>
-#include <qt/meowcoinunits.h>
+#include <qt/telestaiunits.h>
 #include <qt/guiconstants.h>
 
 #include <QAbstractListModel>
@@ -100,7 +100,7 @@ public:
     bool getShowTrayIcon() const { return m_show_tray_icon; }
     bool getMinimizeToTray() const { return fMinimizeToTray; }
     bool getMinimizeOnClose() const { return fMinimizeOnClose; }
-    BitcoinUnit getDisplayUnit() const { return m_display_meowcoin_unit; }
+    BitcoinUnit getDisplayUnit() const { return m_display_unit; }
     QString getThirdPartyTxUrls() const { return strThirdPartyTxUrls; }
     QFont getFontForMoney() const;
     bool getCoinControlFeatures() const { return fCoinControlFeatures; }
@@ -127,7 +127,7 @@ private:
     bool fMinimizeToTray;
     bool fMinimizeOnClose;
     QString language;
-    BitcoinUnit m_display_meowcoin_unit;
+    BitcoinUnit m_display_unit;
     QString strThirdPartyTxUrls;
     FontChoice m_font_money{FontChoiceAbstract::EmbeddedFont};
     bool fCoinControlFeatures;

@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Meowcoin Core developers
+// Copyright (c) 2011-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -150,7 +150,7 @@ bool BlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, s
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
 
-                // Meowcoin: skip PoW re-verification on block index load.
+                // Telestai: skip PoW re-verification on block index load.
                 // Multi-algo PoW was validated when the block was first accepted.
 
                 pcursor->Next();
@@ -1031,12 +1031,12 @@ bool BlockManager::ReadBlock(CBlock& block, const FlatFilePos& pos, const std::o
 
     const auto block_hash{block.GetHash()};
 
-    // Meowcoin: PoW verification removed from read path.
+    // Telestai: PoW verification removed from read path.
     // Multi-algo PoW (X16R/KAWPOW/MEOWPOW/Scrypt) cannot be efficiently
     // re-verified on every disk read, and KAWPOW/MEOWPOW require epoch
     // context.  PoW is validated when blocks are first accepted.
 
-    // Signet only: check block solution (not used by Meowcoin)
+    // Signet only: check block solution (not used by Telestai)
     if (GetConsensus().signet_blocks && !CheckSignetBlockSolution(block, GetConsensus())) {
         LogError("Errors in block solution at %s while reading block", pos.ToString());
         return false;
@@ -1166,7 +1166,7 @@ static auto InitBlocksdirXorKey(const BlockManager::Options& opts)
         // Create initial or missing xor key file
         AutoFile xor_key_file{fsbridge::fopen(xor_key_path,
 #ifdef __MINGW64__
-            "wb" // Temporary workaround for https://github.com/meowcoin/meowcoin/issues/30210
+            "wb" // Temporary workaround for https://github.com/Telestai-Project/telestai/issues/30210
 #else
             "wbx"
 #endif

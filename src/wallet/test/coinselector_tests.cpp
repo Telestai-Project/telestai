@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 The Meowcoin Core developers
+// Copyright (c) 2017-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -462,12 +462,12 @@ BOOST_AUTO_TEST_CASE(knapsack_solver_test)
         add_coin(available_coins, *wallet,  4*COIN); // now we have 5+6+7+8+18+20+30+100+200+300+400 = 1094 cents
         const auto result14 = KnapsackSolver(KnapsackGroupOutputs(available_coins, *wallet, filter_confirmed), 95 * CENT, CENT);
         BOOST_CHECK(result14);
-        BOOST_CHECK_EQUAL(result14->GetSelectedValue(), 1 * COIN);  // we should get 1 MEWC in 1 coin
+        BOOST_CHECK_EQUAL(result14->GetSelectedValue(), 1 * COIN);  // we should get 1 TLS in 1 coin
         BOOST_CHECK_EQUAL(result14->GetInputSet().size(), 1U);
 
         const auto result15 = KnapsackSolver(KnapsackGroupOutputs(available_coins, *wallet, filter_confirmed), 195 * CENT, CENT);
         BOOST_CHECK(result15);
-        BOOST_CHECK_EQUAL(result15->GetSelectedValue(), 2 * COIN);  // we should get 2 MEWC in 1 coin
+        BOOST_CHECK_EQUAL(result15->GetSelectedValue(), 2 * COIN);  // we should get 2 TLS in 1 coin
         BOOST_CHECK_EQUAL(result15->GetInputSet().size(), 1U);
 
         // empty the wallet and start again, now with fractions of a cent, to test small change avoidance
@@ -1014,10 +1014,10 @@ BOOST_AUTO_TEST_CASE(coin_grinder_tests)
         int max_selection_weight = 10'000; // WU
         const auto& res = CoinGrinder(target, dummy_params, m_node, max_selection_weight, [&](CWallet& wallet) {
             CoinsResult available_coins;
-            for (int j = 0; j < 60; ++j) { // 60 UTXO --> 19,8 MEWC total --> 60 × 272 WU = 16320 WU
+            for (int j = 0; j < 60; ++j) { // 60 UTXO --> 19,8 TLS total --> 60 × 272 WU = 16320 WU
                 add_coin(available_coins, wallet, CAmount(0.33 * COIN), CFeeRate(5000), 144, false, 0, true);
             }
-            for (int i = 0; i < 10; i++) { // 10 UTXO --> 20 MEWC total --> 10 × 272 WU = 2720 WU
+            for (int i = 0; i < 10; i++) { // 10 UTXO --> 20 TLS total --> 10 × 272 WU = 2720 WU
                 add_coin(available_coins, wallet, CAmount(2 * COIN), CFeeRate(5000), 144, false, 0, true);
             }
             return available_coins;
@@ -1094,7 +1094,7 @@ BOOST_AUTO_TEST_CASE(coin_grinder_tests)
         int max_selection_weight = 400'000; // WU
         const auto& res = CoinGrinder(target, dummy_params, m_node, max_selection_weight, [&](CWallet& wallet) {
             CoinsResult available_coins;
-            // Expected Result: 4 + 3 + 2 + 1 = 10 MEWC at 400 vB
+            // Expected Result: 4 + 3 + 2 + 1 = 10 TLS at 400 vB
             add_coin(available_coins, wallet, CAmount(4 * COIN), CFeeRate(5000), 144, false, 0, true, 100);
             add_coin(available_coins, wallet, CAmount(3 * COIN), CFeeRate(5000), 144, false, 0, true, 100);
             add_coin(available_coins, wallet, CAmount(2 * COIN), CFeeRate(5000), 144, false, 0, true, 100);
@@ -1137,7 +1137,7 @@ BOOST_AUTO_TEST_CASE(coin_grinder_tests)
             add_coin(available_coins, wallet, CAmount(1 * COIN), CFeeRate(5000), 144, false, 0, true, 1000);
             add_coin(available_coins, wallet, CAmount(1 * COIN), CFeeRate(5000), 144, false, 0, true, 1000);
             for (int j = 0; j < 100; ++j) {
-                // make a 100 unique coins only differing by one mewc
+                // make a 100 unique coins only differing by one tls
                 add_coin(available_coins, wallet, CAmount(0.01 * COIN + j), CFeeRate(5000), 144, false, 0, true, 110);
             }
             return available_coins;
@@ -1211,7 +1211,7 @@ BOOST_AUTO_TEST_CASE(srd_tests)
         const auto& res = SelectCoinsSRD(target, dummy_params, m_node, max_selection_weight, [&](CWallet& wallet) {
             CoinsResult available_coins;
             for (int j = 0; j < 10; ++j) {
-                /* 10 × 1 MEWC + 10 × 2 MEWC = 30 MEWC. 20 × 272 WU = 5440 WU */
+                /* 10 × 1 TLS + 10 × 2 TLS = 30 TLS. 20 × 272 WU = 5440 WU */
                 add_coin(available_coins, wallet, CAmount(1 * COIN), CFeeRate(0), 144, false, 0, true);
                 add_coin(available_coins, wallet, CAmount(2 * COIN), CFeeRate(0), 144, false, 0, true);
             }
@@ -1229,10 +1229,10 @@ BOOST_AUTO_TEST_CASE(srd_tests)
         int max_selection_weight = 10000; // WU
         const auto& res = SelectCoinsSRD(target, dummy_params, m_node, max_selection_weight, [&](CWallet& wallet) {
             CoinsResult available_coins;
-            for (int j = 0; j < 60; ++j) { // 60 UTXO --> 19,8 MEWC total --> 60 × 272 WU = 16320 WU
+            for (int j = 0; j < 60; ++j) { // 60 UTXO --> 19,8 TLS total --> 60 × 272 WU = 16320 WU
                 add_coin(available_coins, wallet, CAmount(0.33 * COIN), CFeeRate(0), 144, false, 0, true);
             }
-            for (int i = 0; i < 10; i++) { // 10 UTXO --> 20 MEWC total --> 10 × 272 WU = 2720 WU
+            for (int i = 0; i < 10; i++) { // 10 UTXO --> 20 TLS total --> 10 × 272 WU = 2720 WU
                 add_coin(available_coins, wallet, CAmount(2 * COIN), CFeeRate(0), 144, false, 0, true);
             }
             return available_coins;
@@ -1284,9 +1284,9 @@ BOOST_AUTO_TEST_CASE(check_max_selection_weight)
     int max_weight = MAX_STANDARD_TX_WEIGHT - WITNESS_SCALE_FACTOR * (cs_params.tx_noinputs_size + cs_params.change_output_size);
     {
         // Scenario 1:
-        // The actor starts with 1x 50.0 MEWC and 1515x 0.033 MEWC (~100.0 MEWC total) unspent outputs
-        // Then tries to spend 49.5 MEWC
-        // The 50.0 MEWC output should be selected, because the transaction would otherwise be too large
+        // The actor starts with 1x 50.0 TLS and 1515x 0.033 TLS (~100.0 TLS total) unspent outputs
+        // Then tries to spend 49.5 TLS
+        // The 50.0 TLS output should be selected, because the transaction would otherwise be too large
 
         // Perform selection
 
@@ -1303,7 +1303,7 @@ BOOST_AUTO_TEST_CASE(check_max_selection_weight)
             m_node);
 
         BOOST_CHECK(result);
-        // Verify that the 50 MEWC UTXO was selected, and result is below max_weight
+        // Verify that the 50 TLS UTXO was selected, and result is below max_weight
         BOOST_CHECK(has_coin(result->GetInputSet(), CAmount(50 * COIN)));
         BOOST_CHECK_LE(result->GetWeight(), max_weight);
     }
@@ -1311,8 +1311,8 @@ BOOST_AUTO_TEST_CASE(check_max_selection_weight)
     {
         // Scenario 2:
 
-        // The actor starts with 400x 0.0625 MEWC and 2000x 0.025 MEWC (75.0 MEWC total) unspent outputs
-        // Then tries to spend 49.5 MEWC
+        // The actor starts with 400x 0.0625 TLS and 2000x 0.025 TLS (75.0 TLS total) unspent outputs
+        // Then tries to spend 49.5 TLS
         // A combination of coins should be selected, such that the created transaction is not too large
 
         // Perform selection
@@ -1337,7 +1337,7 @@ BOOST_AUTO_TEST_CASE(check_max_selection_weight)
     {
         // Scenario 3:
 
-        // The actor starts with 1515x 0.033 MEWC (49.995 MEWC total) unspent outputs
+        // The actor starts with 1515x 0.033 TLS (49.995 TLS total) unspent outputs
         // No results should be returned, because the transaction would be too large
 
         // Perform selection
@@ -1369,10 +1369,10 @@ BOOST_AUTO_TEST_CASE(SelectCoins_effective_value_test)
     CoinsResult available_coins;
     {
         std::unique_ptr<CWallet> dummyWallet = NewWallet(m_node, /*wallet_name=*/"dummy");
-        add_coin(available_coins, *dummyWallet, 100000); // 0.001 MEWC
+        add_coin(available_coins, *dummyWallet, 100000); // 0.001 TLS
     }
 
-    CAmount target{99900}; // 0.000999 MEWC
+    CAmount target{99900}; // 0.000999 TLS
 
     FastRandomContext rand;
     CoinSelectionParams cs_params{

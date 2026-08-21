@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test logic for skipping signature validation on old blocks.
 
 Test logic for skipping signature validation on blocks which we've assumed
-valid (https://github.com/meowcoin/meowcoin/pull/9484)
+valid (https://github.com/Telestai-Project/telestai/pull/9484)
 
 We build a chain that includes and invalid signature for one of the
 transactions:

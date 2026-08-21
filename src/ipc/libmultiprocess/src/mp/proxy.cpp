@@ -1,4 +1,4 @@
-// Copyright (c) The Meowcoin Core developers
+// Copyright (c) The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -108,11 +108,11 @@ Connection::~Connection()
     // out of scope or trigger obscure capnp i/o errors.
     //
     // The ProxySever cleanup handlers call user defined destructors on server
-    // object, which can run arbitrary blocking meowcoin code so they have to run
+    // object, which can run arbitrary blocking telestai code so they have to run
     // asynchronously in a different thread. The asynchronous cleanup functions
     // intentionally aren't started until after the synchronous cleanup
-    // functions run, so client objects are fully disconnected before meowcoin
-    // code in the destructors are run. This way if the meowcoin code tries to
+    // functions run, so client objects are fully disconnected before telestai
+    // code in the destructors are run. This way if the telestai code tries to
     // make client requests the requests will just fail immediately instead of
     // sending i/o or accessing the event loop.
     //
@@ -181,7 +181,7 @@ void EventLoop::addAsyncCleanup(std::function<void()> fn)
     // order, and add cleanup callbacks to the end of the list so they can be
     // run starting from the beginning of the list.
     //
-    // In meowcoin core, running these callbacks in the right order is
+    // In telestai core, running these callbacks in the right order is
     // particularly important for the wallet process, because it uses blocking
     // shared_ptrs and requires Chain::Notification pointers owned by the node
     // process to be destroyed before the WalletLoader objects owned by the node

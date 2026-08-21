@@ -1,8 +1,8 @@
-// Copyright (c) 2016-2022 The Meowcoin Core developers
+// Copyright (c) 2016-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #include <wallet/wallettool.h>
 
@@ -18,7 +18,7 @@ namespace wallet {
 namespace WalletTool {
 
 // The standard wallet deleter function blocks on the validation interface
-// queue, which doesn't exist for the meowcoin-wallet. Define our own
+// queue, which doesn't exist for the telestai-wallet. Define our own
 // deleter here.
 static void WalletToolReleaseWallet(CWallet* wallet)
 {
@@ -160,7 +160,7 @@ bool ExecuteWalletToolFunc(const ArgsManager& args, const std::string& command)
             tfm::format(std::cerr, "%s\n", error.original);
             return ret;
         }
-        tfm::format(std::cout, "The dumpfile may contain private keys. To ensure the safety of your Meowcoin, do not share the dumpfile.\n");
+        tfm::format(std::cout, "The dumpfile may contain private keys. To ensure the safety of your Telestai, do not share the dumpfile.\n");
         return ret;
     } else if (command == "createfromdump") {
         bilingual_str error;

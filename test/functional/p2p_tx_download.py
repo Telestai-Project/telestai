@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019-2021 The Meowcoin Core developers
+# Copyright (c) 2019-2021 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """
@@ -391,7 +391,7 @@ class TxDownloadTest(BitcoinTestFramework):
         self.test_large_inv_batch()
         self.test_spurious_notfound()
 
-        # Run each test against new meowcoind instances, as setting mocktimes has long-term effects on when
+        # Run each test against new telestaid instances, as setting mocktimes has long-term effects on when
         # the next trickle relay event happens.
         for test, with_inbounds in [
             (self.test_in_flight_max, True),

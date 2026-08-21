@@ -1,4 +1,4 @@
-// Copyright (c) 2023 The Meowcoin Core developers
+// Copyright (c) 2023 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or https://www.opensource.org/licenses/mit-license.php.
 
@@ -152,7 +152,7 @@ struct WitnessV2MLDsa44 : public BaseHash<uint256>
  *  * PayToAnchor: TxoutType::ANCHOR destination (P2A address)
  *  * WitnessV2MLDsa44: TxoutType::WITNESS_V2_MLDSA44 destination (P2PQ address)
  *  * WitnessUnknown: TxoutType::WITNESS_UNKNOWN destination (P2W??? address)
- *  A CTxDestination is the internal data type encoded in a meowcoin address
+ *  A CTxDestination is the internal data type encoded in a telestai address
  */
 using CTxDestination = std::variant<CNoDestination, PubKeyDestination, PKHash, ScriptHash, WitnessV0ScriptHash, WitnessV0KeyHash, WitnessV1Taproot, PayToAnchor, WitnessV2MLDsa44, WitnessUnknown>;
 
@@ -172,7 +172,7 @@ bool IsValidDestination(const CTxDestination& dest);
 bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet);
 
 /**
- * Generate a Meowcoin scriptPubKey for the given CTxDestination. Returns a P2PKH
+ * Generate a Telestai scriptPubKey for the given CTxDestination. Returns a P2PKH
  * script for a CKeyID destination, a P2SH script for a CScriptID, and an empty
  * script for CNoDestination.
  */

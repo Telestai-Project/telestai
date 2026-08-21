@@ -1,4 +1,4 @@
-// Copyright (c) 2017-present The Meowcoin Core developers
+// Copyright (c) 2017-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 //
@@ -18,7 +18,7 @@ void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks)
   clang is unable to compile this with -O0 and -fsanitize=address.
   See upstream bug: https://github.com/llvm/llvm-project/issues/92182.
   This also fails to compile with -O2, -fcf-protection & -fsanitize=address.
-  See https://github.com/meowcoin/meowcoin/issues/31913.
+  See https://github.com/Telestai-Project/telestai/issues/31913.
   */
 #if __has_feature(address_sanitizer)
   __attribute__((no_sanitize("address")))

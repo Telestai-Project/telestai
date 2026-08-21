@@ -1,15 +1,15 @@
-* The file `ecdsa_secp256k1_sha256_meowcoin_test.json` in this directory
+* The file `ecdsa_secp256k1_sha256_telestai_test.json` in this directory
   comes from project Wycheproof with git commit
   `df4e933efef449fc88af0c06e028d425d84a9495`, see
-  https://github.com/C2SP/wycheproof/blob/df4e933efef449fc88af0c06e028d425d84a9495/testvectors_v1/ecdsa_secp256k1_sha256_meowcoin_test.json
+  https://github.com/C2SP/wycheproof/blob/df4e933efef449fc88af0c06e028d425d84a9495/testvectors_v1/ecdsa_secp256k1_sha256_telestai_test.json
 
 * The file `ecdh_secp256k1_test.json` in this directory
   comes from project Wycheproof with git commit
   `df4e933efef449fc88af0c06e028d425d84a9495`, see
   https://github.com/C2SP/wycheproof/blob/df4e933efef449fc88af0c06e028d425d84a9495/testvectors_v1/ecdh_secp256k1_test.json
 
-* The file `ecdsa_secp256k1_sha256_meowcoin_test.h` is generated from
-  `ecdsa_secp256k1_sha256_meowcoin_test.json` using the script
+* The file `ecdsa_secp256k1_sha256_telestai_test.h` is generated from
+  `ecdsa_secp256k1_sha256_telestai_test.json` using the script
   `tests_wycheproof_generate_ecdsa.py`.
 
 * The file `ecdh_secp256k1_test.h` is generated from

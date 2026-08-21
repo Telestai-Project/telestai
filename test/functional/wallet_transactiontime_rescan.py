@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018-2022 The Meowcoin Core developers
+# Copyright (c) 2018-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test transaction time during old block rescanning
@@ -31,7 +31,7 @@ class TransactionTimeRescanTest(BitcoinTestFramework):
     def run_test(self):
         self.log.info('Prepare nodes and wallet')
 
-        minernode = self.nodes[0]  # node used to mine MEWC and create transactions
+        minernode = self.nodes[0]  # node used to mine TLS and create transactions
         usernode = self.nodes[1]  # user node with correct time
         restorenode = self.nodes[2]  # node used to restore user wallet and check time determination in ComputeSmartTime (wallet.cpp)
 
@@ -73,7 +73,7 @@ class TransactionTimeRescanTest(BitcoinTestFramework):
         # check blockcount
         assert_equal(minernode.getblockcount(), 200)
 
-        # generate some mewc to create transactions and check blockcount
+        # generate some tls to create transactions and check blockcount
         initial_mine = COINBASE_MATURITY + 1
         self.generatetoaddress(minernode, initial_mine, m1)
         assert_equal(minernode.getblockcount(), initial_mine + 200)
@@ -81,8 +81,8 @@ class TransactionTimeRescanTest(BitcoinTestFramework):
         # synchronize nodes and time
         self.sync_all()
         set_node_times(self.nodes, cur_time + ten_days)
-        # send 10 mewc to user's first watch-only address
-        self.log.info('Send 10 mewc to user')
+        # send 10 tls to user's first watch-only address
+        self.log.info('Send 10 tls to user')
         miner_wallet.sendtoaddress(wo1, 10)
 
         # generate blocks and check blockcount
@@ -92,8 +92,8 @@ class TransactionTimeRescanTest(BitcoinTestFramework):
         # synchronize nodes and time
         self.sync_all()
         set_node_times(self.nodes, cur_time + ten_days + ten_days)
-        # send 5 mewc to our second watch-only address
-        self.log.info('Send 5 mewc to user')
+        # send 5 tls to our second watch-only address
+        self.log.info('Send 5 tls to user')
         miner_wallet.sendtoaddress(wo2, 5)
 
         # generate blocks and check blockcount
@@ -103,8 +103,8 @@ class TransactionTimeRescanTest(BitcoinTestFramework):
         # synchronize nodes and time
         self.sync_all()
         set_node_times(self.nodes, cur_time + ten_days + ten_days + ten_days)
-        # send 1 mewc to our third watch-only address
-        self.log.info('Send 1 mewc to user')
+        # send 1 tls to our third watch-only address
+        self.log.info('Send 1 tls to user')
         miner_wallet.sendtoaddress(wo3, 1)
 
         # generate more blocks and check blockcount

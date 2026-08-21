@@ -7,11 +7,11 @@ getcoins.py
 
 A script to call a faucet to get Signet coins.
 
-Syntax: `getcoins.py [-h|--help] [-c|--cmd=<meowcoin-cli path>] [-f|--faucet=<faucet URL>] [-a|--addr=<signet bech32 address>] [-p|--password=<faucet password>] [--] [<meowcoin-cli args>]`
+Syntax: `getcoins.py [-h|--help] [-c|--cmd=<telestai-cli path>] [-f|--faucet=<faucet URL>] [-a|--addr=<signet bech32 address>] [-p|--password=<faucet password>] [--] [<telestai-cli args>]`
 
-* `--cmd` lets you customize the meowcoin-cli path. By default it will look for it in the PATH
-* `--faucet` lets you specify which faucet to use; the faucet is assumed to be compatible with https://github.com/kallewoof/meowcoin-faucet
-* `--addr` lets you specify a Signet address; by default, the address must be a bech32 address. This and `--cmd` above complement each other (i.e. you do not need `meowcoin-cli` if you use `--addr`)
+* `--cmd` lets you customize the telestai-cli path. By default it will look for it in the PATH
+* `--faucet` lets you specify which faucet to use; the faucet is assumed to be compatible with https://github.com/kallewoof/telestai-faucet
+* `--addr` lets you specify a Signet address; by default, the address must be a bech32 address. This and `--cmd` above complement each other (i.e. you do not need `telestai-cli` if you use `--addr`)
 * `--password` lets you specify a faucet password; this is handy if you are in a classroom and set up your own faucet for your students; (above faucet does not limit by IP when password is enabled)
 
 If using the default network, invoking the script with no arguments should be sufficient under normal
@@ -24,7 +24,7 @@ miner
 You will first need to pick a difficulty target. Since signet chains are primarily protected by a signature rather than proof of work, there is no need to spend as much energy as possible mining, however you may wish to choose to spend more time than the absolute minimum. The calibrate subcommand can be used to pick a target appropriate for your hardware, eg:
 
     MINER="./contrib/signet/miner"
-    GRIND="./build/bin/meowcoin-util grind"
+    GRIND="./build/bin/telestai-util grind"
     $MINER calibrate --grind-cmd="$GRIND"
     nbits=1e00f403 for 25s average mining time
 
@@ -32,7 +32,7 @@ It defaults to estimating an nbits value resulting in 25s average time to find a
 
 To mine the first block in your custom chain, you can run:
 
-    CLI="./build/bin/meowcoin-cli -conf=mysignet.conf"
+    CLI="./build/bin/telestai-cli -conf=mysignet.conf"
     ADDR=$($CLI -signet getnewaddress)
     NBITS=1e00f403
     $MINER --cli="$CLI" generate --grind-cmd="$GRIND" --address="$ADDR" --nbits=$NBITS

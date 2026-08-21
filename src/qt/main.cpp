@@ -1,8 +1,8 @@
-// Copyright (c) 2018-2022 The Meowcoin Core developers
+// Copyright (c) 2018-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <qt/meowcoin.h>
+#include <qt/telestai.h>
 
 #include <compat/compat.h>
 #include <util/translation.h>
@@ -14,7 +14,7 @@
 
 /** Translate string to current locale using Qt. */
 extern const TranslateFn G_TRANSLATION_FUN = [](const char* psz) {
-    return QCoreApplication::translate("meowcoin-core", psz).toStdString();
+    return QCoreApplication::translate("telestai-core", psz).toStdString();
 };
 
 const std::function<std::string()> G_TEST_GET_FULL_NAME{};

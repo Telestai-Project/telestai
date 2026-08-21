@@ -1,4 +1,4 @@
-// Copyright (c) 2022-present The Meowcoin Core developers
+// Copyright (c) 2022-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,10 +18,10 @@
 #include <vector>
 
 // A compressed CBlockHeader, which leaves out the prevhash.
-// Meowcoin extension: also stores KAWPOW/MEOWPOW fields and AuxPoW data,
+// Telestai extension: also stores KAWPOW/MEOWPOW fields and AuxPoW data,
 // which are required for full header validation after the presync stage.
 struct CompressedHeader {
-    // Pure header fields (shared with Meowcoin)
+    // Pure header fields (shared with Telestai)
     CBlockVersion nVersion;
     uint256 hashMerkleRoot;
     uint32_t nTime{0};
@@ -75,7 +75,7 @@ struct CompressedHeader {
  *
  * We wish to download a peer's headers chain in a DoS-resistant way.
  *
- * The Meowcoin protocol does not offer an easy way to determine the work on a
+ * The Telestai protocol does not offer an easy way to determine the work on a
  * peer's chain. Currently, we can query a peer's headers by using a GETHEADERS
  * message, and our peer can return a set of up to 2000 headers that connect to
  * something we know. If a peer's chain has more than 2000 blocks, then we need
@@ -259,7 +259,7 @@ private:
     CBlockHeader m_last_header_received;
 
     /** Cached hash of m_last_header_received.
-     *  Meowcoin note: we cache this because CBlockHeader::GetHash() may not
+     *  Telestai note: we cache this because CBlockHeader::GetHash() may not
      *  reproduce the canonical hash for the genesis block (which was mined
      *  with X16R but has a timestamp after the X16RV2 activation). */
     uint256 m_last_header_hash;

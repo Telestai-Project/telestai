@@ -6,7 +6,7 @@ body:
   id: acknowledgement
   attributes:
     label: Issues, reports or feature requests related to the GUI should be opened directly on the GUI repo
-    description: https://github.com/meowcoin-core/gui/issues/
+    description: https://github.com/telestai-core/gui/issues/
     options:
       - label: I still think this issue should be opened here
         required: true

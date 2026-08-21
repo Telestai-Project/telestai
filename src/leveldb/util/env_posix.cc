@@ -393,7 +393,7 @@ class PosixWritableFile final : public WritableFile {
       return Status::OK();
     }
     // Do not crash if filesystem can't fsync directories
-    // (see https://github.com/meowcoin/meowcoin/pull/10000)
+    // (see https://github.com/Telestai-Project/telestai/pull/10000)
     if (syncing_dir && errno == EINVAL) {
       return Status::OK();
     }

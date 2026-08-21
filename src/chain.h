@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Meowcoin Core developers
+// Copyright (c) 2009-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -40,7 +40,7 @@ static constexpr int64_t TIMESTAMP_WINDOW = MAX_FUTURE_BLOCK_TIME;
  * Maximum gap between node time and block time used
  * for the "Catching up..." mode in GUI.
  *
- * Ref: https://github.com/meowcoin/meowcoin/pull/1026
+ * Ref: https://github.com/Telestai-Project/telestai/pull/1026
  */
 static constexpr int64_t MAX_BLOCK_TIME_GAP = 90 * 60;
 
@@ -190,7 +190,7 @@ public:
     uint32_t nBits{0};
     uint32_t nNonce{0};
 
-    //! Meowcoin: KAWPOW/MEOWPOW header fields (needed to reconstruct GetHash()).
+    //! Telestai: KAWPOW/MEOWPOW header fields (needed to reconstruct GetHash()).
     //! nHeight (inherited from CBlockIndex) serves as the KAWPOW header height —
     //! they are always the same value for valid blocks.
     uint64_t nNonce64{0};
@@ -245,7 +245,7 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        // Meowcoin: KAWPOW/MEOWPOW fields
+        // Telestai: KAWPOW/MEOWPOW fields
         block.nHeight = nHeight;
         block.nNonce64 = nNonce64;
         block.mix_hash = mix_hash;
@@ -406,7 +406,7 @@ public:
         READWRITE(obj.nTime);
         READWRITE(obj.nBits);
 
-        // Meowcoin: conditional serialization matching CBlockHeader wire format.
+        // Telestai: conditional serialization matching CBlockHeader wire format.
         // Pre-KAWPOW / AuxPoW blocks use nNonce only.
         // KAWPOW+ blocks use nNonce64 + mix_hash (nHeight is already serialized
         // above via CBlockIndex::nHeight).
@@ -427,7 +427,7 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        // Meowcoin: KAWPOW/MEOWPOW fields needed for correct hash dispatch
+        // Telestai: KAWPOW/MEOWPOW fields needed for correct hash dispatch
         block.nHeight = nHeight;
         block.nNonce64 = nNonce64;
         block.mix_hash = mix_hash;

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016-2021 The Meowcoin Core developers
+# Copyright (c) 2016-2021 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test processing of feefilter messages."""
@@ -82,20 +82,20 @@ class FeeFilterTest(BitcoinTestFramework):
 
         conn = self.nodes[0].add_p2p_connection(TestP2PConn())
 
-        self.log.info("Test txs paying 0.2 mewc/byte are received by test connection")
+        self.log.info("Test txs paying 0.2 tls/byte are received by test connection")
         txids = [miniwallet.send_self_transfer(fee_rate=Decimal('0.00000200'), from_node=node1)['wtxid'] for _ in range(3)]
         conn.wait_for_invs_to_match(txids)
         conn.clear_invs()
 
-        # Set a fee filter of 0.15 mewc/byte on test connection
+        # Set a fee filter of 0.15 tls/byte on test connection
         conn.send_and_ping(msg_feefilter(150))
 
-        self.log.info("Test txs paying 0.15 mewc/byte are received by test connection")
+        self.log.info("Test txs paying 0.15 tls/byte are received by test connection")
         txids = [miniwallet.send_self_transfer(fee_rate=Decimal('0.00000150'), from_node=node1)['wtxid'] for _ in range(3)]
         conn.wait_for_invs_to_match(txids)
         conn.clear_invs()
 
-        self.log.info("Test txs paying 0.1 mewc/byte are no longer received by test connection")
+        self.log.info("Test txs paying 0.1 tls/byte are no longer received by test connection")
         txids = [miniwallet.send_self_transfer(fee_rate=Decimal('0.00000100'), from_node=node1)['wtxid'] for _ in range(3)]
         self.sync_mempools()  # must be sure node 0 has received all txs
 

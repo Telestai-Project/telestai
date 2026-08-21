@@ -100,7 +100,7 @@ Soak checklist after N blocks (e.g. 10–100):
 - [ ] Asset issue fee (if tested) lands on that same development address (amounts unchanged)
 - [ ] `getauxblock` / `createauxblock` / `submitauxblock` are **not** registered (AuxPoW out)
 - [ ] Node stays stable; no Meraki epoch OOM from malformed headers
-- [ ] `telestaid -version` shows Telestai copyright / GitHub URL (not Meowcoin)
+- [ ] `telestaid -version` shows Telestai copyright / GitHub URL (not Telestai)
 - [ ] After an Accept, the next GBT `pprpcheader` is **new** (no 30s reuse across tip changes)
 - [ ] Stale `pprpcsb` attempts error out (not string `"inconclusive"` that MiniZ/telemerakiminer may treat as Accepted)
 - [ ] Use **telemerakiminer** only (MiniZ is not supported for this GBT/`pprpcsb` path)

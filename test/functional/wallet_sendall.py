@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2022 The Meowcoin Core developers
+# Copyright (c) 2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the sendall RPC command."""
@@ -285,7 +285,7 @@ class SendallTest(BitcoinTestFramework):
     @cleanup
     def sendall_fails_on_low_fee(self):
         self.log.info("Test sendall fails if the transaction fee is lower than the minimum fee rate setting")
-        assert_raises_rpc_error(-8, "Fee rate (0.999 mewc/vB) is lower than the minimum fee rate setting (1.000 mewc/vB)",
+        assert_raises_rpc_error(-8, "Fee rate (0.999 tls/vB) is lower than the minimum fee rate setting (1.000 tls/vB)",
         self.wallet.sendall, recipients=[self.recipient], fee_rate=0.999)
 
     @cleanup

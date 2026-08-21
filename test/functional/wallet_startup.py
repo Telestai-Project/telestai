@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2022 The Meowcoin Core developers
+# Copyright (c) 2017-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test wallet load on startup.
 
-Verify that a meowcoind node can maintain list of wallets loading on startup
+Verify that a telestaid node can maintain list of wallets loading on startup
 """
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (

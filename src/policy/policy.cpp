@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -33,12 +33,12 @@ CAmount GetDustThreshold(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
     // need a CTxIn of at least 148 bytes to spend:
     // so dust is a spendable txout less than
     // 182*dustRelayFee/1000 (in satoshis).
-    // 546 satoshis at the default rate of 3000 mewc/kvB.
+    // 546 satoshis at the default rate of 3000 tls/kvB.
     // A typical spendable segwit P2WPKH txout is 31 bytes big, and will
     // need a CTxIn of at least 67 bytes to spend:
     // so dust is a spendable txout less than
     // 98*dustRelayFee/1000 (in satoshis).
-    // 294 satoshis at the default rate of 3000 mewc/kvB.
+    // 294 satoshis at the default rate of 3000 tls/kvB.
     if (txout.scriptPubKey.IsUnspendable())
         return 0;
 
@@ -50,7 +50,7 @@ CAmount GetDustThreshold(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
     // public key + an ECDSA signature). For Segwit v1 Taproot outputs the minimum
     // satisfaction is lower (a single BIP340 signature) but this computation was
     // kept to not further reduce the dust level.
-    // See discussion in https://github.com/meowcoin/meowcoin/pull/22779 for details.
+    // See discussion in https://github.com/Telestai-Project/telestai/pull/22779 for details.
     if (txout.scriptPubKey.IsWitnessProgram(witnessversion, witnessprogram)) {
         // sum the sizes of the parts of a transaction input
         // with 75% segwit discount applied to the script size.

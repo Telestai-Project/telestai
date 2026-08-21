@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-/** Proof-of-work algorithm identifiers for Meowcoin's multi-algo mining. */
+/** Proof-of-work algorithm identifiers for Telestai's multi-algo mining. */
 enum class PowAlgo : uint8_t
 {
     MEOWPOW = 0,   //!< Native PoW (KAWPOW → MEOWPOW lineage)

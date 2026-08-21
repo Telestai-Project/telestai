@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Portions Copyright (c) 2026 ALENOC <https://github.com/ALENOC> (Ravencoin RIP-25)
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -443,7 +443,7 @@ static bool SignStep(const SigningProvider& provider, const BaseSignatureCreator
     case TxoutType::NEW_ASSET:
     case TxoutType::REISSUE_ASSET:
     case TxoutType::TRANSFER_ASSET: {
-        // P2PKH prefix + OP_MEWC_ASSET payload; ECDSA commits to full scriptPubKey (see interpreter).
+        // P2PKH prefix + OP_TLS_ASSET payload; ECDSA commits to full scriptPubKey (see interpreter).
         if (!scriptPubKey.IsAssetScript() || scriptPubKey.size() < 26)
             return false;
         const CScript underlying(scriptPubKey.begin(), scriptPubKey.begin() + 25);

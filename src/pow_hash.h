@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +6,7 @@
 #define BITCOIN_POW_HASH_H
 
 /**
- * Meowcoin PoW hash function declarations.
+ * Telestai PoW hash function declarations.
  *
  * These are stubs that return SHA256d for now.  Replace with real
  * implementations once the ethash / sphlib libraries are vendored.
@@ -24,7 +24,7 @@ class CBlockHeader;
  * X16R hash: 16-round chained hash function where the algorithm for each
  * round is selected by a nibble of hashPrevBlock.
  *
- * TODO: Port sphlib algorithms from meowcoin/src/algo/.
+ * TODO: Port sphlib algorithms from telestai/src/algo/.
  */
 uint256 HashX16R(const unsigned char* pbegin, const unsigned char* pend,
                  const uint256& hashPrevBlock);
@@ -32,7 +32,7 @@ uint256 HashX16R(const unsigned char* pbegin, const unsigned char* pend,
 /**
  * X16RV2 hash: Updated variant of X16R with tiger pre-hash on certain rounds.
  *
- * TODO: Port sphlib algorithms from meowcoin/src/algo/.
+ * TODO: Port sphlib algorithms from telestai/src/algo/.
  */
 uint256 HashX16RV2(const unsigned char* pbegin, const unsigned char* pend,
                    const uint256& hashPrevBlock);
@@ -43,7 +43,7 @@ uint256 HashX16RV2(const unsigned char* pbegin, const unsigned char* pend,
  * @param[out] mix_hash The mix hash output.
  * @return The final KAWPOW hash.
  *
- * TODO: Port ethash/progpow from meowcoin/src/crypto/ethash/.
+ * TODO: Port ethash/progpow from telestai/src/crypto/ethash/.
  */
 uint256 KAWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash);
 
@@ -61,7 +61,7 @@ uint256 KAWPOWHash_OnlyMix(const CBlockHeader& blockHeader);
  * @param[out] mix_hash The mix hash output.
  * @return The final MEOWPOW hash.
  *
- * TODO: Port ethash/meowpow from meowcoin/src/crypto/ethash/.
+ * TODO: Port ethash/meowpow from telestai/src/crypto/ethash/.
  */
 uint256 MEOWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash);
 

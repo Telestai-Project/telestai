@@ -1,4 +1,4 @@
-# Copyright (c) 2024-present The Meowcoin Core developers
+# Copyright (c) 2024-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
@@ -18,8 +18,8 @@ add_library(bitcoin_assets STATIC EXCLUDE_FROM_ALL
 target_link_libraries(bitcoin_assets
   PRIVATE
     core_interface
-    meowcoin_common
-    meowcoin_util
+    telestai_common
+    telestai_util
     univalue
     leveldb
     Boost::headers

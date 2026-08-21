@@ -5,13 +5,13 @@ set -Eeuo pipefail
 
 # Declare paths to libraries
 declare -A LIBS
-LIBS[cli]="libmeowcoin_cli.a"
-LIBS[common]="libmeowcoin_common.a"
-LIBS[consensus]="libmeowcoin_consensus.a"
-LIBS[crypto]="libmeowcoin_crypto.a"
-LIBS[node]="libmeowcoin_node.a"
-LIBS[util]="libmeowcoin_util.a"
-LIBS[wallet]="libmeowcoin_wallet.a"
+LIBS[cli]="libtelestai_cli.a"
+LIBS[common]="libtelestai_common.a"
+LIBS[consensus]="libtelestai_consensus.a"
+LIBS[crypto]="libtelestai_crypto.a"
+LIBS[node]="libtelestai_node.a"
+LIBS[util]="libtelestai_util.a"
+LIBS[wallet]="libtelestai_wallet.a"
 
 # Declare allowed dependencies "X Y" where X is allowed to depend on Y. This
 # list is taken from doc/design/libraries.md.
@@ -44,7 +44,7 @@ declare -A SUPPRESS
 # init/common.cpp file calls InitError and InitWarning from interface_ui which
 # is currently part of the node library. interface_ui should just be part of the
 # common library instead, and is moved in
-# https://github.com/meowcoin/meowcoin/issues/10102
+# https://github.com/Telestai-Project/telestai/issues/10102
 SUPPRESS["common.cpp.o interface_ui.cpp.o _Z11InitWarningRK13bilingual_str"]=1
 SUPPRESS["common.cpp.o interface_ui.cpp.o _Z9InitErrorRK13bilingual_str"]=1
 

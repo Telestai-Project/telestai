@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <wallet/wallet.h>
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 #include <addresstype.h>
 #include <blockfilter.h>
 #include <chain.h>
@@ -1123,9 +1123,9 @@ CWalletTx* CWallet::AddToWallet(CTransactionRef tx, const TxState& state, const 
 #ifndef WIN32
         // Substituting the wallet name isn't currently supported on windows
         // because windows shell escaping has not been implemented yet:
-        // https://github.com/meowcoin/meowcoin/pull/13339#issuecomment-537384875
+        // https://github.com/Telestai-Project/telestai/pull/13339#issuecomment-537384875
         // A few ways it could be implemented in the future are described in:
-        // https://github.com/meowcoin/meowcoin/pull/13339#issuecomment-461288094
+        // https://github.com/Telestai-Project/telestai/pull/13339#issuecomment-461288094
         ReplaceAll(strCmd, "%w", ShellEscape(GetName()));
 #endif
         std::thread t(runCommand, strCmd);
@@ -1143,7 +1143,7 @@ bool CWallet::LoadToWallet(const Txid& hash, const UpdateWalletTxFn& fill_wtx)
     if (!fill_wtx(wtx, ins.second)) {
         return false;
     }
-    // If wallet doesn't have a chain (e.g when using meowcoin-wallet tool),
+    // If wallet doesn't have a chain (e.g when using telestai-wallet tool),
     // don't bother to update txn.
     if (HaveChain()) {
       wtx.updateState(chain());
@@ -1453,7 +1453,7 @@ void CWallet::transactionRemovedFromMempool(const CTransactionRef& tx, MemPoolRe
         //    provide the conflicting block's hash and height, and for backwards
         //    compatibility reasons it may not be not safe to store conflicted
         //    wallet transactions with a null block hash. See
-        //    https://github.com/meowcoin/meowcoin/pull/18600#discussion_r420195993.
+        //    https://github.com/Telestai-Project/telestai/pull/18600#discussion_r420195993.
         // 2. For most of these transactions, the wallet's internal conflict
         //    detection in the blockConnected handler will subsequently call
         //    MarkConflicted and update them with CONFLICTED status anyway. This
@@ -1461,7 +1461,7 @@ void CWallet::transactionRemovedFromMempool(const CTransactionRef& tx, MemPoolRe
         //    block, or that has ancestors in the wallet with inputs spent by
         //    the block.
         // 3. Longstanding behavior since the sync implementation in
-        //    https://github.com/meowcoin/meowcoin/pull/9371 and the prior sync
+        //    https://github.com/Telestai-Project/telestai/pull/9371 and the prior sync
         //    implementation before that was to mark these transactions
         //    unconfirmed rather than conflicted.
         //
@@ -1469,7 +1469,7 @@ void CWallet::transactionRemovedFromMempool(const CTransactionRef& tx, MemPoolRe
         // when improving this code in the future. The wallet's heuristics for
         // distinguishing between conflicted and unconfirmed transactions are
         // imperfect, and could be improved in general, see
-        // https://github.com/meowcoin-core/meowcoin-devwiki/wiki/Wallet-Transaction-Conflict-Tracking
+        // https://github.com/telestai-core/telestai-devwiki/wiki/Wallet-Transaction-Conflict-Tracking
         SyncTransaction(tx, TxStateInactive{});
     }
 
@@ -1529,7 +1529,7 @@ void CWallet::blockConnected(ChainstateRole role, const interfaces::BlockInfo& b
         transactionRemovedFromMempool(block.data->vtx[index], MemPoolRemovalReason::BLOCK);
     }
 
-    // Update on disk if this block resulted in us updating a tx, or periodically every 1440 blocks (~1 day at 1-min Meowcoin block time)
+    // Update on disk if this block resulted in us updating a tx, or periodically every 1440 blocks (~1 day at 1-min Telestai block time)
     if (wallet_updated || block.height % 1440 == 0) {
         WriteBestBlock();
     }
@@ -1636,7 +1636,7 @@ bool CWallet::IsMine(const CScript& script) const
         return res;
     }
 
-    // For asset scripts (P2PKH + OP_MEWC_ASSET suffix), extract the
+    // For asset scripts (P2PKH + OP_TLS_ASSET suffix), extract the
     // underlying standard P2PKH script and check if that address is ours.
     if (script.IsAssetScript() && script.size() >= 25) {
         CScript underlyingScript(script.begin(), script.begin() + 25);
@@ -2750,8 +2750,8 @@ void CWallet::ListLockedCoins(std::vector<COutPoint>& vOutpts) const
  *   the block time.
  *
  * For more information see CWalletTx::nTimeSmart,
- * https://meowcointalk.org/?topic=54527, or
- * https://github.com/meowcoin/meowcoin/pull/1393.
+ * https://telestaitalk.org/?topic=54527, or
+ * https://github.com/Telestai-Project/telestai/pull/1393.
  */
 unsigned int CWallet::ComputeTimeSmart(const CWalletTx& wtx, bool rescanning_old_block) const
 {
@@ -3435,7 +3435,7 @@ std::set<ScriptPubKeyMan*> CWallet::GetScriptPubKeyMans(const CScript& script) c
         spk_mans.insert(it->second.begin(), it->second.end());
     }
 
-    // Asset scripts embed P2PKH at bytes 0-24 followed by OP_MEWC_ASSET <data> OP_DROP.
+    // Asset scripts embed P2PKH at bytes 0-24 followed by OP_TLS_ASSET <data> OP_DROP.
     bool found_via_asset_subscript = false;
     if (spk_mans.empty() && script.IsAssetScript()) {
         CScript p2pkh_script(script.begin(), script.begin() + 25);

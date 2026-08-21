@@ -1,4 +1,4 @@
-// Copyright (c) 2011-present The Meowcoin Core developers
+// Copyright (c) 2011-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -69,7 +69,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const interface
 
                 if (!std::get_if<CNoDestination>(&wtx.txout_address[i]))
                 {
-                    // Sent to Meowcoin Address
+                    // Sent to Telestai Address
                     sub.type = TransactionRecord::SendToAddress;
                     sub.address = EncodeDestination(wtx.txout_address[i]);
                 }
@@ -104,7 +104,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const interface
                 sub.credit = txout.nValue;
                 if (wtx.txout_address_is_mine[i])
                 {
-                    // Received by Meowcoin Address
+                    // Received by Telestai Address
                     sub.type = TransactionRecord::RecvWithAddress;
                     sub.address = EncodeDestination(wtx.txout_address[i]);
                 }

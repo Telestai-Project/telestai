@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2018-2022 The Meowcoin Core developers
+# Copyright (c) 2018-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,7 +18,7 @@ from lint_ignore_dirs import SHARED_EXCLUDED_SUBTREES
 HEADER_ID_PREFIX = 'BITCOIN_'
 HEADER_ID_SUFFIX = '_H'
 
-EXCLUDE_FILES_WITH_PREFIX = ['contrib/devtools/meowcoin-tidy',
+EXCLUDE_FILES_WITH_PREFIX = ['contrib/devtools/telestai-tidy',
                              'src/crypto/ctaes',
                              'src/tinyformat.h',
                              'src/bench/nanobench.h',

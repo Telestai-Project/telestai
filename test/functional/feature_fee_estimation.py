@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test fee estimation code."""
@@ -123,7 +123,7 @@ def check_estimates(node, fees_seen):
 
 
 def make_tx(wallet, utxo, feerate):
-    """Create a 1in-1out transaction with a specific input and feerate (mewc/vb)."""
+    """Create a 1in-1out transaction with a specific input and feerate (tls/vb)."""
     return wallet.create_self_transfer(
         utxo_to_spend=utxo,
         fee_rate=Decimal(feerate * 1000) / COIN,
@@ -253,7 +253,7 @@ class EstimateFeeTest(BitcoinTestFramework):
         # The broadcaster and block producer
         node = self.nodes[0]
         miner = self.nodes[1]
-        # In mewc/vb
+        # In tls/vb
         low_feerate = 1
         high_feerate = 10
         # Cache the utxos of which to replace the spender after it failed to get

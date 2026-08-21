@@ -1,9 +1,9 @@
-// Copyright (c) 2017-2019 The Meowcoin Core developers
+// Copyright (c) 2017-2019 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef MEOWCOINCOIN_REWARDS_H
-#define MEOWCOINCOIN_REWARDS_H
+#ifndef TELESTAICOIN_REWARDS_H
+#define TELESTAICOIN_REWARDS_H
 
 #include "amount.h"
 #include "tinyformat.h"
@@ -167,4 +167,4 @@ void CheckRewardDistributions(CWallet * p_wallet);
 
 
 
-#endif //MEOWCOINCOIN_REWARDS_H
+#endif //TELESTAICOIN_REWARDS_H

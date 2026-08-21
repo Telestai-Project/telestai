@@ -15,7 +15,7 @@ for i in {1..2016}
 do
  t=$(( 1231006505 + $i * 120 ))
  faketime "`date -d @$t  +'%Y-%m-%d %H:%M:%S'`" \
- meowcoind -connect=0 -nocheckpoints -stopatheight=$i
+ telestaid -connect=0 -nocheckpoints -stopatheight=$i
 done
 ```
 

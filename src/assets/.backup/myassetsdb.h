@@ -1,9 +1,9 @@
-// Copyright (c) 2019 The Meowcoin Core developers
+// Copyright (c) 2019 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef MEOWCOINCOIN_MYASSETSDB_H
-#define MEOWCOINCOIN_MYASSETSDB_H
+#ifndef TELESTAICOIN_MYASSETSDB_H
+#define TELESTAICOIN_MYASSETSDB_H
 
 #include <dbwrapper.h>
 
@@ -79,4 +79,4 @@ public:
 };
 
 
-#endif //MEOWCOINCOIN_MYASSETSDB_H
+#endif //TELESTAICOIN_MYASSETSDB_H

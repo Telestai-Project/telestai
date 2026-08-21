@@ -1,40 +1,40 @@
 23.0 Release Notes
 ==================
 
-Meowcoin Core version 23.0 is now available from:
+Telestai Core version 23.0 is now available from:
 
-  <https://meowcoincore.org/bin/meowcoin-core-23.0/>
+  <https://telestaicore.org/bin/telestai-core-23.0/>
 
 This release includes new features, various bug fixes and performance
 improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/meowcoin/meowcoin/issues>
+  <https://github.com/Telestai-Project/telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://meowcoincore.org/en/list/announcements/join/>
+  <https://telestaicore.org/en/list/announcements/join/>
 
 How to Upgrade
 ==============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes in some cases), then run the
-installer (on Windows) or just copy over `/Applications/Meowcoin-Qt` (on Mac)
-or `meowcoind`/`meowcoin-qt` (on Linux).
+installer (on Windows) or just copy over `/Applications/Telestai-Qt` (on Mac)
+or `telestaid`/`telestai-qt` (on Linux).
 
-Upgrading directly from a version of Meowcoin Core that has reached its EOL is
+Upgrading directly from a version of Telestai Core that has reached its EOL is
 possible, but it might take some time if the data directory needs to be migrated. Old
-wallet versions of Meowcoin Core are generally supported.
+wallet versions of Telestai Core are generally supported.
 
 Compatibility
 ==============
 
-Meowcoin Core is supported and extensively tested on operating systems
-using the Linux kernel, macOS 10.15+, and Windows 7 and newer.  Meowcoin
+Telestai Core is supported and extensively tested on operating systems
+using the Linux kernel, macOS 10.15+, and Windows 7 and newer.  Telestai
 Core should also work on most other Unix-like systems but is not as
-frequently tested on them.  It is not recommended to use Meowcoin Core on
+frequently tested on them.  It is not recommended to use Telestai Core on
 unsupported systems.
 
 Notable changes
@@ -43,13 +43,13 @@ Notable changes
 P2P and network changes
 -----------------------
 
-- A meowcoind node will no longer rumour addresses to inbound peers by default.
+- A telestaid node will no longer rumour addresses to inbound peers by default.
   They will become eligible for address gossip after sending an ADDR, ADDRV2,
   or GETADDR message. (#21528)
 
-- Before this release, Meowcoin Core had a strong preference to try to connect only to peers that listen on port 8333. As a result of that, Meowcoin nodes listening on non-standard ports would likely not get any Meowcoin Core peers connecting to them. This preference has been removed. (#23542)
+- Before this release, Telestai Core had a strong preference to try to connect only to peers that listen on port 8333. As a result of that, Telestai nodes listening on non-standard ports would likely not get any Telestai Core peers connecting to them. This preference has been removed. (#23542)
 
-- Full support has been added for the CJDNS network. See the new option `-cjdnsreachable` and [doc/cjdns.md](https://github.com/meowcoin/meowcoin/tree/23.x/doc/cjdns.md) (#23077)
+- Full support has been added for the CJDNS network. See the new option `-cjdnsreachable` and [doc/cjdns.md](https://github.com/Telestai-Project/telestai/tree/23.x/doc/cjdns.md) (#23077)
 
 Fee estimation changes
 ----------------------
@@ -67,13 +67,13 @@ Otherwise, please use the `rescanblockchain` RPC to trigger a rescan. (#23123)
 Tracepoints and Userspace, Statically Defined Tracing support
 -------------------------------------------------------------
 
-Meowcoin Core release binaries for Linux now include experimental tracepoints which
+Telestai Core release binaries for Linux now include experimental tracepoints which
 act as an interface for process-internal events. These can be used for review,
 debugging, monitoring, and more. The tracepoint API is semi-stable. While the API
 is tested, process internals might change between releases requiring changes to the
 tracepoints. Information about the existing tracepoints can be found under
-[doc/tracing.md](https://github.com/meowcoin/meowcoin/blob/23.x/doc/tracing.md) and
-usage examples are provided in [contrib/tracing/](https://github.com/meowcoin/meowcoin/tree/23.x/contrib/tracing).
+[doc/tracing.md](https://github.com/Telestai-Project/telestai/blob/23.x/doc/tracing.md) and
+usage examples are provided in [contrib/tracing/](https://github.com/Telestai-Project/telestai/tree/23.x/contrib/tracing).
 
 Updated RPCs
 ------------
@@ -107,7 +107,7 @@ Updated RPCs
   `-deprecated=fees` if needed in this version). The same fee fields can be accessed
   through the `fees` object in the result. WARNING: deprecated
   fields `ancestorfees` and `descendantfees` are denominated in sats, whereas all
-  fields in the `fees` object are denominated in MEWC. (#22689)
+  fields in the `fees` object are denominated in TLS. (#22689)
 
 - Both `createmultisig` and `addmultisigaddress` now include a `warnings`
   field, which will show a warning if a non-legacy address type is requested
@@ -131,7 +131,7 @@ Files
 -----
 
 * On startup, the list of banned hosts and networks (via `setban` RPC) in
-  `banlist.dat` is ignored and only `banlist.json` is considered. Meowcoin Core
+  `banlist.dat` is ignored and only `banlist.json` is considered. Telestai Core
   version 22.x is the only version that can read `banlist.dat` and also write
   it to `banlist.json`. If `banlist.json` already exists, version 22.x will not
   try to translate the `banlist.dat` into json. After an upgrade, `listbanned`
@@ -163,7 +163,7 @@ Tools and Utilities
 
 - CLI `-addrinfo` now returns a single field for the number of `onion` addresses
   known to the node instead of separate `torv2` and `torv3` fields, as support
-  for Tor V2 addresses was removed from Meowcoin Core in 22.0. (#22544)
+  for Tor V2 addresses was removed from Telestai Core in 22.0. (#22544)
 
 Wallet
 ------
@@ -254,7 +254,7 @@ Thanks to everyone who directly contributed to this release:
 - Arnab Sen
 - Ben Woosley
 - benthecarman
-- Meowcoin Hodler
+- Telestai Hodler
 - BitcoinTsunami
 - brianddk
 - Bruno Garcia
@@ -370,4 +370,4 @@ Thanks to everyone who directly contributed to this release:
 - Zero-1729
 
 As well as to everyone that helped with translations on
-[Transifex](https://www.transifex.com/meowcoin/meowcoin/).
+[Transifex](https://www.transifex.com/telestai/telestai/).

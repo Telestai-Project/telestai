@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 The Meowcoin Core developers
+// Copyright (c) 2021-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -282,7 +282,7 @@ int CalculateMaximumSignedInputSize(const CTxOut& txout, const COutPoint outpoin
         }
     }
 
-    // Asset scripts are P2PKH + OP_MEWC_ASSET + payload; satisfaction matches the 25-byte P2PKH prefix.
+    // Asset scripts are P2PKH + OP_TLS_ASSET + payload; satisfaction matches the 25-byte P2PKH prefix.
     const CScript& spk = txout.scriptPubKey;
     if (spk.IsAssetScript() && spk.size() >= 26) {
         const CScript underlying(spk.begin(), spk.begin() + 25);
@@ -1531,7 +1531,7 @@ static util::Result<CreatedTransactionResult> CreateTransactionInternal(
 
     // The smallest change amount should be:
     // 1. at least equal to dust threshold
-    // 2. at least 1 mewc greater than fees to spend it at m_discard_feerate
+    // 2. at least 1 tls greater than fees to spend it at m_discard_feerate
     const auto dust = GetDustThreshold(change_prototype_txout, coin_selection_params.m_discard_feerate);
     const auto change_spend_fee = coin_selection_params.m_discard_feerate.GetFee(coin_selection_params.change_spend_size);
     coin_selection_params.min_viable_change = std::max(change_spend_fee + 1, dust);

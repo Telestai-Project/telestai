@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
@@ -54,23 +54,23 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS forms)
 
-configure_file(meowcoin_locale.qrc meowcoin_locale.qrc USE_SOURCE_PERMISSIONS COPYONLY)
+configure_file(telestai_locale.qrc telestai_locale.qrc USE_SOURCE_PERMISSIONS COPYONLY)
 
-# The meowcoinqt sources have to include headers in
+# The telestaiqt sources have to include headers in
 # order to parse them to collect translatable strings.
-add_library(meowcoinqt STATIC EXCLUDE_FROM_ALL
+add_library(telestaiqt STATIC EXCLUDE_FROM_ALL
   bantablemodel.cpp
   bantablemodel.h
-  meowcoin.cpp
-  meowcoin.h
-  meowcoinaddressvalidator.cpp
-  meowcoinaddressvalidator.h
-  meowcoinamountfield.cpp
-  meowcoinamountfield.h
-  meowcoingui.cpp
-  meowcoingui.h
-  meowcoinunits.cpp
-  meowcoinunits.h
+  telestai.cpp
+  telestai.h
+  telestaiaddressvalidator.cpp
+  telestaiaddressvalidator.h
+  telestaiamountfield.cpp
+  telestaiamountfield.h
+  telestaigui.cpp
+  telestaigui.h
+  telestaiunits.cpp
+  telestaiunits.h
   clientmodel.cpp
   clientmodel.h
   csvmodelwriter.cpp
@@ -119,15 +119,15 @@ add_library(meowcoinqt STATIC EXCLUDE_FROM_ALL
   utilitydialog.h
   $<$<PLATFORM_ID:Windows>:winshutdownmonitor.cpp>
   $<$<PLATFORM_ID:Windows>:winshutdownmonitor.h>
-  meowcoin.qrc
-  ${CMAKE_CURRENT_BINARY_DIR}/meowcoin_locale.qrc
+  telestai.qrc
+  ${CMAKE_CURRENT_BINARY_DIR}/telestai_locale.qrc
 )
-target_compile_definitions(meowcoinqt
+target_compile_definitions(telestaiqt
   PUBLIC
     QT_NO_KEYWORDS
     QT_USE_QSTRINGBUILDER
 )
-target_include_directories(meowcoinqt
+target_include_directories(telestaiqt
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
 )
@@ -135,12 +135,12 @@ set_property(SOURCE macnotificationhandler.mm
   # Ignore warnings "'NSUserNotificationCenter' is deprecated: first deprecated in macOS 11.0".
   APPEND PROPERTY COMPILE_OPTIONS -Wno-deprecated-declarations
 )
-target_link_libraries(meowcoinqt
+target_link_libraries(telestaiqt
   PUBLIC
     Qt6::Widgets
   PRIVATE
     core_interface
-    meowcoin_cli
+    telestai_cli
     bitcoin_assets
     leveldb
     Boost::headers
@@ -150,7 +150,7 @@ target_link_libraries(meowcoinqt
 )
 
 if(ENABLE_WALLET)
-  target_sources(meowcoinqt
+  target_sources(telestaiqt
     PRIVATE
       addressbookpage.cpp
       addressbookpage.h
@@ -240,21 +240,21 @@ if(ENABLE_WALLET)
       sendassetsentry.cpp
       sendassetsentry.h
   )
-  target_link_libraries(meowcoinqt
+  target_link_libraries(telestaiqt
     PRIVATE
-      meowcoin_wallet
+      telestai_wallet
       Qt6::Network
   )
 endif()
 
 if(WITH_DBUS)
-  target_link_libraries(meowcoinqt PRIVATE Qt6::DBus)
+  target_link_libraries(telestaiqt PRIVATE Qt6::DBus)
 endif()
 
 if(qt_lib_type STREQUAL "STATIC_LIBRARY")
   # We want to define static plugins to link ourselves, thus preventing
   # automatic linking against a "sane" set of default static plugins.
-  qt6_import_plugins(meowcoinqt
+  qt6_import_plugins(telestaiqt
     EXCLUDE_BY_TYPE
       accessiblebridge
       platforms
@@ -275,41 +275,41 @@ endif()
 
 add_subdirectory(locale)
 
-add_executable(meowcoin-qt
+add_executable(telestai-qt
   main.cpp
-  ../init/meowcoin-qt.cpp
+  ../init/telestai-qt.cpp
 )
 
-add_windows_resources(meowcoin-qt res/meowcoin-qt-res.rc)
-add_windows_application_manifest(meowcoin-qt)
+add_windows_resources(telestai-qt res/telestai-qt-res.rc)
+add_windows_application_manifest(telestai-qt)
 
-target_link_libraries(meowcoin-qt
+target_link_libraries(telestai-qt
   core_interface
-  meowcoinqt
-  meowcoin_node
+  telestaiqt
+  telestai_node
 )
 
-import_plugins(meowcoin-qt)
-install_binary_component(meowcoin-qt HAS_MANPAGE)
+import_plugins(telestai-qt)
+install_binary_component(telestai-qt HAS_MANPAGE)
 if(WIN32)
-  set_target_properties(meowcoin-qt PROPERTIES WIN32_EXECUTABLE TRUE)
+  set_target_properties(telestai-qt PROPERTIES WIN32_EXECUTABLE TRUE)
 endif()
 
 if(ENABLE_IPC)
-  add_executable(meowcoin-gui
+  add_executable(telestai-gui
     main.cpp
-    ../init/meowcoin-gui.cpp
+    ../init/telestai-gui.cpp
   )
-  target_link_libraries(meowcoin-gui
+  target_link_libraries(telestai-gui
     core_interface
-    meowcoinqt
-    meowcoin_node
-    meowcoin_ipc
+    telestaiqt
+    telestai_node
+    telestai_ipc
   )
-  import_plugins(meowcoin-gui)
-  install_binary_component(meowcoin-gui INTERNAL)
+  import_plugins(telestai-gui)
+  install_binary_component(telestai-gui INTERNAL)
   if(WIN32)
-    set_target_properties(meowcoin-gui PROPERTIES WIN32_EXECUTABLE TRUE)
+    set_target_properties(telestai-gui PROPERTIES WIN32_EXECUTABLE TRUE)
   endif()
 endif()
 

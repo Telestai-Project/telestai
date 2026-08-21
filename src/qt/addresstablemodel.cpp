@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2022 The Meowcoin Core developers
+// Copyright (c) 2011-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -335,7 +335,7 @@ QModelIndex AddressTableModel::index(int row, int column, const QModelIndex &par
 void AddressTableModel::updateEntry(const QString &address,
         const QString &label, bool isMine, wallet::AddressPurpose purpose, int status)
 {
-    // Update address book model from Meowcoin core
+    // Update address book model from Telestai core
     priv->updateEntry(address, label, isMine, purpose, status);
 }
 

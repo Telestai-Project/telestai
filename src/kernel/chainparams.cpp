@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -685,7 +685,7 @@ public:
 
         genesis = CreateGenesisBlock(1661734578, 1, 0x207fffff, 4, 468 * COIN);
         consensus.hashGenesisBlock = genesis.GetX16RHash();
-        // Genesis merkle/hash depend on the Telestai timestamp helper; do not hard-assert Meowcoin values.
+        // Genesis merkle/hash depend on the Telestai timestamp helper; do not hard-assert Telestai values.
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -711,7 +711,7 @@ public:
         bech32_hrp = "rtls";
         nExtCoinType = 1;
 
-        /** Meowcoin regtest asset parameters **/
+        /** Telestai regtest asset parameters **/
         nIssueAssetBurnAmount = 500 * COIN;
         nReissueAssetBurnAmount = 100 * COIN;
         nIssueSubAssetBurnAmount = 100 * COIN;

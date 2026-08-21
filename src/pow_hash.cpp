@@ -1,9 +1,9 @@
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 /**
- * Real implementations of Meowcoin PoW hash functions.
+ * Real implementations of Telestai PoW hash functions.
  *
  * X16R / X16RV2  — 16-round chained SPH-512 hash, order selected by prevhash.
  * KAWPOW         — ProgPow (ethash-based, GPU-targeted).

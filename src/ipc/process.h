@@ -1,4 +1,4 @@
-// Copyright (c) 2021 The Meowcoin Core developers
+// Copyright (c) 2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,7 +13,7 @@
 namespace ipc {
 class Protocol;
 
-//! IPC process interface for spawning meowcoin processes and serving requests
+//! IPC process interface for spawning telestai processes and serving requests
 //! in processes that have been spawned.
 //!
 //! There will be different implementations of this interface depending on the

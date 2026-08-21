@@ -191,7 +191,7 @@ $(host_prefix)/.stamp_$(final_build_id): $(native_packages) $(packages)
 	echo copying packages: $^
 	echo to: $(@D)
 	cd $(@D); $(foreach package,$^, $(build_TAR) xf $($(package)_cached); )
-	echo To build Meowcoin Core with these packages, pass \'--toolchain $(@D)/toolchain.cmake\' to the first CMake invocation.
+	echo To build Telestai Core with these packages, pass \'--toolchain $(@D)/toolchain.cmake\' to the first CMake invocation.
 	touch $@
 
 ifeq ($(host),$(build))

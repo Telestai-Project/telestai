@@ -1,3 +1,3 @@
-# Bootstrappable Meowcoin Core Builds
+# Bootstrappable Telestai Core Builds
 
 See [contrib/guix/README.md](../contrib/guix/README.md)

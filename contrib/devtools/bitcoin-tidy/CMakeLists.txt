@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(meowcoin-tidy
+project(telestai-tidy
     VERSION
     1.0.0
-    DESCRIPTION "clang-tidy checks for Meowcoin Core"
+    DESCRIPTION "clang-tidy checks for Telestai Core"
     LANGUAGES CXX)
 
 include(GNUInstallDirs)
@@ -25,43 +25,43 @@ find_program(CLANG_TIDY_EXE NAMES "clang-tidy-${LLVM_VERSION_MAJOR}" "clang-tidy
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 message(STATUS "Found clang-tidy: ${CLANG_TIDY_EXE}")
 
-add_library(meowcoin-tidy MODULE meowcoin-tidy.cpp nontrivial-threadlocal.cpp)
-target_include_directories(meowcoin-tidy SYSTEM PRIVATE ${LLVM_INCLUDE_DIRS})
+add_library(telestai-tidy MODULE telestai-tidy.cpp nontrivial-threadlocal.cpp)
+target_include_directories(telestai-tidy SYSTEM PRIVATE ${LLVM_INCLUDE_DIRS})
 
 # Disable RTTI and exceptions as necessary
 if (MSVC)
-    target_compile_options(meowcoin-tidy PRIVATE /GR-)
+    target_compile_options(telestai-tidy PRIVATE /GR-)
 else()
-    target_compile_options(meowcoin-tidy PRIVATE -fno-rtti)
-    target_compile_options(meowcoin-tidy PRIVATE -fno-exceptions)
+    target_compile_options(telestai-tidy PRIVATE -fno-rtti)
+    target_compile_options(telestai-tidy PRIVATE -fno-exceptions)
 endif()
 
 if(CMAKE_HOST_APPLE)
     # ld64 expects no undefined symbols by default
-    target_link_options(meowcoin-tidy PRIVATE -Wl,-flat_namespace)
-    target_link_options(meowcoin-tidy PRIVATE -Wl,-undefined -Wl,suppress)
+    target_link_options(telestai-tidy PRIVATE -Wl,-flat_namespace)
+    target_link_options(telestai-tidy PRIVATE -Wl,-undefined -Wl,suppress)
 endif()
 
 # Add warnings
 if (MSVC)
-    target_compile_options(meowcoin-tidy PRIVATE /W4)
+    target_compile_options(telestai-tidy PRIVATE /W4)
 else()
-    target_compile_options(meowcoin-tidy PRIVATE -Wall)
-    target_compile_options(meowcoin-tidy PRIVATE -Wextra)
+    target_compile_options(telestai-tidy PRIVATE -Wall)
+    target_compile_options(telestai-tidy PRIVATE -Wextra)
 endif()
 
 if(CMAKE_VERSION VERSION_LESS 3.27)
-    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=${CMAKE_BINARY_DIR}/${CMAKE_SHARED_MODULE_PREFIX}meowcoin-tidy${CMAKE_SHARED_MODULE_SUFFIX}" "-checks=-*,meowcoin-*")
+    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=${CMAKE_BINARY_DIR}/${CMAKE_SHARED_MODULE_PREFIX}telestai-tidy${CMAKE_SHARED_MODULE_SUFFIX}" "-checks=-*,telestai-*")
 else()
     # CLANG_TIDY_COMMAND supports generator expressions as of 3.27
-    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=$<TARGET_FILE:meowcoin-tidy>" "-checks=-*,meowcoin-*")
+    set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--load=$<TARGET_FILE:telestai-tidy>" "-checks=-*,telestai-*")
 endif()
 
 # Create a dummy library that runs clang-tidy tests as a side-effect of building
-add_library(meowcoin-tidy-tests OBJECT EXCLUDE_FROM_ALL example_nontrivial-threadlocal.cpp)
-add_dependencies(meowcoin-tidy-tests meowcoin-tidy)
+add_library(telestai-tidy-tests OBJECT EXCLUDE_FROM_ALL example_nontrivial-threadlocal.cpp)
+add_dependencies(telestai-tidy-tests telestai-tidy)
 
-set_target_properties(meowcoin-tidy-tests PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
+set_target_properties(telestai-tidy-tests PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
 
 
-install(TARGETS meowcoin-tidy LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS telestai-tidy LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

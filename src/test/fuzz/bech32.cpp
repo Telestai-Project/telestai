@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present The Meowcoin Core developers
+// Copyright (c) 2019-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -30,7 +30,7 @@ FUZZ_TARGET(bech32_random_decode)
     }
 }
 
-// https://github.com/meowcoin/bips/blob/master/bip-0173.mediawiki and https://github.com/meowcoin/bips/blob/master/bip-0350.mediawiki
+// https://github.com/telestai/bips/blob/master/bip-0173.mediawiki and https://github.com/telestai/bips/blob/master/bip-0350.mediawiki
 std::string GenerateRandomHRP(FuzzedDataProvider& fdp)
 {
     std::string hrp;

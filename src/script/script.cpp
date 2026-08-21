@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -149,7 +149,7 @@ std::string GetOpName(opcodetype opcode)
     // Opcode added by BIP 342 (Tapscript)
     case OP_CHECKSIGADD            : return "OP_CHECKSIGADD";
 
-    case OP_MEWC_ASSET             : return "OP_MEWC_ASSET";
+    case OP_TLS_ASSET             : return "OP_TLS_ASSET";
 
     case OP_INVALIDOPCODE          : return "OP_INVALIDOPCODE";
 
@@ -247,46 +247,46 @@ bool CScript::IsPayToTaproot() const
             (*this)[1] == 0x20);
 }
 
-// Meowcoin asset marker bytes (must match defines in assets/assets.h)
-static constexpr uint8_t MEWC_R_BYTE = 114;
-static constexpr uint8_t MEWC_V_BYTE = 118;
-static constexpr uint8_t MEWC_N_BYTE = 110;
-static constexpr uint8_t MEWC_T_BYTE = 116;
-static constexpr uint8_t MEWC_Q_BYTE = 113;
-static constexpr uint8_t MEWC_O_BYTE = 111;
-static constexpr uint8_t MEWC_R2_BYTE = 114; // 'r' for reissue marker
+// Telestai asset marker bytes (must match defines in assets/assets.h)
+static constexpr uint8_t TLS_ASSET_R_BYTE = 114;
+static constexpr uint8_t TLS_ASSET_V_BYTE = 118;
+static constexpr uint8_t TLS_ASSET_N_BYTE = 110;
+static constexpr uint8_t TLS_ASSET_T_BYTE = 116;
+static constexpr uint8_t TLS_ASSET_Q_BYTE = 113;
+static constexpr uint8_t TLS_ASSET_O_BYTE = 111;
+static constexpr uint8_t TLS_ASSET_R2_BYTE = 114; // 'r' for reissue marker
 
 bool CScript::IsAssetScript(int& nType, bool& fIsOwner, int& nStartingIndex) const
 {
     if (this->size() > 31) {
-        if ((*this)[25] == OP_MEWC_ASSET) {
+        if ((*this)[25] == OP_TLS_ASSET) {
             int index = -1;
-            if ((*this)[27] == MEWC_R_BYTE) {
-                if ((*this)[28] == MEWC_V_BYTE)
-                    if ((*this)[29] == MEWC_N_BYTE)
+            if ((*this)[27] == TLS_ASSET_R_BYTE) {
+                if ((*this)[28] == TLS_ASSET_V_BYTE)
+                    if ((*this)[29] == TLS_ASSET_N_BYTE)
                         index = 30;
             } else {
-                if ((*this)[28] == MEWC_R_BYTE) {
-                    if ((*this)[29] == MEWC_V_BYTE)
-                        if ((*this)[30] == MEWC_N_BYTE)
+                if ((*this)[28] == TLS_ASSET_R_BYTE) {
+                    if ((*this)[29] == TLS_ASSET_V_BYTE)
+                        if ((*this)[30] == TLS_ASSET_N_BYTE)
                             index = 31;
                 }
             }
 
             if (index > 0) {
                 nStartingIndex = index + 1;
-                if ((*this)[index] == MEWC_T_BYTE) {
+                if ((*this)[index] == TLS_ASSET_T_BYTE) {
                     nType = 10; // TX_TRANSFER_ASSET
                     return true;
-                } else if ((*this)[index] == MEWC_Q_BYTE && this->size() > 39) {
+                } else if ((*this)[index] == TLS_ASSET_Q_BYTE && this->size() > 39) {
                     nType = 8; // TX_NEW_ASSET
                     fIsOwner = false;
                     return true;
-                } else if ((*this)[index] == MEWC_O_BYTE) {
+                } else if ((*this)[index] == TLS_ASSET_O_BYTE) {
                     nType = 8; // TX_NEW_ASSET
                     fIsOwner = true;
                     return true;
-                } else if ((*this)[index] == MEWC_R2_BYTE && this->size() > 45) {
+                } else if ((*this)[index] == TLS_ASSET_R2_BYTE && this->size() > 45) {
                     nType = 9; // TX_REISSUE_ASSET
                     return true;
                 }
@@ -348,14 +348,14 @@ bool CScript::IsTransferAsset() const
 bool CScript::IsNullAssetTxDataScript() const
 {
     return (this->size() > 23 &&
-            (*this)[0] == OP_MEWC_ASSET &&
+            (*this)[0] == OP_TLS_ASSET &&
             (*this)[1] == 0x14);
 }
 
 bool CScript::IsNullGlobalRestrictionAssetTxDataScript() const
 {
     return (this->size() > 6 &&
-            (*this)[0] == OP_MEWC_ASSET &&
+            (*this)[0] == OP_TLS_ASSET &&
             (*this)[1] == OP_RESERVED &&
             (*this)[2] == OP_RESERVED);
 }
@@ -363,7 +363,7 @@ bool CScript::IsNullGlobalRestrictionAssetTxDataScript() const
 bool CScript::IsNullAssetVerifierTxDataScript() const
 {
     return (this->size() > 3 &&
-            (*this)[0] == OP_MEWC_ASSET &&
+            (*this)[0] == OP_TLS_ASSET &&
             (*this)[1] == OP_RESERVED &&
             (*this)[2] != OP_RESERVED);
 }

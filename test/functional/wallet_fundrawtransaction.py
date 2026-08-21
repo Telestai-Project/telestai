@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the fundrawtransaction RPC."""
@@ -308,7 +308,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         dec_tx  = self.nodes[2].decoderawtransaction(rawtx)
         assert_equal(utx['txid'], dec_tx['vin'][0]['txid'])
 
-        assert_raises_rpc_error(-5, "Change address must be a valid meowcoin address", self.nodes[2].fundrawtransaction, rawtx, changeAddress='foobar')
+        assert_raises_rpc_error(-5, "Change address must be a valid telestai address", self.nodes[2].fundrawtransaction, rawtx, changeAddress='foobar')
 
     def test_valid_change_address(self):
         self.log.info("Test fundrawtxn with a provided change address")
@@ -578,7 +578,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         import_res = wmulti.importdescriptors([{"desc": mSigObj["descriptor"], "timestamp": "now"}])
         assert_equal(import_res[0]["success"], True)
 
-        # Send 1.2 MEWC to msig addr.
+        # Send 1.2 TLS to msig addr.
         self.nodes[0].sendtoaddress(mSigObj["address"], 1.2)
         self.generate(self.nodes[0], 1)
 
@@ -802,7 +802,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         wwatch.unloadwallet()
 
     def test_option_feerate(self):
-        self.log.info("Test fundrawtxn with explicit fee rates (fee_rate mewc/vB and feeRate MEWC/kvB)")
+        self.log.info("Test fundrawtxn with explicit fee rates (fee_rate tls/vB and feeRate TLS/kvB)")
         node = self.nodes[3]
         # Make sure there is exactly one input so coin selection can't skew the result.
         assert_equal(len(self.nodes[3].listunspent(1)), 1)
@@ -862,17 +862,17 @@ class RawTransactionsTest(BitcoinTestFramework):
             # Test fee rate values that don't pass fixed-point parsing checks.
             for invalid_value in ["", 0.000000001, 1e-09, 1.111111111, 1111111111111111, "31.999999999999999999999"]:
                 assert_raises_rpc_error(-3, "Invalid amount", node.fundrawtransaction, rawtx, add_inputs=True, **{param: invalid_value})
-        # Test fee_rate values that cannot be represented in mewc/vB.
+        # Test fee_rate values that cannot be represented in tls/vB.
         for invalid_value in [0.0001, 0.00000001, 0.00099999, 31.99999999]:
             assert_raises_rpc_error(-3, "Invalid amount",
                 node.fundrawtransaction, rawtx, fee_rate=invalid_value, add_inputs=True)
 
-        self.log.info("Test min fee rate checks are bypassed with fundrawtxn, e.g. a fee_rate under 1 mewc/vB is allowed")
+        self.log.info("Test min fee rate checks are bypassed with fundrawtxn, e.g. a fee_rate under 1 tls/vB is allowed")
         node.fundrawtransaction(rawtx, fee_rate=0.999, add_inputs=True)
         node.fundrawtransaction(rawtx, feeRate=0.00000999, add_inputs=True)
 
         self.log.info("- raises RPC error if both feeRate and fee_rate are passed")
-        assert_raises_rpc_error(-8, "Cannot specify both fee_rate (mewc/vB) and feeRate (MEWC/kvB)",
+        assert_raises_rpc_error(-8, "Cannot specify both fee_rate (tls/vB) and feeRate (TLS/kvB)",
             node.fundrawtransaction, rawtx, fee_rate=0.1, feeRate=0.1, add_inputs=True)
 
         self.log.info("- raises RPC error if both feeRate and estimate_mode passed")
@@ -915,7 +915,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         outputs = {self.nodes[2].getnewaddress(): 1}
         rawtx = self.nodes[3].createrawtransaction(inputs, outputs)
 
-        # Test subtract fee from outputs with feeRate (MEWC/kvB)
+        # Test subtract fee from outputs with feeRate (TLS/kvB)
         result = [self.nodes[3].fundrawtransaction(rawtx),  # uses self.min_relay_tx_fee (set by settxfee)
             self.nodes[3].fundrawtransaction(rawtx, subtractFeeFromOutputs=[]),  # empty subtraction list
             self.nodes[3].fundrawtransaction(rawtx, subtractFeeFromOutputs=[0]),  # uses self.min_relay_tx_fee (set by settxfee)
@@ -934,7 +934,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         assert_equal(output[3], output[4] + result[4]['fee'])
         assert_equal(change[3] + result[3]['fee'], change[4])
 
-        # Test subtract fee from outputs with fee_rate (mewc/vB)
+        # Test subtract fee from outputs with fee_rate (tls/vB)
         btc_kvb_to_sat_vb = 100000  # (1e5)
         result = [self.nodes[3].fundrawtransaction(rawtx),  # uses self.min_relay_tx_fee (set by settxfee)
             self.nodes[3].fundrawtransaction(rawtx, subtractFeeFromOutputs=[]),  # empty subtraction list
@@ -1013,7 +1013,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         outputs = {}
         rawtx = recipient.createrawtransaction([], {wallet.getnewaddress(): 147.99899260})
 
-        # Make 1500 0.1 MEWC outputs. The amount that we target for funding is in
+        # Make 1500 0.1 TLS outputs. The amount that we target for funding is in
         # the BnB range when these outputs are used.  However if these outputs
         # are selected, the transaction will end up being too large, so it
         # shouldn't use BnB and instead fall back to Knapsack but that behavior
@@ -1115,7 +1115,7 @@ class RawTransactionsTest(BitcoinTestFramework):
     def test_add_inputs_default_value(self):
         self.log.info("Test 'add_inputs' default value")
 
-        # Create and fund the wallet with 5 MEWC
+        # Create and fund the wallet with 5 TLS
         self.nodes[2].createwallet("test_preset_inputs")
         wallet = self.nodes[2].get_wallet_rpc("test_preset_inputs")
         addr1 = wallet.getnewaddress(address_type="bech32")
@@ -1146,7 +1146,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         # Select an input manually, which doesn't cover the entire output amount and
         # verify that the dynamically set 'add_inputs=false' value works.
 
-        # Fund wallet with 2 outputs, 5 MEWC each.
+        # Fund wallet with 2 outputs, 5 TLS each.
         addr2 = wallet.getnewaddress(address_type="bech32")
         source_tx = self.nodes[0].send(outputs=[{addr1: 5}, {addr2: 5}], change_position=0)
         self.generate(self.nodes[0], 1)
@@ -1239,7 +1239,7 @@ class RawTransactionsTest(BitcoinTestFramework):
     def test_preset_inputs_selection(self):
         self.log.info('Test wallet preset inputs are not double-counted or reused in coin selection')
 
-        # Create and fund the wallet with 4 UTXO of 5 MEWC each (20 MEWC total)
+        # Create and fund the wallet with 4 UTXO of 5 TLS each (20 TLS total)
         self.nodes[2].createwallet("test_preset_inputs_selection")
         wallet = self.nodes[2].get_wallet_rpc("test_preset_inputs_selection")
         outputs = {}
@@ -1260,16 +1260,16 @@ class RawTransactionsTest(BitcoinTestFramework):
             "add_to_wallet": False
         }
 
-        # Attempt to send 29 MEWC from a wallet that only has 20 MEWC. The wallet should exclude
+        # Attempt to send 29 TLS from a wallet that only has 20 TLS. The wallet should exclude
         # the preset inputs from the pool of available coins, realize that there is not enough
-        # money to fund the 29 MEWC payment, and fail with "Insufficient funds".
+        # money to fund the 29 TLS payment, and fail with "Insufficient funds".
         #
-        # Even with SFFO, the wallet can only afford to send 20 MEWC.
+        # Even with SFFO, the wallet can only afford to send 20 TLS.
         # If the wallet does not properly exclude preset inputs from the pool of available coins
         # prior to coin selection, it may create a transaction that does not fund the full payment
         # amount or, through SFFO, incorrectly reduce the recipient's amount by the difference
-        # between the original target and the wrongly counted inputs (in this case 9 MEWC)
-        # so that the recipient's amount is no longer equal to the user's selected target of 29 MEWC.
+        # between the original target and the wrongly counted inputs (in this case 9 TLS)
+        # so that the recipient's amount is no longer equal to the user's selected target of 29 TLS.
 
         # First case, use 'subtract_fee_from_outputs = true'
         assert_raises_rpc_error(-4, "Insufficient funds", wallet.send, outputs=[{wallet.getnewaddress(address_type="bech32"): 29}], options=options)
@@ -1381,9 +1381,9 @@ class RawTransactionsTest(BitcoinTestFramework):
         # choose enough value to cover the target amount but not enough to cover the transaction fees.
         # This leads to a transaction whose actual transaction feerate is lower than expected.
         # However at normal feerates, the difference between the effective value and the real value
-        # that this bug is not detected because the transaction fee must be at least 0.01 MEWC (the minimum change value).
+        # that this bug is not detected because the transaction fee must be at least 0.01 TLS (the minimum change value).
         # Otherwise the targeted minimum change value will be enough to cover the transaction fees that were not
-        # being accounted for. So the minimum relay fee is set to 0.1 MEWC/kvB in this test.
+        # being accounted for. So the minimum relay fee is set to 0.1 TLS/kvB in this test.
         self.log.info("Test issue 22670 ApproximateBestSubset bug")
         # Make sure the default wallet will not be loaded when restarted with a high minrelaytxfee
         self.nodes[0].unloadwallet(self.default_wallet_name, False)
@@ -1447,14 +1447,14 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.generate(self.nodes[0], 1)
 
         # A P2WPKH input costs 68 vbytes; With a single P2WPKH output, the rest of the tx is 42 vbytes for a total of 110 vbytes.
-        # At a feerate of 1.85 mewc/vb, the input will need a fee of 125.8 sats and the rest 77.7 sats
+        # At a feerate of 1.85 tls/vb, the input will need a fee of 125.8 sats and the rest 77.7 sats
         # The entire tx fee should be 203.5 sats.
         # Coin selection rounds the fee individually instead of at the end (due to how CFeeRate::GetFee works).
         # If rounding down (which is the incorrect behavior), then the calculated fee will be 125 + 77 = 202.
         # If rounding up, then the calculated fee will be 126 + 78 = 204.
         # In the former case, the calculated needed fee is higher than the actual fee being paid, so an assertion is reached
         # To test this does not happen, we subtract 202 sats from the input value. If working correctly, this should
-        # fail with insufficient funds rather than meowcoind asserting.
+        # fail with insufficient funds rather than telestaid asserting.
         rawtx = w.createrawtransaction(inputs=[], outputs=[{self.nodes[0].getnewaddress(address_type="bech32"): 1 - 0.00000202}])
         assert_raises_rpc_error(-4, "Insufficient funds", w.fundrawtransaction, rawtx, fee_rate=1.85)
 
@@ -1488,13 +1488,13 @@ class RawTransactionsTest(BitcoinTestFramework):
         assert txid1 in mempool
 
         self.log.info("Fail to craft a new TX with minconf above highest one")
-        # Create a replacement tx to 'final_tx1' that has 1 MEWC target instead of 0.1.
+        # Create a replacement tx to 'final_tx1' that has 1 TLS target instead of 0.1.
         raw_tx2 = wallet.createrawtransaction([{'txid': utxo1['txid'], 'vout': utxo1['vout']}], {target_address: 1})
         assert_raises_rpc_error(-4, "Insufficient funds", wallet.fundrawtransaction, raw_tx2, {'add_inputs': True, 'minconf': 3, 'fee_rate': 10})
 
         self.log.info("Fail to broadcast a new TX with maxconf 0 due to BIP125 rules to verify it actually chose unconfirmed outputs")
-        # Now fund 'raw_tx2' to fulfill the total target (1 MEWC) by using all the wallet unconfirmed outputs.
-        # As it was created with the first unconfirmed output, 'raw_tx2' only has 0.1 MEWC covered (need to fund 0.9 MEWC more).
+        # Now fund 'raw_tx2' to fulfill the total target (1 TLS) by using all the wallet unconfirmed outputs.
+        # As it was created with the first unconfirmed output, 'raw_tx2' only has 0.1 TLS covered (need to fund 0.9 TLS more).
         # So, the selection process, to cover the amount, will pick up the 'final_tx1' output as well, which is an output of the tx that this
         # new tx is replacing!. So, once we send it to the mempool, it will return a "bad-txns-spends-conflicting-tx"
         # because the input will no longer exist once the first tx gets replaced by this new one).

@@ -1,9 +1,9 @@
-// Copyright (c) 2021-2022 The Meowcoin Core developers
+// Copyright (c) 2021-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 //! @file
-//! @brief Common init functions shared by meowcoin-node, meowcoin-wallet, etc.
+//! @brief Common init functions shared by telestai-node, telestai-wallet, etc.
 
 #ifndef BITCOIN_INIT_COMMON_H
 #define BITCOIN_INIT_COMMON_H

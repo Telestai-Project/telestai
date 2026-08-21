@@ -1,10 +1,10 @@
-# Copyright (c) 2025 The Meowcoin Core developers
+# Copyright (c) 2025 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
 function(add_libmultiprocess subdir)
   # Set BUILD_TESTING to match BUILD_TESTS. BUILD_TESTING is a standard cmake
-  # option that controls whether enable_testing() is called, but in the meowcoin
+  # option that controls whether enable_testing() is called, but in the telestai
   # build a BUILD_TESTS option is used instead.
   set(BUILD_TESTING "${BUILD_TESTS}")
   add_subdirectory(${subdir} EXCLUDE_FROM_ALL)

@@ -1,4 +1,4 @@
-# Copyright (c) The Meowcoin Core developers
+# Copyright (c) The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +19,7 @@ find_package(CapnProto 0.7 QUIET NO_MODULE)
      "Cap'n Proto is required but was not found.\n"
      "To resolve, choose one of the following:\n"
      "  - Install Cap'n Proto (version 1.0+ recommended)\n"
-     "  - For Meowcoin Core compilation build with -DENABLE_IPC=OFF to disable multiprocess support\n"
+     "  - For Telestai Core compilation build with -DENABLE_IPC=OFF to disable multiprocess support\n"
    )
  endif()
 
@@ -49,7 +49,7 @@ endif()
 # Check for Cap'n Proto / Clang / C++20 incompatibility
 # Cap'n Proto 0.9.x and 0.10.x are incompatible with Clang 16+ when using C++20
 # due to P2468R2 implementation. This was fixed in Cap'n Proto 1.0+.
-# See: https://github.com/meowcoin-core/libmultiprocess/issues/199
+# See: https://github.com/telestai-core/libmultiprocess/issues/199
 if((CapnProto_VERSION VERSION_GREATER_EQUAL "0.9.0") AND
    (CapnProto_VERSION VERSION_LESS "1.0.0") AND
    (CMAKE_CXX_COMPILER_ID STREQUAL "Clang") AND
@@ -71,7 +71,7 @@ if(CAPNPROTO_CVE_AFFECTED OR CAPNPROTO_CLANG_INCOMPATIBLE)
     string(APPEND RESOLUTION_OPTIONS "  - Use GCC instead of Clang\n")
   endif()
 
-  string(APPEND RESOLUTION_OPTIONS "  - For Meowcoin Core compilation build with -DENABLE_IPC=OFF to disable multiprocess support\n")
+  string(APPEND RESOLUTION_OPTIONS "  - For Telestai Core compilation build with -DENABLE_IPC=OFF to disable multiprocess support\n")
 
   message(FATAL_ERROR
     "The version of Cap'n Proto detected: ${CapnProto_VERSION} has known compatibility issues:\n"

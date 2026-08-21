@@ -2,8 +2,8 @@ Example scripts for User-space, Statically Defined Tracing (USDT)
 =================================================================
 
 This directory contains scripts showcasing User-space, Statically Defined
-Tracing (USDT) support for Meowcoin Core on Linux using. For more information on
-USDT support in Meowcoin Core see the [USDT documentation].
+Tracing (USDT) support for Telestai Core on Linux using. For more information on
+USDT support in Telestai Core see the [USDT documentation].
 
 [USDT documentation]: ../../doc/tracing.md
 
@@ -30,14 +30,14 @@ information. For development there exist a [bpftrace Reference Guide], a
 
 ## Examples
 
-The bpftrace examples contain a relative path to the `meowcoind` binary. By
+The bpftrace examples contain a relative path to the `telestaid` binary. By
 default, the scripts should be run from the repository-root and assume a
-self-compiled `meowcoind` binary. The paths in the examples can be changed, for
+self-compiled `telestaid` binary. The paths in the examples can be changed, for
 example, to point to release builds if needed. See the
-[Meowcoin Core USDT documentation] on how to list available tracepoints in your
-`meowcoind` binary.
+[Telestai Core USDT documentation] on how to list available tracepoints in your
+`telestaid` binary.
 
-[Meowcoin Core USDT documentation]: ../../doc/tracing.md#listing-available-tracepoints
+[Telestai Core USDT documentation]: ../../doc/tracing.md#listing-available-tracepoints
 
 **WARNING: eBPF programs require root privileges to be loaded into a Linux
 kernel VM. This means the bpftrace and BCC examples must be executed with root
@@ -82,7 +82,7 @@ about the connection. Peers can be selected individually to view recent P2P
 messages.
 
 ```
-$ python3 contrib/tracing/p2p_monitor.py $(pidof meowcoind)
+$ python3 contrib/tracing/p2p_monitor.py $(pidof telestaid)
 ```
 
 Lists selectable peers and traffic and connection information.
@@ -134,7 +134,7 @@ A BCC Python script showcasing eBPF and USDT limitations when passing data
 larger than about 32kb. Based on the `net:inbound_message` and
 `net:outbound_message` tracepoints.
 
-Meowcoin P2P messages can be larger than 32kb (e.g. `tx`, `block`, ...). The
+Telestai P2P messages can be larger than 32kb (e.g. `tx`, `block`, ...). The
 eBPF VM's stack is limited to 512 bytes, and we can't allocate more than about
 32kb for a P2P message in the eBPF VM. The **message data is cut off** when the
 message is larger than MAX_MSG_DATA_LENGTH (see script). This can be detected
@@ -150,7 +150,7 @@ lost. BCC prints: `Possibly lost 2 samples` on lost messages.
 
 
 ```
-$ python3 contrib/tracing/log_raw_p2p_msgs.py $(pidof meowcoind)
+$ python3 contrib/tracing/log_raw_p2p_msgs.py $(pidof telestaid)
 ```
 
 ```
@@ -184,11 +184,11 @@ longer than 25ms to connect.
 $ bpftrace contrib/tracing/connectblock_benchmark.bt 20000 38000 25
 ```
 
-In a different terminal, starting Meowcoin Core in SigNet mode and with
+In a different terminal, starting Telestai Core in SigNet mode and with
 re-indexing enabled.
 
 ```
-$ ./build/bin/meowcoind -signet -reindex
+$ ./build/bin/telestaid -signet -reindex
 ```
 
 This produces the following output.
@@ -241,7 +241,7 @@ A BCC Python script to log the UTXO cache flushes. Based on the
 `utxocache:flush` tracepoint.
 
 ```bash
-$ python3 contrib/tracing/log_utxocache_flush.py $(pidof meowcoind)
+$ python3 contrib/tracing/log_utxocache_flush.py $(pidof telestaid)
 ```
 
 ```
@@ -300,7 +300,7 @@ comprising a timestamp along with all event data available via the event's
 tracepoint.
 
 ```console
-$ python3 contrib/tracing/mempool_monitor.py $(pidof meowcoind)
+$ python3 contrib/tracing/mempool_monitor.py $(pidof telestaid)
 ```
 
 ```
@@ -316,23 +316,23 @@ $ python3 contrib/tracing/mempool_monitor.py $(pidof meowcoind)
  └───────────────────────────────────┘  └─────────────────────────────────────┘
 
  ┌─Event log────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
- │ 13:10:30Z added f9064ca5bfc87cdd191faa42bf697217cd920b2b94838c1f1192e4f06c4fd217 with feerate 8.92 mewc/vB (981 mewc, 110 vbytes)                                              │
- │ 13:10:30Z added 53ffa3afbe57b1bfe423e1755ca2b52c5b6cb4aa91b8b7ee9cb694953f47f234 with feerate 5.00 mewc/vB (550 mewc, 110 vbytes)                                              │
- │ 13:10:30Z added 4177df5e19465eb5e53c3f8b6830a293f57474921bc6c2ae89375e0986e1f0f9 with feerate 2.98 mewc/vB (429 mewc, 144 vbytes)                                              │
- │ 13:10:30Z added 931a10d83f0a268768da75dc4b9e199f2f055f12979ae5491cc304ee10f890ea with feerate 3.55 mewc/vB (500 mewc, 141 vbytes)                                              │
- │ 13:10:30Z added 4cf32b295723cc4ab73f2a2e51d4bb276c0042760a4c00a3eb9595b8ebb24721 with feerate 89.21 mewc/vB (12668 mewc, 142 vbytes)                                           │
- │ 13:10:31Z replaced d1eecf9d662121322f4f31f0c2267a752d14bb3956e6016ba96e87f47890e1db with feerate 27.12 mewc/vB received 23.3 seconds ago (7213 mewc, 266 vbytes) with c412db908│
- │ 9b7ed53f3e5e36d2819dd291278b59ccaabaeb17fd37c3d87fdcd57 with feerate 28.12 mewc/vB (8351 mewc, 297 vbytes)                                                                     │
- │ 13:10:31Z added c412db9089b7ed53f3e5e36d2819dd291278b59ccaabaeb17fd37c3d87fdcd57 with feerate 28.12 mewc/vB (8351 mewc, 297 vbytes)                                            │
- │ 13:10:31Z added b8388a5bdc421b11460bdf477d5a85a1a39c2784e7dd7bffabe688740424ea57 with feerate 25.21 mewc/vB (3554 mewc, 141 vbytes)                                            │
- │ 13:10:31Z added 4ddb88bc90a122cd9eae8a664e73bdf5bebe75f3ef901241b4a251245854a98e with feerate 24.15 mewc/vB (5072 mewc, 210 vbytes)                                            │
- │ 13:10:31Z added 19101e4161bca5271ad5d03e7747f2faec7793b274dc2f3c4cf516b7cef1aac3 with feerate 7.06 mewc/vB (1080 mewc, 153 vbytes)                                             │
- │ 13:10:31Z removed d1eecf9d662121322f4f31f0c2267a752d14bb3956e6016ba96e87f47890e1db with feerate 27.12 mewc/vB (7213 mewc, 266 vbytes): replaced                                │
- │ 13:10:31Z added 6c511c60d9b95b9eff81df6ecba5c86780f513fe62ce3ad6be2c5340d957025a with feerate 4.00 mewc/vB (440 mewc, 110 vbytes)                                              │
- │ 13:10:31Z added 44d66f7f004bd52c46be4dff3067cab700e51c7866a84282bd8aab560a5bfb79 with feerate 3.15 mewc/vB (448 mewc, 142 vbytes)                                              │
- │ 13:10:31Z added b17b7c9ec5acfbbf12f0eeef8e29826fad3105bb95eef7a47d2f1f22b4784643 with feerate 4.10 mewc/vB (1348 mewc, 329 vbytes)                                             │
- │ 13:10:31Z added b7a4ad93554e57454e8a8049bfc0bd803fa962bd3f0a08926aa72e7cb23e2276 with feerate 1.01 mewc/vB (205 mewc, 202 vbytes)                                              │
- │ 13:10:32Z added c78e87be86c828137a6e7e00a177c03b52202ce4c39029b99904c2a094b9da87 with feerate 11.00 mewc/vB (1562 mewc, 142 vbytes)                                            │
+ │ 13:10:30Z added f9064ca5bfc87cdd191faa42bf697217cd920b2b94838c1f1192e4f06c4fd217 with feerate 8.92 tls/vB (981 tls, 110 vbytes)                                              │
+ │ 13:10:30Z added 53ffa3afbe57b1bfe423e1755ca2b52c5b6cb4aa91b8b7ee9cb694953f47f234 with feerate 5.00 tls/vB (550 tls, 110 vbytes)                                              │
+ │ 13:10:30Z added 4177df5e19465eb5e53c3f8b6830a293f57474921bc6c2ae89375e0986e1f0f9 with feerate 2.98 tls/vB (429 tls, 144 vbytes)                                              │
+ │ 13:10:30Z added 931a10d83f0a268768da75dc4b9e199f2f055f12979ae5491cc304ee10f890ea with feerate 3.55 tls/vB (500 tls, 141 vbytes)                                              │
+ │ 13:10:30Z added 4cf32b295723cc4ab73f2a2e51d4bb276c0042760a4c00a3eb9595b8ebb24721 with feerate 89.21 tls/vB (12668 tls, 142 vbytes)                                           │
+ │ 13:10:31Z replaced d1eecf9d662121322f4f31f0c2267a752d14bb3956e6016ba96e87f47890e1db with feerate 27.12 tls/vB received 23.3 seconds ago (7213 tls, 266 vbytes) with c412db908│
+ │ 9b7ed53f3e5e36d2819dd291278b59ccaabaeb17fd37c3d87fdcd57 with feerate 28.12 tls/vB (8351 tls, 297 vbytes)                                                                     │
+ │ 13:10:31Z added c412db9089b7ed53f3e5e36d2819dd291278b59ccaabaeb17fd37c3d87fdcd57 with feerate 28.12 tls/vB (8351 tls, 297 vbytes)                                            │
+ │ 13:10:31Z added b8388a5bdc421b11460bdf477d5a85a1a39c2784e7dd7bffabe688740424ea57 with feerate 25.21 tls/vB (3554 tls, 141 vbytes)                                            │
+ │ 13:10:31Z added 4ddb88bc90a122cd9eae8a664e73bdf5bebe75f3ef901241b4a251245854a98e with feerate 24.15 tls/vB (5072 tls, 210 vbytes)                                            │
+ │ 13:10:31Z added 19101e4161bca5271ad5d03e7747f2faec7793b274dc2f3c4cf516b7cef1aac3 with feerate 7.06 tls/vB (1080 tls, 153 vbytes)                                             │
+ │ 13:10:31Z removed d1eecf9d662121322f4f31f0c2267a752d14bb3956e6016ba96e87f47890e1db with feerate 27.12 tls/vB (7213 tls, 266 vbytes): replaced                                │
+ │ 13:10:31Z added 6c511c60d9b95b9eff81df6ecba5c86780f513fe62ce3ad6be2c5340d957025a with feerate 4.00 tls/vB (440 tls, 110 vbytes)                                              │
+ │ 13:10:31Z added 44d66f7f004bd52c46be4dff3067cab700e51c7866a84282bd8aab560a5bfb79 with feerate 3.15 tls/vB (448 tls, 142 vbytes)                                              │
+ │ 13:10:31Z added b17b7c9ec5acfbbf12f0eeef8e29826fad3105bb95eef7a47d2f1f22b4784643 with feerate 4.10 tls/vB (1348 tls, 329 vbytes)                                             │
+ │ 13:10:31Z added b7a4ad93554e57454e8a8049bfc0bd803fa962bd3f0a08926aa72e7cb23e2276 with feerate 1.01 tls/vB (205 tls, 202 vbytes)                                              │
+ │ 13:10:32Z added c78e87be86c828137a6e7e00a177c03b52202ce4c39029b99904c2a094b9da87 with feerate 11.00 tls/vB (1562 tls, 142 vbytes)                                            │
  │                                                                                                                                                                              │
  └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 

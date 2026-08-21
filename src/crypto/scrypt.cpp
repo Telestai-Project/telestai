@@ -62,7 +62,7 @@ static inline void be32enc(void *pp, uint32_t x)
 
 #endif
 
-/* HMAC-SHA256 using Meowcoin Core's CSHA256 (no OpenSSL dependency). */
+/* HMAC-SHA256 using Telestai Core's CSHA256 (no OpenSSL dependency). */
 typedef struct HMAC_SHA256Context {
 	CSHA256 ictx;
 	CSHA256 octx;

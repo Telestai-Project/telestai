@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
@@ -138,9 +138,9 @@ target_link_libraries(fuzz
   core_interface
   fuzzer_interface
   test_fuzz
-  meowcoin_cli
-  meowcoin_common
-  meowcoin_util
+  telestai_cli
+  telestai_common
+  telestai_util
   minisketch
   leveldb
   univalue

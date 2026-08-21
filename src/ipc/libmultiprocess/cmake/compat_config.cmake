@@ -1,4 +1,4 @@
-# Copyright (c) The Meowcoin Core developers
+# Copyright (c) The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +6,7 @@
 # cmake find_package() calls are made, before configuring the ebuild
 
 # Define capnp_PREFIX if not defined to avoid issue on macos
-# https://github.com/meowcoin-core/libmultiprocess/issues/26
+# https://github.com/telestai-core/libmultiprocess/issues/26
 
 if (NOT DEFINED capnp_PREFIX AND DEFINED CAPNP_INCLUDE_DIRS)
   get_filename_component(capnp_PREFIX "${CAPNP_INCLUDE_DIRS}" DIRECTORY)
@@ -18,7 +18,7 @@ endif()
 
 # CMake target definitions for backwards compatibility with Ubuntu bionic
 # capnproto 0.6.1 package (https://packages.ubuntu.com/bionic/libcapnp-dev)
-# https://github.com/meowcoin-core/libmultiprocess/issues/27
+# https://github.com/telestai-core/libmultiprocess/issues/27
 
 if (NOT DEFINED CAPNP_LIB_CAPNPC AND DEFINED CAPNP_LIB_CAPNP-RPC)
   string(REPLACE "-rpc" "c" CAPNP_LIB_CAPNPC "${CAPNP_LIB_CAPNP-RPC}")

@@ -1,4 +1,4 @@
-// Copyright (c) 2024 The Meowcoin Core developers
+// Copyright (c) 2024 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -143,7 +143,7 @@ FUZZ_TARGET(feefrac_div_fallback)
     // Compare approximately with floating-point.
     long double expect = round_down ? std::floor(num_high * 4294967296.0L + num_low) / den
                                     : std::ceil(num_high * 4294967296.0L + num_low) / den;
-    // Expect to be accurate within 50 bits of precision, +- 1 mewc.
+    // Expect to be accurate within 50 bits of precision, +- 1 tls.
     if (expect == 0.0L) {
         assert(res >= -1 && res <= 1);
     } else if (expect > 0.0L) {
@@ -201,7 +201,7 @@ FUZZ_TARGET(feefrac_mul_div)
     // Compare approximately with floating-point.
     long double expect = round_down ? std::floor(static_cast<long double>(mul32) * mul64 / div)
                                     : std::ceil(static_cast<long double>(mul32) * mul64 / div);
-    // Expect to be accurate within 50 bits of precision, +- 1 mewc.
+    // Expect to be accurate within 50 bits of precision, +- 1 tls.
     if (expect == 0.0L) {
         assert(res >= -1 && res <= 1);
     } else if (expect > 0.0L) {

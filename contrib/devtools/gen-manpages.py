@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2022 The Meowcoin Core developers
+# Copyright (c) 2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 import os
@@ -10,13 +10,13 @@ import tempfile
 import argparse
 
 BINARIES = [
-'bin/meowcoin',
-'bin/meowcoind',
-'bin/meowcoin-cli',
-'bin/meowcoin-tx',
-'bin/meowcoin-wallet',
-'bin/meowcoin-util',
-'bin/meowcoin-qt',
+'bin/telestai',
+'bin/telestaid',
+'bin/telestai-cli',
+'bin/telestai-tx',
+'bin/telestai-wallet',
+'bin/telestai-util',
+'bin/telestai-qt',
 ]
 
 parser = argparse.ArgumentParser(

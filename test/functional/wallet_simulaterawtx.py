@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021-2022 The Meowcoin Core developers
+# Copyright (c) 2021-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test simulaterawtransaction.
@@ -69,10 +69,10 @@ class SimulateTxTest(BitcoinTestFramework):
         funding = w0.fundrawtransaction(tx1)
         tx1 = funding["hex"]
         tx1changepos = funding["changepos"]
-        meowcoin_fee = Decimal(funding["fee"])
+        telestai_fee = Decimal(funding["fee"])
 
-        # w0 sees fee + 5 mewc decrease, w2 sees + 5 mewc
-        assert_approx(w0.simulaterawtransaction([tx1])["balance_change"], -(Decimal("5") + meowcoin_fee))
+        # w0 sees fee + 5 tls decrease, w2 sees + 5 tls
+        assert_approx(w0.simulaterawtransaction([tx1])["balance_change"], -(Decimal("5") + telestai_fee))
         assert_approx(w2.simulaterawtransaction([tx1])["balance_change"], Decimal("5"))
 
         # w1 sees same as before
@@ -97,11 +97,11 @@ class SimulateTxTest(BitcoinTestFramework):
 
         # they should succeed when including tx1:
         #       wallet                  tx3                             tx4
-        #       w0                      -5 - meowcoin_fee + 4.9999       -5 - meowcoin_fee
+        #       w0                      -5 - telestai_fee + 4.9999       -5 - telestai_fee
         #       w1                      0                               +4.9999
-        assert_approx(w0.simulaterawtransaction([tx1, tx3])["balance_change"], -Decimal("5") - meowcoin_fee + Decimal("4.9999"))
+        assert_approx(w0.simulaterawtransaction([tx1, tx3])["balance_change"], -Decimal("5") - telestai_fee + Decimal("4.9999"))
         assert_approx(w1.simulaterawtransaction([tx1, tx3])["balance_change"], 0)
-        assert_approx(w0.simulaterawtransaction([tx1, tx4])["balance_change"], -Decimal("5") - meowcoin_fee)
+        assert_approx(w0.simulaterawtransaction([tx1, tx4])["balance_change"], -Decimal("5") - telestai_fee)
         assert_approx(w1.simulaterawtransaction([tx1, tx4])["balance_change"], Decimal("4.9999"))
 
         # they should fail if attempting to include both tx3 and tx4
@@ -116,8 +116,8 @@ class SimulateTxTest(BitcoinTestFramework):
         # w0 funds transaction 2; it should now see a decrease in (tx fee and payment), and w1 should see the same as above
         funding = w0.fundrawtransaction(tx2)
         tx2 = funding["hex"]
-        meowcoin_fee2 = Decimal(funding["fee"])
-        assert_approx(w0.simulaterawtransaction([tx2])["balance_change"], -(Decimal("10") + meowcoin_fee2))
+        telestai_fee2 = Decimal(funding["fee"])
+        assert_approx(w0.simulaterawtransaction([tx2])["balance_change"], -(Decimal("10") + telestai_fee2))
         assert_approx(w1.simulaterawtransaction([tx2])["balance_change"], +(Decimal("10")))
         assert_approx(w2.simulaterawtransaction([tx2])["balance_change"], 0)
 

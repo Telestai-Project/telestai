@@ -1,44 +1,44 @@
 0.20.2 Release Notes
 ====================
 
-Meowcoin Core version 0.20.2 is now available from:
+Telestai Core version 0.20.2 is now available from:
 
-  <https://meowcoincore.org/bin/meowcoin-core-0.20.2/>
+  <https://telestaicore.org/bin/telestai-core-0.20.2/>
 
 This minor release includes various bug fixes and performance
 improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/meowcoin/meowcoin/issues>
+  <https://github.com/Telestai-Project/telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://meowcoincore.org/en/list/announcements/join/>
+  <https://telestaicore.org/en/list/announcements/join/>
 
 How to Upgrade
 ==============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes in some cases), then run the
-installer (on Windows) or just copy over `/Applications/Meowcoin-Qt` (on Mac)
-or `meowcoind`/`meowcoin-qt` (on Linux).
+installer (on Windows) or just copy over `/Applications/Telestai-Qt` (on Mac)
+or `telestaid`/`telestai-qt` (on Linux).
 
-Upgrading directly from a version of Meowcoin Core that has reached its EOL is
+Upgrading directly from a version of Telestai Core that has reached its EOL is
 possible, but it might take some time if the data directory needs to be migrated. Old
-wallet versions of Meowcoin Core are generally supported.
+wallet versions of Telestai Core are generally supported.
 
 Compatibility
 ==============
 
-Meowcoin Core is supported and extensively tested on operating systems
-using the Linux kernel, macOS 10.12+, and Windows 7 and newer.  Meowcoin
+Telestai Core is supported and extensively tested on operating systems
+using the Linux kernel, macOS 10.12+, and Windows 7 and newer.  Telestai
 Core should also work on most other Unix-like systems but is not as
-frequently tested on them.  It is not recommended to use Meowcoin Core on
+frequently tested on them.  It is not recommended to use Telestai Core on
 unsupported systems.
 
-From Meowcoin Core 0.20.0 onwards, macOS versions earlier than 10.12 are no
-longer supported. Additionally, Meowcoin Core does not yet change appearance
+From Telestai Core 0.20.0 onwards, macOS versions earlier than 10.12 are no
+longer supported. Additionally, Telestai Core does not yet change appearance
 when macOS "dark mode" is activated.
 
 Known Bugs
@@ -90,7 +90,7 @@ Notification changes
 removed from the mempool because they conflict with a new block. These
 notifications were sent previously before the v0.19 release, but had been
 broken since that release (bug
-[#18325](https://github.com/meowcoin/meowcoin/issues/18325)).
+[#18325](https://github.com/Telestai-Project/telestai/issues/18325)).
 
 PSMT changes
 ------------
@@ -162,4 +162,4 @@ Thanks to everyone who directly contributed to this release:
 - Suhas Daftuar
 
 As well as to everyone that helped with translations on
-[Transifex](https://www.transifex.com/meowcoin/meowcoin/).
+[Transifex](https://www.transifex.com/telestai/telestai/).

@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
@@ -23,7 +23,7 @@ function(add_maintenance_targets)
     return()
   endif()
 
-  foreach(target IN ITEMS meowcoin meowcoind meowcoin-node meowcoin-qt meowcoin-gui meowcoin-cli meowcoin-tx meowcoin-util meowcoin-wallet test_meowcoin bench_meowcoin)
+  foreach(target IN ITEMS telestai telestaid telestai-node telestai-qt telestai-gui telestai-cli telestai-tx telestai-util telestai-wallet test_telestai bench_telestai)
     if(TARGET ${target})
       list(APPEND executables $<TARGET_FILE:${target}>)
     endif()
@@ -43,7 +43,7 @@ function(add_maintenance_targets)
 endfunction()
 
 function(add_windows_deploy_target)
-  if(MINGW AND TARGET meowcoin AND TARGET meowcoin-qt AND TARGET meowcoind AND TARGET meowcoin-cli AND TARGET meowcoin-tx AND TARGET meowcoin-wallet AND TARGET meowcoin-util AND TARGET test_meowcoin)
+  if(MINGW AND TARGET telestai AND TARGET telestai-qt AND TARGET telestaid AND TARGET telestai-cli AND TARGET telestai-tx AND TARGET telestai-wallet AND TARGET telestai-util AND TARGET test_telestai)
     find_program(MAKENSIS_EXECUTABLE makensis)
     if(NOT MAKENSIS_EXECUTABLE)
       add_custom_target(deploy
@@ -57,25 +57,25 @@ function(add_windows_deploy_target)
     include(GenerateSetupNsi)
     generate_setup_nsi()
     add_custom_command(
-      OUTPUT ${PROJECT_BINARY_DIR}/meowcoin-win64-setup.exe
+      OUTPUT ${PROJECT_BINARY_DIR}/telestai-win64-setup.exe
       COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/release
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:meowcoin> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:meowcoin>
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:meowcoin-qt> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:meowcoin-qt>
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:meowcoind> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:meowcoind>
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:meowcoin-cli> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:meowcoin-cli>
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:meowcoin-tx> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:meowcoin-tx>
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:meowcoin-wallet> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:meowcoin-wallet>
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:meowcoin-util> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:meowcoin-util>
-      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:test_meowcoin> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:test_meowcoin>
-      COMMAND ${MAKENSIS_EXECUTABLE} -V2 ${PROJECT_BINARY_DIR}/meowcoin-win64-setup.nsi
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:telestai> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:telestai>
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:telestai-qt> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:telestai-qt>
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:telestaid> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:telestaid>
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:telestai-cli> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:telestai-cli>
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:telestai-tx> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:telestai-tx>
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:telestai-wallet> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:telestai-wallet>
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:telestai-util> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:telestai-util>
+      COMMAND ${CMAKE_STRIP} $<TARGET_FILE:test_telestai> -o ${PROJECT_BINARY_DIR}/release/$<TARGET_FILE_NAME:test_telestai>
+      COMMAND ${MAKENSIS_EXECUTABLE} -V2 ${PROJECT_BINARY_DIR}/telestai-win64-setup.nsi
       VERBATIM
     )
-    add_custom_target(deploy DEPENDS ${PROJECT_BINARY_DIR}/meowcoin-win64-setup.exe)
+    add_custom_target(deploy DEPENDS ${PROJECT_BINARY_DIR}/telestai-win64-setup.exe)
   endif()
 endfunction()
 
 function(add_macos_deploy_target)
-  if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND TARGET meowcoin-qt)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND TARGET telestai-qt)
     # Match Soft Launch (2.1.4) branding: Telestai-Qt.app + telestai.icns
     set(macos_app "Telestai-Qt.app")
     set(macos_qt_bin "Telestai-Qt")
@@ -91,8 +91,8 @@ function(add_macos_deploy_target)
 
     add_custom_command(
       OUTPUT ${PROJECT_BINARY_DIR}/${macos_app}/Contents/MacOS/${macos_qt_bin}
-      COMMAND ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config $<CONFIG> --component meowcoin-qt --prefix ${macos_app}/Contents/MacOS --strip
-      COMMAND ${CMAKE_COMMAND} -E rename ${macos_app}/Contents/MacOS/bin/$<TARGET_FILE_NAME:meowcoin-qt> ${macos_app}/Contents/MacOS/${macos_qt_bin}
+      COMMAND ${CMAKE_COMMAND} --install ${PROJECT_BINARY_DIR} --config $<CONFIG> --component telestai-qt --prefix ${macos_app}/Contents/MacOS --strip
+      COMMAND ${CMAKE_COMMAND} -E rename ${macos_app}/Contents/MacOS/bin/$<TARGET_FILE_NAME:telestai-qt> ${macos_app}/Contents/MacOS/${macos_qt_bin}
       COMMAND ${CMAKE_COMMAND} -E rm -rf ${macos_app}/Contents/MacOS/bin
       COMMAND ${CMAKE_COMMAND} -E rm -rf ${macos_app}/Contents/MacOS/share
       VERBATIM
@@ -143,7 +143,7 @@ function(add_macos_deploy_target)
         )
       endif()
     endif()
-    add_dependencies(deploydir meowcoin-qt)
+    add_dependencies(deploydir telestai-qt)
     add_dependencies(deploy deploydir)
   endif()
 endfunction()

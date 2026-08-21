@@ -1486,7 +1486,7 @@
   <customwidget>
    <class>BitcoinAmountField</class>
    <extends>QLineEdit</extends>
-   <header>qt/meowcoinamountfield.h</header>
+   <header>qt/telestaiamountfield.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

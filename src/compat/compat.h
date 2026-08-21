@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Meowcoin Core developers
+// Copyright (c) 2009-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -96,7 +96,7 @@ typedef char* sockopt_arg_type;
 
 // Note these both should work with the current usage of poll, but best to be safe
 // WIN32 poll is broken https://daniel.haxx.se/blog/2012/10/10/wsapoll-is-broken/
-// __APPLE__ poll is broke https://github.com/meowcoin/meowcoin/pull/14336#issuecomment-437384408
+// __APPLE__ poll is broke https://github.com/Telestai-Project/telestai/pull/14336#issuecomment-437384408
 #if defined(__linux__)
 #define USE_POLL
 #endif

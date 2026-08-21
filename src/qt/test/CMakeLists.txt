@@ -1,32 +1,32 @@
-# Copyright (c) 2024-present The Meowcoin Core developers
+# Copyright (c) 2024-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
 set(CMAKE_AUTOMOC_MOC_OPTIONS "-p${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_executable(test_meowcoin-qt
+add_executable(test_telestai-qt
   apptests.cpp
   optiontests.cpp
   rpcnestedtests.cpp
   test_main.cpp
   uritests.cpp
   util.cpp
-  ../../init/meowcoin-qt.cpp
+  ../../init/telestai-qt.cpp
 )
 
-target_link_libraries(test_meowcoin-qt
+target_link_libraries(test_telestai-qt
   core_interface
-  meowcoinqt
+  telestaiqt
   test_util
-  meowcoin_node
+  telestai_node
   Boost::headers
   Qt6::Test
 )
 
-import_plugins(test_meowcoin-qt)
+import_plugins(test_telestai-qt)
 
 if(ENABLE_WALLET)
-  target_sources(test_meowcoin-qt
+  target_sources(test_telestai-qt
     PRIVATE
       addressbooktests.cpp
       wallettests.cpp
@@ -34,15 +34,15 @@ if(ENABLE_WALLET)
   )
 endif()
 
-add_test(NAME test_meowcoin-qt
-  COMMAND test_meowcoin-qt
+add_test(NAME test_telestai-qt
+  COMMAND test_telestai-qt
 )
 if(WIN32 AND VCPKG_TARGET_TRIPLET)
   # On Windows, vcpkg configures Qt with `-opengl dynamic`, which makes
   # the "minimal" platform plugin unusable due to internal Qt bugs.
-  set_tests_properties(test_meowcoin-qt PROPERTIES
+  set_tests_properties(test_telestai-qt PROPERTIES
     ENVIRONMENT "QT_QPA_PLATFORM=windows"
   )
 endif()
 
-install_binary_component(test_meowcoin-qt INTERNAL)
+install_binary_component(test_telestai-qt INTERNAL)

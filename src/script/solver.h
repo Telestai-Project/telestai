@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,7 +36,7 @@ enum class TxoutType {
     NEW_ASSET,
     REISSUE_ASSET,
     TRANSFER_ASSET,
-    RESTRICTED_ASSET_DATA, //!< OP_MEWC_ASSET data carrier for qualifiers/verifiers
+    RESTRICTED_ASSET_DATA, //!< OP_TLS_ASSET data carrier for qualifiers/verifiers
 };
 
 /** Get the name of a TxoutType as a string */

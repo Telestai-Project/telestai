@@ -5,8 +5,8 @@ For notes on the usage of Assumeutxo, please refer to [the usage doc](/doc/assum
 ## General background
 
 - [assumeutxo proposal](https://github.com/jamesob/assumeutxo-docs/tree/2019-04-proposal/proposal)
-- [Github issue](https://github.com/meowcoin/meowcoin/issues/15605)
-- [draft PR](https://github.com/meowcoin/meowcoin/pull/15606)
+- [Github issue](https://github.com/Telestai-Project/telestai/issues/15605)
+- [draft PR](https://github.com/Telestai-Project/telestai/pull/15606)
 
 ## Design notes
 
@@ -39,7 +39,7 @@ data.
 
 `ChainstateManager` manages a single Chainstate object, for which
 `m_from_snapshot_blockhash` is `std::nullopt`. This chainstate is (maybe obviously)
-considered active. This is the "traditional" mode of operation for meowcoind.
+considered active. This is the "traditional" mode of operation for telestaid.
 
 |    |    |
 | ---------- | ----------- |

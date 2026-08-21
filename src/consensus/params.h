@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Meowcoin Core developers
+// Copyright (c) 2009-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -69,9 +69,9 @@ struct BIP9Deployment {
      */
     uint32_t threshold{1916};
 
-    /** Meowcoin: per-deployment override for miner confirmation window (0 = use global). */
+    /** Telestai: per-deployment override for miner confirmation window (0 = use global). */
     uint32_t nOverrideMinerConfirmationWindow{0};
-    /** Meowcoin: per-deployment override for activation threshold (0 = use global). */
+    /** Telestai: per-deployment override for activation threshold (0 = use global). */
     uint32_t nOverrideRuleChangeActivationThreshold{0};
 
     /** Constant for nTimeout very far in the future. */
@@ -119,9 +119,9 @@ struct Params {
      * This prevents us from warning about the CSV and segwit activations. */
     int MinBIP9WarningHeight;
 
-    /** Meowcoin: global rule-change activation threshold (used when per-deployment override is 0). */
+    /** Telestai: global rule-change activation threshold (used when per-deployment override is 0). */
     uint32_t nRuleChangeActivationThreshold{1916};
-    /** Meowcoin: global miner confirmation window (used when per-deployment override is 0). */
+    /** Telestai: global miner confirmation window (used when per-deployment override is 0). */
     uint32_t nMinerConfirmationWindow{2016};
 
     std::array<BIP9Deployment,MAX_VERSION_BITS_DEPLOYMENTS> vDeployments;
@@ -140,7 +140,7 @@ struct Params {
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
 
-    /** Meowcoin: LWMA averaging window (typically 45). */
+    /** Telestai: LWMA averaging window (typically 45). */
     int64_t nLwmaAveragingWindow{45};
 
     std::chrono::seconds PowTargetSpacing() const
@@ -154,20 +154,20 @@ struct Params {
     uint256 defaultAssumeValid;
 
     /**
-     * If true, witness commitments contain a payload equal to a Meowcoin Script solution
+     * If true, witness commitments contain a payload equal to a Telestai Script solution
      * to the signet challenge. See BIP325.
      */
     bool signet_blocks{false};
     std::vector<uint8_t> signet_challenge;
 
-    /** Meowcoin: boolean toggles for BIP enforcement (replaces buried-height checks for Meowcoin). */
+    /** Telestai: boolean toggles for BIP enforcement (replaces buried-height checks for Telestai). */
     bool nBIP34Enabled{true};
     bool nBIP65Enabled{true};
     bool nBIP66Enabled{true};
     bool nSegwitEnabled{true};
     bool nCSVEnabled{true};
 
-    /** Meowcoin: AuxPoW parameters */
+    /** Telestai: AuxPoW parameters */
     int32_t nAuxpowChainId{9};
     int nAuxpowStartHeight{0};
     bool fStrictChainId{true};

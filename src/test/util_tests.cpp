@@ -1,4 +1,4 @@
-// Copyright (c) 2011-present The Meowcoin Core developers
+// Copyright (c) 2011-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -794,7 +794,7 @@ BOOST_AUTO_TEST_CASE(test_LocaleIndependentAtoi)
         BOOST_CHECK_EQUAL(LocaleIndependentAtoi<int64_t>(pair.first), pair.second);
     }
 
-    // Ensure legacy compatibility with previous versions of Meowcoin Core's atoi64
+    // Ensure legacy compatibility with previous versions of Telestai Core's atoi64
     for (const auto& pair : atoi64_test_pairs) {
         BOOST_CHECK_EQUAL(LocaleIndependentAtoi<int64_t>(pair.first), atoi64_legacy(pair.first));
     }
@@ -938,7 +938,7 @@ BOOST_AUTO_TEST_CASE(test_ParseFixedPoint)
     BOOST_CHECK(!ParseFixedPoint("1.1e-", 8, &amount));
     BOOST_CHECK(!ParseFixedPoint("1.", 8, &amount));
 
-    // Test with 3 decimal places for fee rates in mewc/vB.
+    // Test with 3 decimal places for fee rates in tls/vB.
     BOOST_CHECK(ParseFixedPoint("0.001", 3, &amount));
     BOOST_CHECK_EQUAL(amount, CAmount{1});
     BOOST_CHECK(!ParseFixedPoint("0.0009", 3, &amount));
@@ -1114,7 +1114,7 @@ BOOST_AUTO_TEST_CASE(test_ToUpper)
 BOOST_AUTO_TEST_CASE(test_Capitalize)
 {
     BOOST_CHECK_EQUAL(Capitalize(""), "");
-    BOOST_CHECK_EQUAL(Capitalize("meowcoin"), "Meowcoin");
+    BOOST_CHECK_EQUAL(Capitalize("telestai"), "Telestai");
     BOOST_CHECK_EQUAL(Capitalize("\x00\xfe\xff"), "\x00\xfe\xff");
 }
 
@@ -1647,7 +1647,7 @@ BOOST_AUTO_TEST_CASE(util_WriteBinaryFile)
 {
     fs::path tmpfolder = m_args.GetDataDirBase();
     fs::path tmpfile = tmpfolder / "write_binary.dat";
-    std::string expected_text = "meowcoin";
+    std::string expected_text = "telestai";
     auto valid = WriteBinaryFile(tmpfile, expected_text);
     std::string actual_text;
     std::ifstream file{tmpfile};

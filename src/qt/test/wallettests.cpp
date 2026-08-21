@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2022 The Meowcoin Core developers
+// Copyright (c) 2015-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,8 +9,8 @@
 #include <interfaces/chain.h>
 #include <interfaces/node.h>
 #include <key_io.h>
-#include <qt/meowcoinamountfield.h>
-#include <qt/meowcoinunits.h>
+#include <qt/telestaiamountfield.h>
+#include <qt/telestaiunits.h>
 #include <qt/clientmodel.h>
 #include <qt/optionsmodel.h>
 #include <qt/overviewpage.h>
@@ -260,9 +260,9 @@ public:
 //
 // This also requires overriding the default minimal Qt platform:
 //
-//     QT_QPA_PLATFORM=xcb     build/bin/test_meowcoin-qt  # Linux
-//     QT_QPA_PLATFORM=windows build/bin/test_meowcoin-qt  # Windows
-//     QT_QPA_PLATFORM=cocoa   build/bin/test_meowcoin-qt  # macOS
+//     QT_QPA_PLATFORM=xcb     build/bin/test_telestai-qt  # Linux
+//     QT_QPA_PLATFORM=windows build/bin/test_telestai-qt  # Windows
+//     QT_QPA_PLATFORM=cocoa   build/bin/test_telestai-qt  # macOS
 void TestGUI(interfaces::Node& node, const std::shared_ptr<CWallet>& wallet)
 {
     // Create widgets for sending coins and listing transactions.
@@ -468,7 +468,7 @@ void WalletTests::walletTests()
         // and fails to handle returned nulls
         // (https://bugreports.qt.io/browse/QTBUG-49686).
         qWarning() << "Skipping WalletTests on mac build with 'minimal' platform set due to Qt bugs. To run AppTests, invoke "
-                      "with 'QT_QPA_PLATFORM=cocoa test_meowcoin-qt' on mac, or else use a linux or windows build.";
+                      "with 'QT_QPA_PLATFORM=cocoa test_telestai-qt' on mac, or else use a linux or windows build.";
         return;
     }
 #endif

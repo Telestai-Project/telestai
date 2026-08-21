@@ -154,7 +154,7 @@ static const uint32_t round_constants[22] = {
         0x00008080,
 };
 
-static const uint32_t meowcoin_kawpow[15] = {
+static const uint32_t telestai_kawpow[15] = {
         0x0000004D, //M
         0x00000045, //E
         0x0000004F, //O
@@ -314,9 +314,9 @@ result hash(const epoch_context& context, int block_number, const hash256& heade
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply meowcoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
-            state[i] = meowcoin_kawpow[i-10];
+            state[i] = telestai_kawpow[i-10];
 
         keccak_progpow_64(state);
 
@@ -340,9 +340,9 @@ result hash(const epoch_context& context, int block_number, const hash256& heade
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply meowcoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
-        state[i] = meowcoin_kawpow[i - 16];
+        state[i] = telestai_kawpow[i - 16];
 
     // Run keccak loop
     keccak_meowpow_256(state);
@@ -388,9 +388,9 @@ result hash(const epoch_context_full& context, int block_number, const hash256& 
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply meowcoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
-            state[i] = meowcoin_kawpow[i-10];
+            state[i] = telestai_kawpow[i-10];
 
         keccak_progpow_64(state);
 
@@ -415,9 +415,9 @@ result hash(const epoch_context_full& context, int block_number, const hash256& 
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply meowcoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
-        state[i] = meowcoin_kawpow[i - 16];
+        state[i] = telestai_kawpow[i - 16];
 
     // Run keccak loop
     keccak_meowpow_256(state);
@@ -448,9 +448,9 @@ bool verify(const epoch_context& context, int block_number, const hash256& heade
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply meowcoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
-            state[i] = meowcoin_kawpow[i-10];
+            state[i] = telestai_kawpow[i-10];
 
         keccak_progpow_64(state);
 
@@ -473,9 +473,9 @@ bool verify(const epoch_context& context, int block_number, const hash256& heade
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply meowcoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
-        state[i] = meowcoin_kawpow[i - 16];
+        state[i] = telestai_kawpow[i - 16];
 
     // Run keccak loop
     keccak_meowpow_256(state);
@@ -513,9 +513,9 @@ hash256 hash_no_verify(const int& block_number, const hash256& header_hash,
         state[8] = nonce;
         state[9] = nonce >> 32;
 
-        // 3rd apply meowcoin input constraints
+        // 3rd apply telestai input constraints
         for (int i = 10; i < 25; i++)
-            state[i] = meowcoin_kawpow[i-10];
+            state[i] = telestai_kawpow[i-10];
 
         keccak_progpow_64(state);
 
@@ -535,9 +535,9 @@ hash256 hash_no_verify(const int& block_number, const hash256& header_hash,
     for (int i = 8; i < 16; i++)
         state[i] = mix_hash.word32s[i-8];
 
-    // 3rd apply meowcoin input constraints
+    // 3rd apply telestai input constraints
     for (int i = 16; i < 25; i++)
-        state[i] = meowcoin_kawpow[i - 16];
+        state[i] = telestai_kawpow[i - 16];
 
     // Run keccak loop
     keccak_meowpow_256(state);

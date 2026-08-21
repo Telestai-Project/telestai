@@ -86,7 +86,7 @@ time-machine() {
 ################
 
 VERSION="${FORCE_VERSION:-$(git_head_version)}"
-DISTNAME="${DISTNAME:-meowcoin-${VERSION}}"
+DISTNAME="${DISTNAME:-telestai-${VERSION}}"
 
 version_base_prefix="${PWD}/guix-build-"
 VERSION_BASE="${version_base_prefix}${VERSION}"  # TOP

@@ -48,7 +48,7 @@ The following rules are enforced for all packages:
 
    - Parent feerate must be lower than package feerate.
 
-   - Must improve [feerate diagram](https://delvingmeowcoin.org/t/mempool-incentive-compatibility/553). (#29242)
+   - Must improve [feerate diagram](https://delvingtelestai.org/t/mempool-incentive-compatibility/553). (#29242)
 
    - *Rationale*: Basic support for package RBF can be used by wallets
      by making chains of no longer than two, then directly conflicting
@@ -117,7 +117,7 @@ Note: Package feerate cannot be used to meet the minimum relay feerate (`-minrel
 requirement. For example, if the mempool minimum feerate is 5sat/vB and the minimum relay feerate is
 set to 5sat/vB, a 1sat/vB parent transaction with a high-feerate child will not be accepted, even if
 submitted as a package. Note that this rule does not apply to
-[TRUC transactions](https://github.com/meowcoin/bips/blob/master/bip-0431.mediawiki) as an individual
+[TRUC transactions](https://github.com/telestai/bips/blob/master/bip-0431.mediawiki) as an individual
 TRUC transaction is permitted to be below the mempool min relay feerate, assuming it is considered within
 a package that meets the mempool's feerate requirements.
 

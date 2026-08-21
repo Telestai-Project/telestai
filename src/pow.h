@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,7 +37,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, PowAlgo algo, const Cons
 
 /**
  * Convenience overload — uses the scalar params.powLimit (most permissive).
- * This matches the original Meowcoin Core CheckProofOfWork signature and is used
+ * This matches the original Telestai Core CheckProofOfWork signature and is used
  * by callers that don't have algorithm context (blockstorage, tests, etc.).
  */
 bool CheckProofOfWorkImpl(uint256 hash, unsigned int nBits, const Consensus::Params&);

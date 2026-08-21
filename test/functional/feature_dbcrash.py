@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2022 The Meowcoin Core developers
+# Copyright (c) 2017-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test recovery from a crash during chainstate writing.
@@ -90,14 +90,14 @@ class ChainstateWriteCrashTest(BitcoinTestFramework):
                 return utxo_hash
             except Exception:
                 # An exception here should mean the node is about to crash.
-                # If meowcoind exits, then try again.  wait_for_node_exit()
-                # should raise an exception if meowcoind doesn't exit.
+                # If telestaid exits, then try again.  wait_for_node_exit()
+                # should raise an exception if telestaid doesn't exit.
                 self.wait_for_node_exit(node_index, timeout=10)
             self.crashed_on_restart += 1
             time.sleep(1)
 
-        # If we got here, meowcoind isn't coming back up on restart.  Could be a
-        # bug in meowcoind, or we've gotten unlucky with our dbcrash ratio --
+        # If we got here, telestaid isn't coming back up on restart.  Could be a
+        # bug in telestaid, or we've gotten unlucky with our dbcrash ratio --
         # perhaps we generated a test case that blew up our cache?
         # TODO: If this happens a lot, we should try to restart without -dbcrashratio
         # and make sure that recovery happens.

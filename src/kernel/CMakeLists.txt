@@ -1,15 +1,15 @@
-# Copyright (c) 2024-present The Meowcoin Core developers
+# Copyright (c) 2024-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
 include(GNUInstallDirs)
 
-# TODO: libmeowcoinkernel is a work in progress consensus engine
+# TODO: libtelestaikernel is a work in progress consensus engine
 #       library, as more and more modules are decoupled from the
 #       consensus engine, this list will shrink to only those
 #       which are absolutely necessary.
-add_library(meowcoinkernel
-  meowcoinkernel.cpp
+add_library(telestaikernel
+  telestaikernel.cpp
   chain.cpp
   checks.cpp
   chainparams.cpp
@@ -79,12 +79,12 @@ add_library(meowcoinkernel
   ../validation.cpp
   ../validationinterface.cpp
   ../versionbits.cpp
-  $<TARGET_OBJECTS:meowcoin_clientversion>
-  $<TARGET_OBJECTS:meowcoin_crypto>
+  $<TARGET_OBJECTS:telestai_clientversion>
+  $<TARGET_OBJECTS:telestai_crypto>
   $<TARGET_OBJECTS:leveldb>
   $<TARGET_OBJECTS:crc32c>
 )
-target_link_libraries(meowcoinkernel
+target_link_libraries(telestaikernel
   PRIVATE
     core_interface
     secp256k1_objs
@@ -94,33 +94,33 @@ target_link_libraries(meowcoinkernel
     Boost::headers
 )
 
-target_include_directories(meowcoinkernel PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/leveldb/include>)
+target_include_directories(telestaikernel PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/leveldb/include>)
 
-# libmeowcoinkernel requires default symbol visibility, explicitly
+# libtelestaikernel requires default symbol visibility, explicitly
 # specify that here so that things still work even when user
 # configures with -DREDUCE_EXPORTS=ON
 #
 # Note this is a quick hack that will be removed as we
 # incrementally define what to export from the library.
-set_target_properties(meowcoinkernel PROPERTIES
+set_target_properties(telestaikernel PROPERTIES
   CXX_VISIBILITY_PRESET default
 )
 
-# Add a convenience libmeowcoinkernel target as a synonym for meowcoinkernel.
-add_custom_target(libmeowcoinkernel)
-add_dependencies(libmeowcoinkernel meowcoinkernel)
+# Add a convenience libtelestaikernel target as a synonym for telestaikernel.
+add_custom_target(libtelestaikernel)
+add_dependencies(libtelestaikernel telestaikernel)
 
-configure_file(${PROJECT_SOURCE_DIR}/libmeowcoinkernel.pc.in ${PROJECT_BINARY_DIR}/libmeowcoinkernel.pc @ONLY)
-install(FILES ${PROJECT_BINARY_DIR}/libmeowcoinkernel.pc DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig" COMPONENT libmeowcoinkernel)
+configure_file(${PROJECT_SOURCE_DIR}/libtelestaikernel.pc.in ${PROJECT_BINARY_DIR}/libtelestaikernel.pc @ONLY)
+install(FILES ${PROJECT_BINARY_DIR}/libtelestaikernel.pc DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig" COMPONENT libtelestaikernel)
 
-install(TARGETS meowcoinkernel
+install(TARGETS telestaikernel
   RUNTIME
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT libmeowcoinkernel
+    COMPONENT libtelestaikernel
   LIBRARY
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT libmeowcoinkernel
+    COMPONENT libtelestaikernel
   ARCHIVE
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT libmeowcoinkernel
+    COMPONENT libtelestaikernel
 )

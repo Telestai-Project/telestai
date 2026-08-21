@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 The Meowcoin Core developers
+// Copyright (c) 2017-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -62,7 +62,7 @@ WalletDescriptor GenerateWalletDescriptor(const CExtPubKey& master_key, const Ou
     }
     case OutputType::PQ: {
         // ML-DSA-44 descriptor: mldsa44(xpub/25h/<coin_type>h/0h/<change>h/*h)
-        // Purpose 25 = RIP-25. Coin type follows Meowcoin convention (0=mainnet, 1=testnet).
+        // Purpose 25 = RIP-25. Coin type follows Telestai convention (0=mainnet, 1=testnet).
         std::string coin_type = Params().IsTestChain() ? "/1h" : "/0h";
         std::string change = internal ? "/1h" : "/0h";
         std::string desc_str_pq = "mldsa44(" + xpub + "/25h" + coin_type + "/0h" + change + "/*h)";
@@ -82,8 +82,8 @@ WalletDescriptor GenerateWalletDescriptor(const CExtPubKey& master_key, const Ou
     } // no default case, so the compiler can warn about missing cases
     assert(!desc_prefix.empty());
 
-    // Derive at Meowcoin's registered SLIP-44 coin type (1669 on mainnet),
-    // not Bitcoin's, so seed phrases stay portable to other Meowcoin wallets.
+    // Derive at Telestai's registered SLIP-44 coin type (1669 on mainnet),
+    // not Bitcoin's, so seed phrases stay portable to other Telestai wallets.
     desc_prefix += strprintf("/%dh", Params().ExtCoinType());
 
     std::string internal_path = internal ? "/1" : "/0";

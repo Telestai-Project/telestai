@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-present The Meowcoin Core developers
+// Copyright (c) 2009-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -110,7 +110,7 @@ static const CAmount DEFAULT_DISCARD_FEE = 10000;
 //! -mintxfee default
 static const CAmount DEFAULT_TRANSACTION_MINFEE = 1000000;
 //! -consolidatefeerate default
-static const CAmount DEFAULT_CONSOLIDATE_FEERATE{10000}; // 10 mewc/vbyte
+static const CAmount DEFAULT_CONSOLIDATE_FEERATE{10000}; // 10 tls/vbyte
 /**
  * maximum fee increase allowed to do partial spend avoidance, even for nodes with this feature disabled by default
  *
@@ -542,7 +542,7 @@ public:
      *
      * Preconditions: it is only valid to call this function when the wallet is
      * online and the block index is loaded. So this cannot be called by
-     * meowcoin-wallet tool code or by wallet migration code. If this is called
+     * telestai-wallet tool code or by wallet migration code. If this is called
      * without the wallet being online, it won't be able able to determine the
      * the height of the last block processed, or the heights of blocks
      * referenced in transaction, and might cause assert failures.

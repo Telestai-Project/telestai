@@ -104,7 +104,7 @@ option(BUILD_TX "Build telestai-tx executable." ${BUILD_TESTS})
 option(BUILD_UTIL "Build telestai-util executable." ${BUILD_TESTS})
 
 option(BUILD_UTIL_CHAINSTATE "Build experimental telestai-chainstate executable." OFF)
-option(BUILD_KERNEL_LIB "Build experimental meowcoinkernel library." ${BUILD_UTIL_CHAINSTATE})
+option(BUILD_KERNEL_LIB "Build experimental telestaikernel library." ${BUILD_UTIL_CHAINSTATE})
 
 option(ENABLE_WALLET "Enable wallet." ON)
 if(ENABLE_WALLET)
@@ -307,7 +307,7 @@ if(WIN32)
 
   # Workaround producing large object files, which cannot be handled by the assembler.
   # More likely to happen with no, or lower levels of optimisation.
-  # See discussion in https://github.com/meowcoin/meowcoin/issues/28109.
+  # See discussion in https://github.com/Telestai-Project/telestai/issues/28109.
   if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     try_append_cxx_flags("/bigobj" TARGET core_interface_debug SKIP_LINK)
   else()
@@ -548,13 +548,13 @@ else()
   try_append_linker_flag("-Wl,--high-entropy-va" TARGET core_interface)
   try_append_linker_flag("-Wl,-z,relro" TARGET core_interface)
   try_append_linker_flag("-Wl,-z,now" TARGET core_interface)
-  # TODO: This can be dropped once Meowcoin Core no longer supports
+  # TODO: This can be dropped once Telestai Core no longer supports
   #       NetBSD 10.0 or if upstream fix is backported.
   # NetBSD's dynamic linker ld.elf_so < 11.0 supports exactly 2
   # `PT_LOAD` segments and binaries linked with `-z separate-code`
   # have 4 `PT_LOAD` segments.
   # Relevant discussions:
-  # - https://github.com/meowcoin/meowcoin/pull/28724#issuecomment-2589347934
+  # - https://github.com/Telestai-Project/telestai/pull/28724#issuecomment-2589347934
   # - https://mail-index.netbsd.org/tech-userlevel/2023/01/05/msg013666.html
   if(CMAKE_SYSTEM_NAME STREQUAL "NetBSD" AND CMAKE_SYSTEM_VERSION VERSION_LESS 11.0)
     try_append_linker_flag("-Wl,-z,noseparate-code" TARGET core_interface)
@@ -625,8 +625,8 @@ endif()
 #       in the future after reordering Guix script commands to
 #       perform binary checks after the installation step.
 # Relevant discussions:
-# - https://github.com/hebasto/meowcoin/pull/236#issuecomment-2183120953
-# - https://github.com/meowcoin/meowcoin/pull/30312#issuecomment-2191235833
+# - https://github.com/Telestai-Project/telestai/pull/236#issuecomment-2183120953
+# - https://github.com/Telestai-Project/telestai/pull/30312#issuecomment-2191235833
 # NetBSD always requires runtime paths to be set for executables.
 if(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -652,18 +652,18 @@ message("Executables:")
 message("  telestai ............................. ${BUILD_BITCOIN_BIN}")
 message("  telestaid ............................ ${BUILD_DAEMON}")
 if(BUILD_DAEMON AND ENABLE_IPC)
-  set(meowcoin_daemon_status ON)
+  set(telestai_daemon_status ON)
 else()
-  set(meowcoin_daemon_status OFF)
+  set(telestai_daemon_status OFF)
 endif()
-message("  telestai-node (multiprocess) ......... ${meowcoin_daemon_status}")
+message("  telestai-node (multiprocess) ......... ${telestai_daemon_status}")
 message("  telestai-qt (GUI) .................... ${BUILD_GUI}")
 if(BUILD_GUI AND ENABLE_IPC)
-  set(meowcoin_gui_status ON)
+  set(telestai_gui_status ON)
 else()
-  set(meowcoin_gui_status OFF)
+  set(telestai_gui_status OFF)
 endif()
-message("  telestai-gui (GUI, multiprocess) ..... ${meowcoin_gui_status}")
+message("  telestai-gui (GUI, multiprocess) ..... ${telestai_gui_status}")
 message("  telestai-cli ......................... ${BUILD_CLI}")
 message("  telestai-tx .......................... ${BUILD_TX}")
 message("  telestai-util ........................ ${BUILD_UTIL}")

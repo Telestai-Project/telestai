@@ -1,8 +1,8 @@
-# PSMT Howto for Meowcoin Core
+# PSMT Howto for Telestai Core
 
-Since Meowcoin Core 0.17, an RPC interface exists for Partially Signed Meowcoin
+Since Telestai Core 0.17, an RPC interface exists for Partially Signed Telestai
 Transactions (PSMTs, as specified in
-[BIP 174](https://github.com/meowcoin/bips/blob/master/bip-0174.mediawiki)).
+[BIP 174](https://github.com/telestai/bips/blob/master/bip-0174.mediawiki)).
 
 This document describes the overall workflow for producing signed transactions
 through the use of PSMT, and the specific RPC commands used in typical
@@ -10,15 +10,15 @@ scenarios.
 
 ## PSMT in general
 
-PSMT is an interchange format for Meowcoin transactions that are not fully signed
+PSMT is an interchange format for Telestai transactions that are not fully signed
 yet, together with relevant metadata to help entities work towards signing it.
 It is intended to simplify workflows where multiple parties need to cooperate to
 produce a transaction. Examples include hardware wallets, multisig setups, and
-[CoinJoin](https://meowcointalk.org/?topic=279249) transactions.
+[CoinJoin](https://telestaitalk.org/?topic=279249) transactions.
 
 ### Overall workflow
 
-Overall, the construction of a fully signed Meowcoin transaction goes through the
+Overall, the construction of a fully signed Telestai transaction goes through the
 following steps:
 
 - A **Creator** proposes a particular transaction to be created. They construct
@@ -32,7 +32,7 @@ following steps:
   partial signature for the inputs for which they have relevant key(s).
 - A **Finalizer** is run for each input to convert the partial signatures and
   possibly script information into a final `scriptSig` and/or `scriptWitness`.
-- An **Extractor** produces a valid Meowcoin transaction (in network format)
+- An **Extractor** produces a valid Telestai transaction (in network format)
   from a PSMT for which all inputs are finalized.
 
 Generally, each of the above (excluding Creator and Extractor) will simply
@@ -46,7 +46,7 @@ The names above in bold are the names of the roles defined in BIP174. They're
 useful in understanding the underlying steps, but in practice, software and
 hardware implementations will typically implement multiple roles simultaneously.
 
-## PSMT in Meowcoin Core
+## PSMT in Telestai Core
 
 ### RPCs
 
@@ -94,6 +94,6 @@ hardware implementations will typically implement multiple roles simultaneously.
 
 ### Workflows
 
-#### Multisig with multiple Meowcoin Core instances
+#### Multisig with multiple Telestai Core instances
 
 For a quick start see [Basic M-of-N multisig example using descriptor wallets and PSMTs](./descriptors.md#basic-multisig-example).

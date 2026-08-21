@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021 The Meowcoin Core developers
+# Copyright (c) 2021 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,7 +17,7 @@
 
 # eBPF Limitations:
 #
-# Meowcoin P2P messages can be larger than 32kb (e.g. tx, block, ...). The eBPF
+# Telestai P2P messages can be larger than 32kb (e.g. tx, block, ...). The eBPF
 # VM's stack is limited to 512 bytes, and we can't allocate more than about 32kb
 # for a P2P message in the eBPF VM. The message data is cut off when the message
 # is larger than MAX_MSG_DATA_LENGTH (see definition below). This can be detected
@@ -145,15 +145,15 @@ def print_message(event, inbound):
 
 
 def main(pid):
-    print(f"Hooking into meowcoind with pid {pid}")
-    meowcoind_with_usdts = USDT(pid=int(pid))
+    print(f"Hooking into telestaid with pid {pid}")
+    telestaid_with_usdts = USDT(pid=int(pid))
 
     # attaching the trace functions defined in the BPF program to the tracepoints
-    meowcoind_with_usdts.enable_probe(
+    telestaid_with_usdts.enable_probe(
         probe="inbound_message", fn_name="trace_inbound_message")
-    meowcoind_with_usdts.enable_probe(
+    telestaid_with_usdts.enable_probe(
         probe="outbound_message", fn_name="trace_outbound_message")
-    bpf = BPF(text=program, usdt_contexts=[meowcoind_with_usdts])
+    bpf = BPF(text=program, usdt_contexts=[telestaid_with_usdts])
 
     # BCC: perf buffer handle function for inbound_messages
     def handle_inbound(_, data, size):
@@ -190,7 +190,7 @@ def main(pid):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("USAGE:", sys.argv[0], "<pid of meowcoind>")
+        print("USAGE:", sys.argv[0], "<pid of telestaid>")
         exit()
     pid = sys.argv[1]
     main(pid)

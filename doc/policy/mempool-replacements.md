@@ -59,23 +59,23 @@ This set of rules is similar but distinct from BIP125.
 ## History
 
 * Opt-in full replace-by-fee (without inherited signaling) honoured in mempool and mining as of
-  **v0.12.0** ([PR 6871](https://github.com/meowcoin/meowcoin/pull/6871)).
+  **v0.12.0** ([PR 6871](https://github.com/Telestai-Project/telestai/pull/6871)).
 
-* [BIP125](https://github.com/meowcoin/bips/blob/master/bip-0125.mediawiki) defined based on
-  Meowcoin Core implementation.
+* [BIP125](https://github.com/telestai/bips/blob/master/bip-0125.mediawiki) defined based on
+  Telestai Core implementation.
 
 * The incremental relay feerate used to calculate the required additional fees is distinct from
   `-minrelaytxfee` and configurable using `-incrementalrelayfee`
-  ([PR #9380](https://github.com/meowcoin/meowcoin/pull/9380)).
+  ([PR #9380](https://github.com/Telestai-Project/telestai/pull/9380)).
 
 * RBF enabled by default in the wallet GUI as of **v0.18.1** ([PR
-  #11605](https://github.com/meowcoin/meowcoin/pull/11605)).
+  #11605](https://github.com/Telestai-Project/telestai/pull/11605)).
 
 * Full replace-by-fee enabled as a configurable mempool policy as of **v24.0** ([PR
-  #25353](https://github.com/meowcoin/meowcoin/pull/25353)).
+  #25353](https://github.com/Telestai-Project/telestai/pull/25353)).
 
-* Full replace-by-fee is the default policy as of **v28.0** ([PR #30493](https://github.com/meowcoin/meowcoin/pull/30493)).
+* Full replace-by-fee is the default policy as of **v28.0** ([PR #30493](https://github.com/Telestai-Project/telestai/pull/30493)).
 
-* Signaling for replace-by-fee is no longer required as of [PR 30592](https://github.com/meowcoin/meowcoin/pull/30592).
+* Signaling for replace-by-fee is no longer required as of [PR 30592](https://github.com/Telestai-Project/telestai/pull/30592).
 
-* The incremental relay feerate default is 0.1sat/vB ([PR #33106](https://github.com/meowcoin/meowcoin/pull/33106)).
+* The incremental relay feerate default is 0.1sat/vB ([PR #33106](https://github.com/Telestai-Project/telestai/pull/33106)).

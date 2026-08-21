@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright 2014 BitPay Inc.
-# Copyright 2016-present The Meowcoin Core developers
+# Copyright 2016-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit.
 """Exercise the utils via json-defined tests."""
@@ -22,13 +22,13 @@ class ToolUtils(BitcoinTestFramework):
         pass
 
     def skip_test_if_missing_module(self):
-        self.skip_if_no_meowcoin_tx()
-        self.skip_if_no_meowcoin_util()
+        self.skip_if_no_telestai_tx()
+        self.skip_if_no_telestai_util()
 
     def run_test(self):
         self.testcase_dir = Path(self.config["environment"]["SRCDIR"]) / "test" / "functional" / "data" / "util"
         self.bins = self.get_binaries()
-        with open(self.testcase_dir / "meowcoin-util-test.json", encoding="utf8") as f:
+        with open(self.testcase_dir / "telestai-util-test.json", encoding="utf8") as f:
             input_data = json.loads(f.read())
 
         for i, test_obj in enumerate(input_data):
@@ -42,9 +42,9 @@ class ToolUtils(BitcoinTestFramework):
         are not as expected. Error is caught by bctester() and reported.
         """
         # Get the exec names and arguments
-        if testObj["exec"] == "./meowcoin-util":
+        if testObj["exec"] == "./telestai-util":
             execrun = self.bins.util_argv() + testObj["args"]
-        elif testObj["exec"] == "./meowcoin-tx":
+        elif testObj["exec"] == "./telestai-tx":
             execrun = self.bins.tx_argv() + testObj["args"]
 
         # Read the input data (if there is any)

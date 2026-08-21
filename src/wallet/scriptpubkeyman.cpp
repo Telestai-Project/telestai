@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present The Meowcoin Core developers
+// Copyright (c) 2019-present The Telestai Core developers
 // Portions Copyright (c) 2026 ALENOC <https://github.com/ALENOC> (Ravencoin RIP-25)
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -665,7 +665,7 @@ std::optional<MigrationData> LegacyDataSPKM::MigrateToDescriptor()
             // Get the master xprv
             CKey seed_key;
             if (!GetKey(chain.seed_id, seed_key)) {
-                // Meowcoin BIP44/BIP39 wallets store the HD seed as encrypted
+                // Telestai BIP44/BIP39 wallets store the HD seed as encrypted
                 // BIP39 data, not as a regular key record. The seed_id won't be
                 // found in mapKeys/mapCryptedKeys. Fall back to creating
                 // individual combo descriptors for each HD-derived child key.

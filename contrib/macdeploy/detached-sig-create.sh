@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,9 +10,9 @@ SIGNAPPLE=signapple
 TEMPDIR=sign.temp
 
 BUNDLE_ROOT=dist
-BUNDLE_NAME="Meowcoin-Qt.app"
+BUNDLE_NAME="Telestai-Qt.app"
 UNSIGNED_BUNDLE="${BUNDLE_ROOT}/${BUNDLE_NAME}"
-UNSIGNED_BINARY="${UNSIGNED_BUNDLE}/Contents/MacOS/Meowcoin-Qt"
+UNSIGNED_BINARY="${UNSIGNED_BUNDLE}/Contents/MacOS/Telestai-Qt"
 
 ARCH=$(${SIGNAPPLE} info ${UNSIGNED_BINARY} | head -n 1 | cut -d " " -f 1)
 

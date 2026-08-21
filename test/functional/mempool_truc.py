@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2024 The Meowcoin Core developers
+# Copyright (c) 2024 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 from decimal import Decimal
@@ -615,7 +615,7 @@ class MempoolTRUC(BitcoinTestFramework):
         self.log.info("Test that only TRUC transactions can be under minrelaytxfee for various settings...")
 
         for minrelay_setting in (0, 5, 10, 100, 500, 1000, 5000, 333333, 2500000):
-            self.log.info(f"-> Test -minrelaytxfee={minrelay_setting}mewc/kvB...")
+            self.log.info(f"-> Test -minrelaytxfee={minrelay_setting}tls/kvB...")
             setting_decimal = minrelay_setting / Decimal(COIN)
             self.restart_node(0, extra_args=[f"-minrelaytxfee={setting_decimal:.8f}", "-persistmempool=0"])
             minrelayfeerate = node.getmempoolinfo()["minrelaytxfee"]

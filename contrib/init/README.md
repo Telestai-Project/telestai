@@ -1,11 +1,11 @@
 Sample configuration files for:
 ```
-systemd: meowcoind.service
-Upstart: meowcoind.conf
-OpenRC:  meowcoind.openrc
-         meowcoind.openrcconf
-CentOS:  meowcoind.init
-macOS:   org.meowcoin.meowcoind.plist
+systemd: telestaid.service
+Upstart: telestaid.conf
+OpenRC:  telestaid.openrc
+         telestaid.openrcconf
+CentOS:  telestaid.init
+macOS:   org.telestai.telestaid.plist
 ```
 have been made available to assist packagers in creating node packages here.
 

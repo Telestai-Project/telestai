@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Meowcoin Core developers
+// Copyright (c) 2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,8 +19,8 @@ constexpr size_t HEADER_COMMITMENT_PERIOD{632};
 //! received and validated against commitments.
 constexpr size_t REDOWNLOAD_BUFFER_SIZE{15009}; // 15009/632 = ~23.7 commitments
 
-// Meowcoin: CompressedHeader now includes KAWPOW fields (nHeight, nNonce64,
-// mix_hash) and AuxPoW shared_ptr, so it's larger than Meowcoin's 48 bytes.
+// Telestai: CompressedHeader now includes KAWPOW fields (nHeight, nNonce64,
+// mix_hash) and AuxPoW shared_ptr, so it's larger than Telestai's 48 bytes.
 // Memory usage is higher but necessary for multi-algo consensus.
 static_assert(sizeof(CompressedHeader) >= 48);
 

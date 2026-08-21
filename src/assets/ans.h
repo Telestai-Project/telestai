@@ -1,4 +1,4 @@
-// Copyright (c) 2022 The Meowcoin Core developers
+// Copyright (c) 2022 The Telestai Core developers
 // Copyright (c) 2022 Shafil Alam
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -9,8 +9,8 @@
 #include <string>
 #include <array>
 
-/* Class for ANS (Meowcoin Name System) ID */
-class CMeowcoinNameSystemID {
+/* Class for ANS (Telestai Name System) ID */
+class CTelestaiNameSystemID {
 public:  
     static const std::string prefix;
     static const std::string domain;
@@ -20,8 +20,8 @@ public:
         IP = 0x1
     };
 
-    CMeowcoinNameSystemID(Type type, std::string rawData);
-    CMeowcoinNameSystemID(std::string ansID);
+    CTelestaiNameSystemID(Type type, std::string rawData);
+    CTelestaiNameSystemID(std::string ansID);
 
     std::string to_string();
 
@@ -39,7 +39,7 @@ public:
     static std::pair<std::string, std::string> enum_to_string(Type type) {
         switch(type) {
             case ADDR:
-                return std::make_pair("Meowcoin address", "Enter a Meowcoin address");
+                return std::make_pair("Telestai address", "Enter a Telestai address");
             case IP:
                 return std::make_pair("IP [DNS A record]", "Enter IP address");
             default:
@@ -53,9 +53,9 @@ private:
     std::string m_ip;
 };
 
-constexpr std::array<CMeowcoinNameSystemID::Type, 2> ANSTypes { 
-    CMeowcoinNameSystemID::ADDR, 
-    CMeowcoinNameSystemID::IP
+constexpr std::array<CTelestaiNameSystemID::Type, 2> ANSTypes { 
+    CTelestaiNameSystemID::ADDR, 
+    CTelestaiNameSystemID::IP
 };
 
 #endif // BITCOIN_ASSETS_ANS_H

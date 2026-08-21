@@ -1165,7 +1165,7 @@
         <string>S&amp;end</string>
        </property>
        <property name="icon">
-        <iconset resource="../meowcoin.qrc">
+        <iconset resource="../telestai.qrc">
          <normaloff>:/icons/send</normaloff>:/icons/send</iconset>
        </property>
        <property name="autoDefault">
@@ -1191,7 +1191,7 @@
         <string>Clear &amp;All</string>
        </property>
        <property name="icon">
-        <iconset resource="../meowcoin.qrc">
+        <iconset resource="../telestai.qrc">
          <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
        </property>
        <property name="autoDefault">
@@ -1208,7 +1208,7 @@
         <string>Add &amp;Recipient</string>
        </property>
        <property name="icon">
-        <iconset resource="../meowcoin.qrc">
+        <iconset resource="../telestai.qrc">
          <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
        </property>
        <property name="autoDefault">
@@ -1281,12 +1281,12 @@
   <customwidget>
    <class>BitcoinAmountField</class>
    <extends>QLineEdit</extends>
-   <header>qt/meowcoinamountfield.h</header>
+   <header>qt/telestaiamountfield.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../meowcoin.qrc"/>
+  <include location="../telestai.qrc"/>
  </resources>
  <connections/>
  <buttongroups>

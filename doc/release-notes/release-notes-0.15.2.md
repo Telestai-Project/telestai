@@ -1,25 +1,25 @@
-Meowcoin Core version *0.15.2* is now available from:
+Telestai Core version *0.15.2* is now available from:
 
-  <https://meowcoincore.org/bin/meowcoin-core-0.15.2/>
+  <https://telestaicore.org/bin/telestai-core-0.15.2/>
 
 This is a new minor version release, including various bugfixes and
 performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/meowcoin/meowcoin/issues>
+  <https://github.com/Telestai-Project/telestai/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://meowcoincore.org/en/list/announcements/join/>
+  <https://telestaicore.org/en/list/announcements/join/>
 
 How to Upgrade
 ==============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes for older versions), then run the 
-installer (on Windows) or just copy over `/Applications/Meowcoin-Qt` (on Mac)
-or `meowcoind`/`meowcoin-qt` (on Linux).
+installer (on Windows) or just copy over `/Applications/Telestai-Qt` (on Mac)
+or `telestaid`/`telestai-qt` (on Linux).
 
 The first time you run version 0.15.0 or higher, your chainstate database will
 be converted to a new format, which will take anywhere from a few minutes to
@@ -48,10 +48,10 @@ processing the entire blockchain.
 Compatibility
 ==============
 
-Meowcoin Core is extensively tested on multiple operating systems using
+Telestai Core is extensively tested on multiple operating systems using
 the Linux kernel, macOS 10.8+, and Windows Vista and later. Windows XP is not supported.
 
-Meowcoin Core should also work on most other Unix-like systems but is not
+Telestai Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 
@@ -62,7 +62,7 @@ Denial-of-Service vulnerability CVE-2018-17144
 -------------------------------
 
 A denial-of-service vulnerability exploitable by miners has been discovered in
-Meowcoin Core versions 0.14.0 up to 0.16.2. It is recommended to upgrade any of
+Telestai Core versions 0.14.0 up to 0.16.2. It is recommended to upgrade any of
 the vulnerable versions to 0.15.2 or 0.16.3 as soon as possible.
 
 0.15.2 Change log
@@ -87,9 +87,9 @@ the vulnerable versions to 0.15.2 or 0.16.3 as soon as possible.
 - #11289 `42ea47d` Add wallet backup text to import*, add* and dumpwallet RPCs (MeshCollider)
 - #11590 `6372a75` [Wallet] always show help-line of wallet encryption calls (Jonas Schnelli)
 
-### meowcoin-tx
+### telestai-tx
 
-- #11554 `a69cc07` Sanity-check script sizes in meowcoin-tx (TheBlueMatt)
+- #11554 `a69cc07` Sanity-check script sizes in telestai-tx (TheBlueMatt)
 
 ### Tests
 - #11277 `3a6cdd4` Add test for multiwallet batch RPC calls (Russell Yanofsky)

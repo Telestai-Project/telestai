@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2024 The Meowcoin Core developers
+# Copyright (c) 2024 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Helpful routines for mempool testing."""
@@ -29,9 +29,9 @@ from .wallet import (
     MiniWallet,
 )
 
-# Default for -minrelaytxfee in mewc/kvB
+# Default for -minrelaytxfee in tls/kvB
 DEFAULT_MIN_RELAY_TX_FEE = 100
-# Default for -incrementalrelayfee in mewc/kvB
+# Default for -incrementalrelayfee in tls/kvB
 DEFAULT_INCREMENTAL_RELAY_FEE = 100
 
 TRUC_MAX_VSIZE = 10000

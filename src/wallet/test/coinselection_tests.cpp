@@ -1,4 +1,4 @@
-// Copyright (c) 2024 The Meowcoin Core developers
+// Copyright (c) 2024 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE(bnb_test)
         // BnB finds changeless solution while overshooting by up to cost_of_change
         TestBnBSuccess("Select upper bound", utxo_pool, /*selection_target=*/4 * CENT - default_cs_params.m_cost_of_change, /*expected_input_amounts=*/{1 * CENT, 3 * CENT}, cs_params);
 
-        // BnB fails to find changeless solution when overshooting by cost_of_change + 1 mewc
+        // BnB fails to find changeless solution when overshooting by cost_of_change + 1 tls
         TestBnBFail("Overshoot upper bound", utxo_pool, /*selection_target=*/4 * CENT - default_cs_params.m_cost_of_change - 1);
 
         TestBnBSuccess("Select max weight", utxo_pool, /*selection_target=*/4 * CENT, /*expected_input_amounts=*/{1 * CENT, 3 * CENT}, cs_params, /*custom_spending_vsize=*/P2WPKH_INPUT_VSIZE, /*max_selection_weight=*/4 * 2 * P2WPKH_INPUT_VSIZE);
@@ -205,13 +205,13 @@ BOOST_AUTO_TEST_CASE(bnb_test)
 BOOST_AUTO_TEST_CASE(bnb_feerate_sensitivity_test)
 {
     // Create sets of UTXOs with the same effective amounts at different feerates (but different absolute amounts)
-    std::vector<OutputGroup> low_feerate_pool; // 5 mewc/vB (default, and lower than long_term_feerate of 10 mewc/vB)
+    std::vector<OutputGroup> low_feerate_pool; // 5 tls/vB (default, and lower than long_term_feerate of 10 tls/vB)
     AddCoins(low_feerate_pool, {2 * CENT, 3 * CENT, 5 * CENT, 10 * CENT});
     TestBnBSuccess("Select many inputs at low feerates", low_feerate_pool, /*selection_target=*/10 * CENT, /*expected_input_amounts=*/{2 * CENT, 3 * CENT, 5 * CENT});
 
     CoinSelectionParams high_feerate_params = init_default_params();
     high_feerate_params.m_effective_feerate = CFeeRate{25'000};
-    std::vector<OutputGroup> high_feerate_pool; // 25 mewc/vB (greater than long_term_feerate of 10 mewc/vB)
+    std::vector<OutputGroup> high_feerate_pool; // 25 tls/vB (greater than long_term_feerate of 10 tls/vB)
     AddCoins(high_feerate_pool, {2 * CENT, 3 * CENT, 5 * CENT, 10 * CENT}, high_feerate_params);
     TestBnBSuccess("Select one input at high feerates", high_feerate_pool, /*selection_target=*/10 * CENT, /*expected_input_amounts=*/{10 * CENT}, high_feerate_params);
 

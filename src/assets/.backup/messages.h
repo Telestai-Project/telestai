@@ -1,10 +1,10 @@
-// Copyright (c) 2018-2020 The Meowcoin Core developers
+// Copyright (c) 2018-2020 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#ifndef MEOWCOINCOIN_MESSAGES_H
-#define MEOWCOINCOIN_MESSAGES_H
+#ifndef TELESTAICOIN_MESSAGES_H
+#define TELESTAICOIN_MESSAGES_H
 
 #include <uint256.h>
 #include <serialize.h>
@@ -140,4 +140,4 @@ public:
     std::string createJsonString();
 };
 
-#endif //MEOWCOINCOIN_MESSAGES_H
+#endif //TELESTAICOIN_MESSAGES_H

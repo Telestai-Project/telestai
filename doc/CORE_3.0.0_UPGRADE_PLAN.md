@@ -12,10 +12,10 @@ Ship **Telestai Core 3.0.0**: a generational upgrade from the current Ravencoin 
 - Assets / messaging / restricted / IPFS
 - 25% development subsidy → `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe`
 
-Primary engineering reference: Meowcoin Core Apex (BTC 30.2 rebase + asset / ProgPoW-family port).  
-**Critical:** keep Telestai Meraki ProgPoW constants (not Meowcoin’s), especially:
+Primary engineering reference: Telestai Core Apex (BTC 30.2 rebase + asset / ProgPoW-family port).  
+**Critical:** keep Telestai Meraki ProgPoW constants (not Telestai’s), especially:
 
-| Param | Telestai Meraki | (Meowcoin differs) |
+| Param | Telestai Meraki | (Telestai differs) |
 |-------|-----------------|--------------------|
 | `period_length` | 3 | 3 |
 | `num_cache_accesses` | **12** | 11 |
@@ -63,7 +63,7 @@ feature/core-3.0.0 ── all work happens here ──► TestNet soak ──►
 | Area | Target |
 |------|--------|
 | Product version | **3.0.0** |
-| Upstream base | Bitcoin Core **30.x** (track Meowcoin Apex deltas) |
+| Upstream base | Bitcoin Core **30.x** (track Telestai Apex deltas) |
 | Build | CMake (+ Guix when ready) |
 | PoW | **Meraki** preserved (ProgPoW params above + nHeight bind from 2.1.8) |
 | Assets | Ported onto 30.x validation/mempool/wallet/indexes |
@@ -79,7 +79,7 @@ feature/core-3.0.0 ── all work happens here ──► TestNet soak ──►
 ## Workstreams
 
 ### 1. Rebase foundation
-- Start from Bitcoin Core 30.x / Meowcoin Apex as port map
+- Start from Bitcoin Core 30.x / Telestai Apex as port map
 - CMake, CI, depends
 - Telestai chainparams, magic, ports, prefixes (`T` / BIP44 10117)
 
@@ -114,7 +114,7 @@ feature/core-3.0.0 ── all work happens here ──► TestNet soak ──►
 ```
 Phase 0 — Prep                          ← current
   • Branch feature/core-3.0.0
-  • Lock Meraki params + Meowcoin reference
+  • Lock Meraki params + Telestai reference
   • Inventory Telestai-only modules
 
 Phase 1 — Bring-up

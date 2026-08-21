@@ -1,4 +1,4 @@
-// Copyright (c) 2012-present The Meowcoin Core developers
+// Copyright (c) 2012-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(xor_file)
     }
     {
 #ifdef __MINGW64__
-        // Temporary workaround for https://github.com/meowcoin/meowcoin/issues/30210
+        // Temporary workaround for https://github.com/Telestai-Project/telestai/issues/30210
         const char* mode = "wb";
 #else
         const char* mode = "wbx";
@@ -771,7 +771,7 @@ BOOST_AUTO_TEST_CASE(streams_hashed)
 {
     DataStream stream{};
     HashedSourceWriter hash_writer{stream};
-    const std::string data{"meowcoin"};
+    const std::string data{"telestai"};
     hash_writer << data;
 
     HashVerifier hash_verifier{stream};

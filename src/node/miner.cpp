@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Meowcoin Core developers
+// Copyright (c) 2009-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -139,7 +139,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock()
     pblock->nHeight = static_cast<uint32_t>(nHeight);
 
     pblock->nVersion = m_chainstate.m_chainman.m_versionbitscache.ComputeBlockVersion(pindexPrev, chainparams.GetConsensus());
-    // Set the Meowcoin chain ID in the version.
+    // Set the Telestai chain ID in the version.
     pblock->nVersion.SetChainId(chainparams.GetConsensus().nAuxpowChainId);
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
@@ -167,7 +167,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock()
     coinbaseTx.vin[0].prevout.SetNull();
     coinbaseTx.vin[0].nSequence = CTxIn::MAX_SEQUENCE_NONFINAL; // Make sure timelock is enforced.
 
-    // Meowcoin: Calculate block subsidy and community fund amount
+    // Telestai: Calculate block subsidy and community fund amount
     const CAmount nSubsidy = GetBlockSubsidy(nHeight, chainparams.GetConsensus());
     const CAmount nTotalReward = nFees + nSubsidy;
     const CAmount nCommunityAutonomousAmount = chainparams.CommunityAutonomousAmount();

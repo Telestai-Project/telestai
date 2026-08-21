@@ -33,7 +33,7 @@
       ]
     },
     "tests": {
-      "description": "Build test_meowcoin.exe executable",
+      "description": "Build test_telestai.exe executable",
       "dependencies": [
         "boost-test"
       ]
@@ -53,7 +53,7 @@
   },
   "overrides": [
     {
-      "$comment": "Newer unreleased libevent versions cause https://github.com/meowcoin/meowcoin/issues/30096",
+      "$comment": "Newer unreleased libevent versions cause https://github.com/Telestai-Project/telestai/issues/30096",
       "name": "libevent",
       "version": "2.1.12#7"
     }

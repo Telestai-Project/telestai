@@ -1,10 +1,10 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
 # Do not use generator expressions in test sources because the
 # SOURCES property is processed to gather test suite macros.
-add_executable(test_meowcoin
+add_executable(test_telestai
   main.cpp
   addrman_tests.cpp
   allocator_tests.cpp
@@ -134,7 +134,7 @@ add_executable(test_meowcoin
 )
 
 include(TargetDataSources)
-target_json_data_sources(test_meowcoin
+target_json_data_sources(test_telestai
   data/base58_encode_decode.json
   data/bip341_wallet_vectors.json
   data/blockfilters.json
@@ -145,26 +145,26 @@ target_json_data_sources(test_meowcoin
   data/tx_invalid.json
   data/tx_valid.json
 )
-target_raw_data_sources(test_meowcoin NAMESPACE test::data
+target_raw_data_sources(test_telestai NAMESPACE test::data
   data/asmap.raw
 )
 
-add_windows_application_manifest(test_meowcoin)
+add_windows_application_manifest(test_telestai)
 
-target_link_libraries(test_meowcoin
+target_link_libraries(test_telestai
   core_interface
   test_util
-  meowcoin_cli
-  meowcoin_node
-  meowcoin_consensus
+  telestai_cli
+  telestai_node
+  telestai_consensus
   minisketch
   secp256k1
   Boost::headers
   libevent::extra
-  # bitcoin_assets (via meowcoin_node) calls CDBWrapper from meowcoin_node; with
-  # static libs the linker must see meowcoin_node again after bitcoin_assets.
+  # bitcoin_assets (via telestai_node) calls CDBWrapper from telestai_node; with
+  # static libs the linker must see telestai_node again after bitcoin_assets.
   bitcoin_assets
-  meowcoin_node
+  telestai_node
 )
 
 if(ENABLE_WALLET)
@@ -172,18 +172,18 @@ if(ENABLE_WALLET)
 endif()
 
 if(ENABLE_IPC)
-  target_link_libraries(meowcoin_ipc_test
+  target_link_libraries(telestai_ipc_test
     PRIVATE
       core_interface
       univalue
       Boost::headers
   )
 
-  target_sources(test_meowcoin
+  target_sources(test_telestai
     PRIVATE
       ipc_tests.cpp
   )
-  target_link_libraries(test_meowcoin meowcoin_ipc_test meowcoin_ipc)
+  target_link_libraries(test_telestai telestai_ipc_test telestai_ipc)
 endif()
 
 function(add_boost_test source_file)
@@ -201,7 +201,7 @@ function(add_boost_test source_file)
   )
   foreach(test_suite_name IN LISTS test_suite_macro)
     add_test(NAME ${test_suite_name}
-      COMMAND test_meowcoin --run_test=${test_suite_name} --catch_system_error=no --log_level=test_suite -- DEBUG_LOG_OUT
+      COMMAND test_telestai --run_test=${test_suite_name} --catch_system_error=no --log_level=test_suite -- DEBUG_LOG_OUT
     )
     set_property(TEST ${test_suite_name} PROPERTY
       SKIP_REGULAR_EXPRESSION
@@ -213,8 +213,8 @@ function(add_boost_test source_file)
 endfunction()
 
 function(add_all_test_targets)
-  get_target_property(test_source_dir test_meowcoin SOURCE_DIR)
-  get_target_property(test_sources test_meowcoin SOURCES)
+  get_target_property(test_source_dir test_telestai SOURCE_DIR)
+  get_target_property(test_sources test_telestai SOURCES)
   foreach(test_source ${test_sources})
     cmake_path(IS_RELATIVE test_source result)
     if(result)
@@ -226,4 +226,4 @@ endfunction()
 
 add_all_test_targets()
 
-install_binary_component(test_meowcoin INTERNAL)
+install_binary_component(test_telestai INTERNAL)

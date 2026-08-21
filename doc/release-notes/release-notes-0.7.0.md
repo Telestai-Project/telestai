@@ -1,24 +1,24 @@
-Meowcoin version 0.7.0 is now available for download at:
-  http://sourceforge.net/projects/meowcoin/files/Meowcoin/meowcoin-0.7.0/
+Telestai version 0.7.0 is now available for download at:
+  http://sourceforge.net/projects/telestai/files/Telestai/telestai-0.7.0/
 
-We recommend that everybody running prior versions of meowcoind/Meowcoin-Qt
+We recommend that everybody running prior versions of telestaid/Telestai-Qt
 upgrade to this release, except for users running Mac OSX 10.5.
 
 Please report bugs using the issue tracker at github:
-  https://github.com/meowcoin/meowcoin/issues
+  https://github.com/Telestai-Project/telestai/issues
 
 Project source code is hosted at github; you can get
 source-only tarballs/zipballs directly from there:
-  https://github.com/meowcoin/meowcoin/tarball/v0.7.0  # .tar.gz
-  https://github.com/meowcoin/meowcoin/zipball/v0.7.0  # .zip
+  https://github.com/Telestai-Project/telestai/tarball/v0.7.0  # .tar.gz
+  https://github.com/Telestai-Project/telestai/zipball/v0.7.0  # .zip
 
 Ubuntu Linux users can use the "Personal Package Archive" (PPA)
 maintained by Matt Corallo to automatically keep 
-meowcoin up-to-date.  Just type
-  sudo apt-add-repository ppa:meowcoin/meowcoin
+telestai up-to-date.  Just type
+  sudo apt-add-repository ppa:telestai/telestai
   sudo apt-get update
-in your terminal, then install the meowcoin-qt package:
-  sudo apt-get install meowcoin-qt
+in your terminal, then install the telestai-qt package:
+  sudo apt-get install telestai-qt
 
 
 How to Upgrade
@@ -27,10 +27,10 @@ If you are running an older version, shut it down. Wait
 until it has completely shut down (which might take a few minutes for older
 versions), then run the installer (on Windows) or just copy over
 Code:
-/Applications/Meowcoin-Qt
+/Applications/Telestai-Qt
 (on Mac) or
 Code:
-meowcoind/meowcoin-qt
+telestaid/telestai-qt
 (on Linux).
 
 If you were running on Linux with a version that might have been compiled
@@ -45,14 +45,14 @@ Incompatible Changes
   and 'getrawmempool' commands.
 * Remove deprecated RPC 'getblocknumber'
 
-Meowcoin Improvement Proposals implemented
+Telestai Improvement Proposals implemented
 
 BIP 22 - 'getblocktemplate', 'submitblock' RPCs
 BIP 34 - block version 2, height in coinbase
 BIP 35 - 'mempool' message, extended 'getdata' message behavior
 
 
-Core meowcoin handling and blockchain database
+Core telestai handling and blockchain database
 
 * Reduced CPU usage, by eliminating some redundant hash calculations
 * Cache signature verifications, to eliminate redundant signature checks
@@ -109,7 +109,7 @@ Qt GUI
 * Add 2 labels to the overviewpage that display Wallet and Transaction status (obsolete or current)
 * Extend the optionsdialog (e.g. language selection) and re-work it to a tabbed UI
 * Merge sign/verify message into a single window with tabbed UI
-* Ensure a changed meowcoin unit immediately updates all GUI elements that use units
+* Ensure a changed telestai unit immediately updates all GUI elements that use units
 * Update QR Code dialog
 * Improve error reporting at startup
 * Fine-grained UI updates for a much smoother UI during block downloads
@@ -119,8 +119,8 @@ Qt GUI
 * Much better translations
 * Override progress bar design on platforms with segmented progress bars to assist with readability
 * Added 'immature balance' display on the overview page
-* (Windows only): enable ASLR and DEP for meowcoin-qt.exe
-* (Windows only): add meta-data to meowcoin-qt.exe (e.g. description)
+* (Windows only): enable ASLR and DEP for telestai-qt.exe
+* (Windows only): add meta-data to telestai-qt.exe (e.g. description)
 
 Internal codebase
 
@@ -131,7 +131,7 @@ Internal codebase
 Miscellaneous
 
 * Reopen debug.log upon SIGHUP
-* Bash programmable completion for meowcoind(1)
+* Bash programmable completion for telestaid(1)
 * On supported OS's, each thread is given a useful name
 
 

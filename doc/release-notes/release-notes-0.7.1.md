@@ -1,23 +1,23 @@
-Meowcoin version 0.7.1 is now available from:
-  http://sourceforge.net/projects/meowcoin/files/Meowcoin/meowcoin-0.7.1/
+Telestai version 0.7.1 is now available from:
+  http://sourceforge.net/projects/telestai/files/Telestai/telestai-0.7.1/
 
 This is a bug-fix minor release.
 
 Please report bugs using the issue tracker at github:
-  https://github.com/meowcoin/meowcoin/issues
+  https://github.com/Telestai-Project/telestai/issues
 
 Project source code is hosted at github; you can get
 source-only tarballs/zipballs directly from there:
-  https://github.com/meowcoin/meowcoin/tarball/v0.7.1  # .tar.gz
-  https://github.com/meowcoin/meowcoin/zipball/v0.7.1  # .zip
+  https://github.com/Telestai-Project/telestai/tarball/v0.7.1  # .tar.gz
+  https://github.com/Telestai-Project/telestai/zipball/v0.7.1  # .zip
 
 Ubuntu Linux users can use the "Personal Package Archive" (PPA)
 maintained by Matt Corallo to automatically keep 
 up-to-date.  Just type:
-  sudo apt-add-repository ppa:meowcoin/meowcoin
+  sudo apt-add-repository ppa:telestai/telestai
   sudo apt-get update
-in your terminal, then install the meowcoin-qt package:
-  sudo apt-get install meowcoin-qt
+in your terminal, then install the telestai-qt package:
+  sudo apt-get install telestai-qt
 
 KNOWN ISSUES
 ------------
@@ -30,7 +30,7 @@ How to Upgrade
 If you are running an older version, shut it down. Wait
 until it has completely shut down (which might take a few minutes for older
 versions), then run the installer (on Windows) or just copy over
-/Applications/Meowcoin-Qt (on Mac) or meowcoind/meowcoin-qt (on Linux).
+/Applications/Telestai-Qt (on Mac) or telestaid/telestai-qt (on Linux).
 
 If you were running on Linux with a version that might have been compiled
 with a different version of Berkeley DB (for example, if you were using an
@@ -75,7 +75,7 @@ Dependency changes
 Bug fixes
 ---------
 
-* Clicking on a meowcoin: URI on Windows should now launch Meowcoin-Qt properly.
+* Clicking on a telestai: URI on Windows should now launch Telestai-Qt properly.
 
 * When running -testnet, use RPC port 18332 by default.
 

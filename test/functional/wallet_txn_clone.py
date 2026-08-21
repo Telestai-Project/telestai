@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2022 The Meowcoin Core developers
+# Copyright (c) 2014-2022 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the wallet accounts properly when there are cloned transactions with malleated scriptsigs."""
@@ -48,7 +48,7 @@ class TxnMallTest(BitcoinTestFramework):
         else:
             output_type = "legacy"
 
-        # All nodes should start with 1,250 MEWC:
+        # All nodes should start with 1,250 TLS:
         starting_balance = 1250
         for i in range(3):
             assert_equal(self.nodes[i].getbalance(), starting_balance)
@@ -141,7 +141,7 @@ class TxnMallTest(BitcoinTestFramework):
         assert_equal(tx1_clone["confirmations"], 2)
         assert_equal(tx2["confirmations"], 1)
 
-        # Check node0's total balance; should be same as before the clone, + 100 MEWC for 2 matured,
+        # Check node0's total balance; should be same as before the clone, + 100 TLS for 2 matured,
         # less possible orphaned matured subsidy
         expected += 100
         if (self.options.mine_block):

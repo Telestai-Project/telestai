@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2013 The Meowcoin developers
-// Copyright (c) 2017-2021 The Meowcoin Core developers
+// Copyright (c) 2009-2013 The Telestai developers
+// Copyright (c) 2017-2021 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,7 +22,7 @@
 class CBlockVersion
 {
 public:
-    static const int32_t CHAINID = 9; // Meowcoin chain ID
+    static const int32_t CHAINID = 9; // Telestai chain ID
 
 private:
     static const int32_t VERSIONAUXPOW_TOP_MASK = (1 << 28) | (1 << 29) | (1 << 30);

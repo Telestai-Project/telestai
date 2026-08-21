@@ -1,4 +1,4 @@
-// Copyright (c) 2020-present The Meowcoin Core developers
+// Copyright (c) 2020-present The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -95,7 +95,7 @@
  *
  * Context:
  * - In an earlier version of the transaction request logic it was possible for a peer to prevent us from seeing a
- *   specific transaction. See https://meowcoincore.org/en/2024/07/03/disclose_already_asked_for.
+ *   specific transaction. See https://telestaicore.org/en/2024/07/03/disclose_already_asked_for.
  */
 class TxRequestTracker {
     // Avoid littering this header file with implementation details.

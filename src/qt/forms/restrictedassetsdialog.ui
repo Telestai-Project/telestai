@@ -293,7 +293,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../meowcoin.qrc"/>
+  <include location="../telestai.qrc"/>
  </resources>
  <connections/>
 </ui>

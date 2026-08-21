@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 The Meowcoin Core developers
+// Copyright (c) 2019-2022 The Telestai Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -54,7 +54,7 @@ class Warnings;
 //! any member functions. It should just be a collection of references that can
 //! be used without pulling in unwanted dependencies or functionality.
 struct NodeContext {
-    //! libmeowcoin_kernel context
+    //! libtelestai_kernel context
     std::unique_ptr<kernel::Context> kernel;
     std::unique_ptr<ECC_Context> ecc_context;
     //! Init interface for initializing current process and connecting to other processes.

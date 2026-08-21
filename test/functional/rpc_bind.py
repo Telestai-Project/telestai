@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2019 The Meowcoin Core developers
+# Copyright (c) 2014-2019 The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-"""Test running meowcoind with the -rpcbind and -rpcallowip options."""
+"""Test running telestaid with the -rpcbind and -rpcallowip options."""
 
 from test_framework.netutil import all_interfaces, addr_to_hex, get_bind_addrs, test_ipv6_local
 from test_framework.test_framework import BitcoinTestFramework, SkipTest

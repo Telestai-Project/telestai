@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Meowcoin Core developers
+// Copyright (c) 2009-2022 The Telestai Core developers
 // Portions Copyright (c) 2026 ALENOC <https://github.com/ALENOC> (Ravencoin RIP-25)
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <meowcoin-build-config.h> // IWYU pragma: keep
+#include <telestai-build-config.h> // IWYU pragma: keep
 
 #include <wallet/walletdb.h>
 
@@ -657,7 +657,7 @@ static DBErrors LoadLegacyWalletRecords(CWallet* pwallet, DatabaseBatch& batch, 
         if (keyMeta.nVersion >= CKeyMetadata::VERSION_WITH_HDDATA && !keyMeta.hd_seed_id.IsNull() && keyMeta.hdKeypath.size() > 0) {
             // Get the path from the key origin or from the path string
             // Not applicable when path is "s" or "m" as those indicate a seed
-            // See https://github.com/meowcoin/meowcoin/pull/12924
+            // See https://github.com/Telestai-Project/telestai/pull/12924
             bool internal = false;
             uint32_t index = 0;
             if (keyMeta.hdKeypath != "s" && keyMeta.hdKeypath != "m") {
@@ -676,7 +676,7 @@ static DBErrors LoadLegacyWalletRecords(CWallet* pwallet, DatabaseBatch& batch, 
                 // Extract the index and internal from the path
                 // Bitcoin Core legacy format: m/0'/k'/i' (3 hardened elements)
                 //   k == 0 for external, 1 for internal. i is the index
-                // Meowcoin BIP44 format: m/44'/coin_type'/account'/change/index (5 elements)
+                // Telestai BIP44 format: m/44'/coin_type'/account'/change/index (5 elements)
                 //   change == 0 for external, 1 for internal
                 if (path.size() == 5 && path[0] == (44 | 0x80000000)) {
                     // BIP44 path: m/44'/coin_type'/account'/change/index

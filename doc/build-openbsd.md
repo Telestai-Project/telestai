@@ -2,7 +2,7 @@
 
 **Updated for OpenBSD [7.8](https://www.openbsd.org/78.html)**
 
-This guide describes how to build meowcoind, command-line utilities, and GUI on OpenBSD.
+This guide describes how to build telestaid, command-line utilities, and GUI on OpenBSD.
 
 ## Preparation
 
@@ -19,7 +19,7 @@ SQLite is required for the wallet:
 pkg_add sqlite3
 ```
 
-To build Meowcoin Core without the wallet, use `-DENABLE_WALLET=OFF`.
+To build Telestai Core without the wallet, use `-DENABLE_WALLET=OFF`.
 
 Cap'n Proto is needed for IPC functionality (see [multiprocess.md](multiprocess.md)):
 
@@ -31,10 +31,10 @@ Compile with `-DENABLE_IPC=OFF` if you do not need IPC functionality.
 
 See [dependencies.md](dependencies.md) for a complete overview.
 
-### 2. Clone Meowcoin Repo
-Clone the Meowcoin Core repository to a directory. All build scripts and commands will run from this directory.
+### 2. Clone Telestai Repo
+Clone the Telestai Core repository to a directory. All build scripts and commands will run from this directory.
 ``` bash
-git clone https://github.com/meowcoin/meowcoin.git
+git clone https://github.com/telestai/telestai.git
 ```
 
 ### 3. Install Optional Dependencies
@@ -42,7 +42,7 @@ git clone https://github.com/meowcoin/meowcoin.git
 #### GUI Dependencies
 ###### Qt6
 
-Meowcoin Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install
+Telestai Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install
 the necessary parts of Qt, the libqrencode and pass `-DBUILD_GUI=ON`. Skip if you don't intend to use the GUI.
 
 ```bash
@@ -64,7 +64,7 @@ Otherwise, if you don't need QR encoding support, use the `-DWITH_QRENCODE=OFF` 
 #### Notifications
 ###### ZeroMQ
 
-Meowcoin Core can provide notifications via ZeroMQ. If the package is installed, support will be compiled in.
+Telestai Core can provide notifications via ZeroMQ. If the package is installed, support will be compiled in.
 ```bash
 pkg_add zeromq
 ```
@@ -77,11 +77,11 @@ To run the test suite (recommended), you will need to have Python 3 installed:
 pkg_add python py3-zmq  # Select the newest version of the python package if necessary.
 ```
 
-## Building Meowcoin Core
+## Building Telestai Core
 
 ### 1. Configuration
 
-There are many ways to configure Meowcoin Core, here are a few common examples:
+There are many ways to configure Telestai Core, here are a few common examples:
 
 ##### Wallet and GUI:
 This enables wallet support and the GUI, assuming SQLite and Qt 6 are installed.
@@ -110,7 +110,7 @@ data(kbytes)         1572864
 ```
 
 This is, unfortunately, in some cases not enough to compile some `.cpp` files in the project,
-(see issue [#6658](https://github.com/meowcoin/meowcoin/issues/6658)).
+(see issue [#6658](https://github.com/telestai/telestai/issues/6658)).
 If your user is in the `staff` group the limit can be raised with:
 ```bash
 ulimit -d 3000000

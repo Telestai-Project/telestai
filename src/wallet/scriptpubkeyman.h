@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present The Meowcoin Core developers
+// Copyright (c) 2019-present The Telestai Core developers
 // Portions Copyright (c) 2026 ALENOC <https://github.com/ALENOC> (Ravencoin RIP-25)
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.

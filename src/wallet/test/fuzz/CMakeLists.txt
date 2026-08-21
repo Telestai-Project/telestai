@@ -1,4 +1,4 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
@@ -13,8 +13,8 @@ target_sources(fuzz
     wallet_bdb_parser.cpp
 )
 target_link_libraries(fuzz
-  meowcoin_wallet
-  meowcoin_node
+  telestai_wallet
+  telestai_node
   bitcoin_assets
-  meowcoin_node
+  telestai_node
 )

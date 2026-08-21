@@ -1,5 +1,5 @@
-// Copyright (c) 2017-2019 The Meowcoin Core developers
-// Copyright (c) 2020-2024 The Meowcoin developers
+// Copyright (c) 2017-2019 The Telestai Core developers
+// Copyright (c) 2020-2024 The Telestai developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -511,16 +511,16 @@ static RPCHelpMan checkglobalrestriction()
     };
 }
 
-static UniValue ANSIDToObject(CMeowcoinNameSystemID& ansID)
+static UniValue ANSIDToObject(CTelestaiNameSystemID& ansID)
 {
     UniValue obj(UniValue::VOBJ);
     obj.pushKV("id", ansID.to_string());
     obj.pushKV("type", (int)ansID.type());
-    auto typePair = CMeowcoinNameSystemID::enum_to_string(ansID.type());
+    auto typePair = CTelestaiNameSystemID::enum_to_string(ansID.type());
     obj.pushKV("type_name", typePair.first);
-    if (ansID.type() == CMeowcoinNameSystemID::ADDR)
+    if (ansID.type() == CTelestaiNameSystemID::ADDR)
         obj.pushKV("address", ansID.addr());
-    else if (ansID.type() == CMeowcoinNameSystemID::IP)
+    else if (ansID.type() == CTelestaiNameSystemID::IP)
         obj.pushKV("ip", ansID.ip());
     return obj;
 }
@@ -563,7 +563,7 @@ static RPCHelpMan getansdata()
             if (!asset.nHasANS)
                 return UniValue::VNULL;
 
-            CMeowcoinNameSystemID ansID(asset.strANSID);
+            CTelestaiNameSystemID ansID(asset.strANSID);
             return ANSIDToObject(ansID);
         },
     };
@@ -950,20 +950,20 @@ static RPCHelpMan ansencode()
             std::string type_str = request.params[0].get_str();
             std::string data = request.params[1].get_str();
 
-            CMeowcoinNameSystemID::Type type;
+            CTelestaiNameSystemID::Type type;
             if (type_str == "ADDR" || type_str == "addr" || type_str == "0")
-                type = CMeowcoinNameSystemID::ADDR;
+                type = CTelestaiNameSystemID::ADDR;
             else if (type_str == "IP" || type_str == "ip" || type_str == "1")
-                type = CMeowcoinNameSystemID::IP;
+                type = CTelestaiNameSystemID::IP;
             else
                 throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid ANS type. Must be \"ADDR\" or \"IP\".");
 
             std::string error;
-            std::string formatted = CMeowcoinNameSystemID::FormatTypeData(type, data, error);
+            std::string formatted = CTelestaiNameSystemID::FormatTypeData(type, data, error);
             if (!error.empty())
                 throw JSONRPCError(RPC_INVALID_PARAMETER, error);
 
-            CMeowcoinNameSystemID ansID(type, formatted);
+            CTelestaiNameSystemID ansID(type, formatted);
             return ansID.to_string();
         },
     };
@@ -995,10 +995,10 @@ static RPCHelpMan ansdecode()
         {
             std::string ans_id = request.params[0].get_str();
 
-            if (!CMeowcoinNameSystemID::IsValidID(ans_id))
+            if (!CTelestaiNameSystemID::IsValidID(ans_id))
                 throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid ANS ID: " + ans_id);
 
-            CMeowcoinNameSystemID ansID(ans_id);
+            CTelestaiNameSystemID ansID(ans_id);
             return ANSIDToObject(ansID);
         },
     };

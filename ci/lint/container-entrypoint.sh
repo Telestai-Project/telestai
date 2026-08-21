@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #
-# Copyright (c) The Meowcoin Core developers
+# Copyright (c) The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
 export LC_ALL=C
 
 # Fixes permission issues when there is a container UID/GID mismatch with the owner
-# of the mounted meowcoin src dir.
-git config --global --add safe.directory /meowcoin
+# of the mounted telestai src dir.
+git config --global --add safe.directory /telestai
 
 export PATH="/python_build/bin:${PATH}"
 

@@ -1,10 +1,10 @@
-# Copyright (c) 2023-present The Meowcoin Core developers
+# Copyright (c) 2023-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or https://opensource.org/license/mit/.
 
 include(AddWindowsResources)
 
-configure_file(${PROJECT_SOURCE_DIR}/cmake/meowcoin-build-config.h.in meowcoin-build-config.h USE_SOURCE_PERMISSIONS @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/cmake/telestai-build-config.h.in telestai-build-config.h USE_SOURCE_PERMISSIONS @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 #=============================
@@ -39,19 +39,19 @@ if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
 endif()
 
 add_custom_target(generate_build_info
-  BYPRODUCTS ${PROJECT_BINARY_DIR}/src/meowcoin-build-info.h
-  COMMAND ${CMAKE_COMMAND} -DBUILD_INFO_HEADER_PATH=${PROJECT_BINARY_DIR}/src/meowcoin-build-info.h -DSOURCE_DIR=${PROJECT_SOURCE_DIR} -P ${PROJECT_SOURCE_DIR}/cmake/script/GenerateBuildInfo.cmake
-  COMMENT "Generating meowcoin-build-info.h"
+  BYPRODUCTS ${PROJECT_BINARY_DIR}/src/telestai-build-info.h
+  COMMAND ${CMAKE_COMMAND} -DBUILD_INFO_HEADER_PATH=${PROJECT_BINARY_DIR}/src/telestai-build-info.h -DSOURCE_DIR=${PROJECT_SOURCE_DIR} -P ${PROJECT_SOURCE_DIR}/cmake/script/GenerateBuildInfo.cmake
+  COMMENT "Generating telestai-build-info.h"
   VERBATIM
 )
-add_library(meowcoin_clientversion STATIC EXCLUDE_FROM_ALL
+add_library(telestai_clientversion STATIC EXCLUDE_FROM_ALL
   clientversion.cpp
 )
-target_link_libraries(meowcoin_clientversion
+target_link_libraries(telestai_clientversion
   PRIVATE
     core_interface
 )
-add_dependencies(meowcoin_clientversion generate_build_info)
+add_dependencies(telestai_clientversion generate_build_info)
 
 add_subdirectory(assets)
 add_subdirectory(crypto)
@@ -60,7 +60,7 @@ if(ENABLE_IPC)
   add_subdirectory(ipc)
 endif()
 
-add_library(meowcoin_consensus STATIC EXCLUDE_FROM_ALL
+add_library(telestai_consensus STATIC EXCLUDE_FROM_ALL
   arith_uint256.cpp
   auxpow.cpp
   consensus/merkle.cpp
@@ -76,10 +76,10 @@ add_library(meowcoin_consensus STATIC EXCLUDE_FROM_ALL
   script/script_error.cpp
   uint256.cpp
 )
-target_link_libraries(meowcoin_consensus
+target_link_libraries(telestai_consensus
   PRIVATE
     core_interface
-    meowcoin_crypto
+    telestai_crypto
     secp256k1
     ethash
     sph_algo
@@ -90,8 +90,8 @@ if(WITH_ZMQ)
 endif()
 
 # Home for common functionality shared by different executables and libraries.
-# Similar to `meowcoin_util` library, but higher-level.
-add_library(meowcoin_common STATIC EXCLUDE_FROM_ALL
+# Similar to `telestai_util` library, but higher-level.
+add_library(telestai_common STATIC EXCLUDE_FROM_ALL
   addresstype.cpp
   base58.cpp
   bech32.cpp
@@ -145,11 +145,11 @@ add_library(meowcoin_common STATIC EXCLUDE_FROM_ALL
   script/signingprovider.cpp
   script/solver.cpp
 )
-target_link_libraries(meowcoin_common
+target_link_libraries(telestai_common
   PRIVATE
     core_interface
-    meowcoin_consensus
-    meowcoin_util
+    telestai_consensus
+    telestai_util
     univalue
     secp256k1
     ethash
@@ -165,30 +165,30 @@ if(ENABLE_WALLET)
   add_subdirectory(wallet)
 
   if(BUILD_WALLET_TOOL)
-    add_executable(meowcoin-wallet
-      meowcoin-wallet.cpp
-      init/meowcoin-wallet.cpp
+    add_executable(telestai-wallet
+      telestai-wallet.cpp
+      init/telestai-wallet.cpp
       wallet/wallettool.cpp
     )
-    add_windows_resources(meowcoin-wallet meowcoin-wallet-res.rc)
-    add_windows_application_manifest(meowcoin-wallet)
-    target_link_libraries(meowcoin-wallet
+    add_windows_resources(telestai-wallet telestai-wallet-res.rc)
+    add_windows_application_manifest(telestai-wallet)
+    target_link_libraries(telestai-wallet
       core_interface
-      meowcoin_wallet
-      meowcoin_common
-      meowcoin_util
-      meowcoin_node
+      telestai_wallet
+      telestai_common
+      telestai_util
+      telestai_node
       bitcoin_assets
-      meowcoin_node
+      telestai_node
       Boost::headers
     )
-    install_binary_component(meowcoin-wallet HAS_MANPAGE)
+    install_binary_component(telestai-wallet HAS_MANPAGE)
   endif()
 endif()
 
 
-# P2P and RPC server functionality used by `meowcoind` and `meowcoin-qt` executables.
-add_library(meowcoin_node STATIC EXCLUDE_FROM_ALL
+# P2P and RPC server functionality used by `telestaid` and `telestai-qt` executables.
+add_library(telestai_node STATIC EXCLUDE_FROM_ALL
   addrdb.cpp
   addrman.cpp
   banman.cpp
@@ -290,16 +290,16 @@ add_library(meowcoin_node STATIC EXCLUDE_FROM_ALL
   validation.cpp
   validationinterface.cpp
   versionbits.cpp
-  $<$<TARGET_EXISTS:meowcoin_wallet>:wallet/init.cpp>
-  $<$<NOT:$<TARGET_EXISTS:meowcoin_wallet>>:dummywallet.cpp>
+  $<$<TARGET_EXISTS:telestai_wallet>:wallet/init.cpp>
+  $<$<NOT:$<TARGET_EXISTS:telestai_wallet>>:dummywallet.cpp>
 )
-target_link_libraries(meowcoin_node
+target_link_libraries(telestai_node
   PRIVATE
     core_interface
     bitcoin_assets
-    meowcoin_common
-    meowcoin_util
-    $<TARGET_NAME_IF_EXISTS:meowcoin_zmq>
+    telestai_common
+    telestai_util
+    $<TARGET_NAME_IF_EXISTS:telestai_zmq>
     leveldb
     minisketch
     univalue
@@ -310,113 +310,113 @@ target_link_libraries(meowcoin_node
     $<TARGET_NAME_IF_EXISTS:USDT::headers>
 )
 
-# Meowcoin wrapper executable that can call other executables.
+# Telestai wrapper executable that can call other executables.
 if(BUILD_BITCOIN_BIN)
-  add_executable(meowcoin meowcoin.cpp)
-  add_windows_resources(meowcoin meowcoin-res.rc)
-  add_windows_application_manifest(meowcoin)
-  target_link_libraries(meowcoin core_interface meowcoin_common meowcoin_util)
-  install_binary_component(meowcoin HAS_MANPAGE)
+  add_executable(telestai telestai.cpp)
+  add_windows_resources(telestai telestai-res.rc)
+  add_windows_application_manifest(telestai)
+  target_link_libraries(telestai core_interface telestai_common telestai_util)
+  install_binary_component(telestai HAS_MANPAGE)
 endif()
 
-# Meowcoin Core meowcoind.
+# Telestai Core telestaid.
 if(BUILD_DAEMON)
-  add_executable(meowcoind
-    meowcoind.cpp
-    init/meowcoind.cpp
+  add_executable(telestaid
+    telestaid.cpp
+    init/telestaid.cpp
   )
-  add_windows_resources(meowcoind meowcoind-res.rc)
-  add_windows_application_manifest(meowcoind)
-  target_link_libraries(meowcoind
+  add_windows_resources(telestaid telestaid-res.rc)
+  add_windows_application_manifest(telestaid)
+  target_link_libraries(telestaid
     core_interface
-    meowcoin_node
-    $<TARGET_NAME_IF_EXISTS:meowcoin_wallet>
+    telestai_node
+    $<TARGET_NAME_IF_EXISTS:telestai_wallet>
   )
-  install_binary_component(meowcoind HAS_MANPAGE)
+  install_binary_component(telestaid HAS_MANPAGE)
 endif()
 if(ENABLE_IPC AND BUILD_DAEMON)
-  add_executable(meowcoin-node
-    meowcoind.cpp
-    init/meowcoin-node.cpp
+  add_executable(telestai-node
+    telestaid.cpp
+    init/telestai-node.cpp
   )
-  target_link_libraries(meowcoin-node
+  target_link_libraries(telestai-node
     core_interface
-    meowcoin_node
-    meowcoin_ipc
-    $<TARGET_NAME_IF_EXISTS:meowcoin_wallet>
+    telestai_node
+    telestai_ipc
+    $<TARGET_NAME_IF_EXISTS:telestai_wallet>
   )
-  install_binary_component(meowcoin-node INTERNAL)
+  install_binary_component(telestai-node INTERNAL)
 endif()
 
 if(ENABLE_IPC AND BUILD_TESTS)
-    # meowcoin_ipc_test library target is defined here in src/CMakeLists.txt
+    # telestai_ipc_test library target is defined here in src/CMakeLists.txt
     # instead of src/test/CMakeLists.txt so capnp files in src/test/ are able to
     # reference capnp files in src/ipc/capnp/ by relative path. The Cap'n Proto
     # compiler only allows importing by relative path when the importing and
     # imported files are underneath the same compilation source prefix, so the
     # source prefix must be src/, not src/test/
-    add_library(meowcoin_ipc_test STATIC EXCLUDE_FROM_ALL
+    add_library(telestai_ipc_test STATIC EXCLUDE_FROM_ALL
       test/ipc_test.cpp
     )
-    target_capnp_sources(meowcoin_ipc_test ${PROJECT_SOURCE_DIR}
+    target_capnp_sources(telestai_ipc_test ${PROJECT_SOURCE_DIR}
       test/ipc_test.capnp
     )
-    add_dependencies(meowcoin_ipc_test meowcoin_ipc_headers)
+    add_dependencies(telestai_ipc_test telestai_ipc_headers)
 endif()
 
 
-add_library(meowcoin_cli STATIC EXCLUDE_FROM_ALL
+add_library(telestai_cli STATIC EXCLUDE_FROM_ALL
   compat/stdin.cpp
   rpc/client.cpp
 )
-target_link_libraries(meowcoin_cli
+target_link_libraries(telestai_cli
   PUBLIC
     core_interface
     univalue
 )
 
 
-# Meowcoin Core RPC client
+# Telestai Core RPC client
 if(BUILD_CLI)
-  add_executable(meowcoin-cli meowcoin-cli.cpp)
-  add_windows_resources(meowcoin-cli meowcoin-cli-res.rc)
-  add_windows_application_manifest(meowcoin-cli)
-  target_link_libraries(meowcoin-cli
+  add_executable(telestai-cli telestai-cli.cpp)
+  add_windows_resources(telestai-cli telestai-cli-res.rc)
+  add_windows_application_manifest(telestai-cli)
+  target_link_libraries(telestai-cli
     core_interface
-    meowcoin_cli
-    meowcoin_common
-    meowcoin_util
+    telestai_cli
+    telestai_common
+    telestai_util
     libevent::core
     libevent::extra
   )
-  install_binary_component(meowcoin-cli HAS_MANPAGE)
+  install_binary_component(telestai-cli HAS_MANPAGE)
 endif()
 
 
 if(BUILD_TX)
-  add_executable(meowcoin-tx meowcoin-tx.cpp)
-  add_windows_resources(meowcoin-tx meowcoin-tx-res.rc)
-  add_windows_application_manifest(meowcoin-tx)
-  target_link_libraries(meowcoin-tx
+  add_executable(telestai-tx telestai-tx.cpp)
+  add_windows_resources(telestai-tx telestai-tx-res.rc)
+  add_windows_application_manifest(telestai-tx)
+  target_link_libraries(telestai-tx
     core_interface
-    meowcoin_common
-    meowcoin_util
+    telestai_common
+    telestai_util
     univalue
   )
-  install_binary_component(meowcoin-tx HAS_MANPAGE)
+  install_binary_component(telestai-tx HAS_MANPAGE)
 endif()
 
 
 if(BUILD_UTIL)
-  add_executable(meowcoin-util meowcoin-util.cpp)
-  add_windows_resources(meowcoin-util meowcoin-util-res.rc)
-  add_windows_application_manifest(meowcoin-util)
-  target_link_libraries(meowcoin-util
+  add_executable(telestai-util telestai-util.cpp)
+  add_windows_resources(telestai-util telestai-util-res.rc)
+  add_windows_application_manifest(telestai-util)
+  target_link_libraries(telestai-util
     core_interface
-    meowcoin_common
-    meowcoin_util
+    telestai_common
+    telestai_util
   )
-  install_binary_component(meowcoin-util HAS_MANPAGE)
+  install_binary_component(telestai-util HAS_MANPAGE)
 endif()
 
 
@@ -430,24 +430,24 @@ if(BUILD_KERNEL_LIB)
 endif()
 
 if(BUILD_UTIL_CHAINSTATE)
-  add_executable(meowcoin-chainstate
-    meowcoin-chainstate.cpp
+  add_executable(telestai-chainstate
+    telestai-chainstate.cpp
   )
   # TODO: The `SKIP_BUILD_RPATH` property setting can be deleted
   #       in the future after reordering Guix script commands to
   #       perform binary checks after the installation step.
   # Relevant discussions:
-  # - https://github.com/hebasto/meowcoin/pull/236#issuecomment-2183120953
-  # - https://github.com/meowcoin/meowcoin/pull/30312#issuecomment-2191235833
-  set_target_properties(meowcoin-chainstate PROPERTIES
+  # - https://github.com/Telestai-Project/telestai/pull/236#issuecomment-2183120953
+  # - https://github.com/Telestai-Project/telestai/pull/30312#issuecomment-2191235833
+  set_target_properties(telestai-chainstate PROPERTIES
     SKIP_BUILD_RPATH OFF
   )
-  target_link_libraries(meowcoin-chainstate
+  target_link_libraries(telestai-chainstate
     PRIVATE
       core_interface
-      meowcoinkernel
+      telestaikernel
   )
-  install_binary_component(meowcoin-chainstate INTERNAL)
+  install_binary_component(telestai-chainstate INTERNAL)
 endif()
 
 
@@ -465,23 +465,4 @@ if(BUILD_FUZZ_BINARY)
 endif()
 
 
-# Apex source/target names remain meowcoin* internally; OUTPUT_NAME ships telestai*.
-# Also expose `telestaid` / `telestai-cli` CMake targets so CI does not build `meowcoind`.
-foreach(_tls_tgt IN ITEMS meowcoin meowcoind meowcoin-cli meowcoin-tx meowcoin-util meowcoin-wallet meowcoin-qt meowcoin-node meowcoin-gui test_meowcoin bench_meowcoin)
-  if(TARGET ${_tls_tgt})
-    string(REPLACE "meowcoin" "telestai" _tls_out "${_tls_tgt}")
-    set_target_properties(${_tls_tgt} PROPERTIES OUTPUT_NAME "${_tls_out}")
-  endif()
-endforeach()
-if(TARGET meowcoind)
-  add_custom_target(telestaid DEPENDS meowcoind)
-endif()
-if(TARGET meowcoin-cli)
-  add_custom_target(telestai-cli DEPENDS meowcoin-cli)
-endif()
-if(TARGET meowcoin-tx)
-  add_custom_target(telestai-tx DEPENDS meowcoin-tx)
-endif()
-if(TARGET meowcoin-wallet)
-  add_custom_target(telestai-wallet DEPENDS meowcoin-wallet)
-endif()
+# Executable CMake targets are already named telestai* (telestaid, telestai-cli, …).

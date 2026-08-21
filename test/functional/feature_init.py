@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021-present The Meowcoin Core developers
+# Copyright (c) 2021-present The Telestai Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Tests related to node initialization."""
@@ -42,7 +42,7 @@ class InitTest(BitcoinTestFramework):
             if platform.system() == 'Windows':
                 # Don't call Python's terminate() since it calls
                 # TerminateProcess(), which unlike SIGTERM doesn't allow
-                # meowcoind to perform any shutdown logic.
+                # telestaid to perform any shutdown logic.
                 os.kill(node.process.pid, signal.CTRL_BREAK_EVENT)
             else:
                 node.process.terminate()
@@ -221,7 +221,7 @@ class InitTest(BitcoinTestFramework):
                 shutil.move(node.chain_path / f"{dir}_bak", node.chain_path / dir)
 
     def init_pid_test(self):
-        BITCOIN_PID_FILENAME_CUSTOM = "my_fancy_meowcoin_pid_file.foobar"
+        BITCOIN_PID_FILENAME_CUSTOM = "my_fancy_telestai_pid_file.foobar"
 
         self.log.info("Test specifying custom pid file via -pid command line option")
         custom_pidfile_relative = BITCOIN_PID_FILENAME_CUSTOM
