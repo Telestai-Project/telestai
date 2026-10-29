@@ -1,4 +1,4 @@
-# Pool / mining operator notes — Telestai Core 3.0.1
+# Pool / mining operator notes — Telestai Core 3.0.2
 
 **Audience:** pools and solo operators preparing for 3.0 TestNet / mainnet.  
 **PoW:** Meraki (ProgPoW family; code may still say KAWPOW internally).  
@@ -6,7 +6,7 @@
 
 **Not supported for 3.0 solo/GBT:** MiniZ and generic KawPoW stratum miners unless a pool translates to Meraki GBT.
 
-Use **3.0.1**, not 3.0.0. 3.0.0 omitted `getkawpowhash` and shipped as a GitHub pre-release.
+Use **3.0.2** (not 3.0.0 / stock 3.0.1 alone). 3.0.0 omitted `getkawpowhash`. Stock **3.0.1** raised the P2P peer floor to protocol **70030**, which disconnects current **2.1.x** seeds (**70028**). **3.0.2** keeps Meraki/mining RPCs from 3.0.1 and restores peer compatibility with 2.1.x until the network upgrades.
 
 ---
 
@@ -14,7 +14,7 @@ Use **3.0.1**, not 3.0.0. 3.0.0 omitted `getkawpowhash` and shipped as a GitHub 
 
 | Item | TestNet | Mainnet |
 |------|---------|---------|
-| Binary | `telestaid` **3.0.1** | same |
+| Binary | `telestaid` **3.0.2** | same |
 | P2P port | 18770 | 8767 |
 | RPC | local only | local / VPN only |
 | `miningaddress` | legacy **P2PKH** | legacy **P2PKH** for Meraki templates |
@@ -70,30 +70,30 @@ Mainnet difficulty should make multi-sol-on-one-job far rarer.
 | TestNet | `mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26` |
 | Mainnet | `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` |
 
-**Mainnet fork height: 1,150,000.** Run **3.0.1** before that block. After it, asset issue/reissue/tag fees must pay the development address, not 2.1.x vanity burns. Coinbase 25% is unchanged.
+**Mainnet fork height: 1,150,000** (already activated). Run **3.0.2**. Asset issue/reissue/tag fees must pay the development address, not 2.1.x vanity burns. Coinbase 25% is unchanged.
 
 Asset issue/reissue fees (fixed TLS amounts) go to the **same** development address on 3.0 after activation (not burn vanity addresses).
 
 ---
 
-## Mainnet GBT switch (when `v3.0.1` node binaries are on GitHub)
+## Mainnet GBT switch (when `v3.0.2` node binaries are on GitHub)
 
-Do **not** point production stratum at 3.0 until signed `telestaid` for your OS is on https://github.com/Telestai-Project/telestai/releases/tag/v3.0.1
+Do **not** point production stratum at 3.0 until `telestaid` for your OS is on https://github.com/Telestai-Project/telestai/releases/tag/v3.0.2
 
 Then:
 
-1. Run 3.0.1 **beside** 2.1.9 until it is synced (same P2P magic/port 8767; `addnode` a seed).
-2. Point GBT / `pprpcsb` at the 3.0.1 RPC only (telemerakiminer, not MiniZ).
+1. Run **3.0.2** until synced (same P2P magic/port 8767; `addnode` a seed). Prefer 3.0.2 over stock 3.0.1 so you still peer with 2.1.x seeds.
+2. Point GBT / `pprpcsb` at the 3.0.2 RPC only (telemerakiminer, not MiniZ).
 3. Confirm `getkawpowhash` (or `getmerakihash`) is present before cutting over.
-4. Before height **1,150,000**, all pool nodes must be 3.0.1. After that height 2.1.9 templates are the wrong chain.
-5. Confirm coinbase vout[1] is still `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` (25%). Asset fees follow that address from 1,150,000.
+4. Confirm coinbase vout[1] is still `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` (25%). Asset fees follow that address from 1,150,000.
 
 ## Checklist before advertising a 3.0 pool
 
-- [ ] Node `/Telestai:3.0.1/`
+- [ ] Node `/Telestai:3.0.2/`
+- [ ] Peers include existing seeds (2.1.x OK on 3.0.2; stock 3.0.1 will drop them)
 - [ ] `getauxblock` not present
 - [ ] `getkawpowhash` present (and `getmerakihash`)
 - [ ] telemerakiminer Accepts against your GBT
 - [ ] Coinbase split verified on a mined block
 - [ ] Stratum (if any) correctly maps to Meraki header/nonce/mix_hash
-- [ ] Mainnet switch done only from tagged `v3.0.1` binaries
+- [ ] Mainnet switch done only from tagged `v3.0.2` binaries
