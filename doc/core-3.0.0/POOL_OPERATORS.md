@@ -82,7 +82,7 @@ Do **not** point production stratum at 3.0 until `telestaid` for your OS is on h
 
 Then:
 
-1. Run **3.0.2** until synced (same P2P magic/port 8767; `addnode` a seed). Prefer 3.0.2 over stock 3.0.1 so you still peer with 2.1.x seeds.
+1. Run **3.0.2** until synced (same P2P magic/port 8767; `addnode` a seed). Prefer 3.0.2 over stock 3.0.1 so you still peer with 2.1.x seeds. Empty mainnet datadir IBD is supported on current 3.0.2 (historical Meraki `powLimit` restored); in-place upgrade from a synced 2.1.8/2.1.9 datadir also works.
 2. Point GBT / `pprpcsb` at the 3.0.2 RPC only (telemerakiminer, not MiniZ).
 3. Confirm `getkawpowhash` (or `getmerakihash`) is present before cutting over.
 4. Confirm coinbase vout[1] is still `TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe` (25%). Asset fees follow that address from 1,150,000.
