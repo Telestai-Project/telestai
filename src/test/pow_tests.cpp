@@ -188,6 +188,32 @@ BOOST_AUTO_TEST_CASE(ChainParams_MAIN_sanity)
     sanity_check_chainparams(*m_node.args, ChainType::MAIN);
 }
 
+/* Mainnet block 1 was mined under 2.1.x DGW with bits=1e0fffff.
+ * 3.0 must require that same compact from genesis or IBD dies at height 1. */
+BOOST_AUTO_TEST_CASE(mainnet_block1_diffbits_matches_historical_chain)
+{
+    const auto chainParams = CreateChainParams(*m_node.args, ChainType::MAIN);
+    const auto& consensus = chainParams->GetConsensus();
+
+    const unsigned int historical_block1_nbits = 0x1e0fffffU;
+    BOOST_CHECK_EQUAL(UintToArith256(consensus.powLimit).GetCompact(), historical_block1_nbits);
+    BOOST_CHECK_EQUAL(
+        UintToArith256(consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)]).GetCompact(),
+        historical_block1_nbits);
+
+    CBlockIndex genesis_index{chainParams->GenesisBlock()};
+    genesis_index.nHeight = 0;
+    genesis_index.pprev = nullptr;
+
+    CBlockHeader block1_header;
+    block1_header.nTime = chainParams->GenesisBlock().nTime + consensus.nPowTargetSpacing;
+    block1_header.nBits = historical_block1_nbits;
+
+    BOOST_CHECK_EQUAL(
+        GetNextWorkRequired(&genesis_index, &block1_header, consensus, /*fIsAuxPow=*/false),
+        historical_block1_nbits);
+}
+
 BOOST_AUTO_TEST_CASE(ChainParams_REGTEST_sanity)
 {
     sanity_check_chainparams(*m_node.args, ChainType::REGTEST);

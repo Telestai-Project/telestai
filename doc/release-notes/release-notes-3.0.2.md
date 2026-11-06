@@ -1,7 +1,7 @@
 # Telestai Core 3.0.2
 
-Patch release on the Core 3.0 line. Consensus is unchanged from 3.0.0 / 3.0.1:
-mainnet activation remains **block 1,150,000**. Proof of work remains **Meraki**.
+Patch release on the Core 3.0 line. Mainnet activation remains **block
+1,150,000**. Proof of work remains **Meraki**. No new fork height.
 
 ## Why this release
 
@@ -12,6 +12,21 @@ node disconnect every current **2.1.x** peer (protocol **70028**), so a lone
 **3.0.2** keeps speaking protocol **70031** itself, but again accepts peers
 down to **70028** so operators can run Core 3.0 while seeds and pools finish
 upgrading.
+
+### Fresh mainnet IBD (`bad-diffbits` at block 1)
+
+Early builds of 3.0.x used a Meraki `powLimit` whose compact form was
+`0x2000ffff`. Historical mainnet block 1
+(`000001ca2aa3249de0587423ac38f82846bb8597baa770187f99e997859c8170`) was
+mined under 2.1.x with `bits=1e0fffff`. A **fresh** 3.0 node (empty datadir)
+therefore rejected block 1 in `ContextualCheckBlockHeader` (`bad-diffbits`)
+and marked every 2.1.x peer misbehaving.
+
+**3.0.2** restores the 2.1.x Meraki pow limit
+(`00000ffff…` → compact `0x1e0fffff`) so empty-datadir sync from genesis
+works. Nodes that already upgraded in place from a synced 2.1.x datadir were
+unaffected; rebuild/replace the 3.0.2 binary if you hit the empty-datadir
+failure.
 
 ## Compatibility (important)
 
@@ -35,6 +50,13 @@ upgrading.
 ## Upgrade
 
 If you are on **2.1.x** or isolated **3.0.1**, move to **3.0.2**.
+
+Supported paths:
+
+1. **Preferred for new nodes:** install **3.0.2** and sync from an empty
+   mainnet datadir (fixed above).
+2. **Also fine:** sync fully on **2.1.8 / 2.1.9**, stop, replace the binary
+   with **3.0.2**, keep the same datadir (in-place upgrade).
 
 After replacing the binary, if startup fails with a corrupt `peers.dat`
 message, move `peers.dat` aside (a new one will be created) and restart.

@@ -89,9 +89,14 @@ public:
         consensus.SegwitHeight = 1;
         consensus.MinBIP9WarningHeight = 0;
 
-        // PoW limits per algorithm
-        consensus.powLimit = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
-        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        // PoW limits per algorithm.
+        // Mainnet Meraki limit MUST match Telestai 2.1.x
+        // (`00fff…` → compact 0x1e0fffff). Early DGW (height < 180) returns
+        // powLimit.GetCompact(); block 1 on mainnet was mined with bits=1e0fffff.
+        // The longer 00fff…64-nibble form GetCompacts to 0x2000ffff and makes a
+        // fresh 3.0 IBD reject block 1 with bad-diffbits.
+        consensus.powLimit = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)] = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::SCRYPT)]  = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
 
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days
