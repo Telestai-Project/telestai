@@ -1,0 +1,107 @@
+name: Release 3.0.2 Linux packages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - release/3.0.2
+    paths:
+      - '.github/workflows/release-3.0.2-linux.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  linux-x86_64:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release/3.0.2
+
+      - name: Install deps
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            build-essential cmake pkg-config python3 \
+            libevent-dev libboost-dev libsqlite3-dev libssl-dev
+
+      - name: Build package and upload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARCH: linux-x86_64
+          LIB_DIRS: /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu
+        run: |
+          set -euo pipefail
+          cmake -B build -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_TESTS=OFF -DENABLE_IPC=OFF -DBUILD_GUI=OFF -DBUILD_BENCH=OFF \
+            -DBUILD_UTIL=ON
+          cmake --build build -j"$(nproc)" --target telestaid telestai-cli
+
+          ROOT="telestai-3.0.2-${ARCH}"
+          mkdir -p "${ROOT}/bin" "${ROOT}/lib"
+          cp build/bin/telestaid build/bin/telestai-cli "${ROOT}/bin/"
+          for lib in libevent_core-2.1.so.7 libevent_extra-2.1.so.7 libevent_pthreads-2.1.so.7 libsqlite3.so.0; do
+            for p in ${LIB_DIRS}; do
+              if [ -f "$p/$lib" ]; then cp -L "$p/$lib" "${ROOT}/lib/"; break; fi
+            done
+          done
+          printf '%s\n' '#!/usr/bin/env bash' 'set -euo pipefail' \
+            'ROOT="$(cd "$(dirname "$0")" && pwd)"' \
+            'export LD_LIBRARY_PATH="$ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"' \
+            'exec "$ROOT/bin/telestaid" "$@"' > "${ROOT}/run-telestaid.sh"
+          chmod +x "${ROOT}/run-telestaid.sh" "${ROOT}/bin/telestaid" "${ROOT}/bin/telestai-cli"
+          tar czf "telestai-3.0.2-${ARCH}.tar.gz" "${ROOT}"
+          sha256sum "telestai-3.0.2-${ARCH}.tar.gz" | tee "telestai-3.0.2-${ARCH}.tar.gz.sha256"
+          "./${ROOT}/bin/telestaid" -version | head -5
+          gh release upload v3.0.2 \
+            "telestai-3.0.2-${ARCH}.tar.gz" \
+            "telestai-3.0.2-${ARCH}.tar.gz.sha256" \
+            --clobber
+
+  linux-arm64:
+    runs-on: ubuntu-22.04-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release/3.0.2
+
+      - name: Install deps
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            build-essential cmake pkg-config python3 \
+            libevent-dev libboost-dev libsqlite3-dev libssl-dev
+
+      - name: Build package and upload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARCH: linux-arm64
+          LIB_DIRS: /lib/aarch64-linux-gnu /usr/lib/aarch64-linux-gnu
+        run: |
+          set -euo pipefail
+          cmake -B build -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_TESTS=OFF -DENABLE_IPC=OFF -DBUILD_GUI=OFF -DBUILD_BENCH=OFF \
+            -DBUILD_UTIL=ON
+          cmake --build build -j"$(nproc)" --target telestaid telestai-cli
+
+          ROOT="telestai-3.0.2-${ARCH}"
+          mkdir -p "${ROOT}/bin" "${ROOT}/lib"
+          cp build/bin/telestaid build/bin/telestai-cli "${ROOT}/bin/"
+          for lib in libevent_core-2.1.so.7 libevent_extra-2.1.so.7 libevent_pthreads-2.1.so.7 libsqlite3.so.0; do
+            for p in ${LIB_DIRS}; do
+              if [ -f "$p/$lib" ]; then cp -L "$p/$lib" "${ROOT}/lib/"; break; fi
+            done
+          done
+          printf '%s\n' '#!/usr/bin/env bash' 'set -euo pipefail' \
+            'ROOT="$(cd "$(dirname "$0")" && pwd)"' \
+            'export LD_LIBRARY_PATH="$ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"' \
+            'exec "$ROOT/bin/telestaid" "$@"' > "${ROOT}/run-telestaid.sh"
+          chmod +x "${ROOT}/run-telestaid.sh" "${ROOT}/bin/telestaid" "${ROOT}/bin/telestai-cli"
+          tar czf "telestai-3.0.2-${ARCH}.tar.gz" "${ROOT}"
+          sha256sum "telestai-3.0.2-${ARCH}.tar.gz" | tee "telestai-3.0.2-${ARCH}.tar.gz.sha256"
+          "./${ROOT}/bin/telestaid" -version | head -5
+          gh release upload v3.0.2 \
+            "telestai-3.0.2-${ARCH}.tar.gz" \
+            "telestai-3.0.2-${ARCH}.tar.gz.sha256" \
+            --clobber
