@@ -3,6 +3,8 @@
 Patch release on the Core 3.0 line. Mainnet activation remains **block
 1,150,000**. Proof of work remains **Meraki**. No new fork height.
 
+**Tag tip (consensus fix):** `9d59ee526`
+
 ## Why this release
 
 Stock **3.0.1** set `MIN_PEER_PROTO_VERSION` to **70030**. That made a 3.0.1
@@ -24,9 +26,15 @@ and marked every 2.1.x peer misbehaving.
 
 **3.0.2** restores the 2.1.x Meraki pow limit
 (`00000ffff…` → compact `0x1e0fffff`) so empty-datadir sync from genesis
-works. Nodes that already upgraded in place from a synced 2.1.x datadir were
-unaffected; rebuild/replace the 3.0.2 binary if you hit the empty-datadir
-failure.
+works.
+
+### Binaries
+
+Linux packages on the GitHub release were rebuilt from `release/3.0.2` with
+that fix:
+
+- `telestai-3.0.2-linux-x86_64.tar.gz`
+- `telestai-3.0.2-linux-arm64.tar.gz`
 
 ## Compatibility (important)
 
@@ -54,7 +62,7 @@ If you are on **2.1.x** or isolated **3.0.1**, move to **3.0.2**.
 Supported paths:
 
 1. **Preferred for new nodes:** install **3.0.2** and sync from an empty
-   mainnet datadir (fixed above).
+   mainnet datadir.
 2. **Also fine:** sync fully on **2.1.8 / 2.1.9**, stop, replace the binary
    with **3.0.2**, keep the same datadir (in-place upgrade).
 
