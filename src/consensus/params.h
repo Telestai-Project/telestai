@@ -142,6 +142,8 @@ struct Params {
 
     /** Telestai: LWMA averaging window (typically 45). */
     int64_t nLwmaAveragingWindow{45};
+    /** Telestai: first block that uses Dark Gravity Wave. Regtest is 200; mainnet/testnet are 1. */
+    unsigned int nDGWActivationBlock{1};
 
     std::chrono::seconds PowTargetSpacing() const
     {

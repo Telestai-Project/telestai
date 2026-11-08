@@ -223,12 +223,9 @@ static unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast,
 // ---------------------------------------------------------------------------
 // Top-level dispatcher
 // ---------------------------------------------------------------------------
-bool IsDGWActive(unsigned int nBlockNumber)
+bool IsDGWActive(unsigned int nBlockNumber, const Consensus::Params& params)
 {
-    // TODO: Wire to CChainParams::DGWActivationBlock() once init sets the global.
-    // For now DGW activates at block 1 (always on for Telestai mainnet).
-    (void)nBlockNumber;
-    return true;
+    return nBlockNumber >= params.nDGWActivationBlock;
 }
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast,
@@ -241,7 +238,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast,
         return GetNextWorkRequired_LWMA_MultiAlgo(pindexLast, pblock, params, fIsAuxPowBlock);
     }
 
-    if (IsDGWActive(pindexLast->nHeight + 1)) {
+    if (IsDGWActive(pindexLast->nHeight + 1, params)) {
         return DarkGravityWave(pindexLast, pblock, params);
     }
 

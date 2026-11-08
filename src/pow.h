@@ -56,7 +56,7 @@ inline bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::
  */
 bool PermittedDifficultyTransition(const Consensus::Params& params, int64_t height, uint32_t old_nbits, uint32_t new_nbits);
 
-/** Return true if nBlockNumber >= the DGW activation block. */
-bool IsDGWActive(unsigned int nBlockNumber);
+/** Return true if nBlockNumber >= params.nDGWActivationBlock. */
+bool IsDGWActive(unsigned int nBlockNumber, const Consensus::Params& params);
 
 #endif // BITCOIN_POW_H

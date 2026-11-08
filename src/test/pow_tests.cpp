@@ -214,6 +214,30 @@ BOOST_AUTO_TEST_CASE(mainnet_block1_diffbits_matches_historical_chain)
         historical_block1_nbits);
 }
 
+BOOST_AUTO_TEST_CASE(testnet_meraki_pow_limit_matches_mainnet_compact)
+{
+    const auto testParams = CreateChainParams(*m_node.args, ChainType::TESTNET);
+    const auto& consensus = testParams->GetConsensus();
+    const unsigned int historical_nbits = 0x1e0fffffU;
+
+    BOOST_CHECK_EQUAL(UintToArith256(consensus.powLimit).GetCompact(), historical_nbits);
+    BOOST_CHECK_EQUAL(
+        UintToArith256(consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)]).GetCompact(),
+        historical_nbits);
+    BOOST_CHECK(IsDGWActive(1, consensus));
+    BOOST_CHECK(!IsDGWActive(0, consensus));
+}
+
+BOOST_AUTO_TEST_CASE(regtest_dgw_respects_activation_height)
+{
+    const auto regParams = CreateChainParams(*m_node.args, ChainType::REGTEST);
+    const auto& consensus = regParams->GetConsensus();
+    BOOST_CHECK_EQUAL(consensus.nDGWActivationBlock, 200U);
+    BOOST_CHECK(!IsDGWActive(1, consensus));
+    BOOST_CHECK(!IsDGWActive(199, consensus));
+    BOOST_CHECK(IsDGWActive(200, consensus));
+}
+
 BOOST_AUTO_TEST_CASE(ChainParams_REGTEST_sanity)
 {
     sanity_check_chainparams(*m_node.args, ChainType::REGTEST);

@@ -176,9 +176,11 @@ public:
         // Core 3.0.0 hard fork: asset fees → TesBmcg… (everyone must be on 3.0.0)
         consensus.nCore300ActivationHeight = 1150000;
 
-        // Reset until Telestai 3.0.0 sync stats are recomputed
-        consensus.nMinimumChainWork = uint256{};
-        consensus.defaultAssumeValid = uint256{};
+        // 2.1.x chainwork and assume-valid anchor at height 16943.
+        // GetBlockProof matches 2.1.x, so this is the same cumulative work.
+        // Below this, the node stays in IBD and will not serve headers.
+        consensus.nMinimumChainWork = uint256{"000000000000000000000000000000000000000000000000026be418fdd92554"};
+        consensus.defaultAssumeValid = uint256{"000000000001249118c6f77c21f8c9657536918fd0590f0181764bfaacfdcfd6"};
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -269,7 +271,8 @@ public:
         strGlobalBurnAddress = "ToBurnXXXXXXXXXXXXXXXXXXXXXXX57KAq";
         strCommunityAutonomousAddress = "TesBmcgLQsowvYEYPXpSHkkapoTbVV7Xfe";
 
-        nDGWActivationBlock = 1;
+        consensus.nDGWActivationBlock = 1;
+        nDGWActivationBlock = consensus.nDGWActivationBlock;
         nMaxReorganizationDepth = 60;
         nMinReorganizationPeers = 4;
         nMinReorganizationAge = 60 * 60 * 12;
@@ -306,8 +309,10 @@ public:
         consensus.SegwitHeight = 1;
         consensus.MinBIP9WarningHeight = 0;
 
-        consensus.powLimit = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
-        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        // Same historical Meraki compact as mainnet (0x1e0fffff). The longer
+        // 00ffff… form GetCompacts to 0x2000ffff and fails early-DGW checks.
+        consensus.powLimit = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::MERAKI)] = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimitPerAlgo[static_cast<uint8_t>(PowAlgo::SCRYPT)]  = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
 
         consensus.nPowTargetTimespan = 2016 * 60;
@@ -456,7 +461,8 @@ public:
         strGlobalBurnAddress = "n1BurnXXXXXXXXXXXXXXXXXXXXXXU1qejP";
         strCommunityAutonomousAddress = "mgaw88zztsHWN8SyL9vXwiCed7aRiPwL26";
 
-        nDGWActivationBlock = 1;
+        consensus.nDGWActivationBlock = 1;
+        nDGWActivationBlock = consensus.nDGWActivationBlock;
         nMaxReorganizationDepth = 60;
         nMinReorganizationPeers = 4;
         nMinReorganizationAge = 60 * 60 * 12;
@@ -487,7 +493,7 @@ public:
         consensus.CSVHeight = 1;
         consensus.SegwitHeight = 1;
         consensus.MinBIP9WarningHeight = 0;
-        consensus.powLimit = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
+        consensus.powLimit = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.nPowTargetTimespan = 2016 * 60;
         consensus.nPowTargetSpacing = 1 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
@@ -741,7 +747,8 @@ public:
         strGlobalBurnAddress = "JGYQBki6wWWnJLp2dcgdtNZWs9a2e1nXM3";
         strCommunityAutonomousAddress = "JCPncGFawSDgP3CmG19MB6cbKP5XuhXY4u";
 
-        nDGWActivationBlock = 200;
+        consensus.nDGWActivationBlock = 200;
+        nDGWActivationBlock = consensus.nDGWActivationBlock;
         nMaxReorganizationDepth = 60;
         nMinReorganizationPeers = 4;
         nMinReorganizationAge = 60 * 60 * 12;

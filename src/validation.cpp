@@ -4687,7 +4687,7 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
     int64_t futureLimit = MAX_FUTURE_BLOCK_TIME;
     if (consensusParams.IsAuxpowActive(nHeight)) {
         futureLimit = MAX_FUTURE_BLOCK_TIME_LWMA;
-    } else if (IsDGWActive(nHeight)) {
+    } else if (IsDGWActive(nHeight, consensusParams)) {
         futureLimit = MAX_FUTURE_BLOCK_TIME_DGW;
     }
 

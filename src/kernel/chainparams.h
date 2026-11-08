@@ -166,7 +166,7 @@ public:
     }
 
     /** Telestai: activation helpers */
-    unsigned int DGWActivationBlock() const { return nDGWActivationBlock; }
+    unsigned int DGWActivationBlock() const { return consensus.nDGWActivationBlock; }
     unsigned int MessagingActivationBlock() const { return nMessagingActivationBlock; }
     unsigned int RestrictedActivationBlock() const { return nRestrictedActivationBlock; }
     int MaxReorganizationDepth() const { return nMaxReorganizationDepth; }

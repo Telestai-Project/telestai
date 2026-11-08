@@ -25,8 +25,14 @@ therefore rejected block 1 in `ContextualCheckBlockHeader` (`bad-diffbits`)
 and marked every 2.1.x peer misbehaving.
 
 **3.0.2** restores the 2.1.x Meraki pow limit
-(`00000ffff…` → compact `0x1e0fffff`) so empty-datadir sync from genesis
-works.
+(`00000ffff…` → compact `0x1e0fffff`) on mainnet and testnet, so
+empty-datadir sync from genesis works. Testnet datadirs mined by an
+earlier 3.0.x build (compact `0x2000ffff`) must be wiped and resynced.
+
+DGW activation follows `nDGWActivationBlock` (regtest stays at 200).
+Mainnet `nMinimumChainWork` and `defaultAssumeValid` are the 2.1.x
+height **16943** anchor, so a node will not leave IBD or serve headers
+on a low-work chain.
 
 ### Binaries
 
