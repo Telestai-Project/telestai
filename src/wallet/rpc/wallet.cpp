@@ -898,6 +898,7 @@ RPCHelpMan signmessage();
 
 // rewards (wallet/rpc/rewards.cpp)
 RPCHelpMan distributereward();
+RPCHelpMan canceldistribution();
 
 // assets (wallet/rpc/assets.cpp)
 RPCHelpMan issue();
@@ -911,6 +912,7 @@ RPCHelpMan transferqualifier();
 RPCHelpMan reissue();
 RPCHelpMan reissuerestrictedasset();
 RPCHelpMan listmyassets();
+RPCHelpMan sendmessage();
 RPCHelpMan addtagtoaddress();
 RPCHelpMan removetagfromaddress();
 RPCHelpMan freezeaddress();
@@ -982,6 +984,7 @@ std::span<const CRPCCommand> GetWalletRPCCommands()
         {"wallet", &simulaterawtransaction},
         {"wallet", &sendall},
         {"wallet", &unloadwallet},
+        {"rewards", &canceldistribution},
         {"wallet", &walletcreatefundedpsmt},
 #ifdef ENABLE_EXTERNAL_SIGNER
         {"wallet", &walletdisplayaddress},
@@ -1002,6 +1005,7 @@ std::span<const CRPCCommand> GetWalletRPCCommands()
         {"assets", &reissue},
         {"assets", &reissuerestrictedasset},
         {"assets", &listmyassets},
+        {"messages", &sendmessage},
         {"restricted_assets", &addtagtoaddress},
         {"restricted_assets", &removetagfromaddress},
         {"restricted_assets", &freezeaddress},

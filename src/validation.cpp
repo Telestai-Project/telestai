@@ -12,6 +12,9 @@
 #include <assets/assetdb.h>
 #include <assets/assettypes.h>
 #include <assets/messages.h>
+#include <assets/myassetsdb.h>
+#include <assets/assetsnapshotdb.h>
+#include <assets/snapshotrequestdb.h>
 #include <chain.h>
 #include <checkqueue.h>
 #include <clientversion.h>
@@ -94,6 +97,10 @@ using node::BlockMap;
 using node::CBlockIndexHeightOnlyComparator;
 using node::CBlockIndexWorkComparator;
 using node::SnapshotMetadata;
+
+// TLS: the reward snapshot databases, defined in init.cpp
+extern CSnapshotRequestDB* pSnapshotRequestDb;
+extern CAssetSnapshotDB* pAssetSnapshotDb;
 
 /** Size threshold for warning about slow UTXO set flush to disk. */
 static constexpr size_t WARN_FLUSH_COINS_SIZE = 1 << 30; // 1 GiB
@@ -2365,6 +2372,21 @@ int ApplyTxInUndo(Coin&& undo, CCoinsViewCache& view, const COutPoint& out)
     return fClean ? DISCONNECT_OK : DISCONNECT_UNCLEAN;
 }
 
+// TLS: a message whose transfer is disconnected is marked orphaned, as 2.1.x did in
+// DisconnectBlock(). The lock is taken here for the reason given at WriteBlockMessages().
+static void OrphanBlockMessage(const COutPoint& out, const CAssetTransfer& transfer) NO_THREAD_SAFETY_ANALYSIS
+{
+    extern bool fMessaging;
+    extern CMessageDB* pmessagedb;
+    if (!AreMessagesDeployed() || !fMessaging || transfer.message.empty()) return;
+    if (!IsAssetNameAnOwner(transfer.strName) && !IsAssetNameAnMsgChannel(transfer.strName)) return;
+
+    LOCK(cs_messaging);
+    if (!IsChannelSubscribed(transfer.strName)) return;
+    OrphanMessage(out);
+    if (pmessagedb) pmessagedb->Flush();
+}
+
 /** Undo the effects of this block (with given index) on the UTXO set represented by coins.
  *  When FAILED is returned, view is left in an indeterminate state. */
 DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIndex* pindex, CCoinsViewCache& view,
@@ -2574,6 +2596,7 @@ DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIn
                             LogError("DisconnectBlock: Failed to remove transfer of %s", transfer.strName);
                             return DISCONNECT_FAILED;
                         }
+                        OrphanBlockMessage(out, transfer);
                     }
                 }
             }
@@ -2672,6 +2695,34 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex& block_index, const Ch
     return flags;
 }
 
+
+// TLS: persist messages collected during block connection. cs_messaging guards only the
+// Telestai message caches (nothing is marked GUARDED_BY it), so it is a leaf lock taken here and in
+// OrphanBlockMessage() only. Isolating the lock in a NO_THREAD_SAFETY_ANALYSIS helper keeps the
+// !cs_messaging negative capability from having to be threaded through ConnectBlock and the
+// entire validation call chain above it (ConnectTip, ActivateBestChain, ...).
+static void WriteBlockMessages(const std::set<CMessage>& setMessages, int height, ValidationSignals* signals) NO_THREAD_SAFETY_ANALYSIS
+{
+    extern bool fMessaging;
+    extern CMessageDB* pmessagedb;
+    if (AreMessagesDeployed() && fMessaging && !setMessages.empty()) {
+        LOCK(cs_messaging);
+        for (CMessage message : setMessages) {
+            // As in 2.1.x: the message is given its height, and every message that has not
+            // expired is announced, which is what -zmqpubrawmessage publishes.
+            message.nBlockHeight = height;
+            if (signals && (message.nExpiredTime == 0 || GetTime() < message.nExpiredTime)) {
+                signals->NewAssetMessage(message);
+            }
+            if (IsChannelSubscribed(message.strName)) {
+                AddMessage(message);
+            }
+        }
+        if (pmessagedb && !mapDirtyMessagesAdd.empty()) {
+            pmessagedb->Flush();
+        }
+    }
+}
 
 /** Apply the effects of this block (with given index) on the UTXO set represented by coins.
  *  Validity checks that depend on the UTXO set are also done; ConnectBlock()
@@ -3048,9 +3099,10 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                         LogError("ConnectBlock: Failed to add new asset %s\n", asset.strName);
                     std::string ownerName;
                     std::string ownerAddress;
-                    OwnerFromTransaction(tx, ownerName, ownerAddress);
-                    if (!assetsCache->AddOwnerAsset(ownerName, ownerAddress))
-                        LogError("ConnectBlock: Failed to add owner asset %s\n", ownerName);
+                    if (OwnerFromTransaction(tx, ownerName, ownerAddress)) {
+                        if (!assetsCache->AddOwnerAsset(ownerName, ownerAddress))
+                            LogError("ConnectBlock: Failed to add owner asset %s\n", ownerName);
+                    }
                 }
             } else if (IsReissueAsset(tx)) {
                 CReissueAsset reissue;
@@ -3113,10 +3165,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                 if (MsgChannelAssetFromTransaction(tx, asset, strAddress)) {
                     if (!assetsCache->AddNewAsset(asset, strAddress, pindex->nHeight, pindex->GetBlockHash()))
                         LogError("ConnectBlock: Failed to add msg channel asset %s\n", asset.strName);
-                    std::string ownerName, ownerAddress;
-                    OwnerFromTransaction(tx, ownerName, ownerAddress);
-                    if (!assetsCache->AddOwnerAsset(ownerName, ownerAddress))
-                        LogError("ConnectBlock: Failed to add owner asset %s\n", ownerName);
+                    // No owner token: only root and sub assets have one.
                 }
             } else if (IsNewQualifierAsset(tx)) {
                 CNewAsset asset;
@@ -3124,10 +3173,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                 if (QualifierAssetFromTransaction(tx, asset, strAddress)) {
                     if (!assetsCache->AddNewAsset(asset, strAddress, pindex->nHeight, pindex->GetBlockHash()))
                         LogError("ConnectBlock: Failed to add qualifier asset %s\n", asset.strName);
-                    std::string ownerName, ownerAddress;
-                    OwnerFromTransaction(tx, ownerName, ownerAddress);
-                    if (!assetsCache->AddOwnerAsset(ownerName, ownerAddress))
-                        LogError("ConnectBlock: Failed to add owner asset %s\n", ownerName);
+                    // No owner token: only root and sub assets have one.
                 }
             } else if (IsNewRestrictedAsset(tx)) {
                 CNewAsset asset;
@@ -3297,6 +3343,11 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
             return false;
         }
     }
+
+    // setMessages was populated in CheckTxAssets; persist any that belong to
+    // subscribed channels.  This is intentionally placed after the fJustCheck
+    // early return so we only write on a real block connection.
+    WriteBlockMessages(setMessages, pindex->nHeight, m_chainman.m_options.signals);
 
     const auto time_5{SteadyClock::now()};
     m_chainman.time_undo += time_5 - time_4;
@@ -3840,6 +3891,30 @@ bool Chainstate::ConnectTip(
     }
 
     connectTrace.BlockConnected(pindexNew, std::move(block_to_connect));
+
+    // TLS: capture the reward snapshots requested for this height, as 2.1.x did here.
+    if (pSnapshotRequestDb && pAssetSnapshotDb) {
+        std::set<CSnapshotRequestDBEntry> requests;
+        if (!pSnapshotRequestDb->RetrieveSnapshotRequestsForHeight("", pindexNew->nHeight, requests)) {
+            LogWarning("ConnectTip: failed to load snapshot requests at height %d\n", pindexNew->nHeight);
+        } else if (!requests.empty()) {
+            // A snapshot is read from the asset database on disk, which has this block's
+            // changes only once the cache is written. 2.1.x did not write it first, and its
+            // snapshots could miss the blocks since the last flush.
+            BlockValidationState flush_state;
+            if (FlushStateToDisk(flush_state, FlushStateMode::ALWAYS)) {
+                for (const auto& request : requests) {
+                    if (!pAssetSnapshotDb->AddAssetOwnershipSnapshot(request.assetName, pindexNew->nHeight)) {
+                        LogWarning("ConnectTip: failed to snapshot owners of '%s' at height %d\n", request.assetName, pindexNew->nHeight);
+                    }
+                }
+            } else {
+                LogError("ConnectTip: the %d reward snapshot(s) requested for height %d were not taken, because the asset database could not be written: %s\n",
+                         requests.size(), pindexNew->nHeight, flush_state.ToString());
+            }
+        }
+    }
+
     return true;
 }
 
@@ -7362,8 +7437,8 @@ bool ReindexAssets(ChainstateManager& chainman)
                 if (AssetFromTransaction(tx, asset, strAddress)) {
                     assetCache.AddNewAsset(asset, strAddress, pindex->nHeight, pindex->GetBlockHash());
                     std::string ownerName, ownerAddress;
-                    OwnerFromTransaction(tx, ownerName, ownerAddress);
-                    assetCache.AddOwnerAsset(ownerName, ownerAddress);
+                    if (OwnerFromTransaction(tx, ownerName, ownerAddress))
+                        assetCache.AddOwnerAsset(ownerName, ownerAddress);
                 }
             } else if (IsReissueAsset(tx)) {
                 CReissueAsset reissue;
@@ -7397,18 +7472,12 @@ bool ReindexAssets(ChainstateManager& chainman)
                 std::string strAddress;
                 if (MsgChannelAssetFromTransaction(tx, asset, strAddress)) {
                     assetCache.AddNewAsset(asset, strAddress, pindex->nHeight, pindex->GetBlockHash());
-                    std::string ownerName, ownerAddress;
-                    OwnerFromTransaction(tx, ownerName, ownerAddress);
-                    assetCache.AddOwnerAsset(ownerName, ownerAddress);
                 }
             } else if (IsNewQualifierAsset(tx)) {
                 CNewAsset asset;
                 std::string strAddress;
                 if (QualifierAssetFromTransaction(tx, asset, strAddress)) {
                     assetCache.AddNewAsset(asset, strAddress, pindex->nHeight, pindex->GetBlockHash());
-                    std::string ownerName, ownerAddress;
-                    OwnerFromTransaction(tx, ownerName, ownerAddress);
-                    assetCache.AddOwnerAsset(ownerName, ownerAddress);
                 }
             } else if (IsNewRestrictedAsset(tx)) {
                 CNewAsset asset;

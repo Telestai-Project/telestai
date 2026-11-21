@@ -226,7 +226,8 @@ bool Consensus::CheckTxInputs(const CTransaction& tx, TxValidationState& state, 
     return true;
 }
 
-bool fMessaging = false;
+// TLS: fMessaging is defined in init.cpp
+extern bool fMessaging;
 
 namespace {
 /** Whether OP_TLS_ASSET appears as an opcode (not as pushed data) anywhere in the script. */

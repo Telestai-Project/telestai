@@ -352,6 +352,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "listmyassets", 2, "count" },
     { "listmyassets", 3, "start" },
     { "listmyassets", 4, "confs" },
+    { "sendmessage", 2, "expire_time" },
     { "listassets", 1, "verbose" },
     { "listassets", 2, "count" },
     { "listassets", 3, "start" },
@@ -370,6 +371,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "purgesnapshot", 1, "block_height" },
     { "distributereward", 1, "snapshot_height" },
     { "distributereward", 3, "gross_distribution_amount" },
+    { "canceldistribution", 1, "snapshot_height" },
+    { "canceldistribution", 3, "gross_distribution_amount" },
     { "getdistributestatus", 1, "snapshot_height" },
     { "getdistributestatus", 3, "gross_distribution_amount" },
     // address index
