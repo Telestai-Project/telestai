@@ -261,6 +261,9 @@ Result CreateRateBumpTransaction(CWallet& wallet, const Txid& txid, const CCoinC
         const CTxOut& output = txouts.at(i);
         CTxDestination dest;
         ExtractDestination(output.scriptPubKey, dest);
+        // The outputs are rebuilt from these destinations. An asset output resolves to its
+        // owner's address, which would rebuild as bare P2PKH and drop the asset payload.
+        if (GetScriptForDestination(dest) != output.scriptPubKey) dest = CNoDestination{output.scriptPubKey};
         if (original_change_index.has_value() ?  original_change_index.value() == i : OutputIsChange(wallet, output)) {
             new_coin_control.destChange = dest;
         } else {

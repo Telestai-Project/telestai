@@ -28,6 +28,7 @@
 #include <util/strencodings.h>
 #include <util/string.h>
 #include <util/translation.h>
+#include <util/vector.h>
 
 #include <algorithm>
 #include <iterator>
@@ -204,7 +205,7 @@ std::string HelpExampleCliNamed(const std::string& methodname, const RPCArgList&
 std::string HelpExampleRpc(const std::string& methodname, const std::string& args)
 {
     return "> curl --user myusername --data-binary '{\"jsonrpc\": \"2.0\", \"id\": \"curltest\", "
-        "\"method\": \"" + methodname + "\", \"params\": [" + args + "]}' -H 'content-type: application/json' http://127.0.0.1:8332/\n";
+        "\"method\": \"" + methodname + "\", \"params\": [" + args + "]}' -H 'content-type: application/json' http://127.0.0.1:8766/\n";
 }
 
 std::string HelpExampleRpcNamed(const std::string& methodname, const RPCArgList& args)
@@ -215,7 +216,7 @@ std::string HelpExampleRpcNamed(const std::string& methodname, const RPCArgList&
     }
 
     return "> curl --user myusername --data-binary '{\"jsonrpc\": \"2.0\", \"id\": \"curltest\", "
-           "\"method\": \"" + methodname + "\", \"params\": " + params.write() + "}' -H 'content-type: application/json' http://127.0.0.1:8332/\n";
+           "\"method\": \"" + methodname + "\", \"params\": " + params.write() + "}' -H 'content-type: application/json' http://127.0.0.1:8766/\n";
 }
 
 // Converts a hex string to a public key if possible
@@ -1401,15 +1402,41 @@ void PushWarnings(const std::vector<bilingual_str>& warnings, UniValue& obj)
     obj.pushKV("warnings", BilingualStringsToUniValue(warnings));
 }
 
+std::vector<RPCResult> AssetScriptDoc()
+{
+    return {
+        {RPCResult::Type::OBJ, "asset", /*optional=*/true, "The asset carried by the output (only for new_asset, reissue_asset and transfer_asset outputs)",
+         {
+             {RPCResult::Type::STR, "name", /*optional=*/true, "The asset name"},
+             {RPCResult::Type::STR_AMOUNT, "amount", /*optional=*/true, "The asset quantity"},
+             {RPCResult::Type::STR, "message", /*optional=*/true, "The IPFS hash or txid attached to a transfer"},
+             {RPCResult::Type::NUM, "expire_time", /*optional=*/true, "The expiry time of the transfer message"},
+             {RPCResult::Type::NUM, "units", /*optional=*/true, "The number of decimal places (new and reissued assets)"},
+             {RPCResult::Type::BOOL, "reissuable", /*optional=*/true, "Whether the asset can be reissued (new and reissued assets)"},
+             {RPCResult::Type::STR, "ipfs_hash", /*optional=*/true, "The IPFS hash or txid attached to the asset (new and reissued assets)"},
+         }},
+        {RPCResult::Type::OBJ, "asset_data", /*optional=*/true, "The qualifier tag, restriction or verifier string carried by the output (only for restricted_asset_data outputs)",
+         {
+             {RPCResult::Type::STR, "asset_name", /*optional=*/true, "The qualifier or restricted asset name"},
+             {RPCResult::Type::STR, "qualifier_type", /*optional=*/true, "Whether the qualifier is being added to or removed from the address"},
+             {RPCResult::Type::STR, "restricted_name", /*optional=*/true, "The restricted asset name (global restrictions)"},
+             {RPCResult::Type::STR, "restricted_type", /*optional=*/true, "Whether the address, or the whole asset, is being frozen or unfrozen"},
+             {RPCResult::Type::STR, "address", /*optional=*/true, "The address being tagged or restricted, or \"all addresses\""},
+             {RPCResult::Type::STR, "verifier_string", /*optional=*/true, "The verifier string of a restricted asset"},
+         }},
+    };
+}
+
 std::vector<RPCResult> ScriptPubKeyDoc() {
-    return
+    return Cat<std::vector<RPCResult>>(
          {
              {RPCResult::Type::STR, "asm", "Disassembly of the output script"},
              {RPCResult::Type::STR, "desc", "Inferred descriptor for the output"},
              {RPCResult::Type::STR_HEX, "hex", "The raw output script bytes, hex-encoded"},
              {RPCResult::Type::STR, "address", /*optional=*/true, "The Telestai address (only if a well-defined address exists)"},
              {RPCResult::Type::STR, "type", "The type (one of: " + GetAllOutputTypes() + ")"},
-         };
+         },
+         AssetScriptDoc());
 }
 
 uint256 GetTarget(const CBlockIndex& blockindex, const uint256 pow_limit)

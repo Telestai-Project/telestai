@@ -960,6 +960,10 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
         }
     }
 
+    if (AreAssetsDeployed() && !Consensus::CheckTxAssetStructure(tx, state, m_active_chainstate.m_chain.Height() + 1)) {
+        return false; // state filled in by CheckTxAssetStructure
+    }
+
     if (AreAssetsDeployed() && !tx.IsCoinBase()) {
         CAssetsCache* currentAssetCache = GetCurrentAssetCache();
         if (currentAssetCache) {
@@ -2380,6 +2384,12 @@ DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIn
         return DISCONNECT_FAILED;
     }
 
+    // TLS: Read block undo asset data (for reissue reversals)
+    std::vector<std::pair<std::string, CBlockAssetUndo>> vUndoAssetData;
+    if (assetsCache && AreAssetsDeployed() && passetsdb) {
+        passetsdb->ReadBlockUndoAssetData(pindex->GetBlockHash(), vUndoAssetData);
+    }
+
     // Ignore blocks that contain transactions which are 'overwritten' by later transactions,
     // unless those are already completely spent.
     // See https://github.com/Telestai-Project/telestai/issues/22596 for additional information.
@@ -2421,11 +2431,192 @@ DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIn
             for (unsigned int j = tx.vin.size(); j > 0;) {
                 --j;
                 const COutPoint& out = tx.vin[j].prevout;
+
+                // TLS: Save asset coin data before move for UndoAssetCoin
+                Coin assetCoinCopy;
+                bool isAssetCoin = false;
+                if (assetsCache && AreAssetsDeployed() && txundo.vprevout[j].out.scriptPubKey.IsAssetScript()) {
+                    assetCoinCopy = txundo.vprevout[j];
+                    isAssetCoin = true;
+                }
+
                 int res = ApplyTxInUndo(std::move(txundo.vprevout[j]), view, out);
                 if (res == DISCONNECT_FAILED) return DISCONNECT_FAILED;
                 fClean = fClean && res != DISCONNECT_UNCLEAN;
+
+                // TLS: Undo asset coin spending (restore balance at input address)
+                if (isAssetCoin) {
+                    if (!assetsCache->UndoAssetCoin(assetCoinCopy, out))
+                        fClean = false;
+                }
             }
             // At this point, all of txundo.vprevout should have been moved out.
+        }
+
+        // TLS: Undo asset-level operations for this transaction
+        if (assetsCache && AreAssetsDeployed()) {
+            if (IsNewAsset(tx)) {
+                CNewAsset asset;
+                std::string strAddress;
+                if (AssetFromTransaction(tx, asset, strAddress)) {
+                    if (assetsCache->ContainsAsset(asset)) {
+                        if (!assetsCache->RemoveNewAsset(asset, strAddress)) {
+                            LogError("DisconnectBlock: Failed to remove asset %s", asset.strName);
+                            return DISCONNECT_FAILED;
+                        }
+                    }
+                    // Remove owner asset
+                    std::string ownerName;
+                    std::string ownerAddress;
+                    if (OwnerFromTransaction(tx, ownerName, ownerAddress)) {
+                        if (!assetsCache->RemoveOwnerAsset(ownerName, ownerAddress)) {
+                            LogError("DisconnectBlock: Failed to remove owner asset %s", ownerName);
+                            return DISCONNECT_FAILED;
+                        }
+                    }
+                }
+            } else if (IsReissueAsset(tx)) {
+                CReissueAsset reissue;
+                std::string strAddress;
+                if (ReissueAssetFromTransaction(tx, reissue, strAddress)) {
+                    if (assetsCache->ContainsAsset(reissue.strName)) {
+                        // Find the reissue output index
+                        int reissueIndex = -1;
+                        for (int j = (int)tx.vout.size() - 1; j >= 0; j--) {
+                            int nType = 0;
+                            bool fIsOwner = false;
+                            if (tx.vout[j].scriptPubKey.IsAssetScript(nType, fIsOwner) && nType == TX_REISSUE_ASSET) {
+                                reissueIndex = j;
+                                break;
+                            }
+                        }
+                        if (!assetsCache->RemoveReissueAsset(reissue, strAddress,
+                                COutPoint(tx.GetHash(), reissueIndex >= 0 ? reissueIndex : (int)tx.vout.size() - 1),
+                                vUndoAssetData)) {
+                            LogError("DisconnectBlock: Failed to undo reissue asset %s", reissue.strName);
+                            return DISCONNECT_FAILED;
+                        }
+                    }
+                }
+            } else if (IsNewUniqueAsset(tx)) {
+                for (int j = 0; j < (int)tx.vout.size(); j++) {
+                    if (IsScriptNewUniqueAsset(tx.vout[j].scriptPubKey)) {
+                        CNewAsset asset;
+                        std::string strAddress;
+                        if (AssetFromScript(tx.vout[j].scriptPubKey, asset, strAddress)) {
+                            if (assetsCache->ContainsAsset(asset.strName)) {
+                                if (!assetsCache->RemoveNewAsset(asset, strAddress)) {
+                                    LogError("DisconnectBlock: Failed to remove unique asset %s", asset.strName);
+                                    return DISCONNECT_FAILED;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (IsNewMsgChannelAsset(tx)) {
+                CNewAsset asset;
+                std::string strAddress;
+                if (MsgChannelAssetFromTransaction(tx, asset, strAddress)) {
+                    if (assetsCache->ContainsAsset(asset.strName)) {
+                        if (!assetsCache->RemoveNewAsset(asset, strAddress)) {
+                            LogError("DisconnectBlock: Failed to remove msg channel asset %s", asset.strName);
+                            return DISCONNECT_FAILED;
+                        }
+                    }
+                }
+            } else if (IsNewQualifierAsset(tx)) {
+                CNewAsset asset;
+                std::string strAddress;
+                if (QualifierAssetFromTransaction(tx, asset, strAddress)) {
+                    if (assetsCache->ContainsAsset(asset.strName)) {
+                        if (!assetsCache->RemoveNewAsset(asset, strAddress)) {
+                            LogError("DisconnectBlock: Failed to remove qualifier asset %s", asset.strName);
+                            return DISCONNECT_FAILED;
+                        }
+                    }
+                }
+            } else if (IsNewRestrictedAsset(tx)) {
+                CNewAsset asset;
+                std::string strAddress;
+                if (RestrictedAssetFromTransaction(tx, asset, strAddress)) {
+                    if (assetsCache->ContainsAsset(asset.strName)) {
+                        if (!assetsCache->RemoveNewAsset(asset, strAddress)) {
+                            LogError("DisconnectBlock: Failed to remove restricted asset %s", asset.strName);
+                            return DISCONNECT_FAILED;
+                        }
+                    }
+                    // Remove the verifier string
+                    for (int j = 0; j < (int)tx.vout.size(); j++) {
+                        if (tx.vout[j].scriptPubKey.IsNullAssetVerifierTxDataScript()) {
+                            CNullAssetTxVerifierString verifier;
+                            if (AssetNullVerifierDataFromScript(tx.vout[j].scriptPubKey, verifier)) {
+                                if (!assetsCache->RemoveRestrictedVerifier(asset.strName, verifier.verifier_string)) {
+                                    LogError("DisconnectBlock: Failed to remove restricted verifier for %s", asset.strName);
+                                    return DISCONNECT_FAILED;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Undo transfer outputs
+            for (int j = 0; j < (int)tx.vout.size(); j++) {
+                int nType = 0;
+                bool fIsOwner = false;
+                if (tx.vout[j].scriptPubKey.IsAssetScript(nType, fIsOwner) && nType == TX_TRANSFER_ASSET) {
+                    CAssetTransfer transfer;
+                    std::string strAddress;
+                    if (TransferAssetFromScript(tx.vout[j].scriptPubKey, transfer, strAddress)) {
+                        COutPoint out(hash, j);
+                        if (!assetsCache->RemoveTransfer(transfer, strAddress, out)) {
+                            LogError("DisconnectBlock: Failed to remove transfer of %s", transfer.strName);
+                            return DISCONNECT_FAILED;
+                        }
+                    }
+                }
+            }
+
+            // Undo null asset data (qualifier tags, restrictions, global freezes)
+            if (AreRestrictedAssetsDeployed()) {
+                for (int j = 0; j < (int)tx.vout.size(); j++) {
+                    const CScript& script = tx.vout[j].scriptPubKey;
+                    if (script.IsNullAsset()) {
+                        if (script.IsNullAssetTxDataScript()) {
+                            CNullAssetTxData data;
+                            std::string address;
+                            if (AssetNullDataFromScript(script, data, address)) {
+                                AssetType type;
+                                IsAssetNameValid(data.asset_name, type);
+                                if (type == AssetType::QUALIFIER || type == AssetType::SUB_QUALIFIER) {
+                                    if (!assetsCache->RemoveQualifierAddress(data.asset_name, address,
+                                            data.flag ? QualifierType::ADD_QUALIFIER : QualifierType::REMOVE_QUALIFIER)) {
+                                        LogError("DisconnectBlock: Failed to remove qualifier from address");
+                                        return DISCONNECT_FAILED;
+                                    }
+                                } else if (type == AssetType::RESTRICTED) {
+                                    if (!assetsCache->RemoveRestrictedAddress(data.asset_name, address,
+                                            data.flag ? RestrictedType::FREEZE_ADDRESS : RestrictedType::UNFREEZE_ADDRESS)) {
+                                        LogError("DisconnectBlock: Failed to remove restriction from address");
+                                        return DISCONNECT_FAILED;
+                                    }
+                                }
+                            }
+                        } else if (script.IsNullGlobalRestrictionAssetTxDataScript()) {
+                            CNullAssetTxData data;
+                            if (GlobalAssetNullDataFromScript(script, data)) {
+                                if (!assetsCache->RemoveGlobalRestricted(data.asset_name,
+                                        data.flag ? RestrictedType::GLOBAL_FREEZE : RestrictedType::GLOBAL_UNFREEZE)) {
+                                    LogError("DisconnectBlock: Failed to remove global restriction");
+                                    return DISCONNECT_FAILED;
+                                }
+                            }
+                        }
+                        // NullAssetVerifierTxDataScript is handled in IsNewRestrictedAsset above
+                    }
+                }
+            }
         }
     }
 
@@ -2770,6 +2961,18 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
             if (!state.IsValid()) break;
         }
 
+        // Context-free asset rules (2.1.x CheckTransaction). Applies to every transaction,
+        // coinbase included, and does not depend on the asset cache.
+        if (AreAssetsDeployed()) {
+            TxValidationState asset_state;
+            if (!Consensus::CheckTxAssetStructure(tx, asset_state, pindex->nHeight)) {
+                state.Invalid(BlockValidationResult::BLOCK_CONSENSUS,
+                              asset_state.GetRejectReason(),
+                              asset_state.GetDebugMessage() + " in transaction " + tx.GetHash().ToString());
+                break;
+            }
+        }
+
         // Check asset transaction validity
         if (AreAssetsDeployed() && assetsCache && !tx.IsCoinBase()) {
             std::vector<std::pair<std::string, uint256>> vReissueAssets;
@@ -2861,7 +3064,24 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                         undoPair.second.fChangedUnits = (reissue.nUnits != -1);
                         undoPair.second.nUnits = oldAsset.units;
                         undoPair.second.fChangedVerifierString = false;
+
+                        // Check for verifier string changes on restricted assets
+                        if (IsAssetNameAnRestricted(reissue.strName)) {
+                            std::string strError;
+                            CNullAssetTxVerifierString verifier;
+                            if (GetVerifierStringFromTx(tx, verifier, strError)) {
+                                CNullAssetTxVerifierString oldVerifier;
+                                assetsCache->GetAssetVerifierStringIfExists(reissue.strName, oldVerifier);
+                                if (oldVerifier.verifier_string != verifier.verifier_string) {
+                                    undoPair.second.fChangedVerifierString = true;
+                                    undoPair.second.verifierString = oldVerifier.verifier_string;
+                                    assetsCache->AddRestrictedVerifier(reissue.strName, verifier.verifier_string);
+                                }
+                            }
+                        }
                     }
+
+                    // Find the reissue output index
                     int reissueIndex = -1;
                     for (int j = (int)tx.vout.size() - 1; j >= 0; j--) {
                         int nType = 0;
@@ -4660,6 +4880,27 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
     const int nHeight = pindexPrev->nHeight + 1;
 
     const Consensus::Params& consensusParams = chainman.GetConsensus();
+
+    // TLS: reject deep reorgs when the node is well-connected and the chain is current (2.1.x rule)
+    {
+        const CBlockIndex* pTip = chainman.ActiveTip();
+        if (pTip) {
+            const CChainParams& chainParams = chainman.GetParams();
+            const int nMaxReorgDepth = chainParams.MaxReorganizationDepth();
+            const int nMinReorgPeers = chainParams.MinReorganizationPeers();
+            const int nMinReorgAge = chainParams.MinReorganizationAge();
+            bool fGreaterThanMaxReorg = pTip->nHeight - (nHeight - 1) >= nMaxReorgDepth;
+            if (fGreaterThanMaxReorg && chainman.get_peer_count) {
+                int nCurrentNodeCount = chainman.get_peer_count();
+                bool bIsCurrentChainCaughtUp = (TicksSinceEpoch<std::chrono::seconds>(NodeClock::now()) - pTip->GetBlockTime()) <= nMinReorgAge;
+                if ((nCurrentNodeCount >= nMinReorgPeers) && bIsCurrentChainCaughtUp) {
+                    LogError("%s: forked chain older than max reorganization depth (height %d), with connections (count %d), and caught up with active chain (%s)",
+                        __func__, nHeight, nCurrentNodeCount, bIsCurrentChainCaughtUp ? "true" : "false");
+                    return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-fork-prior-to-maxreorgdepth");
+                }
+            }
+        }
+    }
 
     if (!CheckSerializedHeaderHeight(block, state, nHeight)) {
         return false;

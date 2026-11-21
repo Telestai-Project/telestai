@@ -5,9 +5,12 @@
 
 #include <script/script.h>
 
+#include <consensus/amount.h>
 #include <crypto/common.h>
 #include <crypto/hex_base.h>
 #include <hash.h>
+#include <serialize.h>
+#include <streams.h>
 #include <uint256.h>
 #include <util/hash_type.h>
 
@@ -343,6 +346,29 @@ bool CScript::IsTransferAsset() const
     if (!IsAssetScript(nType, fIsOwner))
         return false;
     return nType == 10;
+}
+
+bool CScript::IsZeroAmountAssetScript() const
+{
+    int nType = 0;
+    bool fIsOwner = false;
+    int nStartingIndex = 0;
+    if (!IsAssetScript(nType, fIsOwner, nStartingIndex)) return false;
+
+    // An owner token is always exactly one unit.
+    if (nType == 8 /* TX_NEW_ASSET */ && fIsOwner) return false;
+
+    // New, reissue and transfer payloads all start with the asset name followed by the amount.
+    if (nStartingIndex < 0 || static_cast<size_t>(nStartingIndex) > size()) return false;
+    try {
+        SpanReader reader{std::span<const unsigned char>{data() + nStartingIndex, size() - nStartingIndex}};
+        std::string name;
+        CAmount amount;
+        reader >> name >> amount;
+        return amount == 0;
+    } catch (const std::exception&) {
+        return false;
+    }
 }
 
 bool CScript::IsNullAssetTxDataScript() const

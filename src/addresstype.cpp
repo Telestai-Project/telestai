@@ -104,12 +104,27 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
     case TxoutType::MULTISIG:
     case TxoutType::NULL_DATA:
     case TxoutType::NONSTANDARD:
-    case TxoutType::NEW_ASSET:
-    case TxoutType::REISSUE_ASSET:
-    case TxoutType::TRANSFER_ASSET:
-    case TxoutType::RESTRICTED_ASSET_DATA:
         addressRet = CNoDestination(scriptPubKey);
         return false;
+    case TxoutType::NEW_ASSET:
+    case TxoutType::REISSUE_ASSET:
+    case TxoutType::TRANSFER_ASSET: {
+        // Asset scripts embed P2PKH at bytes 0-24; Solver() extracts the hash
+        addressRet = PKHash(uint160(vSolutions[0]));
+        return true;
+    }
+    case TxoutType::RESTRICTED_ASSET_DATA: {
+        // Qualifier tags and address restrictions name the address they apply to:
+        // OP_TLS_ASSET 0x14 <20-byte key hash> <data>. As in 2.1.x, it is only reported
+        // when everything after the marker opcode is push-only. Global restrictions
+        // and verifier strings have no address.
+        if (scriptPubKey.IsNullAssetTxDataScript() && scriptPubKey.IsPushOnly(scriptPubKey.begin() + 1)) {
+            addressRet = PKHash(uint160(valtype(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22)));
+            return true;
+        }
+        addressRet = CNoDestination(scriptPubKey);
+        return false;
+    }
     } // no default case, so the compiler can warn about missing cases
     assert(false);
 }

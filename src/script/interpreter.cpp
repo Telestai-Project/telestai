@@ -604,6 +604,12 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                 }
                 break;
 
+                // TLS: the asset opcode is a no-op, as in 2.1.x. The script keeps executing, so the
+                // payload push and OP_DROP that follow it (and anything after them) still run. This
+                // is consensus critical: do not stop evaluation here.
+                case OP_TLS_ASSET:
+                break;
+
                 case OP_IF:
                 case OP_NOTIF:
                 {
@@ -1215,16 +1221,6 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                         else
                             return set_error(serror, SCRIPT_ERR_CHECKMULTISIGVERIFY);
                     }
-                }
-                break;
-
-                case OP_TLS_ASSET:
-                {
-                    // Telestai asset opcode: everything after this byte is
-                    // asset payload data (transfer, issue, reissue, etc.).
-                    // The standard script (P2PKH) preceding it has already
-                    // completed and left true on the stack.  Skip to end.
-                    pc = pend;
                 }
                 break;
 

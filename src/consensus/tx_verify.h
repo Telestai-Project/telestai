@@ -34,6 +34,16 @@ namespace Consensus {
  */
 [[nodiscard]] bool CheckTxInputs(const CTransaction& tx, TxValidationState& state, const CCoinsViewCache& inputs, int nSpendHeight, CAmount& txfee);
 
+/**
+ * Context-free checks on the asset outputs of a transaction: the asset rules that Telestai 2.1.x
+ * enforced in CheckTransaction(). They need neither the UTXO set nor the asset database, only the
+ * height (the fee address for qualifier tags depends on it).
+ *
+ * Unlike CheckTxAssets() this must be called for every transaction, coinbases included: a coinbase
+ * has no inputs to balance asset outputs against, so it may not carry any.
+ */
+[[nodiscard]] bool CheckTxAssetStructure(const CTransaction& tx, TxValidationState& state, int nHeight);
+
 /** Check asset inputs/outputs balance and validate asset operations */
 bool CheckTxAssets(const CTransaction& tx, TxValidationState& state, const CCoinsViewCache& inputs,
                    CAssetsCache* assetCache, const CTxMemPool* mempool,

@@ -4,6 +4,9 @@
 
 #include <core_io.h>
 
+#include <addresstype.h>
+#include <assets/assettypes.h>
+#include <base58.h>
 #include <common/system.h>
 #include <consensus/amount.h>
 #include <consensus/consensus.h>
@@ -13,6 +16,7 @@
 #include <script/script.h>
 #include <script/solver.h>
 #include <serialize.h>
+#include <span.h>
 #include <streams.h>
 #include <undo.h>
 #include <univalue.h>
@@ -147,6 +151,127 @@ std::string EncodeHexTx(const CTransaction& tx)
     return HexStr(ssTx);
 }
 
+namespace {
+/**
+ * Serialized asset data: the push that follows OP_TLS_ASSET, minus its four marker bytes.
+ * Same extraction as ExtractMewcAssetSerializedPayload() in assets/assets.cpp, which this
+ * library cannot link against.
+ */
+bool GetAssetPayload(const CScript& script, std::vector<unsigned char>& payload)
+{
+    CScript::const_iterator pc = script.begin();
+    opcodetype opcode;
+    std::vector<unsigned char> vch;
+    while (pc < script.end()) {
+        if (!script.GetOp(pc, opcode, vch)) return false;
+        if (opcode != OP_TLS_ASSET) continue;
+        if (!script.GetOp(pc, opcode, vch) || vch.size() < 4) return false;
+        payload.assign(vch.begin() + 4, vch.end());
+        return true;
+    }
+    return false;
+}
+
+template <typename T>
+bool DecodeAssetPayload(const std::vector<unsigned char>& payload, T& obj)
+{
+    try {
+        DataStream ss{payload};
+        ss >> obj;
+    } catch (const std::exception&) {
+        return false;
+    }
+    return true;
+}
+
+/** Asset payloads reference either an IPFS hash (34 bytes, shown as base58) or a txid (32 bytes, shown as hex). */
+std::string EncodeAssetHash(const std::string& raw)
+{
+    if (raw.size() == 34) return EncodeBase58(MakeUCharSpan(raw));
+    if (raw.size() == 32) return HexStr(MakeUCharSpan(raw));
+    return {};
+}
+
+/** "asset" object for new, reissue and transfer asset outputs (same fields as Telestai 2.1.x). */
+UniValue AssetToUniv(const CScript& script, const TxoutType type)
+{
+    UniValue info{UniValue::VOBJ};
+
+    int asset_type{0};
+    bool is_owner{false};
+    std::vector<unsigned char> payload;
+    if (!script.IsAssetScript(asset_type, is_owner) || !GetAssetPayload(script, payload)) return info;
+
+    if (type == TxoutType::TRANSFER_ASSET) {
+        CAssetTransfer transfer;
+        if (!DecodeAssetPayload(payload, transfer)) return info;
+        info.pushKV("name", transfer.strName);
+        info.pushKV("amount", ValueFromAmount(transfer.nAmount));
+        if (!transfer.message.empty()) info.pushKV("message", EncodeAssetHash(transfer.message));
+        if (transfer.nExpireTime != 0) info.pushKV("expire_time", transfer.nExpireTime);
+    } else if (type == TxoutType::REISSUE_ASSET) {
+        CReissueAsset reissue;
+        if (!DecodeAssetPayload(payload, reissue)) return info;
+        info.pushKV("name", reissue.strName);
+        info.pushKV("amount", ValueFromAmount(reissue.nAmount));
+        if (reissue.nUnits >= 0) info.pushKV("units", int{reissue.nUnits});
+        info.pushKV("reissuable", reissue.nReissuable > 0);
+        if (!reissue.strIPFSHash.empty()) info.pushKV("ipfs_hash", EncodeAssetHash(reissue.strIPFSHash));
+    } else if (is_owner) {
+        // Owner token (NAME!): the payload is just the name and there is always exactly one.
+        std::string name;
+        if (!DecodeAssetPayload(payload, name)) return info;
+        info.pushKV("name", name);
+        info.pushKV("amount", ValueFromAmount(COIN));
+    } else {
+        CNewAsset asset;
+        if (!DecodeAssetPayload(payload, asset)) return info;
+        info.pushKV("name", asset.strName);
+        info.pushKV("amount", ValueFromAmount(asset.nAmount));
+        info.pushKV("units", int{asset.units});
+        info.pushKV("reissuable", asset.nReissuable > 0);
+        if (asset.nHasIPFS > 0 && !asset.strIPFSHash.empty()) info.pushKV("ipfs_hash", EncodeAssetHash(asset.strIPFSHash));
+    }
+    return info;
+}
+
+/** "asset_data" object for qualifier tags, restrictions and verifier strings (same fields as Telestai 2.1.x). */
+UniValue AssetNullDataToUniv(const CScript& script)
+{
+    UniValue info{UniValue::VOBJ};
+
+    if (script.IsNullAssetTxDataScript()) {
+        // OP_TLS_ASSET 0x14 <key hash> <push: name, flag>
+        CNullAssetTxData data;
+        if (!DecodeAssetPayload(std::vector<unsigned char>(script.begin() + 23, script.end()), data) || data.asset_name.empty()) return info;
+        CTxDestination dest;
+        ExtractDestination(script, dest);
+        if (data.asset_name.front() == '#') {
+            info.pushKV("asset_name", data.asset_name);
+            info.pushKV("qualifier_type", data.flag ? "adding qualifier" : "removing qualifier");
+            info.pushKV("address", EncodeDestination(dest));
+        } else if (data.asset_name.front() == '$') {
+            info.pushKV("asset_name", data.asset_name);
+            info.pushKV("restricted_type", data.flag ? "freezing address" : "unfreezing address");
+            info.pushKV("address", EncodeDestination(dest));
+        }
+    } else if (script.IsNullGlobalRestrictionAssetTxDataScript()) {
+        // OP_TLS_ASSET OP_RESERVED OP_RESERVED <push: name, flag>
+        CNullAssetTxData data;
+        if (!DecodeAssetPayload(std::vector<unsigned char>(script.begin() + 4, script.end()), data)) return info;
+        info.pushKV("restricted_name", data.asset_name);
+        info.pushKV("restricted_type", data.flag ? "freezing" : "unfreezing");
+        info.pushKV("address", "all addresses");
+    } else if (script.IsNullAssetVerifierTxDataScript()) {
+        // OP_TLS_ASSET OP_RESERVED <push: verifier string>
+        CNullAssetTxVerifierString verifier;
+        if (!DecodeAssetPayload(std::vector<unsigned char>(script.begin() + 3, script.end()), verifier)) return info;
+        info.pushKV("verifier_string", verifier.verifier_string);
+    }
+    return info;
+}
+} // namespace
+
 void ScriptToUniv(const CScript& script, UniValue& out, bool include_hex, bool include_address, const SigningProvider* provider)
 {
     CTxDestination address;
@@ -166,6 +291,22 @@ void ScriptToUniv(const CScript& script, UniValue& out, bool include_hex, bool i
         out.pushKV("address", EncodeDestination(address));
     }
     out.pushKV("type", GetTxnOutputType(type));
+
+    // Telestai asset details, for scripts being described as an output.
+    if (include_address) {
+        switch (type) {
+        case TxoutType::NEW_ASSET:
+        case TxoutType::REISSUE_ASSET:
+        case TxoutType::TRANSFER_ASSET:
+            out.pushKV("asset", AssetToUniv(script, type));
+            break;
+        case TxoutType::RESTRICTED_ASSET_DATA:
+            out.pushKV("asset_data", AssetNullDataToUniv(script));
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void TxToUniv(const CTransaction& tx, const uint256& block_hash, UniValue& entry, bool include_hex, const CTxUndo* txundo, TxVerbosity verbosity)

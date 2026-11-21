@@ -784,6 +784,11 @@ CoinsResult AvailableCoinsWithAssets(const CWallet& wallet,
         if (!output.scriptPubKey.IsAssetScript())
             continue;
 
+        // Asset outputs with a zero amount (e.g. a reissue that only changes metadata) are
+        // unspendable: they never enter the UTXO set, so they are not coins to select.
+        if (output.scriptPubKey.IsUnspendable())
+            continue;
+
         if (wallet.IsSpent(outpoint))
             continue;
 

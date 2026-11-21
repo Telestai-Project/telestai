@@ -584,11 +584,21 @@ public:
      * Returns whether the script is guaranteed to fail at execution,
      * regardless of the initial stack. This allows outputs to be pruned
      * instantly when entering the UTXO set.
+     *
+     * As in Telestai 2.1.x this also covers scripts that begin with OP_TLS_ASSET (qualifier tags,
+     * address and global restrictions, verifier strings) and asset outputs that carry a zero
+     * amount. The interpreter would not fail on those, so this rule is what keeps them out of
+     * the UTXO set: it is consensus critical and must match on every node.
      */
     bool IsUnspendable() const
     {
-        return (size() > 0 && *begin() == OP_RETURN) || (size() > MAX_SCRIPT_SIZE);
+        return (size() > 0 && (*begin() == OP_RETURN || *begin() == OP_TLS_ASSET)) ||
+               (size() > MAX_SCRIPT_SIZE) ||
+               IsZeroAmountAssetScript();
     }
+
+    /** Whether this is a new, reissue or transfer asset script whose asset amount is zero. */
+    bool IsZeroAmountAssetScript() const;
 
     void clear()
     {

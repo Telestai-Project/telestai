@@ -21,6 +21,11 @@
 #include <util/moneystr.h>
 #include <util/time.h>
 
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+
 bool IsFinalTx(const CTransaction &tx, int nBlockHeight, int64_t nBlockTime)
 {
     if (tx.nLockTime == 0)
@@ -182,6 +187,16 @@ bool Consensus::CheckTxInputs(const CTransaction& tx, TxValidationState& state, 
         const Coin& coin = inputs.AccessCoin(prevout);
         assert(!coin.IsSpent());
 
+        // TLS: an unspendable script (see CScript::IsUnspendable) never enters the UTXO set, so
+        // there is no such coin to spend. A chainstate written by 3.0.0 - 3.0.2 can still hold
+        // qualifier-tag, restriction and verifier outputs, and zero-amount asset outputs, as
+        // coins. Treat them as the missing inputs they are on every other node, so a node
+        // upgraded in place and a freshly synced one agree without a chainstate rebuild.
+        if (coin.out.scriptPubKey.IsUnspendable()) {
+            return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-inputs-missingorspent",
+                strprintf("%s: input %s is an unspendable output", __func__, prevout.ToString()));
+        }
+
         // If prev is coinbase, check that it's matured
         if (coin.IsCoinBase() && nSpendHeight - coin.nHeight < COINBASE_MATURITY) {
             return state.Invalid(TxValidationResult::TX_PREMATURE_SPEND, "bad-txns-premature-spend-of-coinbase",
@@ -212,6 +227,258 @@ bool Consensus::CheckTxInputs(const CTransaction& tx, TxValidationState& state, 
 }
 
 bool fMessaging = false;
+
+namespace {
+/** Whether OP_TLS_ASSET appears as an opcode (not as pushed data) anywhere in the script. */
+bool HasAssetOpcode(const CScript& script)
+{
+    CScript::const_iterator pc = script.begin();
+    opcodetype opcode;
+    while (pc < script.end()) {
+        if (!script.GetOp(pc, opcode)) break;
+        if (opcode == OP_TLS_ASSET) return true;
+    }
+    return false;
+}
+} // namespace
+
+bool Consensus::CheckTxAssetStructure(const CTransaction& tx, TxValidationState& state, int nHeight)
+{
+    const auto invalid = [&state](const std::string& reason) {
+        return state.Invalid(TxValidationResult::TX_CONSENSUS, reason);
+    };
+
+    // CheckTransaction() has already rejected this; the per-type helpers below index tx.vout.
+    if (tx.vout.empty()) return invalid("bad-txns-vout-empty");
+
+    std::set<std::string> setAssetTransferNames;
+    std::map<std::pair<std::string, std::string>, int> mapNullDataTxCount; // (asset name, address) -> count
+    std::set<std::string> setNullGlobalAssetChanges;
+    bool fContainsNewRestrictedAsset = false;
+    bool fContainsRestrictedAssetReissue = false;
+    bool fContainsNullAssetVerifierTx = false;
+    int nCountAddTagOuts = 0;
+
+    for (const auto& txout : tx.vout) {
+        // Qualifier tags, address restrictions, global restrictions and verifier strings
+        if (txout.scriptPubKey.IsNullAsset()) {
+            CNullAssetTxData data;
+            std::string address;
+            std::string strError;
+
+            if (txout.scriptPubKey.IsNullAssetTxDataScript()) {
+                if (!AssetNullDataFromScript(txout.scriptPubKey, data, address))
+                    return invalid("bad-txns-null-asset-data-serialization");
+
+                if (!VerifyNullAssetDataFlag(data.flag, strError))
+                    return invalid(strError);
+
+                if (++mapNullDataTxCount[std::make_pair(data.asset_name, address)] > 1)
+                    return invalid("bad-txns-null-data-only-one-change-per-asset-address");
+
+                // Each qualifier that is added costs a fee
+                if (IsAssetNameAQualifier(data.asset_name) && data.flag == (int)QualifierType::ADD_QUALIFIER) {
+                    nCountAddTagOuts++;
+                }
+            } else if (txout.scriptPubKey.IsNullGlobalRestrictionAssetTxDataScript()) {
+                if (!GlobalAssetNullDataFromScript(txout.scriptPubKey, data))
+                    return invalid("bad-txns-null-global-asset-data-serialization");
+
+                if (!VerifyNullAssetDataFlag(data.flag, strError))
+                    return invalid(strError);
+
+                if (!setNullGlobalAssetChanges.insert(data.asset_name).second)
+                    return invalid("bad-txns-null-data-only-one-global-change-per-asset-name");
+            } else if (txout.scriptPubKey.IsNullAssetVerifierTxDataScript()) {
+                if (!CheckVerifierAssetTxOut(txout, strError))
+                    return invalid(strError);
+
+                if (fContainsNullAssetVerifierTx)
+                    return invalid("bad-txns-null-data-only-one-verifier-per-tx");
+
+                fContainsNullAssetVerifierTx = true;
+            }
+        }
+
+        int nType = 0;
+        bool fIsOwner = false;
+        if (!txout.scriptPubKey.IsAssetScript(nType, fIsOwner)) continue;
+
+        if (nType == TX_TRANSFER_ASSET) {
+            CAssetTransfer transfer;
+            std::string address;
+            if (!TransferAssetFromScript(txout.scriptPubKey, transfer, address))
+                return invalid("bad-txns-transfer-asset-bad-deserialize");
+
+            // Remembered so that null asset data can be matched to a transfer below
+            setAssetTransferNames.insert(transfer.strName);
+
+            AssetType assetType;
+            if (!IsAssetNameValid(transfer.strName, assetType))
+                return invalid("bad-txns-transfer-asset-name-invalid");
+
+            if (IsAssetNameAnOwner(transfer.strName) && transfer.nAmount != OWNER_ASSET_AMOUNT)
+                return invalid("bad-txns-transfer-owner-amount-was-not-1");
+
+            if (assetType == AssetType::UNIQUE && transfer.nAmount != UNIQUE_ASSET_AMOUNT)
+                return invalid("bad-txns-transfer-unique-amount-was-not-1");
+
+            if ((assetType == AssetType::QUALIFIER || assetType == AssetType::SUB_QUALIFIER) &&
+                (transfer.nAmount < QUALIFIER_ASSET_MIN_AMOUNT || transfer.nAmount > QUALIFIER_ASSET_MAX_AMOUNT))
+                return invalid("bad-txns-transfer-qualifier-amount-must be between 1 - 100");
+
+            // Asset outputs never carry TLS
+            if (txout.nValue != 0)
+                return invalid("bad-txns-asset-transfer-amount-isn't-zero");
+        } else if (nType == TX_NEW_ASSET) {
+            if (txout.nValue != 0)
+                return invalid("bad-txns-asset-issued-amount-isn't-zero");
+        } else if (nType == TX_REISSUE_ASSET) {
+            if (txout.nValue != 0)
+                return invalid("bad-txns-asset-reissued-amount-isn't-zero");
+        } else {
+            return invalid("bad-asset-type-not-any-of-the-main-three");
+        }
+    }
+
+    // Adding qualifier tags requires the fee output
+    if (nCountAddTagOuts && !CheckAddingTagBurnFee(tx, nCountAddTagOuts, nHeight))
+        return invalid("bad-txns-tx-doesn't-contain-required-burn-fee-for-adding-tags");
+
+    // Tagging or restricting an address must be authorised by transferring the controlling
+    // asset in the same transaction: the owner token for $RESTRICTED, the qualifier itself for #TAG.
+    for (const auto& [key, count] : mapNullDataTxCount) {
+        const std::string& name = key.first;
+        if (!name.empty() && name.front() == RESTRICTED_CHAR) {
+            if (!setAssetTransferNames.count(name.substr(1) + OWNER_TAG)) // $TOKEN -> TOKEN!
+                return invalid("bad-txns-tx-contains-restricted-asset-null-tx-without-asset-transfer");
+        } else {
+            if (!setAssetTransferNames.count(name))
+                return invalid("bad-txns-tx-contains-qualifier-asset-null-tx-without-asset-transfer");
+        }
+    }
+
+    for (const auto& name : setNullGlobalAssetChanges) {
+        if (name.empty())
+            return invalid("bad-txns-tx-contains-global-asset-null-tx-with-null-asset-name");
+
+        if (!setAssetTransferNames.count(name.substr(1) + OWNER_TAG)) // $TOKEN -> TOKEN!
+            return invalid("bad-txns-tx-contains-global-asset-null-tx-without-asset-transfer");
+    }
+
+    if (tx.IsCoinBase()) {
+        for (const auto& vout : tx.vout) {
+            if (vout.scriptPubKey.IsAssetScript() || vout.scriptPubKey.IsNullAsset())
+                return invalid("bad-txns-coinbase-contains-asset-txes");
+        }
+    }
+
+    // Per-type checks. The fee and layout checks for each type (VerifyNewAsset() and friends) need
+    // the height-dependent fee address and are done in CheckTxAssets().
+    if (IsNewAsset(tx)) {
+        std::string strError;
+        CNewAsset asset;
+        std::string strAddress;
+        if (!AssetFromTransaction(tx, asset, strAddress))
+            return invalid("bad-txns-issue-asset-from-transaction");
+
+        if (!IsNewOwnerTxValid(tx, asset.strName, strAddress, strError))
+            return invalid(strError);
+
+        if (!CheckNewAsset(asset, strError))
+            return invalid(strError);
+    } else if (IsReissueAsset(tx)) {
+        std::string strError;
+        CReissueAsset reissue;
+        std::string strAddress;
+        if (!ReissueAssetFromTransaction(tx, reissue, strAddress))
+            return invalid("bad-txns-reissue-asset");
+
+        if (!CheckReissueAsset(reissue, strError))
+            return invalid(strError);
+
+        AssetType type;
+        IsAssetNameValid(reissue.strName, type);
+        if (type == AssetType::RESTRICTED) {
+            // A restricted reissue may change the verifier string; it need not carry one
+            CNullAssetTxVerifierString new_verifier;
+            bool fNotFound = false;
+            if (!GetVerifierStringFromTx(tx, new_verifier, strError, fNotFound) && !fNotFound)
+                return invalid("bad-txns-reissue-restricted-verifier-" + strError);
+
+            fContainsRestrictedAssetReissue = true;
+        }
+    } else if (IsNewUniqueAsset(tx)) {
+        std::string strError;
+        for (const auto& out : tx.vout) {
+            if (!IsScriptNewUniqueAsset(out.scriptPubKey)) continue;
+
+            CNewAsset asset;
+            std::string strAddress;
+            if (!AssetFromScript(out.scriptPubKey, asset, strAddress))
+                return invalid("bad-txns-check-transaction-issue-unique-asset-serialization");
+
+            if (!CheckNewAsset(asset, strError))
+                return invalid("bad-txns-issue-unique" + strError);
+        }
+    } else if (IsNewMsgChannelAsset(tx)) {
+        std::string strError;
+        CNewAsset asset;
+        std::string strAddress;
+        if (!MsgChannelAssetFromTransaction(tx, asset, strAddress))
+            return invalid("bad-txns-issue-msgchannel-from-transaction");
+
+        if (!CheckNewAsset(asset, strError))
+            return invalid("bad-txns-issue-msgchannel" + strError);
+    } else if (IsNewQualifierAsset(tx)) {
+        std::string strError;
+        CNewAsset asset;
+        std::string strAddress;
+        if (!QualifierAssetFromTransaction(tx, asset, strAddress))
+            return invalid("bad-txns-issue-qualifier-from-transaction");
+
+        if (!CheckNewAsset(asset, strError))
+            return invalid("bad-txns-issue-qualfier" + strError);
+    } else if (IsNewRestrictedAsset(tx)) {
+        std::string strError;
+        CNewAsset asset;
+        std::string strAddress;
+        if (!RestrictedAssetFromTransaction(tx, asset, strAddress))
+            return invalid("bad-txns-issue-restricted-from-transaction");
+
+        if (!CheckNewAsset(asset, strError))
+            return invalid("bad-txns-issue-restricted" + strError);
+
+        CNullAssetTxVerifierString verifier;
+        if (!GetVerifierStringFromTx(tx, verifier, strError))
+            return invalid("bad-txns-issue-restricted-verifier-search-" + strError);
+
+        fContainsNewRestrictedAsset = true;
+    } else {
+        // Anything else may only contain asset transfers, and OP_TLS_ASSET only where a
+        // null asset data script puts it.
+        for (const auto& out : tx.vout) {
+            int nType = 0;
+            bool fIsOwner = false;
+            if (out.scriptPubKey.IsAssetScript(nType, fIsOwner)) {
+                if (nType != TX_TRANSFER_ASSET)
+                    return invalid("bad-txns-bad-asset-transaction");
+            } else if (HasAssetOpcode(out.scriptPubKey) && out.scriptPubKey[0] != OP_TLS_ASSET) {
+                return invalid("bad-txns-op-tls-asset-not-in-right-script-location");
+            }
+        }
+    }
+
+    // A verifier string only makes sense alongside a restricted asset issuance or reissuance
+    if (fContainsNullAssetVerifierTx && !fContainsRestrictedAssetReissue && !fContainsNewRestrictedAsset)
+        return invalid("bad-txns-tx-cointains-verifier-string-without-restricted-asset-issuance-or-reissuance");
+
+    // ...and a restricted asset issuance must come with one
+    if (fContainsNewRestrictedAsset && !fContainsNullAssetVerifierTx)
+        return invalid("bad-txns-tx-cointains-restricted-asset-issuance-without-verifier");
+
+    return true;
+}
 
 bool Consensus::CheckTxAssets(const CTransaction& tx, TxValidationState& state, const CCoinsViewCache& inputs,
                               CAssetsCache* assetCache, const CTxMemPool* mempool,

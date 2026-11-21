@@ -85,6 +85,9 @@ extern CLRUCache<std::string, CNullAssetTxVerifierString>* passetsVerifierCache;
 extern CLRUCache<std::string, int8_t>* passetsQualifierCache;
 extern CLRUCache<std::string, int8_t>* passetsRestrictionCache;
 extern CLRUCache<std::string, int8_t>* passetsGlobalRestrictionCache;
+/** The per-address asset index is part of how a Telestai node tracks assets (address balances,
+ *  owner lookups, reward snapshots), so it is on unless explicitly disabled with -assetindex=0. */
+static constexpr bool DEFAULT_ASSETINDEX{true};
 extern bool fAssetIndex;
 
 CAssetsCache* GetCurrentAssetCache();
