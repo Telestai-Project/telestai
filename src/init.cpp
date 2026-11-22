@@ -1353,13 +1353,6 @@ static ChainstateLoadResult InitAndLoadChainstate(
         return {ChainstateLoadStatus::FAILURE_FATAL, Untranslated(strprintf("Failed to initialize ChainstateManager: %s", e.what()))};
     }
     ChainstateManager& chainman = *node.chainman;
-    // Bridge the validation/networking layer boundary for reorg depth protection.
-    chainman.get_peer_count = [&node]() -> int {
-        if (node.connman) {
-            return static_cast<int>(node.connman->GetNodeCount(ConnectionDirection::Both));
-        }
-        return 0;
-    };
     if (chainman.m_interrupt) return {ChainstateLoadStatus::INTERRUPTED, {}};
 
     // This is defined and set here instead of inline in validation.h to avoid a hard

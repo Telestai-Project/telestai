@@ -1005,10 +1005,6 @@ public:
     //! dependency on `base/index.cpp`.
     std::function<void()> snapshot_download_completed = std::function<void()>();
 
-    //! Callback to get current peer count, set by init.cpp to bridge the
-    //! validation/networking layer boundary (used for reorg depth protection).
-    std::function<int()> get_peer_count;
-
     const CChainParams& GetParams() const { return m_options.chainparams; }
     const Consensus::Params& GetConsensus() const { return m_options.chainparams.GetConsensus(); }
     bool ShouldCheckBlockIndex() const;

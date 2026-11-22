@@ -4956,27 +4956,6 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
 
     const Consensus::Params& consensusParams = chainman.GetConsensus();
 
-    // TLS: reject deep reorgs when the node is well-connected and the chain is current (2.1.x rule)
-    {
-        const CBlockIndex* pTip = chainman.ActiveTip();
-        if (pTip) {
-            const CChainParams& chainParams = chainman.GetParams();
-            const int nMaxReorgDepth = chainParams.MaxReorganizationDepth();
-            const int nMinReorgPeers = chainParams.MinReorganizationPeers();
-            const int nMinReorgAge = chainParams.MinReorganizationAge();
-            bool fGreaterThanMaxReorg = pTip->nHeight - (nHeight - 1) >= nMaxReorgDepth;
-            if (fGreaterThanMaxReorg && chainman.get_peer_count) {
-                int nCurrentNodeCount = chainman.get_peer_count();
-                bool bIsCurrentChainCaughtUp = (TicksSinceEpoch<std::chrono::seconds>(NodeClock::now()) - pTip->GetBlockTime()) <= nMinReorgAge;
-                if ((nCurrentNodeCount >= nMinReorgPeers) && bIsCurrentChainCaughtUp) {
-                    LogError("%s: forked chain older than max reorganization depth (height %d), with connections (count %d), and caught up with active chain (%s)",
-                        __func__, nHeight, nCurrentNodeCount, bIsCurrentChainCaughtUp ? "true" : "false");
-                    return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-fork-prior-to-maxreorgdepth");
-                }
-            }
-        }
-    }
-
     if (!CheckSerializedHeaderHeight(block, state, nHeight)) {
         return false;
     }
