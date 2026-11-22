@@ -1918,8 +1918,8 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
         delete pAssetSnapshotDb; pAssetSnapshotDb = nullptr;
         delete pDistributeSnapshotDb; pDistributeSnapshotDb = nullptr;
 
-        // Note: -reindexassets does NOT wipe the DB here; ReindexAssets() selectively
-        // erases only the address-balance keys ('B'/'C') while preserving asset metadata ('A' keys).
+        // Note: a rebuild of the asset database does NOT wipe it here; ReindexAssets() erases
+        // the keys it rebuilds and keeps the others.
         passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, do_reindex /* wipe only on full -reindex */);
         passets = new CAssetsCache();
         passetsCache = new CLRUCache<std::string, CDatabasedAssetData>(MAX_CACHE_ASSETS_SIZE);
@@ -1948,7 +1948,7 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
             return InitError(_("Failed to load Assets Database"));
         }
 
-        // Check asset DB consistency with chain tip
+        // Decide whether the asset and restricted databases have to be rebuilt from the chain.
         {
             uint256 assetBestBlock;
             uint256 coinsBestBlock;
@@ -1956,57 +1956,42 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
                 LOCK(cs_main);
                 coinsBestBlock = node.chainman->ActiveChainstate().CoinsTip().GetBestBlock();
             }
-            bool hasAssetBestBlock = passetsdb->ReadBestBlock(assetBestBlock);
+            const bool hasAssetBestBlock = passetsdb->ReadBestBlock(assetBestBlock);
+            int version{0};
+            const bool current_version{passetsdb->ReadVersion(version) && version >= ASSET_DB_VERSION};
 
-            if (!coinsBestBlock.IsNull() && hasAssetBestBlock && assetBestBlock != coinsBestBlock) {
-                LogPrintf("Asset DB best block (%s) differs from UTXO tip (%s). Triggering automatic asset reindex.\n",
-                          assetBestBlock.ToString(), coinsBestBlock.ToString());
-                delete passets;
-                delete passetsdb;
+            std::string why;
+            if (do_reindex_assets) {
+                why = "-reindexassets was given";
+            } else if (passetsdb->ReadRebuildPending()) {
+                why = "an earlier rebuild did not finish";
+            } else if (coinsBestBlock.IsNull()) {
+                // Nothing is connected yet: the databases fill as the chain does.
+            } else if (hasAssetBestBlock && assetBestBlock != coinsBestBlock) {
+                why = strprintf("its best block (%s) differs from the UTXO tip (%s)", assetBestBlock.ToString(), coinsBestBlock.ToString());
+            } else if (!hasAssetBestBlock && !passetsdb->IsEmpty()) {
+                why = "it has no best block marker";
+            } else if (!hasAssetBestBlock) {
+                // Not a fresh start: the assets issued so far would be missing.
+                why = strprintf("it is empty and the UTXO tip is %s", coinsBestBlock.ToString());
+            } else if (!current_version) {
+                // 3.0.0 - 3.0.2 stored every asset balance, tag and freeze under an empty address.
+                why = strprintf("it was written by an older version (%d, now %d)", version, ASSET_DB_VERSION);
+            }
+
+            if (!why.empty()) {
+                LogPrintf("Rebuilding the asset database: %s.\n", why);
+                // ReindexAssets() erases what it rebuilds in the asset database and leaves the
+                // rest, the undo data of reissues among it. All of the restricted database is
+                // rebuilt, so it starts empty.
+                passetsdb->WriteRebuildPending(true);
                 delete prestricteddb;
-                passetsCache->Clear();
                 passetsVerifierCache->Clear();
                 passetsQualifierCache->Clear();
                 passetsRestrictionCache->Clear();
                 passetsGlobalRestrictionCache->Clear();
-                passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                passets = new CAssetsCache();
+                prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true /* wipe */);
                 do_reindex_assets = true;
-            } else if (!coinsBestBlock.IsNull() && !hasAssetBestBlock && !passetsdb->IsEmpty()) {
-                LogPrintf("Asset DB has no best block marker and is non-empty. Triggering automatic asset reindex for consistency.\n");
-                delete passets;
-                delete passetsdb;
-                delete prestricteddb;
-                passetsCache->Clear();
-                passetsVerifierCache->Clear();
-                passetsQualifierCache->Clear();
-                passetsRestrictionCache->Clear();
-                passetsGlobalRestrictionCache->Clear();
-                passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                passets = new CAssetsCache();
-                do_reindex_assets = true;
-            } else if (!coinsBestBlock.IsNull() && !hasAssetBestBlock) {
-                // Empty DB with no marker. If assets are deployed on this chain,
-                // we need to rebuild from scratch so metadata is available.
-                if (AreAssetsDeployed()) {
-                    LogPrintf("Asset DB is empty but assets are active on this chain. Triggering automatic asset reindex.\n");
-                    delete passets;
-                    delete passetsdb;
-                    delete prestricteddb;
-                    passetsCache->Clear();
-                    passetsVerifierCache->Clear();
-                    passetsQualifierCache->Clear();
-                    passetsRestrictionCache->Clear();
-                    passetsGlobalRestrictionCache->Clear();
-                    passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                    prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                    passets = new CAssetsCache();
-                    do_reindex_assets = true;
-                } else {
-                    passetsdb->WriteBestBlock(coinsBestBlock);
-                }
             }
         }
 
