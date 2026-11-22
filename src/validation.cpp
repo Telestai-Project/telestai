@@ -7415,6 +7415,8 @@ bool ReindexAssets(ChainstateManager& chainman)
 
     const int metadata_log_interval = 10000;
     int blocks_processed = 0;
+    // Every block of the chain is read here; do not open its file once per block.
+    node::BlockFileReader block_reader{active_chainstate.m_blockman};
 
     for (int height = 1; height <= tip_height; height++) {
         if (chainman.m_interrupt) {
@@ -7427,7 +7429,7 @@ bool ReindexAssets(ChainstateManager& chainman)
         if (!pindex) continue;
 
         CBlock block;
-        if (!active_chainstate.m_blockman.ReadBlock(block, *pindex)) {
+        if (!block_reader.ReadBlock(block, *pindex)) {
             LogError("ReindexAssets: Failed to read block at height %d\n", height);
             continue;
         }

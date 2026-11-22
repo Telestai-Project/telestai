@@ -153,6 +153,89 @@ BOOST_FIXTURE_TEST_CASE(blockmanager_readblock_hash_mismatch, TestingSetup)
     BOOST_CHECK(!m_node.chainman->m_blockman.ReadBlock(block, index));
 }
 
+BOOST_AUTO_TEST_CASE(blockmanager_block_file_reader)
+{
+    // A BlockFileReader gives the blocks ReadBlock() gives, in whatever order they are asked for.
+    KernelNotifications notifications{Assert(m_node.shutdown_request), m_node.exit_status, *Assert(m_node.warnings)};
+    node::BlockManager::Options blockman_opts{
+        .chainparams = Params(),
+        .blocks_dir = m_args.GetBlocksDirPath(),
+        .notifications = notifications,
+        .block_tree_db_params = DBParams{
+            .path = m_args.GetDataDirNet() / "blocks" / "index",
+            .cache_bytes = 0,
+        },
+    };
+    BlockManager blockman{*Assert(m_node.shutdown_signal), blockman_opts};
+
+    // Blocks of different sizes, written one after another.
+    constexpr int NUM_BLOCKS{40};
+    std::vector<uint256> hashes(NUM_BLOCKS);
+    std::vector<CBlockIndex> indexes(NUM_BLOCKS);
+    for (int i{0}; i < NUM_BLOCKS; ++i) {
+        CBlock block;
+        block.nVersion = 100 + i;
+        for (int j{0}; j <= i % 5; ++j) {
+            CMutableTransaction tx;
+            tx.vin.resize(1);
+            tx.vout.resize(1);
+            tx.vout[0].nValue = i * 10 + j;
+            tx.vout[0].scriptPubKey = CScript() << std::vector<unsigned char>(20 * (i % 7), 0x11);
+            block.vtx.push_back(MakeTransactionRef(tx));
+        }
+        const FlatFilePos pos{blockman.WriteBlock(block, /*nHeight=*/i + 1)};
+        BOOST_REQUIRE(!pos.IsNull());
+        hashes[i] = block.GetHash();
+        indexes[i].phashBlock = &hashes[i];
+        indexes[i].nFile = pos.nFile;
+        indexes[i].nDataPos = pos.nPos;
+        indexes[i].nStatus = BLOCK_HAVE_DATA;
+    }
+
+    node::BlockFileReader reader{blockman};
+    const auto check{[&](int i) {
+        CBlock expected, block;
+        BOOST_REQUIRE(blockman.ReadBlock(expected, indexes[i]));
+        BOOST_REQUIRE(reader.ReadBlock(block, indexes[i]));
+        BOOST_CHECK_EQUAL(block.nVersion, 100 + i);
+        BOOST_CHECK_EQUAL(block.GetHash(), hashes[i]);
+        BOOST_REQUIRE_EQUAL(block.vtx.size(), expected.vtx.size());
+        BOOST_CHECK_EQUAL(block.vtx.back()->GetHash(), expected.vtx.back()->GetHash());
+    }};
+
+    for (int i{0}; i < NUM_BLOCKS; ++i) check(i);      // in the order stored: no seek
+    for (int i{NUM_BLOCKS - 1}; i >= 0; --i) check(i); // backwards: a seek each time
+    for (int i{0}; i < NUM_BLOCKS; i += 3) check(i);   // skipping blocks
+    check(7);
+    check(7); // the same block twice
+
+    // A failed read does not spoil the reader.
+    CBlock block;
+    const auto index_like{[&](CBlockIndex& index, int i) {
+        index.phashBlock = &hashes[i];
+        index.nFile = indexes[i].nFile;
+        index.nDataPos = indexes[i].nDataPos;
+        index.nStatus = BLOCK_HAVE_DATA;
+    }};
+    CBlockIndex wrong_hash;
+    index_like(wrong_hash, 20);
+    wrong_hash.phashBlock = &uint256::ONE;
+    {
+        ASSERT_DEBUG_LOG("GetHash() doesn't match index");
+        BOOST_CHECK(!reader.ReadBlock(block, wrong_hash));
+    }
+    check(21);
+    CBlockIndex past_the_end;
+    index_like(past_the_end, NUM_BLOCKS - 1);
+    past_the_end.nDataPos += 100000;
+    BOOST_CHECK(!reader.ReadBlock(block, past_the_end));
+    check(3);
+    CBlockIndex no_data;
+    no_data.phashBlock = &uint256::ONE;
+    BOOST_CHECK(!reader.ReadBlock(block, no_data));
+    check(22);
+}
+
 BOOST_AUTO_TEST_CASE(blockmanager_flush_block_file)
 {
     KernelNotifications notifications{Assert(m_node.shutdown_request), m_node.exit_status, *Assert(m_node.warnings)};
