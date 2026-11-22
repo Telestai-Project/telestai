@@ -5252,7 +5252,11 @@ bool ChainstateManager::AcceptBlock(const std::shared_ptr<const CBlock>& pblock,
 
     const CChainParams& params{GetParams()};
 
-    if (!CheckBlock(block, state, params.GetConsensus()) ||
+    // TLS: the proof of work of the genesis block is not checked again, for the reason given
+    // in ConnectBlock(). The regtest genesis does not meet its own target, and -reindex,
+    // which reads it back from disk through here, aborted on it.
+    const bool check_pow{block.GetHash() != params.GetConsensus().hashGenesisBlock};
+    if (!CheckBlock(block, state, params.GetConsensus(), check_pow) ||
         !ContextualCheckBlock(block, state, *this, pindex->pprev)) {
         if (Assume(state.IsInvalid())) {
             ActiveChainstate().InvalidBlockFound(pindex, state);
