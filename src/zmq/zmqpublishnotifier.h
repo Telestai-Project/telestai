@@ -63,6 +63,13 @@ public:
     bool NotifyTransaction(const CTransaction &transaction) override;
 };
 
+// TLS: publishes asset messages as the JSON 2.1.x sent on this topic
+class CZMQPublishNewAssetMessageNotifier : public CZMQAbstractPublishNotifier
+{
+public:
+    bool NotifyMessage(const CMessage& message) override;
+};
+
 class CZMQPublishSequenceNotifier : public CZMQAbstractPublishNotifier
 {
 public:

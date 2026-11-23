@@ -9,6 +9,8 @@ add_executable(test_telestai
   addrman_tests.cpp
   allocator_tests.cpp
   amount_tests.cpp
+  asset_script_tests.cpp
+  asset_tx_check_tests.cpp
   assets_amount_tests.cpp
   argsman_tests.cpp
   arith_uint256_tests.cpp

@@ -1409,4 +1409,103 @@ RPCHelpMan unfreezerestrictedasset()
     };
 }
 
+RPCHelpMan sendmessage()
+{
+    return RPCHelpMan{
+        "sendmessage",
+        "Send a message via an asset channel. Must own the owner token for the channel.\n",
+        {
+            {"channel_name", RPCArg::Type::STR, RPCArg::Optional::NO, "the channel name (asset name) to send a message on"},
+            {"ipfs_hash", RPCArg::Type::STR, RPCArg::Optional::NO, "the IPFS hash of the message content"},
+            {"expire_time", RPCArg::Type::NUM, RPCArg::Default{0}, "UTC timestamp of when the message expires"},
+        },
+        RPCResult{RPCResult::Type::ARR, "", "", {{RPCResult::Type::STR, "txid", "The transaction id"}}},
+        RPCExamples{
+            HelpExampleCli("sendmessage", "\"MY_CHANNEL\" \"QmTqu3Lk3gmTsQVtjU7rYYM37EAW4xNmbuEAp2Mjr4AV7E\"")
+          + HelpExampleCli("sendmessage", "\"MY_CHANNEL\" \"QmTqu3Lk3gmTsQVtjU7rYYM37EAW4xNmbuEAp2Mjr4AV7E\" 15863654")
+          + HelpExampleRpc("sendmessage", "\"MY_CHANNEL\", \"QmTqu3Lk3gmTsQVtjU7rYYM37EAW4xNmbuEAp2Mjr4AV7E\"")
+        },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
+        {
+            const std::shared_ptr<CWallet> pwallet = GetWalletForJSONRPCRequest(request);
+            if (!pwallet) return UniValue::VNULL;
+
+            EnsureWalletIsUnlocked(*pwallet);
+
+            if (!AreMessagesDeployed())
+                throw JSONRPCError(RPC_INVALID_REQUEST, "Messages are not deployed yet");
+
+            std::string asset_name = request.params[0].get_str();
+            std::string ipfs_hash = request.params[1].get_str();
+
+            int64_t expire_time = 0;
+            if (!request.params[2].isNull())
+                expire_time = request.params[2].getInt<int64_t>();
+
+            // Validate the channel name
+            AssetType type;
+            std::string strNameError;
+            if (!IsAssetNameValid(asset_name, type, strNameError))
+                throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Invalid channel name: %s\nError: %s", asset_name, strNameError));
+
+            // Only MSGCHANNEL, OWNER, ROOT, SUB, RESTRICTED types are allowed
+            if (type != AssetType::MSGCHANNEL && type != AssetType::OWNER &&
+                type != AssetType::ROOT && type != AssetType::SUB && type != AssetType::RESTRICTED)
+                throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid asset type. Only MSGCHANNEL, OWNER, ROOT, SUB, and RESTRICTED assets can send messages");
+
+            // For ROOT, SUB, RESTRICTED types, append OWNER_TAG to the name
+            if (type == AssetType::ROOT || type == AssetType::SUB || type == AssetType::RESTRICTED)
+                asset_name += OWNER_TAG;
+
+            // Validate the IPFS hash / message data
+            CheckIPFSOrTxidMessage(ipfs_hash, expire_time);
+
+            LOCK(pwallet->cs_wallet);
+
+            // Get available asset coins
+            CoinFilterParams coin_params;
+            coin_params.min_amount = 0;
+            CoinsResult available = AvailableCoinsWithAssets(*pwallet, nullptr, std::nullopt, coin_params);
+
+            // Check that the wallet owns the asset
+            if (!available.mapAssetCoins.count(asset_name))
+                throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Wallet doesn't own the asset: %s", asset_name));
+
+            // Get the destination address from the first asset output
+            std::string address;
+            for (const auto& output : available.mapAssetCoins.at(asset_name)) {
+                CAssetOutputEntry data;
+                if (GetAssetData(output.txout.scriptPubKey, data)) {
+                    address = EncodeDestination(data.destination);
+                    break;
+                }
+            }
+
+            if (address.empty())
+                throw JSONRPCError(RPC_INVALID_PARAMETER, "Failed to get destination address from asset output");
+
+            // Create the transfer with message data
+            std::vector<std::pair<CAssetTransfer, std::string>> vTransfers;
+            CAssetTransfer assetTransfer(asset_name, OWNER_ASSET_AMOUNT, DecodeAssetData(ipfs_hash), expire_time);
+            vTransfers.emplace_back(std::make_pair(assetTransfer, address));
+
+            CCoinControl ctrl;
+            CTransactionRef tx;
+            CAmount nFeeRequired;
+            std::pair<int, std::string> error;
+
+            if (!CreateTransferAssetTransaction(*pwallet, ctrl, vTransfers, "", error, tx, nFeeRequired))
+                throw JSONRPCError(error.first, error.second);
+
+            std::string txid;
+            if (!SendAssetTransaction(*pwallet, tx, error, txid))
+                throw JSONRPCError(error.first, error.second);
+
+            UniValue result(UniValue::VARR);
+            result.push_back(txid);
+            return result;
+        },
+    };
+}
+
 } // namespace wallet

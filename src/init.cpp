@@ -162,6 +162,7 @@ CLRUCache<std::string, int8_t>* pMessagesSeenAddressCache = nullptr;
 CSnapshotRequestDB* pSnapshotRequestDb = nullptr;
 CAssetSnapshotDB* pAssetSnapshotDb = nullptr;
 CDistributeSnapshotRequestDB* pDistributeSnapshotDb = nullptr;
+bool fMessaging = false;
 using util::ReplaceAll;
 using util::ToString;
 
@@ -425,6 +426,7 @@ void Shutdown(NodeContext& node)
     delete pMessagesSeenAddressCache; pMessagesSeenAddressCache = nullptr;
     delete pmessagedb; pmessagedb = nullptr;
     delete pmessagechanneldb; pmessagechanneldb = nullptr;
+    delete pmyrestricteddb; pmyrestricteddb = nullptr;
     delete pSnapshotRequestDb; pSnapshotRequestDb = nullptr;
     delete pAssetSnapshotDb; pAssetSnapshotDb = nullptr;
     delete pDistributeSnapshotDb; pDistributeSnapshotDb = nullptr;
@@ -564,7 +566,7 @@ void SetupServerArgs(ArgsManager& argsman, bool can_listen_ipc)
     argsman.AddArg("-reindex", "If enabled, wipe chain state and block index, and rebuild them from blk*.dat files on disk. Also wipe and rebuild other optional indexes that are active. If an assumeutxo snapshot was loaded, its chainstate will be wiped as well. The snapshot can then be reloaded via RPC.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-reindex-chainstate", "If enabled, wipe chain state, and rebuild it from blk*.dat files on disk. If an assumeutxo snapshot was loaded, its chainstate will be wiped as well. The snapshot can then be reloaded via RPC.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-reindexassets", "If enabled, wipe and rebuild the asset database by scanning existing blocks. Much faster than a full -reindex.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
-    argsman.AddArg("-assetindex", "Maintain a full asset index, used to query asset balances by address (default: 0)", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    argsman.AddArg("-assetindex", strprintf("Maintain a full asset index, used to query asset balances by address and by the reward snapshot RPCs (default: %u)", DEFAULT_ASSETINDEX), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-addressindex", "Maintain a full address index, used to query for the balance, txids and unspent outputs for addresses (default: 0)", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-spentindex", "Maintain a full spent index, used to query the spending txid and input index for an outpoint (default: 0)", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-timestampindex", "Maintain a timestamp index for block hashes, used to query blocks within a time range (default: 0)", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
@@ -656,22 +658,26 @@ void SetupServerArgs(ArgsManager& argsman, bool can_listen_ipc)
     argsman.AddArg("-zmqpubrawblock=<address>", "Enable publish raw block in <address>", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubrawtx=<address>", "Enable publish raw transaction in <address>", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubsequence=<address>", "Enable publish hash block and tx sequence in <address>", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
+    argsman.AddArg("-zmqpubrawmessage=<address>", "Enable publish raw asset messages in <address>", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubhashblockhwm=<n>", strprintf("Set publish hash block outbound message high water mark (default: %d)", CZMQAbstractNotifier::DEFAULT_ZMQ_SNDHWM), ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubhashtxhwm=<n>", strprintf("Set publish hash transaction outbound message high water mark (default: %d)", CZMQAbstractNotifier::DEFAULT_ZMQ_SNDHWM), ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubrawblockhwm=<n>", strprintf("Set publish raw block outbound message high water mark (default: %d)", CZMQAbstractNotifier::DEFAULT_ZMQ_SNDHWM), ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubrawtxhwm=<n>", strprintf("Set publish raw transaction outbound message high water mark (default: %d)", CZMQAbstractNotifier::DEFAULT_ZMQ_SNDHWM), ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubsequencehwm=<n>", strprintf("Set publish hash sequence message high water mark (default: %d)", CZMQAbstractNotifier::DEFAULT_ZMQ_SNDHWM), ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
+    argsman.AddArg("-zmqpubrawmessagehwm=<n>", strprintf("Set publish raw asset message outbound message high water mark (default: %d)", CZMQAbstractNotifier::DEFAULT_ZMQ_SNDHWM), ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
 #else
     hidden_args.emplace_back("-zmqpubhashblock=<address>");
     hidden_args.emplace_back("-zmqpubhashtx=<address>");
     hidden_args.emplace_back("-zmqpubrawblock=<address>");
     hidden_args.emplace_back("-zmqpubrawtx=<address>");
     hidden_args.emplace_back("-zmqpubsequence=<n>");
+    hidden_args.emplace_back("-zmqpubrawmessage=<address>");
     hidden_args.emplace_back("-zmqpubhashblockhwm=<n>");
     hidden_args.emplace_back("-zmqpubhashtxhwm=<n>");
     hidden_args.emplace_back("-zmqpubrawblockhwm=<n>");
     hidden_args.emplace_back("-zmqpubrawtxhwm=<n>");
     hidden_args.emplace_back("-zmqpubsequencehwm=<n>");
+    hidden_args.emplace_back("-zmqpubrawmessagehwm=<n>");
 #endif
 
     argsman.AddArg("-checkblocks=<n>", strprintf("How many blocks to check at startup (default: %u, 0 = all)", DEFAULT_CHECKBLOCKS), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::DEBUG_TEST);
@@ -1257,6 +1263,7 @@ bool CheckHostPortOptions(const ArgsManager& args) {
         {"-zmqpubrawblock",  true,                false},
         {"-zmqpubrawtx",     true,                false},
         {"-zmqpubsequence",  true,                false},
+        {"-zmqpubrawmessage", true,               false},
     }) {
         for (const std::string& param_value : args.GetArgs(param_name)) {
             const std::string param_value_hostport{
@@ -1803,7 +1810,7 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
     bool do_reindex{args.GetBoolArg("-reindex", false)};
     const bool do_reindex_chainstate{args.GetBoolArg("-reindex-chainstate", false)};
     bool do_reindex_assets{args.GetBoolArg("-reindexassets", false)};
-    fAssetIndex = args.GetBoolArg("-assetindex", true);
+    fAssetIndex = args.GetBoolArg("-assetindex", DEFAULT_ASSETINDEX);
 
     // Chainstate initialization and loading may be retried once with reindexing by GUI users
     auto [status, error] = InitAndLoadChainstate(
@@ -1906,12 +1913,13 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
         delete pMessagesCache; pMessagesCache = nullptr;
         delete pMessageSubscribedChannelsCache; pMessageSubscribedChannelsCache = nullptr;
         delete pMessagesSeenAddressCache; pMessagesSeenAddressCache = nullptr;
+        delete pmyrestricteddb; pmyrestricteddb = nullptr;
         delete pSnapshotRequestDb; pSnapshotRequestDb = nullptr;
         delete pAssetSnapshotDb; pAssetSnapshotDb = nullptr;
         delete pDistributeSnapshotDb; pDistributeSnapshotDb = nullptr;
 
-        // Note: -reindexassets does NOT wipe the DB here; ReindexAssets() selectively
-        // erases only the address-balance keys ('B'/'C') while preserving asset metadata ('A' keys).
+        // Note: a rebuild of the asset database does NOT wipe it here; ReindexAssets() erases
+        // the keys it rebuilds and keeps the others.
         passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, do_reindex /* wipe only on full -reindex */);
         passets = new CAssetsCache();
         passetsCache = new CLRUCache<std::string, CDatabasedAssetData>(MAX_CACHE_ASSETS_SIZE);
@@ -1928,6 +1936,9 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
         pmessagedb = new CMessageDB(args.GetDataDirNet(), nAssetDBCache, false, false);
         pmessagechanneldb = new CMessageChannelDB(args.GetDataDirNet(), nAssetDBCache, false, false);
 
+        // My restricted addresses database
+        pmyrestricteddb = new CMyRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, false);
+
         // Reward snapshot databases
         pSnapshotRequestDb = new CSnapshotRequestDB(args.GetDataDirNet(), nAssetDBCache, false, false);
         pAssetSnapshotDb = new CAssetSnapshotDB(args.GetDataDirNet(), nAssetDBCache, false, false);
@@ -1937,7 +1948,7 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
             return InitError(_("Failed to load Assets Database"));
         }
 
-        // Check asset DB consistency with chain tip
+        // Decide whether the asset and restricted databases have to be rebuilt from the chain.
         {
             uint256 assetBestBlock;
             uint256 coinsBestBlock;
@@ -1945,58 +1956,52 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
                 LOCK(cs_main);
                 coinsBestBlock = node.chainman->ActiveChainstate().CoinsTip().GetBestBlock();
             }
-            bool hasAssetBestBlock = passetsdb->ReadBestBlock(assetBestBlock);
+            const bool hasAssetBestBlock = passetsdb->ReadBestBlock(assetBestBlock);
+            int version{0};
+            const bool current_version{passetsdb->ReadVersion(version) && version >= ASSET_DB_VERSION};
 
-            if (!coinsBestBlock.IsNull() && hasAssetBestBlock && assetBestBlock != coinsBestBlock) {
-                LogPrintf("Asset DB best block (%s) differs from UTXO tip (%s). Triggering automatic asset reindex.\n",
-                          assetBestBlock.ToString(), coinsBestBlock.ToString());
-                delete passets;
-                delete passetsdb;
-                delete prestricteddb;
-                passetsCache->Clear();
-                passetsVerifierCache->Clear();
-                passetsQualifierCache->Clear();
-                passetsRestrictionCache->Clear();
-                passetsGlobalRestrictionCache->Clear();
-                passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                passets = new CAssetsCache();
-                do_reindex_assets = true;
-            } else if (!coinsBestBlock.IsNull() && !hasAssetBestBlock && !passetsdb->IsEmpty()) {
-                LogPrintf("Asset DB has no best block marker and is non-empty. Triggering automatic asset reindex for consistency.\n");
-                delete passets;
-                delete passetsdb;
-                delete prestricteddb;
-                passetsCache->Clear();
-                passetsVerifierCache->Clear();
-                passetsQualifierCache->Clear();
-                passetsRestrictionCache->Clear();
-                passetsGlobalRestrictionCache->Clear();
-                passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                passets = new CAssetsCache();
-                do_reindex_assets = true;
-            } else if (!coinsBestBlock.IsNull() && !hasAssetBestBlock) {
-                // Empty DB with no marker. If assets are deployed on this chain,
-                // we need to rebuild from scratch so metadata is available.
-                if (AreAssetsDeployed()) {
-                    LogPrintf("Asset DB is empty but assets are active on this chain. Triggering automatic asset reindex.\n");
-                    delete passets;
-                    delete passetsdb;
-                    delete prestricteddb;
-                    passetsCache->Clear();
-                    passetsVerifierCache->Clear();
-                    passetsQualifierCache->Clear();
-                    passetsRestrictionCache->Clear();
-                    passetsGlobalRestrictionCache->Clear();
-                    passetsdb = new CAssetsDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                    prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true);
-                    passets = new CAssetsCache();
-                    do_reindex_assets = true;
-                } else {
-                    passetsdb->WriteBestBlock(coinsBestBlock);
-                }
+            std::string why;
+            if (do_reindex_assets) {
+                why = "-reindexassets was given";
+            } else if (passetsdb->ReadRebuildPending()) {
+                why = "an earlier rebuild did not finish";
+            } else if (coinsBestBlock.IsNull()) {
+                // Nothing is connected yet: the databases fill as the chain does.
+            } else if (hasAssetBestBlock && assetBestBlock != coinsBestBlock) {
+                why = strprintf("its best block (%s) differs from the UTXO tip (%s)", assetBestBlock.ToString(), coinsBestBlock.ToString());
+            } else if (!hasAssetBestBlock && !passetsdb->IsEmpty()) {
+                why = "it has no best block marker";
+            } else if (!hasAssetBestBlock) {
+                // Not a fresh start: the assets issued so far would be missing.
+                why = strprintf("it is empty and the UTXO tip is %s", coinsBestBlock.ToString());
+            } else if (!current_version) {
+                // 3.0.0 - 3.0.2 stored every asset balance, tag and freeze under an empty address.
+                why = strprintf("it was written by an older version (%d, now %d)", version, ASSET_DB_VERSION);
             }
+
+            if (!why.empty()) {
+                LogPrintf("Rebuilding the asset database: %s.\n", why);
+                // ReindexAssets() erases what it rebuilds in the asset database and leaves the
+                // rest, the undo data of reissues among it. All of the restricted database is
+                // rebuilt, so it starts empty.
+                passetsdb->WriteRebuildPending(true);
+                delete prestricteddb;
+                passetsVerifierCache->Clear();
+                passetsQualifierCache->Clear();
+                passetsRestrictionCache->Clear();
+                passetsGlobalRestrictionCache->Clear();
+                prestricteddb = new CRestrictedDB(args.GetDataDirNet(), nAssetDBCache, false, true /* wipe */);
+                do_reindex_assets = true;
+            }
+        }
+
+        // Configure messaging
+        if (!AreMessagesDeployed()) {
+            LogPrintf("Messaging is disabled\n");
+            fMessaging = false;
+        } else {
+            fMessaging = true;
+            LogPrintf("Messaging is enabled\n");
         }
 
         LogPrintf("Asset database initialized successfully\n");

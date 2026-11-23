@@ -519,6 +519,9 @@ void PushWarnings(const std::vector<bilingual_str>& warnings, UniValue& obj);
 
 std::vector<RPCResult> ScriptPubKeyDoc();
 
+/** Optional Telestai asset fields that ScriptToUniv() adds when describing an output script. */
+std::vector<RPCResult> AssetScriptDoc();
+
 /***
  * Get the target for a given block index.
  *

@@ -288,8 +288,14 @@ bool CreateAssetTransaction(
     // transfers the existing root TOKEN! owner token (section 4 above) rather than creating a new one.
     CTxDestination assetDest = DecodeDestination(address);
     for (const auto& asset : assets) {
-        if (assetType != AssetType::RESTRICTED) {
-            // Owner token output (second-to-last) — not used for restricted assets.
+        // Owner token output (second-to-last) — ONLY root and sub assets get their own NAME! owner
+        // token. UNIQUE, MSGCHANNEL, QUALIFIER and RESTRICTED assets must NOT have an explicit owner
+        // creation output: uniques/qualifiers/msgchannels have no owner token at all, and a restricted
+        // $TOKEN is governed by the root TOKEN! owner (only transferred, section 4). Emitting an owner
+        // token for these types builds a transaction consensus rejects (VerifyNew*Asset: nOwners must
+        // be 0). Was `!= RESTRICTED`, which wrongly created owner tokens for unique, qualifier and
+        // message-channel issuance.
+        if (assetType == AssetType::ROOT || assetType == AssetType::SUB) {
             CScript scriptOwnerNew = GetScriptForDestination(assetDest);
             asset.ConstructOwnerTransaction(scriptOwnerNew);
             if (!RequireLegacyAssetScriptLayout(scriptOwnerNew, error))
@@ -809,9 +815,10 @@ bool SendAssetTransaction(
     CWallet& wallet,
     CTransactionRef& tx,
     std::pair<int, std::string>& error,
-    std::string& txid)
+    std::string& txid,
+    mapValue_t map_value)
 {
-    wallet.CommitTransaction(tx, {}, {});
+    wallet.CommitTransaction(tx, std::move(map_value), {});
     txid = tx->GetHash().GetHex();
     return true;
 }

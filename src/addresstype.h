@@ -168,6 +168,12 @@ bool IsValidDestination(const CTxDestination& dest);
  *
  * Returns true for standard destinations with addresses - P2PKH, P2SH, P2WPKH, P2WSH, P2TR and P2W??? scripts.
  * Returns false for non-standard destinations and those without addresses - P2PK, bare multisig, null data, and nonstandard scripts.
+ *
+ * Telestai asset outputs also return true, with the address they belong to (as in 2.1.x): the P2PKH
+ * address of a new/reissue/transfer asset script, and the tagged or restricted address of qualifier-tag
+ * and address-restriction data. The asset database and asset consensus checks are keyed on this address.
+ * For these scripts the destination only identifies the owner: GetScriptForDestination() does NOT
+ * reproduce the script, so code that rebuilds an output must keep the original scriptPubKey.
  */
 bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet);
 

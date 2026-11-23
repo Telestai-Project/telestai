@@ -498,7 +498,7 @@ static RPCHelpMan decodescript()
         },
         RPCResult{
             RPCResult::Type::OBJ, "", "",
-            {
+            Cat<std::vector<RPCResult>>({
                 {RPCResult::Type::STR, "asm", "Disassembly of the script"},
                 {RPCResult::Type::STR, "desc", "Inferred descriptor for the script"},
                 {RPCResult::Type::STR, "type", "The output type (e.g. " + GetAllOutputTypes() + ")"},
@@ -515,7 +515,7 @@ static RPCHelpMan decodescript()
                      {RPCResult::Type::STR, "desc", "Inferred descriptor for the script"},
                      {RPCResult::Type::STR, "p2sh-segwit", "address of the P2SH script wrapping this witness redeem script"},
                  }},
-            },
+            }, AssetScriptDoc()),
         },
         RPCExamples{
             HelpExampleCli("decodescript", "\"hexstring\"")
