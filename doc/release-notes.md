@@ -1,6 +1,7 @@
 # Telestai Core Release Notes
 
-- **3.0.2** (current): `doc/release-notes/release-notes-3.0.2.md`
+- **3.0.3** (current): `doc/release-notes/release-notes-3.0.3.md`
+- **3.0.2**: `doc/release-notes/release-notes-3.0.2.md`
 - **3.0.1**: `doc/release-notes/release-notes-3.0.1.md`
 - GitHub Releases: https://github.com/Telestai-Project/telestai/releases
 
